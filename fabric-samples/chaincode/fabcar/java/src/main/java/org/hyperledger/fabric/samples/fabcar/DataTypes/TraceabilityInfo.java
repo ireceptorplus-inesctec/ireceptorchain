@@ -7,7 +7,7 @@ import org.hyperledger.fabric.contract.annotation.Property;
 import java.util.ArrayList;
 
 @DataType()
-public class TraceabilityInfoEntry
+public class TraceabilityInfo
 {
     @Property()
     private final String inputDatasetHashValue;
@@ -21,9 +21,9 @@ public class TraceabilityInfoEntry
     @Property()
     private final ArrayList<Validator> validators;
 
-    public TraceabilityInfoEntry(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
-                                 @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
-                                 @JsonProperty("processingDetails") final ProcessingDetails processingDetails)
+    public TraceabilityInfo(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
+                            @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
+                            @JsonProperty("processingDetails") final ProcessingDetails processingDetails)
     {
         this.inputDatasetHashValue = inputDatasetHashValue;
         this.outputDatasetHashValue = outputDatasetHashValue;
