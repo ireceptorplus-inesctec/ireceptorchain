@@ -42,7 +42,7 @@ public class TraceabilityInfoAwatingValidation extends TraceabilityInfo
     @Override
     public void registerYesVoteForValidity(Entity entity)
     {
-
+        //TODO
     }
 
     /**
@@ -52,6 +52,7 @@ public class TraceabilityInfoAwatingValidation extends TraceabilityInfo
     @Override
     public void registerNoVoteForValidity(Entity entity)
     {
+        //TODO
 
     }
 }
