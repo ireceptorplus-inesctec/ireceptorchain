@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Please check the TraceabilityInfoStateMachine package for more information.
  */
 @DataType()
-public class TraceabilityInfo
+public abstract class TraceabilityInfo
 {
     /**
      * The hash value of the input dataset used to perform the data transformation.
@@ -44,4 +44,18 @@ public class TraceabilityInfo
         this.outputDatasetHashValue = outputDatasetHashValue;
         this.processingDetails = processingDetails;
     }
+
+    /**
+     * This method is called whenever a user votes yes for the validity of the traceability information.
+     * Depending on the state of the traceability information, different actions are necessary, so the methods must be overridden by the derived classes that implement specific behavior necessary for each state.
+     * @param entity An instance of class Entity containing information about the entity that has voted yes for the traceability information. For more information, please read the documentation for the Entity class.
+     */
+    public abstract void registerYesVoteForValidity(Entity entity);
+
+    /**
+     * This method is called whenever a user votes no for the validity of the traceability information.
+     * Depending on the state of the traceability information, different actions are necessary, so the methods must be overridden by the derived classes that implement specific behavior necessary for each state.
+     * @param entity An instance of class Entity containing information about the entity that has voted yes for the traceability information. For more information, please read the documentation for the Entity class.
+     */
+    public abstract void registerNoVoteForValidity(Entity entity);
 }
