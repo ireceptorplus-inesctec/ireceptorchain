@@ -9,12 +9,12 @@ public class ValidatedTraceabilityInfo extends TraceabilityInfo
 {
 
     @Property()
-    private final ArrayList<Validator> validators;
+    private final ArrayList<Entity> validators;
 
     public ValidatedTraceabilityInfo(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                             @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
                             @JsonProperty("processingDetails") final ProcessingDetails processingDetails,
-                            @JsonProperty("validators") final ArrayList<Validator> validators)
+                            @JsonProperty("validators") final ArrayList<Entity> validators)
     {
         super(inputDatasetHashValue, outputDatasetHashValue, processingDetails);
         this.validators = validators;
