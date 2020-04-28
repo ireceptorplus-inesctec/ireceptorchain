@@ -10,16 +10,13 @@ import java.util.ArrayList;
 public class TraceabilityInfo
 {
     @Property()
-    private final String inputDatasetHashValue;
+    protected final String inputDatasetHashValue;
 
     @Property()
-    private final String outputDatasetHashValue;
+    protected final String outputDatasetHashValue;
 
     @Property()
-    private final ProcessingDetails processingDetails;
-
-    @Property()
-    private final ArrayList<Validator> validators;
+    protected final ProcessingDetails processingDetails;
 
     public TraceabilityInfo(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                             @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
@@ -28,6 +25,5 @@ public class TraceabilityInfo
         this.inputDatasetHashValue = inputDatasetHashValue;
         this.outputDatasetHashValue = outputDatasetHashValue;
         this.processingDetails = processingDetails;
-        validators = new ArrayList<>();
     }
 }
