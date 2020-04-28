@@ -5,9 +5,17 @@ import org.hyperledger.fabric.contract.annotation.Property;
 
 import java.util.ArrayList;
 
+/**
+ * This is a subclass of TraceabilityInfo, representing a traceability information in a specific state: after being validated and registered on the blockchain as valid traceability information.
+ */
 public class ValidatedTraceabilityInfo extends TraceabilityInfo
 {
 
+    /**
+     * An array of entities which have voted for the validity of the traceability information.
+     * (They have submitted a yes vote when the traceability information was in a voting round.)
+     * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
+     */
     @Property()
     private final ArrayList<Entity> validators;
 
