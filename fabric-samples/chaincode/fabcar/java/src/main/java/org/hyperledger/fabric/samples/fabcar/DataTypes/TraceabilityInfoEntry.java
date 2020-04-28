@@ -4,6 +4,8 @@ import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
+import java.util.ArrayList;
+
 @DataType()
 public class TraceabilityInfoEntry
 {
@@ -17,7 +19,7 @@ public class TraceabilityInfoEntry
     private final ProcessingDetails processingDetails;
 
     @Property()
-    private final Validator[] validators;
+    private final ArrayList<Validator> validators;
 
     public TraceabilityInfoEntry(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                                  @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
@@ -26,6 +28,6 @@ public class TraceabilityInfoEntry
         this.inputDatasetHashValue = inputDatasetHashValue;
         this.outputDatasetHashValue = outputDatasetHashValue;
         this.processingDetails = processingDetails;
-        validators = new Validator[0];
+        validators = new ArrayList<>();
     }
 }
