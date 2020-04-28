@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * This class represents an entry of traceability information.
  * This is the base class for traceability information.
  * Sub classes are used where there are necessary additional attributes, depending on the state of validation of the traceability information.
- * Please check the TraceabilityInformationStateMachine package for more information.
+ * Please check the TraceabilityInfoStateMachine package for more information.
  */
 @DataType()
 public class TraceabilityInfo
