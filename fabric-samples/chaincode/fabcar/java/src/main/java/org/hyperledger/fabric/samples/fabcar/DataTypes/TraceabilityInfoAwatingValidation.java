@@ -34,4 +34,24 @@ public class TraceabilityInfoAwatingValidation extends TraceabilityInfo
         approvers = new ArrayList<>();
         rejecters = new ArrayList<>();
     }
+
+    /**
+     * Registers the entity passed as parameter as an approver of the traceability information.
+     * @param entity An instance of class Entity containing information about the entity that has voted yes for the traceability information. For more information, please read the documentation for the Entity class.
+     */
+    @Override
+    public void registerYesVoteForValidity(Entity entity)
+    {
+
+    }
+
+    /**
+     * Registers the entity passed as parameter as a rejecter of the traceability information.
+     * @param entity An instance of class Entity containing information about the entity that has voted yes for the traceability information. For more information, please read the documentation for the Entity class.
+     */
+    @Override
+    public void registerNoVoteForValidity(Entity entity)
+    {
+
+    }
 }
