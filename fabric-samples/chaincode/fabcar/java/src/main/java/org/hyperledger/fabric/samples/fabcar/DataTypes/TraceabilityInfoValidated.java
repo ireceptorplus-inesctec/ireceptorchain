@@ -27,4 +27,19 @@ public class TraceabilityInfoValidated extends TraceabilityInfo
         super(inputDatasetHashValue, outputDatasetHashValue, processingDetails);
         this.validators = validators;
     }
+
+
+    @Override
+    public void registerYesVoteForValidity(Entity entity)
+    {
+        //TODO
+
+    }
+
+    @Override
+    public void registerNoVoteForValidity(Entity entity)
+    {
+        //TODO
+
+    }
 }
