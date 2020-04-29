@@ -147,6 +147,7 @@ public final class FabCar implements ContractInterface {
         final String endKey = "CAR0";
         List<CarQueryResult> queryResults = new ArrayList<CarQueryResult>();
 
+        System.out.println("Stuff");
         QueryResultsIterator<KeyValue> results = stub.getStateByRange(startKey, endKey);
 
         for (KeyValue result: results) {
