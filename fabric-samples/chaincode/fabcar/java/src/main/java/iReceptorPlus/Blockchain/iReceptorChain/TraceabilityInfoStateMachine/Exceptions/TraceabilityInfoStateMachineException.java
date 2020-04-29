@@ -1,4 +1,4 @@
-package org.hyperledger.fabric.samples.fabcar.TraceabilityInfoStateMachine.Exceptions;
+package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions;
 
 /**
  * This is the base class for representing exceptions that occur upon processing by the state machine.

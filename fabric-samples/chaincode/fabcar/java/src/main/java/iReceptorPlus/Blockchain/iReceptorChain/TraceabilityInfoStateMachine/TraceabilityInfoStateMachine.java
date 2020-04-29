@@ -1,4 +1,4 @@
-package org.hyperledger.fabric.samples.fabcar.TraceabilityInfoStateMachine;
+package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine;
 
 /**
  * This class implements a state machine for the traceability information.

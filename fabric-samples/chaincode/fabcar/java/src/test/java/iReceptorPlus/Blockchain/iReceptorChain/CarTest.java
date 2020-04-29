@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.hyperledger.fabric.samples.fabcar;
+package iReceptorPlus.Blockchain.iReceptorChain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

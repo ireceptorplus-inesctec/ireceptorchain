@@ -1,4 +1,4 @@
-package org.hyperledger.fabric.samples.fabcar.DataTypes;
+package iReceptorPlus.Blockchain.iReceptorChain.DataTypes;
 
 import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.contract.annotation.Property;

@@ -1,7 +1,7 @@
-package org.hyperledger.fabric.samples.fabcar.TraceabilityInfoStateMachine.States;
+package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States;
 
-import org.hyperledger.fabric.samples.fabcar.DataTypes.Entity;
-import org.hyperledger.fabric.samples.fabcar.DataTypes.TraceabilityInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.Entity;
+import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfo;
 
 /**
  * This is the base class for a state machine for the traceability information.

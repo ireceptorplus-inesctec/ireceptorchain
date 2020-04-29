@@ -1,4 +1,4 @@
-package org.hyperledger.fabric.samples.fabcar.DataTypes;
+package iReceptorPlus.Blockchain.iReceptorChain.DataTypes;
 
 /**
  * This class represents and entity.

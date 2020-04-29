@@ -1,10 +1,8 @@
-package org.hyperledger.fabric.samples.fabcar.DataTypes;
+package iReceptorPlus.Blockchain.iReceptorChain.DataTypes;
 
 import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
-
-import java.util.ArrayList;
 
 /**
  * This class represents an entry of traceability information.
