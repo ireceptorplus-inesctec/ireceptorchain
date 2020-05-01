@@ -21,6 +21,8 @@ if [ "$CC_SRC_LANGUAGE" != "go" -a "$CC_SRC_LANGUAGE" != "golang" -a "$CC_SRC_LA
 
 fi
 
+"$CC_SRC_LANGUAGE" = "java"; #JAVA FTW
+
 # clean out any old identites in the wallets
 rm -rf javascript/wallet/*
 rm -rf java/wallet/*
