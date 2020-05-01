@@ -144,10 +144,9 @@ public final class FabCar implements ContractInterface {
         ChaincodeStub stub = ctx.getStub();
 
         final String startKey = "CAR0";
-        final String endKey = "CAR2";
+        final String endKey = "CAR999";
         List<CarQueryResult> queryResults = new ArrayList<CarQueryResult>();
 
-        System.out.println("Stuff");
         QueryResultsIterator<KeyValue> results = stub.getStateByRange(startKey, endKey);
 
         for (KeyValue result: results) {
@@ -156,6 +155,8 @@ public final class FabCar implements ContractInterface {
         }
 
         CarQueryResult[] response = queryResults.toArray(new CarQueryResult[queryResults.size()]);
+
+        System.out.println("stuff");
 
         return response;
     }
