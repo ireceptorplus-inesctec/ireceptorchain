@@ -21,8 +21,6 @@ if [ "$CC_SRC_LANGUAGE" != "go" -a "$CC_SRC_LANGUAGE" != "golang" -a "$CC_SRC_LA
 
 fi
 
-$CC_SRC_LANGUAGE = "java"; #JAVA FTW
-
 # clean out any old identites in the wallets
 rm -rf javascript/wallet/*
 rm -rf java/wallet/*
@@ -32,7 +30,7 @@ rm -rf typescript/wallet/*
 pushd ../test-network
 ./network.sh down
 ./network.sh up createChannel -ca -s couchdb
-./network.sh deployCC -l ${CC_SRC_LANGUAGE}
+./network.sh deployCC -l java
 popd
 
 cat <<EOF
