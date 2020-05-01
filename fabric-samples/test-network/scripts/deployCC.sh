@@ -15,8 +15,6 @@ CC_SRC_LANGUAGE=`echo "$CC_SRC_LANGUAGE" | tr [:upper:] [:lower:]`
 
 FABRIC_CFG_PATH=$PWD/../config/
 
-"$CC_SRC_LANGUAGE" = "java"; #JAVA FTW
-
 if [ "$CC_SRC_LANGUAGE" = "go" -o "$CC_SRC_LANGUAGE" = "golang" ] ; then
 	CC_RUNTIME_LANGUAGE=golang
 	CC_SRC_PATH="../chaincode/fabcar/go/"
