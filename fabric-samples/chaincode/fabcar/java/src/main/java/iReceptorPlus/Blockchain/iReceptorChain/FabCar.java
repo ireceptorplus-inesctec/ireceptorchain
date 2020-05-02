@@ -166,7 +166,7 @@ public final class FabCar implements ContractInterface {
     }
 
     @Transaction()
-    public TraceabilityInfo[] testTraceability(final Context ctx) {
+    public String testTraceability(final Context ctx) {
 
         System.out.printf("test traceability begin");
         System.out.printf("test traceability begin");
@@ -208,7 +208,7 @@ public final class FabCar implements ContractInterface {
         System.out.printf("test traceability end");
         System.out.printf("test traceability end");
 
-        return response;
+        return "stuff";
     }
 
 
