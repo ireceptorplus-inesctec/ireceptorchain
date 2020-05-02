@@ -7,6 +7,10 @@ package iReceptorPlus.Blockchain.iReceptorChain;
 import java.util.ArrayList;
 import java.util.List;
 
+import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.ProcessingDetails;
+import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfoAwatingValidation;
+import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfoValidated;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.Contact;
@@ -141,10 +145,11 @@ public final class FabCar implements ContractInterface {
      */
     @Transaction()
     public CarQueryResult[] queryAllCars(final Context ctx) {
+
         ChaincodeStub stub = ctx.getStub();
 
         final String startKey = "CAR0";
-        final String endKey = "CAR2";
+        final String endKey = "CAR999";
         List<CarQueryResult> queryResults = new ArrayList<CarQueryResult>();
 
         QueryResultsIterator<KeyValue> results = stub.getStateByRange(startKey, endKey);
@@ -156,10 +161,37 @@ public final class FabCar implements ContractInterface {
 
         CarQueryResult[] response = queryResults.toArray(new CarQueryResult[queryResults.size()]);
 
-        System.out.println("stuff");
 
         return response;
     }
+
+    @Transaction()
+    public TraceabilityInfo[] testTraceability(final Context ctx) {
+
+        TraceabilityInfo traceabilityInfoAwatingValidation = new TraceabilityInfoAwatingValidation("","", new ProcessingDetails("", "", "", ""));
+        TraceabilityInfo traceabilityInfoValidated = new TraceabilityInfoValidated("","", new ProcessingDetails("", "", "", ""), new ArrayList<>());
+
+        ChaincodeStub stub = ctx.getStub();
+
+        String traceabilityInfoAwatingValidationState = genson.serialize(traceabilityInfoAwatingValidation);
+        String traceabilityInfoValidatedState = genson.serialize(traceabilityInfoValidated);
+        stub.putStringState("traceabilityInfoAwatingValidation0", traceabilityInfoAwatingValidationState);
+        stub.putStringState("traceabilityInfoValidatedState0", traceabilityInfoValidatedState);
+
+        List<TraceabilityInfo> queryResults = new ArrayList<TraceabilityInfo>();
+
+        QueryResultsIterator<KeyValue> results = stub.getStateByRange("traceabilityInfoAwatingValidation0", "traceabilityInfoValidatedState0");
+
+        for (KeyValue result: results) {
+            TraceabilityInfo traceabilityInfo = genson.deserialize(result.getStringValue(), TraceabilityInfo.class);
+            queryResults.add(traceabilityInfo);
+        }
+
+        TraceabilityInfo[] response = queryResults.toArray(new TraceabilityInfo[queryResults.size()]);
+
+        return response;
+    }
+
 
     /**
      * Changes the owner of a car on the ledger.
