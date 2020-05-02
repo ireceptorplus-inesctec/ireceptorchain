@@ -7,10 +7,7 @@ package iReceptorPlus.Blockchain.iReceptorChain;
 import java.util.ArrayList;
 import java.util.List;
 
-import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.ProcessingDetails;
-import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfo;
-import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfoAwatingValidation;
-import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfoValidated;
+import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.*;
 import org.hyperledger.fabric.Logger;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
@@ -167,7 +164,7 @@ public final class FabCar implements ContractInterface {
     }
 
     @Transaction()
-    public TraceabilityInfo[] testTraceability(final Context ctx) {
+    public List<String> createTraceabilityEntries(final Context ctx) {
         TraceabilityInfo traceabilityInfoAwatingValidation = new TraceabilityInfoAwatingValidation("","", new ProcessingDetails("", "", "", ""));
         TraceabilityInfo traceabilityInfoValidated = new TraceabilityInfoValidated("","", new ProcessingDetails("", "", "", ""), new ArrayList<>());
 
@@ -178,17 +175,34 @@ public final class FabCar implements ContractInterface {
         stub.putStringState("traceabilityInfoAwatingValidation0", traceabilityInfoAwatingValidationState);
         stub.putStringState("traceabilityInfoValidatedState0", traceabilityInfoValidatedState);
 
+        return stub.getStringArgs();
+
+    }
+
+    @Transaction()
+    public TraceabilityInfo[] testQueryTraceability(final Context ctx) {
+        ChaincodeStub stub = ctx.getStub();
+
         List<TraceabilityInfo> queryResults = new ArrayList<TraceabilityInfo>();
 
-        QueryResultsIterator<KeyValue> results = stub.getStateByRange("traceabilityInfoAwatingValidation0", "traceabilityInfoValidatedState0");
+        QueryResultsIterator<KeyValue> resultsAwatingValidation = stub.getStateByRange("traceabilityInfoAwatingValidation0", "traceabilityInfoAwatingValidation0");
+        QueryResultsIterator<KeyValue> resultsValidated = stub.getStateByRange("traceabilityInfoValidatedState0", "traceabilityInfoValidatedState0");
 
-        for (KeyValue result: results)
+        for (KeyValue result: resultsAwatingValidation)
+        {
+            TraceabilityInfo traceabilityInfo = genson.deserialize(result.getStringValue(), TraceabilityInfo.class);
+            queryResults.add(traceabilityInfo);
+        }
+
+        for (KeyValue result: resultsValidated)
         {
             TraceabilityInfo traceabilityInfo = genson.deserialize(result.getStringValue(), TraceabilityInfo.class);
             queryResults.add(traceabilityInfo);
         }
 
         TraceabilityInfo[] response = queryResults.toArray(new TraceabilityInfo[queryResults.size()]);
+        response[0].registerYesVoteForValidity(new Entity());
+        response[1].registerYesVoteForValidity(new Entity());
 
         return response;
     }
