@@ -168,6 +168,15 @@ public final class FabCar implements ContractInterface {
 
     @Transaction()
     public TraceabilityInfo[] testTraceability(final Context ctx) {
+        System.err.println("stuff");
+        System.err.println("stuff");
+        System.err.println("stuff");
+        System.err.println("stuff");
+        System.err.println("stuff");
+        System.err.println("stuff");
+        System.err.println("stuff");
+        System.err.println("stuff");
+        System.err.println("stuff");
         Logger.getLogger("DEBU").debug("stuff");
         TraceabilityInfo traceabilityInfoAwatingValidation = new TraceabilityInfoAwatingValidation("","", new ProcessingDetails("", "", "", ""));
         TraceabilityInfo traceabilityInfoValidated = new TraceabilityInfoValidated("","", new ProcessingDetails("", "", "", ""), new ArrayList<>());
@@ -183,7 +192,8 @@ public final class FabCar implements ContractInterface {
 
         QueryResultsIterator<KeyValue> results = stub.getStateByRange("traceabilityInfoAwatingValidation0", "traceabilityInfoValidatedState0");
 
-        for (KeyValue result: results) {
+        for (KeyValue result: results)
+        {
             TraceabilityInfo traceabilityInfo = genson.deserialize(result.getStringValue(), TraceabilityInfo.class);
             queryResults.add(traceabilityInfo);
         }
@@ -192,6 +202,7 @@ public final class FabCar implements ContractInterface {
 
         return response;
     }
+
 
 
     /**
