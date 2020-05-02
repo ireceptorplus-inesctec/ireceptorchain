@@ -11,6 +11,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.ProcessingDetails;
 import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfoAwatingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfoValidated;
+import org.hyperledger.fabric.Logger;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.Contact;
@@ -166,17 +167,8 @@ public final class FabCar implements ContractInterface {
     }
 
     @Transaction()
-    public String testTraceability(final Context ctx) {
-
-        System.out.printf("test traceability begin");
-        System.out.printf("test traceability begin");
-        System.out.printf("test traceability begin");
-        System.out.printf("test traceability begin");
-        System.out.printf("test traceability begin");
-        System.out.printf("test traceability begin");
-        System.out.printf("test traceability begin");
-
-
+    public TraceabilityInfo[] testTraceability(final Context ctx) {
+        Logger.getLogger("DEBU").debug("stuff");
         TraceabilityInfo traceabilityInfoAwatingValidation = new TraceabilityInfoAwatingValidation("","", new ProcessingDetails("", "", "", ""));
         TraceabilityInfo traceabilityInfoValidated = new TraceabilityInfoValidated("","", new ProcessingDetails("", "", "", ""), new ArrayList<>());
 
@@ -198,17 +190,7 @@ public final class FabCar implements ContractInterface {
 
         TraceabilityInfo[] response = queryResults.toArray(new TraceabilityInfo[queryResults.size()]);
 
-        System.out.printf("test traceability end");
-        System.out.printf("test traceability end");
-        System.out.printf("test traceability end");
-        System.out.printf("test traceability end");
-        System.out.printf("test traceability end");
-        System.out.printf("test traceability end");
-        System.out.printf("test traceability end");
-        System.out.printf("test traceability end");
-        System.out.printf("test traceability end");
-
-        return "stuff";
+        return response;
     }
 
 
