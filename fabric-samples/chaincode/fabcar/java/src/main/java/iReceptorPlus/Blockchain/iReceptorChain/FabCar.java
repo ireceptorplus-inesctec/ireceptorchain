@@ -168,16 +168,6 @@ public final class FabCar implements ContractInterface {
 
     @Transaction()
     public TraceabilityInfo[] testTraceability(final Context ctx) {
-        System.err.println("stuff");
-        System.err.println("stuff");
-        System.err.println("stuff");
-        System.err.println("stuff");
-        System.err.println("stuff");
-        System.err.println("stuff");
-        System.err.println("stuff");
-        System.err.println("stuff");
-        System.err.println("stuff");
-        Logger.getLogger("DEBU").debug("stuff");
         TraceabilityInfo traceabilityInfoAwatingValidation = new TraceabilityInfoAwatingValidation("","", new ProcessingDetails("", "", "", ""));
         TraceabilityInfo traceabilityInfoValidated = new TraceabilityInfoValidated("","", new ProcessingDetails("", "", "", ""), new ArrayList<>());
 

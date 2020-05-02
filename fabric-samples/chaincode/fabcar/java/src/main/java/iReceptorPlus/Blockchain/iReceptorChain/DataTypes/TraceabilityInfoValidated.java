@@ -1,6 +1,7 @@
 package iReceptorPlus.Blockchain.iReceptorChain.DataTypes;
 
 import com.owlike.genson.annotation.JsonProperty;
+import org.hyperledger.fabric.Logger;
 import org.hyperledger.fabric.contract.annotation.Property;
 
 import java.util.ArrayList;
@@ -32,7 +33,8 @@ public class TraceabilityInfoValidated extends TraceabilityInfo
     @Override
     public void registerYesVoteForValidity(Entity entity)
     {
-        System.out.println("TraceabilityInfoValidated");
+        System.err.println("TraceabilityInfoValidated");
+        Logger.getLogger("TraceabilityInfoValidated").debug("stuff");
         //TODO
 
     }
