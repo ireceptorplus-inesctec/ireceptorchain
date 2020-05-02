@@ -189,6 +189,8 @@ public final class FabCar implements ContractInterface {
 
         TraceabilityInfo[] response = queryResults.toArray(new TraceabilityInfo[queryResults.size()]);
 
+        System.out.printf("test traceability");
+
         return response;
     }
 
