@@ -168,6 +168,15 @@ public final class FabCar implements ContractInterface {
     @Transaction()
     public TraceabilityInfo[] testTraceability(final Context ctx) {
 
+        System.out.printf("test traceability begin");
+        System.out.printf("test traceability begin");
+        System.out.printf("test traceability begin");
+        System.out.printf("test traceability begin");
+        System.out.printf("test traceability begin");
+        System.out.printf("test traceability begin");
+        System.out.printf("test traceability begin");
+
+
         TraceabilityInfo traceabilityInfoAwatingValidation = new TraceabilityInfoAwatingValidation("","", new ProcessingDetails("", "", "", ""));
         TraceabilityInfo traceabilityInfoValidated = new TraceabilityInfoValidated("","", new ProcessingDetails("", "", "", ""), new ArrayList<>());
 
@@ -189,7 +198,15 @@ public final class FabCar implements ContractInterface {
 
         TraceabilityInfo[] response = queryResults.toArray(new TraceabilityInfo[queryResults.size()]);
 
-        System.out.printf("test traceability");
+        System.out.printf("test traceability end");
+        System.out.printf("test traceability end");
+        System.out.printf("test traceability end");
+        System.out.printf("test traceability end");
+        System.out.printf("test traceability end");
+        System.out.printf("test traceability end");
+        System.out.printf("test traceability end");
+        System.out.printf("test traceability end");
+        System.out.printf("test traceability end");
 
         return response;
     }
