@@ -188,21 +188,26 @@ public final class FabCar implements ContractInterface {
         QueryResultsIterator<KeyValue> resultsAwatingValidation = stub.getStateByRange("traceabilityInfoAwatingValidation0", "traceabilityInfoAwatingValidation0");
         QueryResultsIterator<KeyValue> resultsValidated = stub.getStateByRange("traceabilityInfoValidatedState0", "traceabilityInfoValidatedState0");
 
+        System.err.println("stuff1");
         for (KeyValue result: resultsAwatingValidation)
         {
             TraceabilityInfo traceabilityInfo = genson.deserialize(result.getStringValue(), TraceabilityInfo.class);
             queryResults.add(traceabilityInfo);
         }
+        System.err.println("stuff2");
 
         for (KeyValue result: resultsValidated)
         {
             TraceabilityInfo traceabilityInfo = genson.deserialize(result.getStringValue(), TraceabilityInfo.class);
             queryResults.add(traceabilityInfo);
         }
+        System.err.println("stuff3");
 
         TraceabilityInfo[] response = queryResults.toArray(new TraceabilityInfo[queryResults.size()]);
         response[0].registerYesVoteForValidity(new Entity());
         response[1].registerYesVoteForValidity(new Entity());
+        System.err.println("stuff4");
+
 
         return response;
     }
