@@ -3,6 +3,10 @@ package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Sta
 import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.Entity;
 import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfo;
 
+/**
+ * This is the sub class for the state machine for the traceability information.
+ * This sub class implements the specific behaviour necessary for when the traceability information is in the AwaitingValidation state.
+ */
 public class AwaitingValidation extends State
 {
     @Override
