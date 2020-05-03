@@ -194,13 +194,13 @@ public final class FabCar implements ContractInterface {
             System.err.println("does not exist1");
         else
             System.err.println("exists1");
-        TraceabilityInfo resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityInfoAwatingValidation.class);
+        TraceabilityInfo resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityInfo.class);
         String traceabilityInfoValidated = stub.getStringState("traceabilityInfoValidated5");
         System.err.println("traceabilityInfoValidated");
         System.err.println(traceabilityInfoValidated);
         if (traceabilityInfoValidated.isEmpty())
             System.err.println("does not exist2");
-        TraceabilityInfo resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityInfoValidated.class);
+        TraceabilityInfo resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityInfo.class);
 
 
         resultsAwatingValidation.registerYesVoteForValidity(new Entity());
