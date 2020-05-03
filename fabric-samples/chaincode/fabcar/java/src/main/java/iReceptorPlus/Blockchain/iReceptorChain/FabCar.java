@@ -214,7 +214,7 @@ public final class FabCar implements ContractInterface {
         ChaincodeStub stub = ctx.getStub();
 
 
-        Car car = new Car("make", "model", "color", "owner");
+        Car car = new Car("makeeee", "modefl", "colfdor", "owndfer");
         String carState = genson.serialize(car);
         System.err.println("carState");
         System.err.println("carState");
@@ -222,6 +222,10 @@ public final class FabCar implements ContractInterface {
         System.err.println("carState");
         System.err.println("carState");
         System.err.println(carState);
+        System.err.println("carState end");
+        System.err.println("carState end");
+        System.err.println("carState end");
+        System.err.println("carState end");
         System.err.println("carState end");
         stub.putStringState("carr1", carState);
 
