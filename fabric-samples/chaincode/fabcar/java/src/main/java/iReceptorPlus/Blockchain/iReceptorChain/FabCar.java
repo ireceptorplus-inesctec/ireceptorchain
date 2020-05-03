@@ -175,7 +175,7 @@ public final class FabCar implements ContractInterface {
         String traceabilityInfoAwatingValidationState = genson.serialize(traceabilityInfoAwatingValidation);
         String traceabilityInfoValidatedState = genson.serialize(traceabilityInfoValidated);
         stub.putStringState("traceabilityInfoAwatingValidation5", traceabilityInfoAwatingValidationState);
-        stub.putStringState("traceabilityInfoValidatedState5", traceabilityInfoValidatedState);
+        stub.putStringState("traceabilityInfoValidated5", traceabilityInfoValidatedState);
 
         return null;
 

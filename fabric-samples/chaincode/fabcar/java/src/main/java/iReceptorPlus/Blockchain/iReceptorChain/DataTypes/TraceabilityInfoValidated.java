@@ -35,7 +35,7 @@ public class TraceabilityInfoValidated extends TraceabilityInfo
     @Override
     public void registerYesVoteForValidity(Entity entity)
     {
-        System.err.println("TraceabilityInfoValidated");
+        System.err.println("*****TraceabilityInfoValidated******");
         Logger.getLogger("TraceabilityInfoValidated").debug("stuff");
         //TODO
 

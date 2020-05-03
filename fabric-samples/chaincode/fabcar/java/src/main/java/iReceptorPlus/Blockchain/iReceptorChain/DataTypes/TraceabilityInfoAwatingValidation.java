@@ -45,7 +45,7 @@ public class TraceabilityInfoAwatingValidation extends TraceabilityInfo
     @Override
     public void registerYesVoteForValidity(Entity entity)
     {
-        System.err.println("TraceabilityInfoAwatingValidation");
+        System.err.println("*****TraceabilityInfoAwatingValidation*******");
         Logger.getLogger("TraceabilityInfoAwatingValidation").debug("stuff");
 
         //TODO
