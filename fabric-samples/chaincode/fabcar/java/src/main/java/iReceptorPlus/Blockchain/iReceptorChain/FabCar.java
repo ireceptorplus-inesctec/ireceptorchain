@@ -209,6 +209,44 @@ public final class FabCar implements ContractInterface {
     }
 
 
+    @Transaction()
+    public void test(final Context ctx) {
+        ChaincodeStub stub = ctx.getStub();
+
+
+        Car car = new Car("make", "model", "color", "owner");
+        String carState = genson.serialize(car);
+        stub.putStringState("carr1", carState);
+
+        String carStateQueryResult = stub.getStringState("carr1");
+        if (carStateQueryResult.isEmpty())
+            System.err.println("does not exist0");
+        else
+            System.err.println("exists0");
+
+        String traceabilityInfoAwatingValidation = stub.getStringState("traceabilityInfoAwatingValidation5");
+        System.err.println("traceabilityInfoAwatingValidation");
+        System.err.println(traceabilityInfoAwatingValidation);
+        if (traceabilityInfoAwatingValidation.isEmpty())
+            System.err.println("does not exist1");
+        else
+            System.err.println("exists1");
+        TraceabilityInfo resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityInfoAwatingValidation.class);
+        String traceabilityInfoValidated = stub.getStringState("traceabilityInfoValidated5");
+        System.err.println("traceabilityInfoValidated");
+        System.err.println(traceabilityInfoValidated);
+        if (traceabilityInfoValidated.isEmpty())
+            System.err.println("does not exist2");
+        TraceabilityInfo resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityInfoAwatingValidation.class);
+
+
+        resultsAwatingValidation.registerYesVoteForValidity(new Entity());
+        resultsValidated.registerYesVoteForValidity(new Entity());
+        System.err.println("stuff4");
+
+
+    }
+
 
     /**
      * Changes the owner of a car on the ledger.
