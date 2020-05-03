@@ -216,6 +216,8 @@ public final class FabCar implements ContractInterface {
 
         Car car = new Car("make", "model", "color", "owner");
         String carState = genson.serialize(car);
+        System.err.println("carState");
+        System.err.println(carState);
         stub.putStringState("carr1", carState);
 
         String carStateQueryResult = stub.getStringState("carr1");
