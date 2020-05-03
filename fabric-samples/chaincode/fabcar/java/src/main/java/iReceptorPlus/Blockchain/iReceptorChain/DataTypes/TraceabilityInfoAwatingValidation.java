@@ -45,10 +45,7 @@ public class TraceabilityInfoAwatingValidation extends TraceabilityInfo
     @Override
     public void registerYesVoteForValidity(Entity entity)
     {
-        System.err.println("*****TraceabilityInfoAwatingValidation*******");
-        Logger.getLogger("TraceabilityInfoAwatingValidation").debug("stuff");
-
-        //TODO
+        approvers.add(entity);
     }
 
     /**
@@ -58,7 +55,6 @@ public class TraceabilityInfoAwatingValidation extends TraceabilityInfo
     @Override
     public void registerNoVoteForValidity(Entity entity)
     {
-        //TODO
-
+        rejecters.add(entity);
     }
 }
