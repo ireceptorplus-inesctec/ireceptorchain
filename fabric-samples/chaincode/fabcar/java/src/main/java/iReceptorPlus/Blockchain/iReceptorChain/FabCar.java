@@ -165,15 +165,15 @@ public final class FabCar implements ContractInterface {
 
     @Transaction()
     public TraceabilityInfo createTraceabilityEntries(final Context ctx) {
-        TraceabilityInfo traceabilityInfoAwatingValidation = new TraceabilityInfoAwatingValidation("","", new ProcessingDetails("", "", "", ""));
-        TraceabilityInfo traceabilityInfoValidated = new TraceabilityInfoValidated("","", new ProcessingDetails("", "", "", ""), new ArrayList<>());
+        TraceabilityInfo traceabilityInfoAwatingValidation = new TraceabilityInfoAwatingValidation("a","b", new ProcessingDetails("", "", "", ""));
+        TraceabilityInfo traceabilityInfoValidated = new TraceabilityInfoValidated("c","d", new ProcessingDetails("", "", "", ""), new ArrayList<>());
 
         ChaincodeStub stub = ctx.getStub();
 
         String traceabilityInfoAwatingValidationState = genson.serialize(traceabilityInfoAwatingValidation);
         String traceabilityInfoValidatedState = genson.serialize(traceabilityInfoValidated);
-        stub.putStringState("traceabilityInfoAwatingValidation2", traceabilityInfoAwatingValidationState);
-        stub.putStringState("traceabilityInfoValidatedState2", traceabilityInfoValidatedState);
+        stub.putStringState("traceabilityInfoAwatingValidation5", traceabilityInfoAwatingValidationState);
+        stub.putStringState("traceabilityInfoValidatedState5", traceabilityInfoValidatedState);
 
         return null;
 
@@ -185,10 +185,12 @@ public final class FabCar implements ContractInterface {
 
         List<TraceabilityInfo> queryResults = new ArrayList<TraceabilityInfo>();
 
-        String traceabilityInfoAwatingValidation = stub.getStringState("traceabilityInfoAwatingValidation1");
+        String traceabilityInfoAwatingValidation = stub.getStringState("traceabilityInfoAwatingValidation5");
+        System.err.println("traceabilityInfoAwatingValidation");
         System.err.println(traceabilityInfoAwatingValidation);
         TraceabilityInfo resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityInfoAwatingValidation.class);
-        String traceabilityInfoValidated = stub.getStringState("traceabilityInfoValidated1");
+        String traceabilityInfoValidated = stub.getStringState("traceabilityInfoValidated5");
+        System.err.println("traceabilityInfoValidated");
         System.err.println(traceabilityInfoValidated);
         TraceabilityInfo resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityInfoAwatingValidation.class);
 
