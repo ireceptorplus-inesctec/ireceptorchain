@@ -44,6 +44,7 @@ async function main() {
         const result = await contract.evaluateTransaction('createTraceabilityEntries');
         const result2 = await contract.evaluateTransaction('testQueryTraceability');
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
+        console.log(`Transaction has been evaluated, result is: ${result2.toString()}`);
 
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);

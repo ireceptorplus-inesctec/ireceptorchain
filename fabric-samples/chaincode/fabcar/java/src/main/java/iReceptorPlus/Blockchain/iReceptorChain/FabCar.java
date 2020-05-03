@@ -164,7 +164,7 @@ public final class FabCar implements ContractInterface {
     }
 
     @Transaction()
-    public List<String> createTraceabilityEntries(final Context ctx) {
+    public void createTraceabilityEntries(final Context ctx) {
         TraceabilityInfo traceabilityInfoAwatingValidation = new TraceabilityInfoAwatingValidation("","", new ProcessingDetails("", "", "", ""));
         TraceabilityInfo traceabilityInfoValidated = new TraceabilityInfoValidated("","", new ProcessingDetails("", "", "", ""), new ArrayList<>());
 
@@ -175,7 +175,6 @@ public final class FabCar implements ContractInterface {
         stub.putStringState("traceabilityInfoAwatingValidation0", traceabilityInfoAwatingValidationState);
         stub.putStringState("traceabilityInfoValidatedState0", traceabilityInfoValidatedState);
 
-        return stub.getStringArgs();
 
     }
 
