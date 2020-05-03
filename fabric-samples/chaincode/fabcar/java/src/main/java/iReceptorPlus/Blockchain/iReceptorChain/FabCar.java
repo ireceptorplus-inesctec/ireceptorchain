@@ -172,8 +172,8 @@ public final class FabCar implements ContractInterface {
 
         String traceabilityInfoAwatingValidationState = genson.serialize(traceabilityInfoAwatingValidation);
         String traceabilityInfoValidatedState = genson.serialize(traceabilityInfoValidated);
-        stub.putStringState("traceabilityInfoAwatingValidation1", traceabilityInfoAwatingValidationState);
-        stub.putStringState("traceabilityInfoValidatedState1", traceabilityInfoValidatedState);
+        stub.putStringState("traceabilityInfoAwatingValidation2", traceabilityInfoAwatingValidationState);
+        stub.putStringState("traceabilityInfoValidatedState2", traceabilityInfoValidatedState);
 
         return null;
 
@@ -185,8 +185,8 @@ public final class FabCar implements ContractInterface {
 
         List<TraceabilityInfo> queryResults = new ArrayList<TraceabilityInfo>();
 
-        QueryResultsIterator<KeyValue> resultsAwatingValidation = stub.getStateByRange("traceabilityInfoAwatingValidation1", "traceabilityInfoAwatingValidation2");
-        QueryResultsIterator<KeyValue> resultsValidated = stub.getStateByRange("traceabilityInfoValidatedState1", "traceabilityInfoValidatedState2");
+        QueryResultsIterator<KeyValue> resultsAwatingValidation = stub.getStateByRange("traceabilityInfoAwatingValidation2", "traceabilityInfoAwatingValidation3");
+        QueryResultsIterator<KeyValue> resultsValidated = stub.getStateByRange("traceabilityInfoValidatedState2", "traceabilityInfoValidatedState3");
 
         System.err.println("stuff1");
         for (KeyValue result: resultsAwatingValidation)
