@@ -2,6 +2,7 @@ package iReceptorPlus.Blockchain.iReceptorChain.DataTypes;
 
 import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.Logger;
+import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 /**
  * This is a subclass of TraceabilityInfo, representing traceability information in a specific state: after the entry was first created and submitted to the blockchain.
  */
+@DataType()
 public class TraceabilityInfoAwatingValidation extends TraceabilityInfo
 {
 
