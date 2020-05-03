@@ -180,33 +180,20 @@ public final class FabCar implements ContractInterface {
     }
 
     @Transaction()
-    public TraceabilityInfo[] testQueryTraceability(final Context ctx) {
+    public void testQueryTraceability(final Context ctx) {
         ChaincodeStub stub = ctx.getStub();
 
         List<TraceabilityInfo> queryResults = new ArrayList<TraceabilityInfo>();
 
-        QueryResultsIterator<KeyValue> resultsAwatingValidation = stub.getStateByRange("traceabilityInfoAwatingValidation1", "traceabilityInfoAwatingValidation3");
-        QueryResultsIterator<KeyValue> resultsValidated = stub.getStateByRange("traceabilityInfoValidatedState1", "traceabilityInfoValidatedState3");
+        TraceabilityInfo resultsAwatingValidation = genson.deserialize(stub.getStringState("traceabilityInfoAwatingValidation1"), TraceabilityInfoAwatingValidation.class);
+        TraceabilityInfo resultsValidated = genson.deserialize(stub.getStringState("traceabilityInfoAwatingValidation1"), TraceabilityInfoAwatingValidation.class);
 
-        for (KeyValue result: resultsAwatingValidation)
-        {
-            TraceabilityInfo traceabilityInfo = genson.deserialize(result.getStringValue(), TraceabilityInfoAwatingValidation.class);
-            queryResults.add(traceabilityInfo);
-        }
 
-        for (KeyValue result: resultsValidated)
-        {
-            TraceabilityInfo traceabilityInfo = genson.deserialize(result.getStringValue(), TraceabilityInfoValidated.class);
-            queryResults.add(traceabilityInfo);
-        }
-
-        TraceabilityInfo[] response = queryResults.toArray(new TraceabilityInfo[queryResults.size()]);
-        response[0].registerYesVoteForValidity(new Entity());
-        response[1].registerYesVoteForValidity(new Entity());
+        resultsAwatingValidation.registerYesVoteForValidity(new Entity());
+        resultsValidated.registerYesVoteForValidity(new Entity());
         System.err.println("stuff4");
 
 
-        return response;
     }
 
 
