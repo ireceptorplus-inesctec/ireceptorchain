@@ -104,7 +104,7 @@ public final class FabCar implements ContractInterface {
             stub.putStringState(key, carState);
         }
 
-        stub.putStringState("car-stuff", genson.serialize(new Car("make", "model", "color", "valeria")));
+        createTraceabilityEntries(ctx);
     }
 
     /**
