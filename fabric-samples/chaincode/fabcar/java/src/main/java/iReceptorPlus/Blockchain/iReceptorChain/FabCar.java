@@ -164,7 +164,7 @@ public final class FabCar implements ContractInterface {
     }
 
     @Transaction()
-    public void createTraceabilityEntries(final Context ctx) {
+    public TraceabilityInfo createTraceabilityEntries(final Context ctx) {
         TraceabilityInfo traceabilityInfoAwatingValidation = new TraceabilityInfoAwatingValidation("","", new ProcessingDetails("", "", "", ""));
         TraceabilityInfo traceabilityInfoValidated = new TraceabilityInfoValidated("","", new ProcessingDetails("", "", "", ""), new ArrayList<>());
 
@@ -172,8 +172,6 @@ public final class FabCar implements ContractInterface {
 
         String traceabilityInfoAwatingValidationState = genson.serialize(traceabilityInfoAwatingValidation);
         String traceabilityInfoValidatedState = genson.serialize(traceabilityInfoValidated);
-        stub.putStringState("traceabilityInfoAwatingValidation0", traceabilityInfoAwatingValidationState);
-        stub.putStringState("traceabilityInfoValidatedState0", traceabilityInfoValidatedState);
 
 
     }
