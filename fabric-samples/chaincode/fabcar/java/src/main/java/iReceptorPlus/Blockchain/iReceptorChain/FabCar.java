@@ -190,13 +190,13 @@ public final class FabCar implements ContractInterface {
 
         for (KeyValue result: resultsAwatingValidation)
         {
-            TraceabilityInfo traceabilityInfo = genson.deserialize(result.getStringValue(), TraceabilityInfo.class);
+            TraceabilityInfo traceabilityInfo = genson.deserialize(result.getStringValue(), TraceabilityInfoAwatingValidation.class);
             queryResults.add(traceabilityInfo);
         }
 
         for (KeyValue result: resultsValidated)
         {
-            TraceabilityInfo traceabilityInfo = genson.deserialize(result.getStringValue(), TraceabilityInfo.class);
+            TraceabilityInfo traceabilityInfo = genson.deserialize(result.getStringValue(), TraceabilityInfoValidated.class);
             queryResults.add(traceabilityInfo);
         }
 
