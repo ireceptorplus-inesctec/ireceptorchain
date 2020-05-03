@@ -213,7 +213,7 @@ public final class FabCar implements ContractInterface {
     public void test(final Context ctx) {
         ChaincodeStub stub = ctx.getStub();
 
-
+/*
         Car car = new Car("makeeee", "modefl", "colfdor", "owndfer");
         String carState = genson.serialize(car);
         System.err.println("carState");
@@ -227,13 +227,16 @@ public final class FabCar implements ContractInterface {
         System.err.println("carState end");
         System.err.println("carState end");
         System.err.println("carState end");
-        stub.putStringState("carr1", carState);
+        stub.putStringState("carr1", car);
+*/
 
-        String carStateQueryResult = stub.getStringState("CAR0");
+        stub.putStringState("carr1", "stuffffff");
+
+        String carStateQueryResult = stub.getStringState("carr1");
         if (carStateQueryResult.isEmpty())
             System.err.println("does not exist0");
         else
-            System.err.println("exists0");
+            System.err.println("exists0 and result is: " + carStateQueryResult);
 
         String traceabilityInfoAwatingValidation = stub.getStringState("traceabilityInfoAwatingValidation5");
         System.err.println("traceabilityInfoAwatingValidation");
