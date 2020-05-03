@@ -185,8 +185,8 @@ public final class FabCar implements ContractInterface {
 
         List<TraceabilityInfo> queryResults = new ArrayList<TraceabilityInfo>();
 
-        QueryResultsIterator<KeyValue> resultsAwatingValidation = stub.getStateByRange("traceabilityInfoAwatingValidation0", "traceabilityInfoAwatingValidation0");
-        QueryResultsIterator<KeyValue> resultsValidated = stub.getStateByRange("traceabilityInfoValidatedState0", "traceabilityInfoValidatedState0");
+        QueryResultsIterator<KeyValue> resultsAwatingValidation = stub.getStateByRange("traceabilityInfoAwatingValidation0", "traceabilityInfoAwatingValidation1");
+        QueryResultsIterator<KeyValue> resultsValidated = stub.getStateByRange("traceabilityInfoValidatedState0", "traceabilityInfoValidatedState1");
 
         System.err.println("stuff1");
         for (KeyValue result: resultsAwatingValidation)
