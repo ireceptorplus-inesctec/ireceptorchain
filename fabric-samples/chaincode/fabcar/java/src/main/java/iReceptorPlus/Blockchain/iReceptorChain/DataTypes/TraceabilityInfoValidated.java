@@ -15,12 +15,20 @@ public class TraceabilityInfoValidated extends TraceabilityInfo
 {
 
     /**
-     * An array of entities which have voted for the validity of the traceability information.
+     * An array of entities which have voted for the validity of the traceability information during the its voting round.
      * (They have submitted a yes vote when the traceability information was in a voting round.)
      * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
      */
     @Property()
     private final ArrayList<Entity> validators;
+
+    /**
+     * An array of entities which have voted for the validity of the traceability information after its voting round had endeds.
+     * (They have submitted a yes vote when the traceability information after it was already registered on the blockchain as valid.)
+     * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
+     */
+    @Property()
+    private final ArrayList<Entity> corroborators;
 
     public TraceabilityInfoValidated(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                                      @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
@@ -29,16 +37,13 @@ public class TraceabilityInfoValidated extends TraceabilityInfo
     {
         super(inputDatasetHashValue, outputDatasetHashValue, processingDetails);
         this.validators = validators;
+        corroborators = new ArrayList<>();
     }
-
 
     @Override
     public void registerYesVoteForValidity(Entity entity)
     {
-        System.err.println("*****TraceabilityInfoValidated******");
-        Logger.getLogger("TraceabilityInfoValidated").debug("stuff");
-        //TODO
-
+        corroborators.add(entity);
     }
 
     @Override
