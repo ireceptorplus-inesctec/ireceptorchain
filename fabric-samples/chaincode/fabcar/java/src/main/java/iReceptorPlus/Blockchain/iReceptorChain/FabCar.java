@@ -185,8 +185,10 @@ public final class FabCar implements ContractInterface {
 
         List<TraceabilityInfo> queryResults = new ArrayList<TraceabilityInfo>();
 
-        TraceabilityInfo resultsAwatingValidation = genson.deserialize(stub.getStringState("traceabilityInfoAwatingValidation1"), TraceabilityInfoAwatingValidation.class);
-        TraceabilityInfo resultsValidated = genson.deserialize(stub.getStringState("traceabilityInfoAwatingValidation1"), TraceabilityInfoAwatingValidation.class);
+        String traceabilityInfoAwatingValidation = stub.getStringState("traceabilityInfoAwatingValidation1");
+        TraceabilityInfo resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityInfoAwatingValidation.class);
+        String traceabilityInfoValidated = stub.getStringState("traceabilityInfoValidated1");
+        TraceabilityInfo resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityInfoAwatingValidation.class);
 
 
         resultsAwatingValidation.registerYesVoteForValidity(new Entity());
