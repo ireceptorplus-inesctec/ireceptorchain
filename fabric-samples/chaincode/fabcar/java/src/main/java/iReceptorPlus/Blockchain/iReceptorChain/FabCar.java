@@ -229,7 +229,7 @@ public final class FabCar implements ContractInterface {
         System.err.println("carState end");
         stub.putStringState("carr1", carState);
 
-        String carStateQueryResult = stub.getStringState("carr1");
+        String carStateQueryResult = stub.getStringState("CAR0");
         if (carStateQueryResult.isEmpty())
             System.err.println("does not exist0");
         else
