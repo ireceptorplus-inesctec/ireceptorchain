@@ -57,4 +57,10 @@ public class TraceabilityInfoAwatingValidation extends TraceabilityInfo
     {
         rejecters.add(entity);
     }
+
+    @Override
+    public long getNumberOfApprovers()
+    {
+        return approvers.size();
+    }
 }

@@ -52,4 +52,10 @@ public class TraceabilityInfoValidated extends TraceabilityInfo
         //TODO
 
     }
+
+    @Override
+    public long getNumberOfApprovers()
+    {
+        return validators.size();
+    }
 }

@@ -56,4 +56,10 @@ public abstract class TraceabilityInfo
      * @param entity An instance of class Entity containing information about the entity that has voted yes for the traceability information. For more information, please read the documentation for the Entity class.
      */
     public abstract void registerNoVoteForValidity(Entity entity);
+
+    /**
+     * Returns the number of approvers of the traceability information represented by this class.
+     * @return the number of approvers of the traceability information represented by this class.
+     */
+    public abstract long getNumberOfApprovers();
 }
