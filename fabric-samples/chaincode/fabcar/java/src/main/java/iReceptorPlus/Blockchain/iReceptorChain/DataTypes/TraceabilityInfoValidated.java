@@ -53,6 +53,10 @@ public class TraceabilityInfoValidated extends TraceabilityInfo
 
     }
 
+    /**
+     * Returns the number of approvers of the traceability information represented by this class.
+     * @return the number of approvers of the traceability information represented by this class.
+     */
     @Override
     public long getNumberOfApprovers()
     {

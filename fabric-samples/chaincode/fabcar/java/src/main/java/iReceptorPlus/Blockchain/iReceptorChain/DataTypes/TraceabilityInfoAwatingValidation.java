@@ -58,6 +58,10 @@ public class TraceabilityInfoAwatingValidation extends TraceabilityInfo
         rejecters.add(entity);
     }
 
+    /**
+     * Returns the number of approvers of the traceability information represented by this class.
+     * @return the number of approvers of the traceability information represented by this class.
+     */
     @Override
     public long getNumberOfApprovers()
     {
