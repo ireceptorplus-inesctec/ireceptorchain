@@ -2,6 +2,7 @@ package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Sta
 
 import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.Entity;
 import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
 
 /**
  * This is the sub class for the state machine for the traceability information.
@@ -9,6 +10,11 @@ import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfo;
  */
 public class AwaitingValidation extends State
 {
+    public AwaitingValidation(TraceabilityInfo traceabilityInfo, HyperledgerFabricChainCodeAPI api)
+    {
+        super(traceabilityInfo, api);
+    }
+
     @Override
     public void voteYesForTheVeracityOfTraceabilityInfo(TraceabilityInfo traceabilityInfo, Entity voter)
     {
