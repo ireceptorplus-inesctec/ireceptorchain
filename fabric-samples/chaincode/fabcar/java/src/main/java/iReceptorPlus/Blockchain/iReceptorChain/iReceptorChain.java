@@ -28,9 +28,9 @@ import com.owlike.genson.Genson;
  * First Application tutorial
  */
 @Contract(
-        name = "FabCar",
+        name = "iReceptorChain",
         info = @Info(
-                title = "FabCar contract",
+                title = "iReceptorChain contract",
                 description = "The hyperlegendary car contract",
                 version = "0.0.1-SNAPSHOT",
                 license = @License(
@@ -41,7 +41,7 @@ import com.owlike.genson.Genson;
                         name = "F Carr",
                         url = "https://hyperledger.example.com")))
 @Default
-public final class FabCar implements ContractInterface {
+public final class iReceptorChain implements ContractInterface {
 
     private final Genson genson = new Genson();
 

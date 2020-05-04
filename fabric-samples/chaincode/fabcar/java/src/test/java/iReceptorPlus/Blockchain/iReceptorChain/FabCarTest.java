@@ -89,7 +89,7 @@ public final class FabCarTest {
 
     @Test
     public void invokeUnknownTransaction() {
-        FabCar contract = new FabCar();
+        iReceptorChain contract = new iReceptorChain();
         Context ctx = mock(Context.class);
 
         Throwable thrown = catchThrowable(() -> {
@@ -108,7 +108,7 @@ public final class FabCarTest {
 
         @Test
         public void whenCarExists() {
-            FabCar contract = new FabCar();
+            iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
@@ -122,7 +122,7 @@ public final class FabCarTest {
 
         @Test
         public void whenCarDoesNotExist() {
-            FabCar contract = new FabCar();
+            iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
@@ -140,7 +140,7 @@ public final class FabCarTest {
 
     @Test
     void invokeInitLedgerTransaction() {
-        FabCar contract = new FabCar();
+        iReceptorChain contract = new iReceptorChain();
         Context ctx = mock(Context.class);
         ChaincodeStub stub = mock(ChaincodeStub.class);
         when(ctx.getStub()).thenReturn(stub);
@@ -175,7 +175,7 @@ public final class FabCarTest {
 
         @Test
         public void whenCarExists() {
-            FabCar contract = new FabCar();
+            iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
@@ -193,7 +193,7 @@ public final class FabCarTest {
 
         @Test
         public void whenCarDoesNotExist() {
-            FabCar contract = new FabCar();
+            iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
@@ -207,7 +207,7 @@ public final class FabCarTest {
 
     @Test
     void invokeQueryAllCarsTransaction() {
-        FabCar contract = new FabCar();
+        iReceptorChain contract = new iReceptorChain();
         Context ctx = mock(Context.class);
         ChaincodeStub stub = mock(ChaincodeStub.class);
         when(ctx.getStub()).thenReturn(stub);
@@ -230,7 +230,7 @@ public final class FabCarTest {
 
         @Test
         public void whenCarExists() {
-            FabCar contract = new FabCar();
+            iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
@@ -244,7 +244,7 @@ public final class FabCarTest {
 
         @Test
         public void whenCarDoesNotExist() {
-            FabCar contract = new FabCar();
+            iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
