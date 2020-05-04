@@ -29,6 +29,11 @@ public class HyperledgerFabricChainCodeAPI
         //TODO
     }
 
+    public void getTraceabilityInfo(TraceabilityDataInfo traceabilityDataInfo)
+    {
+        //TODO
+    }
+
     public void updateTraceabilityInfo(TraceabilityDataInfo traceabilityDataInfo)
     {
         //TODO
