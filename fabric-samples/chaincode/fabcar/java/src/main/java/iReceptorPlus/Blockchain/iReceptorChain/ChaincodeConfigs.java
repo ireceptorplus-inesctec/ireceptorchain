@@ -8,5 +8,5 @@ public class ChaincodeConfigs
 
     private static String traceabilityAwaitingValidationKeyPrefix = "TracreabilityInfoAwaitingValidation";
 
-    private static String traceabilityAwaitingValidatedKeyPrefix = "TracreabilityInfoValidated";
+    private static String traceabilityValidatedKeyPrefix = "TracreabilityInfoValidated";
 }
