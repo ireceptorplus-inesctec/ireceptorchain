@@ -1,7 +1,7 @@
 package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricChainCodeAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 
 /**
@@ -18,12 +18,12 @@ public abstract class State
     TraceabilityDataInfo traceabilityDataInfo;
 
     /**
-     * An instance of class HyperledgerFabricChainCodeAPI created using the current blockchain context.
+     * An instance of class HyperledgerFabricBlockhainRepositoryAPI created using the current blockchain context.
      * The class implements all calls to the Hyperledger API in order to abstract that logic from this class (TraceabilityInfoStateMachine).
      */
-    HyperledgerFabricChainCodeAPI api;
+    HyperledgerFabricBlockhainRepositoryAPI api;
 
-    public State(TraceabilityDataInfo traceabilityDataInfo, HyperledgerFabricChainCodeAPI api)
+    public State(TraceabilityDataInfo traceabilityDataInfo, HyperledgerFabricBlockhainRepositoryAPI api)
     {
         this.traceabilityDataInfo = traceabilityDataInfo;
         this.api = api;

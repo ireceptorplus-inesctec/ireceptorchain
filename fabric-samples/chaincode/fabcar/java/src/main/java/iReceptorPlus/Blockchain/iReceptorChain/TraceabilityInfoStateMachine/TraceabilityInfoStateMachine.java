@@ -4,7 +4,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricChainCodeAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States.AwaitingValidation;
@@ -30,12 +30,12 @@ public class TraceabilityInfoStateMachine
     State state;
 
     /**
-     * An instance of class HyperledgerFabricChainCodeAPI created using the current blockchain context.
+     * An instance of class HyperledgerFabricBlockhainRepositoryAPI created using the current blockchain context.
      * The class implements all calls to the Hyperledger API in order to abstract that logic from this class (TraceabilityInfoStateMachine).
      */
-    HyperledgerFabricChainCodeAPI api;
+    HyperledgerFabricBlockhainRepositoryAPI api;
 
-    public TraceabilityInfoStateMachine(TraceabilityDataInfo traceabilityDataInfo, HyperledgerFabricChainCodeAPI api) throws UnsupportedTypeOfTraceabilityInfo
+    public TraceabilityInfoStateMachine(TraceabilityDataInfo traceabilityDataInfo, HyperledgerFabricBlockhainRepositoryAPI api) throws UnsupportedTypeOfTraceabilityInfo
     {
         this.traceabilityDataInfo = traceabilityDataInfo;
         this.api = api;

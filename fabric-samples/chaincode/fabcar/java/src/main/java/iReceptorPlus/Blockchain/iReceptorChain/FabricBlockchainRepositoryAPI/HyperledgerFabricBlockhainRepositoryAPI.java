@@ -8,7 +8,7 @@ import org.hyperledger.fabric.contract.Context;
  * It is used to abstract complicated calls to the hyperledger API from the application logic.
  * The class receives the blockchain context in which this class will perform the required tasks and can then be called to perform operations on that same context without the need for interacting directly with hyperledger fabric's methods.
  */
-public class HyperledgerFabricChainCodeAPI
+public class HyperledgerFabricBlockhainRepositoryAPI
 {
     /**
      * The blockchain context in which this class will perform the required tasks.
@@ -19,7 +19,7 @@ public class HyperledgerFabricChainCodeAPI
      * Constructor for this class.
      * @param ctx The blockchain context in which this class will perform the required tasks.
      */
-    public HyperledgerFabricChainCodeAPI(Context ctx)
+    public HyperledgerFabricBlockhainRepositoryAPI(Context ctx)
     {
         this.ctx = ctx;
     }

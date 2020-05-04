@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricChainCodeAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
@@ -320,7 +320,7 @@ public final class iReceptorChain implements ContractInterface {
         UUID uuid = UUID.randomUUID();
         String key = ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + uuid.toString();
         TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(key, traceabilityData);
-        HyperledgerFabricChainCodeAPI api = new HyperledgerFabricChainCodeAPI(ctx);
+        HyperledgerFabricBlockhainRepositoryAPI api = new HyperledgerFabricBlockhainRepositoryAPI(ctx);
         api.createTraceabilityInfo(traceabilityDataInfo);
 
         return traceabilityDataInfo;

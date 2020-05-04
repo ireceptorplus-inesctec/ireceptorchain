@@ -5,7 +5,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAw
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricChainCodeAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 
 /**
@@ -14,7 +14,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataIn
  */
 public class AwaitingValidation extends State
 {
-    public AwaitingValidation(TraceabilityDataInfo traceabilityData, HyperledgerFabricChainCodeAPI api)
+    public AwaitingValidation(TraceabilityDataInfo traceabilityData, HyperledgerFabricBlockhainRepositoryAPI api)
     {
         super(traceabilityData, api);
     }
