@@ -9,4 +9,14 @@ public class ChaincodeConfigs
     private static String traceabilityAwaitingValidationKeyPrefix = "TracreabilityInfoAwaitingValidation";
 
     private static String traceabilityValidatedKeyPrefix = "TracreabilityInfoValidated";
+
+    public static String getTraceabilityAwaitingValidationKeyPrefix()
+    {
+        return new String(traceabilityAwaitingValidationKeyPrefix);
+    }
+
+    public static String getTraceabilityValidatedKeyPrefix()
+    {
+        return new String(traceabilityValidatedKeyPrefix);
+    }
 }
