@@ -37,6 +37,16 @@ public class TraceabilityDataAwatingValidation extends TraceabilityData
         rejecters = new ArrayList<>();
     }
 
+    public ArrayList<Entity> getApprovers()
+    {
+        return approvers;
+    }
+
+    public ArrayList<Entity> getRejecters()
+    {
+        return rejecters;
+    }
+
     /**
      * Registers the entity passed as parameter as an approver of the traceability information.
      * @param entity An instance of class Entity containing information about the entity that has voted yes for the traceability information. For more information, please read the documentation for the Entity class.
