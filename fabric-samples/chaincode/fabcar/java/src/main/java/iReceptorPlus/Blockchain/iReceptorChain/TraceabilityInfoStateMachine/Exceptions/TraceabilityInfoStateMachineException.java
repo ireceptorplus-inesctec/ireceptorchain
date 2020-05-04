@@ -4,7 +4,7 @@ package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exc
  * This is the base class for representing exceptions that occur upon processing by the state machine.
  * Derived classes implement specific information for each type of exception.
  */
-public abstract class TraceabilityInfoStateMachineException
+public abstract class TraceabilityInfoStateMachineException extends Exception
 {
     /**
      * A string describing the exception.
