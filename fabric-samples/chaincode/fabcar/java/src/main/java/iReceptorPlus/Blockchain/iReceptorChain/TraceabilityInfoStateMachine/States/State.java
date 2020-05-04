@@ -30,7 +30,7 @@ public abstract class State
         this.api = api;
     }
 
-    public abstract void voteYesForTheVeracityOfTraceabilityInfo(TraceabilityData traceabilityData, Entity voter);
+    public abstract void voteYesForTheVeracityOfTraceabilityInfo(Entity voter);
 
     public abstract void voteNoForTheVeracityOfTraceabilityInfo(TraceabilityData traceabilityData, Entity voter);
 

@@ -1,7 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
@@ -19,8 +18,9 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public void voteYesForTheVeracityOfTraceabilityInfo(TraceabilityData traceabilityData, Entity voter)
+    public void voteYesForTheVeracityOfTraceabilityInfo(Entity voter)
     {
+        TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
         traceabilityData.registerYesVoteForValidity(voter);
         if (traceabilityData.getNumberOfApprovers() >= ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid.get())
         {

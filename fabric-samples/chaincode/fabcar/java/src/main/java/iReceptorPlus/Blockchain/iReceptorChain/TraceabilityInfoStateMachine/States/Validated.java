@@ -17,7 +17,7 @@ public class Validated extends State
     }
 
     @Override
-    public void voteYesForTheVeracityOfTraceabilityInfo(TraceabilityData traceabilityData, Entity voter)
+    public void voteYesForTheVeracityOfTraceabilityInfo(Entity voter)
     {
 
     }
