@@ -3,6 +3,7 @@ package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Sta
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 
 /**
  * This is the sub class for the state machine for the traceability information.
@@ -10,7 +11,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFab
  */
 public class Validated extends State
 {
-    public Validated(TraceabilityData traceabilityData, HyperledgerFabricChainCodeAPI api)
+    public Validated(TraceabilityDataInfo traceabilityData, HyperledgerFabricChainCodeAPI api)
     {
         super(traceabilityData, api);
     }

@@ -4,6 +4,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States.AwaitingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States.State;
@@ -19,7 +20,7 @@ public class TraceabilityInfoStateMachine
     /**
      * The TraceabilityData instance where the class will operate.
      */
-    TraceabilityData traceabilityData;
+    TraceabilityDataInfo traceabilityDataInfo;
 
     /**
      * An instance of a subclass of class State that implements the required logic for the specific state that the state machine should be in.
@@ -33,14 +34,16 @@ public class TraceabilityInfoStateMachine
      */
     HyperledgerFabricChainCodeAPI api;
 
-    public TraceabilityInfoStateMachine(TraceabilityData traceabilityData, HyperledgerFabricChainCodeAPI api) throws UnsupportedTypeOfTraceabilityInfo
+    public TraceabilityInfoStateMachine(TraceabilityDataInfo traceabilityDataInfo, HyperledgerFabricChainCodeAPI api) throws UnsupportedTypeOfTraceabilityInfo
     {
-        this.traceabilityData = traceabilityData;
+        this.traceabilityDataInfo = traceabilityDataInfo;
         this.api = api;
+        TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
+
         if (traceabilityData instanceof TraceabilityDataAwatingValidation)
-            state = new AwaitingValidation(traceabilityData, api);
+            state = new AwaitingValidation(traceabilityDataInfo, api);
         else if (traceabilityData instanceof TraceabilityDataValidated)
-            state = new Validated(traceabilityData, api);
+            state = new Validated(traceabilityDataInfo, api);
         else
             throw new UnsupportedTypeOfTraceabilityInfo("The traceability information given is not supported by the state machine");
 
