@@ -41,6 +41,7 @@ public class AwaitingValidation extends State
     {
         //TODO ver o q fazer neste caso (shut down the round immediately???)
         traceabilityDataInfo.getTraceabilityData().registerNoVoteForValidity(voter);
+        api.updateTraceabilityInfo(traceabilityDataInfo);
     }
 
     @Override
