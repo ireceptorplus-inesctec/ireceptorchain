@@ -1,8 +1,8 @@
 package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States;
 
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
 
 /**
@@ -11,29 +11,29 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFab
  */
 public class AwaitingValidation extends State
 {
-    public AwaitingValidation(TraceabilityInfo traceabilityInfo, HyperledgerFabricChainCodeAPI api)
+    public AwaitingValidation(TraceabilityData traceabilityData, HyperledgerFabricChainCodeAPI api)
     {
-        super(traceabilityInfo, api);
+        super(traceabilityData, api);
     }
 
     @Override
-    public void voteYesForTheVeracityOfTraceabilityInfo(TraceabilityInfo traceabilityInfo, Entity voter)
+    public void voteYesForTheVeracityOfTraceabilityInfo(TraceabilityData traceabilityData, Entity voter)
     {
-        traceabilityInfo.registerYesVoteForValidity(voter);
-        if (traceabilityInfo.getNumberOfApprovers() >= ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid.get())
+        traceabilityData.registerYesVoteForValidity(voter);
+        if (traceabilityData.getNumberOfApprovers() >= ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid.get())
         {
 
         }
     }
 
     @Override
-    public void voteNoForTheVeracityOfTraceabilityInfo(TraceabilityInfo traceabilityInfo, Entity voter)
+    public void voteNoForTheVeracityOfTraceabilityInfo(TraceabilityData traceabilityData, Entity voter)
     {
-        traceabilityInfo.registerNoVoteForValidity(voter);
+        traceabilityData.registerNoVoteForValidity(voter);
     }
 
     @Override
-    public void flagTraceabilityInfoAsFalse(TraceabilityInfo traceabilityInfo, Entity whistleblower)
+    public void flagTraceabilityInfoAsFalse(TraceabilityData traceabilityData, Entity whistleblower)
     {
 
     }

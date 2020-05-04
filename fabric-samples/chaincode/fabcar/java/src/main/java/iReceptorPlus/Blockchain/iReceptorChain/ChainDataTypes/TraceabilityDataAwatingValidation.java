@@ -7,10 +7,10 @@ import org.hyperledger.fabric.contract.annotation.Property;
 import java.util.ArrayList;
 
 /**
- * This is a subclass of TraceabilityInfo, representing traceability information in a specific state: after the entry was first created and submitted to the blockchain.
+ * This is a subclass of TraceabilityData, representing traceability information in a specific state: after the entry was first created and submitted to the blockchain.
  */
 @DataType()
-public class TraceabilityInfoAwatingValidation extends TraceabilityInfo
+public class TraceabilityDataAwatingValidation extends TraceabilityData
 {
 
     /**
@@ -28,9 +28,9 @@ public class TraceabilityInfoAwatingValidation extends TraceabilityInfo
     private final ArrayList<Entity> rejecters;
 
 
-    public TraceabilityInfoAwatingValidation(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
-                                     @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
-                                     @JsonProperty("processingDetails") final ProcessingDetails processingDetails)
+    public TraceabilityDataAwatingValidation(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
+                                             @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
+                                             @JsonProperty("processingDetails") final ProcessingDetails processingDetails)
     {
         super(inputDatasetHashValue, outputDatasetHashValue, processingDetails);
         approvers = new ArrayList<>();

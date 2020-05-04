@@ -165,14 +165,14 @@ public final class FabCar implements ContractInterface {
     }
 
     @Transaction()
-    public TraceabilityInfo createTraceabilityEntries(final Context ctx) {
-        TraceabilityInfo traceabilityInfoAwatingValidation = new TraceabilityInfoAwatingValidation("a","b", new ProcessingDetails("", "", "", ""));
-        TraceabilityInfo traceabilityInfoValidated = new TraceabilityInfoValidated("c","d", new ProcessingDetails("", "", "", ""), new ArrayList<>());
+    public TraceabilityData createTraceabilityEntries(final Context ctx) {
+        TraceabilityData traceabilityDataAwatingValidation = new TraceabilityDataAwatingValidation("a","b", new ProcessingDetails("", "", "", ""));
+        TraceabilityData traceabilityDataValidated = new TraceabilityDataValidated("c","d", new ProcessingDetails("", "", "", ""), new ArrayList<>());
 
         ChaincodeStub stub = ctx.getStub();
 
-        String traceabilityInfoAwatingValidationState = genson.serialize(traceabilityInfoAwatingValidation);
-        String traceabilityInfoValidatedState = genson.serialize(traceabilityInfoValidated);
+        String traceabilityInfoAwatingValidationState = genson.serialize(traceabilityDataAwatingValidation);
+        String traceabilityInfoValidatedState = genson.serialize(traceabilityDataValidated);
         stub.putStringState("traceabilityInfoAwatingValidation5", traceabilityInfoAwatingValidationState);
         stub.putStringState("traceabilityInfoValidated5", traceabilityInfoValidatedState);
 
@@ -184,7 +184,7 @@ public final class FabCar implements ContractInterface {
     public void testQueryTraceability(final Context ctx) {
         ChaincodeStub stub = ctx.getStub();
 
-        List<TraceabilityInfo> queryResults = new ArrayList<TraceabilityInfo>();
+        List<TraceabilityData> queryResults = new ArrayList<TraceabilityData>();
 
         String traceabilityInfoAwatingValidation = stub.getStringState("traceabilityInfoAwatingValidation5");
         System.err.println("traceabilityInfoAwatingValidation");
@@ -193,13 +193,13 @@ public final class FabCar implements ContractInterface {
             System.err.println("does not exist1");
         else
             System.err.println("exists1");
-        TraceabilityInfo resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityInfoAwatingValidation.class);
+        TraceabilityData resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityDataAwatingValidation.class);
         String traceabilityInfoValidated = stub.getStringState("traceabilityInfoValidated5");
         System.err.println("traceabilityInfoValidated");
         System.err.println(traceabilityInfoValidated);
         if (traceabilityInfoValidated.isEmpty())
             System.err.println("does not exist2");
-        TraceabilityInfo resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityInfoValidated.class);
+        TraceabilityData resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityDataValidated.class);
 
 
         resultsAwatingValidation.registerYesVoteForValidity(new Entity());
@@ -246,13 +246,13 @@ public final class FabCar implements ContractInterface {
             System.err.println("does not exist1");
         else
             System.err.println("exists1");
-        TraceabilityInfo resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityInfoAwatingValidation.class);
+        TraceabilityData resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityDataAwatingValidation.class);
         String traceabilityInfoValidated = stub.getStringState("traceabilityInfoValidated5");
         System.err.println("traceabilityInfoValidated");
         System.err.println(traceabilityInfoValidated);
         if (traceabilityInfoValidated.isEmpty())
             System.err.println("does not exist2");
-        TraceabilityInfo resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityInfoAwatingValidation.class);
+        TraceabilityData resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityDataAwatingValidation.class);
 
 
         resultsAwatingValidation.registerYesVoteForValidity(new Entity());

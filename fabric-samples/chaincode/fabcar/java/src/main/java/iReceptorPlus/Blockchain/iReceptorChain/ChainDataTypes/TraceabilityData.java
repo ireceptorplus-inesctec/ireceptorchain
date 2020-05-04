@@ -11,7 +11,7 @@ import org.hyperledger.fabric.contract.annotation.Property;
  * Please check the TraceabilityInfoStateMachine package for more information.
  */
 @DataType()
-public abstract class TraceabilityInfo
+public abstract class TraceabilityData
 {
     /**
      * The hash value of the input dataset used to perform the data transformation.
@@ -34,7 +34,7 @@ public abstract class TraceabilityInfo
     @Property()
     protected final ProcessingDetails processingDetails;
 
-    public TraceabilityInfo(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
+    public TraceabilityData(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                             @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
                             @JsonProperty("processingDetails") final ProcessingDetails processingDetails)
     {

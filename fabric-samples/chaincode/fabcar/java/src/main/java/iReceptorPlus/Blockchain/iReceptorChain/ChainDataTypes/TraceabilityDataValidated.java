@@ -7,10 +7,10 @@ import org.hyperledger.fabric.contract.annotation.Property;
 import java.util.ArrayList;
 
 /**
- * This is a subclass of TraceabilityInfo, representing traceability information in a specific state: after being validated and registered on the blockchain as valid traceability information.
+ * This is a subclass of TraceabilityData, representing traceability information in a specific state: after being validated and registered on the blockchain as valid traceability information.
  */
 @DataType()
-public class TraceabilityInfoValidated extends TraceabilityInfo
+public class TraceabilityDataValidated extends TraceabilityData
 {
 
     /**
@@ -29,7 +29,7 @@ public class TraceabilityInfoValidated extends TraceabilityInfo
     @Property()
     private final ArrayList<Entity> corroborators;
 
-    public TraceabilityInfoValidated(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
+    public TraceabilityDataValidated(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                                      @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
                                      @JsonProperty("processingDetails") final ProcessingDetails processingDetails,
                                      @JsonProperty("validators") final ArrayList<Entity> validators)

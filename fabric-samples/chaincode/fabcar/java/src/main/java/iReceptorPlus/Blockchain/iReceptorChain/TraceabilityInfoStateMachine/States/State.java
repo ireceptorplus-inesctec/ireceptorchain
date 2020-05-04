@@ -1,7 +1,7 @@
 package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
 
 /**
@@ -13,9 +13,9 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFab
 public abstract class State
 {
     /**
-     * The TraceabilityInfo instance where the class will operate.
+     * The TraceabilityData instance where the class will operate.
      */
-    TraceabilityInfo traceabilityInfo;
+    TraceabilityData traceabilityData;
 
     /**
      * An instance of class HyperledgerFabricChainCodeAPI created using the current blockchain context.
@@ -23,16 +23,16 @@ public abstract class State
      */
     HyperledgerFabricChainCodeAPI api;
 
-    public State(TraceabilityInfo traceabilityInfo, HyperledgerFabricChainCodeAPI api)
+    public State(TraceabilityData traceabilityData, HyperledgerFabricChainCodeAPI api)
     {
-        this.traceabilityInfo = traceabilityInfo;
+        this.traceabilityData = traceabilityData;
         this.api = api;
     }
 
-    public abstract void voteYesForTheVeracityOfTraceabilityInfo(TraceabilityInfo traceabilityInfo, Entity voter);
+    public abstract void voteYesForTheVeracityOfTraceabilityInfo(TraceabilityData traceabilityData, Entity voter);
 
-    public abstract void voteNoForTheVeracityOfTraceabilityInfo(TraceabilityInfo traceabilityInfo, Entity voter);
+    public abstract void voteNoForTheVeracityOfTraceabilityInfo(TraceabilityData traceabilityData, Entity voter);
 
-    public abstract void flagTraceabilityInfoAsFalse(TraceabilityInfo traceabilityInfo, Entity whistleblower);
+    public abstract void flagTraceabilityInfoAsFalse(TraceabilityData traceabilityData, Entity whistleblower);
 
 }

@@ -1,8 +1,8 @@
 package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine;
 
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityInfo;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityInfoAwatingValidation;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityInfoValidated;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States.AwaitingValidation;
@@ -17,13 +17,13 @@ import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Stat
 public class TraceabilityInfoStateMachine
 {
     /**
-     * The TraceabilityInfo instance where the class will operate.
+     * The TraceabilityData instance where the class will operate.
      */
-    TraceabilityInfo traceabilityInfo;
+    TraceabilityData traceabilityData;
 
     /**
      * An instance of a subclass of class State that implements the required logic for the specific state that the state machine should be in.
-     * The instance is created on the constructor, based on the type of TraceabilityInfo passed as argument to the constructor.
+     * The instance is created on the constructor, based on the type of TraceabilityData passed as argument to the constructor.
      */
     State state;
 
@@ -33,14 +33,14 @@ public class TraceabilityInfoStateMachine
      */
     HyperledgerFabricChainCodeAPI api;
 
-    public TraceabilityInfoStateMachine(TraceabilityInfo traceabilityInfo, HyperledgerFabricChainCodeAPI api) throws UnsupportedTypeOfTraceabilityInfo
+    public TraceabilityInfoStateMachine(TraceabilityData traceabilityData, HyperledgerFabricChainCodeAPI api) throws UnsupportedTypeOfTraceabilityInfo
     {
-        this.traceabilityInfo = traceabilityInfo;
+        this.traceabilityData = traceabilityData;
         this.api = api;
-        if (traceabilityInfo instanceof TraceabilityInfoAwatingValidation)
-            state = new AwaitingValidation(traceabilityInfo, api);
-        else if (traceabilityInfo instanceof TraceabilityInfoValidated)
-            state = new Validated(traceabilityInfo, api);
+        if (traceabilityData instanceof TraceabilityDataAwatingValidation)
+            state = new AwaitingValidation(traceabilityData, api);
+        else if (traceabilityData instanceof TraceabilityDataValidated)
+            state = new Validated(traceabilityData, api);
         else
             throw new UnsupportedTypeOfTraceabilityInfo("The traceability information given is not supported by the state machine");
 
