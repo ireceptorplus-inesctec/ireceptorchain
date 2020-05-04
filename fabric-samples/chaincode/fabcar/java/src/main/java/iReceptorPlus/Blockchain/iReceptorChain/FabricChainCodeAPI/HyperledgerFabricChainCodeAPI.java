@@ -24,13 +24,19 @@ public class HyperledgerFabricChainCodeAPI
         this.ctx = ctx;
     }
 
-    public void createdTraceabilityInfo(TraceabilityDataInfo traceabilityDataInfo)
+    public void createTraceabilityInfo(TraceabilityDataInfo traceabilityDataInfo)
     {
         //TODO
     }
 
-    public void switchTraceabilityInfoStateFromAwaitingValidationToValidated(TraceabilityDataInfo newTraceabilityDataInfo)
+    public void updateTraceabilityInfo(TraceabilityDataInfo traceabilityDataInfo)
     {
         //TODO
+    }
+
+
+    public void switchTraceabilityInfoStateFromAwaitingValidationToValidated(TraceabilityDataInfo newTraceabilityDataInfo)
+    {
+        //TODO delete older one and insert new one
     }
 }
