@@ -1,5 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI;
 
+import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import org.hyperledger.fabric.contract.Context;
 
 /**
@@ -21,5 +22,15 @@ public class HyperledgerFabricChainCodeAPI
     public HyperledgerFabricChainCodeAPI(Context ctx)
     {
         this.ctx = ctx;
+    }
+
+    public void createdTraceabilityInfo(TraceabilityDataInfo traceabilityDataInfo)
+    {
+        //TODO
+    }
+
+    public void switchTraceabilityInfoStateFromAwaitingValidationToValidated(TraceabilityDataInfo traceabilityDataInfo)
+    {
+        //TODO
     }
 }
