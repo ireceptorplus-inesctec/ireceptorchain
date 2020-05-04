@@ -7,8 +7,7 @@ package iReceptorPlus.Blockchain.iReceptorChain;
 import java.util.ArrayList;
 import java.util.List;
 
-import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.*;
-import org.hyperledger.fabric.Logger;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.Contact;

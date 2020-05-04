@@ -1,8 +1,8 @@
 package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine;
 
-import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfo;
-import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfoAwatingValidation;
-import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfoValidated;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityInfoAwatingValidation;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityInfoValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States.AwaitingValidation;

@@ -1,4 +1,4 @@
-package iReceptorPlus.Blockchain.iReceptorChain.DataTypes;
+package iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes;
 
 /**
  * This class represents and entity.
