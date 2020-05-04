@@ -38,9 +38,9 @@ public class TraceabilityInfoStateMachine
         this.traceabilityInfo = traceabilityInfo;
         this.api = api;
         if (traceabilityInfo instanceof TraceabilityInfoAwatingValidation)
-            state = new AwaitingValidation();
+            state = new AwaitingValidation(traceabilityInfo, api);
         else if (traceabilityInfo instanceof TraceabilityInfoValidated)
-            state = new Validated();
+            state = new Validated(traceabilityInfo, api);
         else
             throw new UnsupportedTypeOfTraceabilityInfo("The traceability information given is not supported by the state machine");
 
