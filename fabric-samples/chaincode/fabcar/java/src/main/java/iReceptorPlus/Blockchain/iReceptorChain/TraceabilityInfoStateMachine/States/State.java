@@ -2,6 +2,7 @@ package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Sta
 
 import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.Entity;
 import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
 
 /**
  * This is the base class for the state machine for the traceability information.
@@ -11,6 +12,22 @@ import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfo;
  */
 public abstract class State
 {
+    /**
+     * The TraceabilityInfo instance where the class will operate.
+     */
+    TraceabilityInfo traceabilityInfo;
+
+    /**
+     * An instance of class HyperledgerFabricChainCodeAPI created using the current blockchain context.
+     * The class implements all calls to the Hyperledger API in order to abstract that logic from this class (TraceabilityInfoStateMachine).
+     */
+    HyperledgerFabricChainCodeAPI api;
+
+    public State(TraceabilityInfo traceabilityInfo, HyperledgerFabricChainCodeAPI api)
+    {
+        this.traceabilityInfo = traceabilityInfo;
+        this.api = api;
+    }
 
     public abstract void voteYesForTheVeracityOfTraceabilityInfo(TraceabilityInfo traceabilityInfo, Entity voter);
 
