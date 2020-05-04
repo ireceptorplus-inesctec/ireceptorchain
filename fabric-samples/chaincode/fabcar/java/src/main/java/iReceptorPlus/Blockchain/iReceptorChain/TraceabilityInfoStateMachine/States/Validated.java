@@ -1,7 +1,7 @@
 package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricChainCodeAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 
 /**

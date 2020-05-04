@@ -5,7 +5,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAw
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricChainCodeAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 
 /**
