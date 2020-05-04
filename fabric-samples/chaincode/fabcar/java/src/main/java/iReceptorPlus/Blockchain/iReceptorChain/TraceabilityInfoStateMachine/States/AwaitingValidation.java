@@ -44,9 +44,4 @@ public class AwaitingValidation extends State
         api.updateTraceabilityInfo(traceabilityDataInfo);
     }
 
-    @Override
-    public void flagTraceabilityInfoAsFalse(Entity whistleblower)
-    {
-
-    }
 }

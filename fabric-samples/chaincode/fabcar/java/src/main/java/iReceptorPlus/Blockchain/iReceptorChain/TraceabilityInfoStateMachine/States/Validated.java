@@ -28,9 +28,4 @@ public class Validated extends State
         //TODO ver o que fazer quando alguem vota nao a algo q ja foi aprovado
     }
 
-    @Override
-    public void flagTraceabilityInfoAsFalse(Entity whistleblower)
-    {
-
-    }
 }

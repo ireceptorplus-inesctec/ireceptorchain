@@ -33,6 +33,4 @@ public abstract class State
 
     public abstract void voteNoForTheVeracityOfTraceabilityInfo(Entity voter);
 
-    public abstract void flagTraceabilityInfoAsFalse(Entity whistleblower);
-
 }
