@@ -1,7 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 
@@ -32,8 +31,8 @@ public abstract class State
 
     public abstract void voteYesForTheVeracityOfTraceabilityInfo(Entity voter);
 
-    public abstract void voteNoForTheVeracityOfTraceabilityInfo(TraceabilityData traceabilityData, Entity voter);
+    public abstract void voteNoForTheVeracityOfTraceabilityInfo(Entity voter);
 
-    public abstract void flagTraceabilityInfoAsFalse(TraceabilityData traceabilityData, Entity whistleblower);
+    public abstract void flagTraceabilityInfoAsFalse(Entity whistleblower);
 
 }

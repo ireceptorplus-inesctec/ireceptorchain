@@ -1,7 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 
@@ -23,13 +22,13 @@ public class Validated extends State
     }
 
     @Override
-    public void voteNoForTheVeracityOfTraceabilityInfo(TraceabilityData traceabilityData, Entity voter)
+    public void voteNoForTheVeracityOfTraceabilityInfo(Entity voter)
     {
 
     }
 
     @Override
-    public void flagTraceabilityInfoAsFalse(TraceabilityData traceabilityData, Entity whistleblower)
+    public void flagTraceabilityInfoAsFalse(Entity whistleblower)
     {
 
     }

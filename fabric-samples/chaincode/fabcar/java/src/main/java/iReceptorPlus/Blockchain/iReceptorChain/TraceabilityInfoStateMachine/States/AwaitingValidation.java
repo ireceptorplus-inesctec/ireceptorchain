@@ -29,14 +29,14 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public void voteNoForTheVeracityOfTraceabilityInfo(TraceabilityData traceabilityData, Entity voter)
+    public void voteNoForTheVeracityOfTraceabilityInfo(Entity voter)
     {
         //TODO ver o q fazer neste caso (shut down the round immediately???)
-        traceabilityData.registerNoVoteForValidity(voter);
+        traceabilityDataInfo.getTraceabilityData().registerNoVoteForValidity(voter);
     }
 
     @Override
-    public void flagTraceabilityInfoAsFalse(TraceabilityData traceabilityData, Entity whistleblower)
+    public void flagTraceabilityInfoAsFalse(Entity whistleblower)
     {
 
     }
