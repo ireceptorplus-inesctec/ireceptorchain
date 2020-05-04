@@ -29,7 +29,7 @@ public class HyperledgerFabricChainCodeAPI
         //TODO
     }
 
-    public void switchTraceabilityInfoStateFromAwaitingValidationToValidated(TraceabilityDataInfo traceabilityDataInfo)
+    public void switchTraceabilityInfoStateFromAwaitingValidationToValidated(TraceabilityDataInfo newTraceabilityDataInfo)
     {
         //TODO
     }
