@@ -1,5 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine;
 
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
@@ -47,5 +48,15 @@ public class TraceabilityInfoStateMachine
         else
             throw new UnsupportedTypeOfTraceabilityInfo("The traceability information given is not supported by the state machine");
 
+    }
+
+    public void voteYesForTheVeracityOfTraceabilityInfo(Entity voter)
+    {
+        state.voteYesForTheVeracityOfTraceabilityInfo(voter);
+    }
+
+    public void voteNoForTheVeracityOfTraceabilityInfo(Entity voter)
+    {
+        state.voteNoForTheVeracityOfTraceabilityInfo(voter);
     }
 }
