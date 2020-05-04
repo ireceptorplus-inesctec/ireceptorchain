@@ -3,6 +3,7 @@ package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine;
 import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfoAwatingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.DataTypes.TraceabilityInfoValidated;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States.AwaitingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States.State;
@@ -19,15 +20,23 @@ public class TraceabilityInfoStateMachine
      * The TraceabilityInfo instance where the class will operate.
      */
     TraceabilityInfo traceabilityInfo;
+
     /**
      * An instance of a subclass of class State that implements the required logic for the specific state that the state machine should be in.
      * The instance is created on the constructor, based on the type of TraceabilityInfo passed as argument to the constructor.
      */
     State state;
 
-    public TraceabilityInfoStateMachine(TraceabilityInfo traceabilityInfo) throws UnsupportedTypeOfTraceabilityInfo
+    /**
+     * An instance of class HyperledgerFabricChainCodeAPI created using the current blockchain context.
+     * The class implements all calls to the Hyperledger API in order to abstract that logic from this class (TraceabilityInfoStateMachine).
+     */
+    HyperledgerFabricChainCodeAPI api;
+
+    public TraceabilityInfoStateMachine(TraceabilityInfo traceabilityInfo, HyperledgerFabricChainCodeAPI api) throws UnsupportedTypeOfTraceabilityInfo
     {
         this.traceabilityInfo = traceabilityInfo;
+        this.api = api;
         if (traceabilityInfo instanceof TraceabilityInfoAwatingValidation)
             state = new AwaitingValidation();
         else if (traceabilityInfo instanceof TraceabilityInfoValidated)
