@@ -6,8 +6,11 @@ package iReceptorPlus.Blockchain.iReceptorChain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricChainCodeAPI.HyperledgerFabricChainCodeAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.Contact;
@@ -290,5 +293,36 @@ public final class iReceptorChain implements ContractInterface {
         stub.putStringState(key, newCarState);
 
         return newCar;
+    }
+
+    /**
+     * Creates a new traceability data entry on the ledger.
+     * The entry is placed on the pool of traceability data's waiting to be validated by peers.
+     *
+     * @param ctx the transaction context
+     * @param inputDatasetHashValue the hash value of the input dataset used to perform the data transformation.
+     * @param outputDatasetHashValue the hash value of the output dataset used to perform the data transformation.
+     * @param softwareId an unique identifier of the software used to perform the data transformation.
+     * @param softwareVersion the version of the software used to perform the data transformation.
+     * @param softwareBinaryExecutableHashValue the hash value of the binary executable used to perform the data transformation.
+     * @param softwareConfigParams the configuration parameters of the software used to perform the data transformation.
+     * @return the created Car
+     */
+    @Transaction()
+    public TraceabilityDataInfo createTraceabilityDataEntry(final Context ctx, final String inputDatasetHashValue,
+                         final String outputDatasetHashValue, final String softwareId,
+                         final String softwareVersion, final String softwareBinaryExecutableHashValue,
+                         final String softwareConfigParams) {
+        ChaincodeStub stub = ctx.getStub();
+
+        TraceabilityData traceabilityData = new TraceabilityDataAwatingValidation(inputDatasetHashValue, outputDatasetHashValue,
+                new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams));
+        UUID uuid = UUID.randomUUID();
+        String key = ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + uuid.toString();
+        TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(key, traceabilityData);
+        HyperledgerFabricChainCodeAPI api = new HyperledgerFabricChainCodeAPI(ctx);
+        api.createTraceabilityInfo(traceabilityDataInfo);
+
+        return traceabilityDataInfo;
     }
 }
