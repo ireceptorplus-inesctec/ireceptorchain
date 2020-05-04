@@ -10,12 +10,12 @@ public class ChaincodeConfigs
 
     private static String traceabilityValidatedKeyPrefix = "TracreabilityInfoValidated";
 
-    public static String getTraceabilityAwaitingValidationKeyPrefix()
+    public synchronized static String getTraceabilityAwaitingValidationKeyPrefix()
     {
         return new String(traceabilityAwaitingValidationKeyPrefix);
     }
 
-    public static String getTraceabilityValidatedKeyPrefix()
+    public synchronized static String getTraceabilityValidatedKeyPrefix()
     {
         return new String(traceabilityValidatedKeyPrefix);
     }
