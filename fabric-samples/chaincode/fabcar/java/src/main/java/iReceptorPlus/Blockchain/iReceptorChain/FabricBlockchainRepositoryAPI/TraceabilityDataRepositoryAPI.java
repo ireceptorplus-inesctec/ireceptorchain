@@ -1,6 +1,7 @@
 package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 import org.hyperledger.fabric.contract.Context;
 
 /**
@@ -16,5 +17,12 @@ public class TraceabilityDataRepositoryAPI extends HyperledgerFabricBlockhainRep
     public TraceabilityDataRepositoryAPI(Context ctx)
     {
         super(ctx, TraceabilityData.class);
+    }
+
+    @Override
+    protected iReceptorChainDataType deserializeData(String serializedData)
+    {
+        //TODO
+        return null;
     }
 }
