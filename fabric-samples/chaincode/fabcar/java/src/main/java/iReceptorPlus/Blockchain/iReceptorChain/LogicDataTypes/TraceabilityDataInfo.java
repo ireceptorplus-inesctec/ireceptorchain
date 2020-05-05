@@ -1,23 +1,18 @@
 package iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 
 public class TraceabilityDataInfo extends iReceptorChainDataTypeInfo
 {
-    /**
-     * The traceability data that this class refers to just as it is stored on chain.
-     */
-    protected TraceabilityData traceabilityData;
-
-    public TraceabilityDataInfo(String key, TraceabilityData traceabilityData)
+    public TraceabilityDataInfo(String key, iReceptorChainDataType data)
     {
-        this.key = key;
-        this.traceabilityData = traceabilityData;
+        super(key, data);
     }
 
     public TraceabilityData getTraceabilityData()
     {
-        return traceabilityData;
+        return (TraceabilityData) data;
     }
 
     public String getKey()
