@@ -52,15 +52,15 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     public String create(iReceptorChainDataType data)
     {
         UUID newUUID = UUID.randomUUID();
-        putEntryToDB(data, newUUID);
+        putEntryToDB(newUUID.toString(), data);
 
         return newUUID.toString();
     }
 
-    private void putEntryToDB(iReceptorChainDataType data, UUID newUUID)
+    private void putEntryToDB(String key, iReceptorChainDataType data)
     {
         String serializedData = genson.serialize(data);
-        ctx.getStub().putStringState(objectTypeIdentifier + "-" + newUUID.toString(), serializedData);
+        ctx.getStub().putStringState(objectTypeIdentifier + "-" + key, serializedData);
     }
 
     private iReceptorChainDataType getDataTypeFromDB(String key) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
@@ -81,8 +81,9 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
 
     public iReceptorChainDataTypeInfo updateTraceabilityInfo(iReceptorChainDataTypeInfo traceabilityDataInfo)
     {
-        //TODO
-        return null;
+        putEntryToDB(traceabilityDataInfo.getKey(), traceabilityDataInfo.getData());
+
+        return traceabilityDataInfo;
     }
 
 
