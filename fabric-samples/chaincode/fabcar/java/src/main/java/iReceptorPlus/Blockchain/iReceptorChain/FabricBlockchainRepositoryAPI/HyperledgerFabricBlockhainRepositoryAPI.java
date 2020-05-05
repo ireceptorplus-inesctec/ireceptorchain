@@ -58,16 +58,22 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         return newUUID.toString();
     }
 
-    public iReceptorChainDataType read(String key) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
+    private iReceptorChainDataType getDataTypeFromDB(String key) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
         String serializedData = ctx.getStub().getStringState(key);
         if (serializedData.isEmpty())
             throw new ObjectWithGivenKeyNotFoundOnBlockchainDB("The object referenced does not exist on the blockchain database", key);
 
-        iReceptorChainDataType object = genson.deserialize(serializedData, objectType);
+        return genson.deserialize(serializedData, objectType);
+    }
+
+    public iReceptorChainDataType read(String key) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
+    {
+        iReceptorChainDataType object = getDataTypeFromDB(key);
 
         return object;
     }
+
 
     public iReceptorChainDataTypeInfo updateTraceabilityInfo(iReceptorChainDataTypeInfo traceabilityDataInfo)
     {
