@@ -69,8 +69,10 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         if (serializedData.isEmpty())
             throw new ObjectWithGivenKeyNotFoundOnBlockchainDB("The object referenced does not exist on the blockchain database", key);
 
-        return genson.deserialize(serializedData, objectType);
+        return deserializeData(serializedData);
     }
+
+    protected abstract iReceptorChainDataType deserializeData(String serializedData);
 
     public iReceptorChainDataType read(String key) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
