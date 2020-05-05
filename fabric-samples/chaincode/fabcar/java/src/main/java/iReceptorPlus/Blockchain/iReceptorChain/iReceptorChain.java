@@ -256,9 +256,9 @@ public final class iReceptorChain implements ContractInterface {
         System.err.println(traceabilityInfoValidated);
         if (traceabilityInfoValidated.isEmpty())
             System.err.println("does not exist2");
-        TraceabilityData resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityDataAwatingValidation.class);
+        iReceptorChainDataType resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityDataAwatingValidation.class);
 
-        return resultsValidated;
+        return (TraceabilityData) resultsValidated;
 /*
         resultsAwatingValidation.registerYesVoteForValidity(new Entity());
         resultsValidated.registerYesVoteForValidity(new Entity());
