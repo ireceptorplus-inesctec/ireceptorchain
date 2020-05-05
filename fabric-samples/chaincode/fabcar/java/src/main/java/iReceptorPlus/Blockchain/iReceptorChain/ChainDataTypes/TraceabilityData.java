@@ -11,7 +11,7 @@ import org.hyperledger.fabric.contract.annotation.Property;
  * Please check the TraceabilityInfoStateMachine package for more information.
  */
 @DataType()
-public abstract class TraceabilityData
+public abstract class TraceabilityData implements iReceptorChainDataType
 {
     /**
      * The hash value of the input dataset used to perform the data transformation.

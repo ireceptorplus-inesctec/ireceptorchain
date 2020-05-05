@@ -8,7 +8,7 @@ import org.hyperledger.fabric.contract.annotation.Property;
  * This class represents the steps taken to make a data transformation.
  */
 @DataType()
-public class ProcessingDetails
+public class ProcessingDetails implements iReceptorChainDataType
 {
     /**
      * An unique identifier of the software used to perform the data transformation.
