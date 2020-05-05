@@ -215,7 +215,7 @@ public final class iReceptorChain implements ContractInterface {
 
 
     @Transaction()
-    public void test(final Context ctx) {
+    public iReceptorChainDataType test(final Context ctx) {
         ChaincodeStub stub = ctx.getStub();
 
 /*
@@ -250,7 +250,7 @@ public final class iReceptorChain implements ContractInterface {
             System.err.println("does not exist1");
         else
             System.err.println("exists1");
-        TraceabilityData resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityDataAwatingValidation.class);
+        iReceptorChainDataType resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityDataAwatingValidation.class);
         String traceabilityInfoValidated = stub.getStringState("traceabilityInfoValidated5");
         System.err.println("traceabilityInfoValidated");
         System.err.println(traceabilityInfoValidated);
@@ -258,11 +258,12 @@ public final class iReceptorChain implements ContractInterface {
             System.err.println("does not exist2");
         TraceabilityData resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityDataAwatingValidation.class);
 
-
+        return resultsAwatingValidation;
+/*
         resultsAwatingValidation.registerYesVoteForValidity(new Entity());
         resultsValidated.registerYesVoteForValidity(new Entity());
         System.err.println("stuff4");
-
+*/
 
     }
 
