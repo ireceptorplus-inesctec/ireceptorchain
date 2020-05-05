@@ -30,7 +30,7 @@ public class AwaitingValidation extends State
                     traceabilityData.getOutputDatasetHashValue(), traceabilityData.getProcessingDetails(),
                     ((TraceabilityDataAwatingValidation)traceabilityData).getApprovers());
 
-            TraceabilityDataInfo newTraceabilityDataInfo = new TraceabilityDataInfo(newTraceabilityData, traceabilityDataInfo.getKey());
+            TraceabilityDataInfo newTraceabilityDataInfo = new TraceabilityDataInfo(traceabilityDataInfo.getKey(), newTraceabilityData);
 
             api.switchTraceabilityInfoStateFromAwaitingValidationToValidated(newTraceabilityDataInfo);
         }
