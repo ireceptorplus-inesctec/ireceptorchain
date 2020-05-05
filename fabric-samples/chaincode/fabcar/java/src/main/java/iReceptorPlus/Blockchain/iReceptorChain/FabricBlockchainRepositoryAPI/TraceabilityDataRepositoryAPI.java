@@ -1,7 +1,11 @@
 package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI;
 
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import org.hyperledger.fabric.contract.Context;
 
+/**
+ * This is a superclass of the HyperledgerFabricBlockhainRepositoryAPI
+ */
 public class TraceabilityDataRepositoryAPI extends HyperledgerFabricBlockhainRepositoryAPI
 {
     /**
@@ -11,6 +15,6 @@ public class TraceabilityDataRepositoryAPI extends HyperledgerFabricBlockhainRep
      */
     public TraceabilityDataRepositoryAPI(Context ctx)
     {
-        super(ctx);
+        super(ctx, TraceabilityData.class);
     }
 }
