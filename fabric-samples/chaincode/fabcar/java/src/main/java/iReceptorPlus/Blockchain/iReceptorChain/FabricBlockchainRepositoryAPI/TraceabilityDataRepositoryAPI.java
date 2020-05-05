@@ -7,7 +7,7 @@ import org.hyperledger.fabric.contract.Context;
 /**
  * This is a superclass of the HyperledgerFabricBlockhainRepositoryAPI
  */
-public class TraceabilityDataRepositoryAPI extends HyperledgerFabricBlockhainRepositoryAPI
+public abstract class TraceabilityDataRepositoryAPI extends HyperledgerFabricBlockhainRepositoryAPI
 {
     /**
      * Constructor for this class.
@@ -17,12 +17,5 @@ public class TraceabilityDataRepositoryAPI extends HyperledgerFabricBlockhainRep
     public TraceabilityDataRepositoryAPI(Context ctx)
     {
         super(ctx, TraceabilityData.class);
-    }
-
-    @Override
-    protected iReceptorChainDataType deserializeData(String serializedData)
-    {
-        //TODO
-        return null;
     }
 }
