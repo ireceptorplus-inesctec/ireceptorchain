@@ -26,11 +26,18 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
      */
     Class objectType;
 
+    /**
+     * A String that uniquely identifies the object type that will be stored on the blockchain database by this repository class.
+     * It will be used to build the key for storing the object on the blockchain.
+     */
+    String objectTypeIdentifier;
+
     Genson genson = new Genson();
 
     /**
      * Constructor for this class.
-     * @param ctx The blockchain context in which this class will perform the required tasks.
+     *
+     * @param ctx        The blockchain context in which this class will perform the required tasks.
      * @param objectType The type of object that will be serialized in order to be saved in the database.
      */
     public HyperledgerFabricBlockhainRepositoryAPI(Context ctx, Class objectType)
@@ -41,6 +48,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
 
     public iReceptorChainDataTypeInfo create(iReceptorChainDataType data)
     {
+        String serializedData =
         return null;
     }
 
