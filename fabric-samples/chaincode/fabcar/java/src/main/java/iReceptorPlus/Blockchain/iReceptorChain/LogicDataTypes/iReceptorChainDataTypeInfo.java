@@ -23,4 +23,10 @@ public abstract class iReceptorChainDataTypeInfo
     {
         return data;
     }
+
+    public iReceptorChainDataTypeInfo(String key, iReceptorChainDataTypeInfo data)
+    {
+        this.key = key;
+        this.data = data;
+    }
 }
