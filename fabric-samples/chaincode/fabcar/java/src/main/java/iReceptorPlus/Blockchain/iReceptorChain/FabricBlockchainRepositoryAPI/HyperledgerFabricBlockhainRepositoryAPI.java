@@ -1,6 +1,8 @@
 package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI;
 
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import org.hyperledger.fabric.contract.Context;
 
 /**
@@ -13,7 +15,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     /**
      * The blockchain context in which this class will perform the required tasks.
      */
-    private Context ctx;
+    protected Context ctx;
 
     /**
      * Constructor for this class.
@@ -24,19 +26,22 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         this.ctx = ctx;
     }
 
-    public void createTraceabilityInfo(TraceabilityDataInfo traceabilityDataInfo)
+    public iReceptorChainDataTypeInfo create(iReceptorChainDataType data)
     {
         //TODO
+        return null;
     }
 
-    public void getTraceabilityInfo(String key)
+    public iReceptorChainDataTypeInfo getTraceabilityInfo(String key)
     {
         //TODO
+        return null;
     }
 
-    public void updateTraceabilityInfo(TraceabilityDataInfo traceabilityDataInfo)
+    public iReceptorChainDataTypeInfo updateTraceabilityInfo(iReceptorChainDataTypeInfo traceabilityDataInfo)
     {
         //TODO
+        return null;
     }
 
 
