@@ -2,9 +2,12 @@ package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI;
 
 import com.owlike.genson.Genson;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import org.hyperledger.fabric.contract.Context;
+
+import java.util.UUID;
 
 /**
  * This class is an API that handles all calls to the hyperledger functions that are necessary for CRUD operations.
@@ -46,16 +49,24 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         this.objectType = objectType;
     }
 
-    public iReceptorChainDataTypeInfo create(iReceptorChainDataType data)
+    public String create(iReceptorChainDataType data)
     {
-        //String serializedData =
-        return null;
+        String serializedData = genson.serialize(data);
+        UUID newUUID = UUID.randomUUID();
+        ctx.getStub().putStringState(objectTypeIdentifier + "-" + newUUID.toString(), serializedData);
+
+        return newUUID.toString();
     }
 
-    public iReceptorChainDataTypeInfo getTraceabilityInfo(String key)
+    public iReceptorChainDataType read(String key) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
-        //TODO
-        return null;
+        String serializedData = ctx.getStub().getStringState(key);
+        if (serializedData.isEmpty())
+            throw new ObjectWithGivenKeyNotFoundOnBlockchainDB("The object referenced does not exist on the blockchain database", key);
+
+        iReceptorChainDataType object = genson.deserialize(serializedData, objectType);
+
+        return object;
     }
 
     public iReceptorChainDataTypeInfo updateTraceabilityInfo(iReceptorChainDataTypeInfo traceabilityDataInfo)
