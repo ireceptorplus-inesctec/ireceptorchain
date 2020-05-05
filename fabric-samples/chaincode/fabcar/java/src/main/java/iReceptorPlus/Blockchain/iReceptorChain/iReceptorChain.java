@@ -170,8 +170,8 @@ public final class iReceptorChain implements ContractInterface {
 
     @Transaction()
     public TraceabilityData createTraceabilityEntries(final Context ctx) {
-        TraceabilityData traceabilityDataAwatingValidation = new TraceabilityDataAwatingValidation("a","b", new ProcessingDetails("", "", "", ""));
-        TraceabilityData traceabilityDataValidated = new TraceabilityDataValidated("c","d", new ProcessingDetails("", "", "", ""), new ArrayList<>());
+        iReceptorChainDataType traceabilityDataAwatingValidation = new TraceabilityDataAwatingValidation("a","b", new ProcessingDetails("", "", "", ""));
+        iReceptorChainDataType traceabilityDataValidated = new TraceabilityDataValidated("c","d", new ProcessingDetails("", "", "", ""), new ArrayList<>());
 
         ChaincodeStub stub = ctx.getStub();
 
@@ -191,7 +191,7 @@ public final class iReceptorChain implements ContractInterface {
         List<TraceabilityData> queryResults = new ArrayList<TraceabilityData>();
 
         String traceabilityInfoAwatingValidation = stub.getStringState("traceabilityInfoAwatingValidation5");
-        System.err.println("traceabilityInfoAwatingValidation");
+        System.err.println("*******traceabilityInfoAwatingValidation******");
         System.err.println(traceabilityInfoAwatingValidation);
         if (traceabilityInfoAwatingValidation.isEmpty())
             System.err.println("does not exist1");
@@ -199,7 +199,7 @@ public final class iReceptorChain implements ContractInterface {
             System.err.println("exists1");
         TraceabilityData resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityDataAwatingValidation.class);
         String traceabilityInfoValidated = stub.getStringState("traceabilityInfoValidated5");
-        System.err.println("traceabilityInfoValidated");
+        System.err.println("******traceabilityInfoValidated********");
         System.err.println(traceabilityInfoValidated);
         if (traceabilityInfoValidated.isEmpty())
             System.err.println("does not exist2");
@@ -322,7 +322,7 @@ public final class iReceptorChain implements ContractInterface {
         String key = ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + uuid.toString();
         TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(key, traceabilityData);
         HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
-        api.createTraceabilityInfo(traceabilityDataInfo);
+        //api.createTraceabilityInfo(traceabilityDataInfo);
 
         return traceabilityDataInfo;
     }
