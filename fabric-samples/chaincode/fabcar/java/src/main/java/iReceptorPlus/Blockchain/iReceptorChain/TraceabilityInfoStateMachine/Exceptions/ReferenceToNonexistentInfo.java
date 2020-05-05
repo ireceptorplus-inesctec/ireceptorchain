@@ -19,7 +19,7 @@ public class ReferenceToNonexistentInfo extends TraceabilityInfoStateMachineExce
 
     /**
      * Getter to the id object.
-     * @return
+     * @return the id object.
      */
     public String getId()
     {
