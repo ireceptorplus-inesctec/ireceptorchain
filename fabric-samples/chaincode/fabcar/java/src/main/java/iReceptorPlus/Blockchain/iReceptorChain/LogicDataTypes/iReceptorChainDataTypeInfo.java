@@ -1,6 +1,7 @@
 package iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 
 public abstract class iReceptorChainDataTypeInfo
 {
@@ -12,19 +13,19 @@ public abstract class iReceptorChainDataTypeInfo
     /**
      * The data that this class refers to just as it is stored on chain.
      */
-    protected iReceptorChainDataTypeInfo data;
+    protected iReceptorChainDataType data;
 
     public String getKey()
     {
         return key;
     }
 
-    public iReceptorChainDataTypeInfo getData()
+    public iReceptorChainDataType getData()
     {
         return data;
     }
 
-    public iReceptorChainDataTypeInfo(String key, iReceptorChainDataTypeInfo data)
+    public iReceptorChainDataTypeInfo(String key, iReceptorChainDataType data)
     {
         this.key = key;
         this.data = data;
