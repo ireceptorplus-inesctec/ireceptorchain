@@ -48,7 +48,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
 
     public iReceptorChainDataTypeInfo create(iReceptorChainDataType data)
     {
-        String serializedData =
+        //String serializedData =
         return null;
     }
 
