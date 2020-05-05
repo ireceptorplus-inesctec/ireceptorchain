@@ -88,9 +88,4 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         return traceabilityDataInfo;
     }
 
-
-    public void switchTraceabilityInfoStateFromAwaitingValidationToValidated(TraceabilityDataInfo newTraceabilityDataInfo)
-    {
-        //TODO delete older one and insert new one
-    }
 }
