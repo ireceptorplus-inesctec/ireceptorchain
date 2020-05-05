@@ -14,7 +14,7 @@ import java.util.UUID;
  * It is used to abstract database related calls to the hyperledger API from the application logic.
  * The class receives the blockchain context on which it will perform the operations and can then be called to perform CRUD operations on that same context without the need for interacting directly with hyperledger fabric's methods.
  * The class is abstract and defines the methods for CRUD operations.
- * Subclasses will implement the specific logic necessary to handle these operations for each one of the data types.
+ * Subclasses will implement the specific logic necessary to handle these operations for each one of the data types but generalization is maintained whenever possible.
  */
 public abstract class HyperledgerFabricBlockhainRepositoryAPI
 {
