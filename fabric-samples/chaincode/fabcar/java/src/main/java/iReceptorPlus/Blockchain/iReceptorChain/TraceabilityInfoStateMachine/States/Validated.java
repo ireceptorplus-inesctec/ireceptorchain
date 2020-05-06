@@ -19,7 +19,7 @@ public class Validated extends State
     public void voteYesForTheVeracityOfTraceabilityInfo(Entity voter)
     {
         traceabilityDataInfo.getTraceabilityData().registerYesVoteForValidity(voter);
-        api.updateTraceabilityInfo(traceabilityDataInfo);
+        api.update(traceabilityDataInfo);
     }
 
     @Override
