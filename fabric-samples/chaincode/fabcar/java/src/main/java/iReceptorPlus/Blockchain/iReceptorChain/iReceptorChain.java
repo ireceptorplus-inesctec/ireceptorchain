@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataAwatingValidationRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
@@ -302,6 +303,7 @@ public final class iReceptorChain implements ContractInterface {
      * The entry is placed on the pool of traceability data's waiting to be validated by peers.
      *
      * @param ctx the transaction context
+     * @param newUUID the new UUID of the object to be created. This is generated at client-side in order to avoid different blockchain nodes reaching different ids for the same transaction for a creation of an object.
      * @param inputDatasetHashValue the hash value of the input dataset used to perform the data transformation.
      * @param outputDatasetHashValue the hash value of the output dataset used to perform the data transformation.
      * @param softwareId an unique identifier of the software used to perform the data transformation.
@@ -311,7 +313,7 @@ public final class iReceptorChain implements ContractInterface {
      * @return the created Car
      */
     @Transaction()
-    public TraceabilityDataInfo createTraceabilityDataEntry(final Context ctx, final String inputDatasetHashValue,
+    public TraceabilityDataInfo createTraceabilityDataEntry(final Context ctx, final String newUUID, final String inputDatasetHashValue,
                          final String outputDatasetHashValue, final String softwareId,
                          final String softwareVersion, final String softwareBinaryExecutableHashValue,
                          final String softwareConfigParams) {
@@ -319,12 +321,18 @@ public final class iReceptorChain implements ContractInterface {
 
         TraceabilityData traceabilityData = new TraceabilityDataAwatingValidation(inputDatasetHashValue, outputDatasetHashValue,
                 new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams));
-        UUID uuid = UUID.randomUUID();
-        String key = ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + uuid.toString();
-        TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(key, traceabilityData);
-        HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
-        //api.createTraceabilityInfo(traceabilityDataInfo);
 
+        HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
+        String key = null;
+        try
+        {
+            key = api.create(newUUID, traceabilityData);
+        } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
+        {
+            givenIdIsAlreadyAssignedToAnotherObject.printStackTrace();
+        }
+
+        TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(key, traceabilityData);
         return traceabilityDataInfo;
     }
 }
