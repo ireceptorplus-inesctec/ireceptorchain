@@ -1,6 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions;
 
-public class ObjectWithGivenKeyNotFoundOnBlockchainDB extends HyperledgerFabricBlockhainRepositoryAPIException
+public class ObjectWithGivenKeyNotFoundOnBlockchainDB extends ReferenceToIdException
 {
     /**
      * The id used to reference the traceability information.
