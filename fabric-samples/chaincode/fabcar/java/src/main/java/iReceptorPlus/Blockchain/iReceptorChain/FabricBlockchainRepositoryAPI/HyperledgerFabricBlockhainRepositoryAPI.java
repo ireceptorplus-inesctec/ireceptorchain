@@ -98,6 +98,14 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         return object;
     }
 
+
+    public iReceptorChainDataType update(String key, iReceptorChainDataType traceabilityDataInfo)
+    {
+        putEntryToDB(key, traceabilityDataInfo);
+
+        return traceabilityDataInfo;
+    }
+
     public iReceptorChainDataTypeInfo update(iReceptorChainDataTypeInfo traceabilityDataInfo)
     {
         putEntryToDB(traceabilityDataInfo.getKey(), traceabilityDataInfo.getData());
