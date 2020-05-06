@@ -99,15 +99,17 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     }
 
 
-    public iReceptorChainDataType update(String key, iReceptorChainDataType traceabilityDataInfo)
+    public iReceptorChainDataType update(String key, iReceptorChainDataType traceabilityDataInfo) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
+        read(key);
         putEntryToDB(key, traceabilityDataInfo);
 
         return traceabilityDataInfo;
     }
 
-    public iReceptorChainDataTypeInfo update(iReceptorChainDataTypeInfo traceabilityDataInfo)
+    public iReceptorChainDataTypeInfo update(iReceptorChainDataTypeInfo traceabilityDataInfo) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
+        read(traceabilityDataInfo.getKey());
         putEntryToDB(traceabilityDataInfo.getKey(), traceabilityDataInfo.getData());
 
         return traceabilityDataInfo;
