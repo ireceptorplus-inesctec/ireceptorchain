@@ -310,13 +310,13 @@ public final class iReceptorChain implements ContractInterface {
      * @param softwareVersion the version of the software used to perform the data transformation.
      * @param softwareBinaryExecutableHashValue the hash value of the binary executable used to perform the data transformation.
      * @param softwareConfigParams the configuration parameters of the software used to perform the data transformation.
-     * @return the created Car
+     * @return the traceability entry and the key used to reference the traceability information.
      */
     @Transaction()
     public TraceabilityDataInfo createTraceabilityDataEntry(final Context ctx, final String newUUID, final String inputDatasetHashValue,
-                         final String outputDatasetHashValue, final String softwareId,
-                         final String softwareVersion, final String softwareBinaryExecutableHashValue,
-                         final String softwareConfigParams) {
+                                                            final String outputDatasetHashValue, final String softwareId,
+                                                            final String softwareVersion, final String softwareBinaryExecutableHashValue,
+                                                            final String softwareConfigParams) {
         ChaincodeStub stub = ctx.getStub();
 
         TraceabilityData traceabilityData = new TraceabilityDataAwatingValidation(inputDatasetHashValue, outputDatasetHashValue,
