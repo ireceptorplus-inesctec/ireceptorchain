@@ -27,4 +27,10 @@ public abstract class ReferenceToIdException extends HyperledgerFabricBlockhainR
     {
         return id;
     }
+
+    @Override
+    public String getMessage()
+    {
+        return super.getMessage() + "Id used was: " + id;
+    }
 }
