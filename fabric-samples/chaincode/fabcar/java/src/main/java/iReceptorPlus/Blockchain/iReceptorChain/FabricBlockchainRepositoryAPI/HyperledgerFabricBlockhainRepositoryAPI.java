@@ -2,6 +2,7 @@ package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI;
 
 import com.owlike.genson.Genson;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
@@ -52,14 +53,20 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     /**
      * Implements create operations for the data type.
      * @param data An instance of a subclass of iReceptorChainDataType containing the data to be saved on the blockchain.
-     * @return The key (id) of the newly created entry on the blockchain.
+     * @return The key of the newly created entry on the blockchain.
      */
-    public String create(iReceptorChainDataType data)
+    public String create(String newUUID, iReceptorChainDataType data) throws GivenIdIsAlreadyAssignedToAnotherObject
     {
-        UUID newUUID = UUID.randomUUID();
-        putEntryToDB(objectTypeIdentifier + "-" + newUUID.toString(), data);
-
-        return newUUID.toString();
+        String key = objectTypeIdentifier + "-" + newUUID;
+        try
+        {
+            iReceptorChainDataType stringState = getDataTypeFromDB(key);
+            throw new GivenIdIsAlreadyAssignedToAnotherObject("The id you have provided is not unique: it is already assigned to another object of the same type. Please try with a different id.", newUUID);
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            putEntryToDB(key, data);
+            return key;
+        }
     }
 
     /**
