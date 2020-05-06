@@ -8,9 +8,9 @@ public class GivenIdIsAlreadyAssignedToAnotherObject extends ReferenceToIdExcept
      *
      * @param message The string message that will be set as the message for the exception that occurred.
      */
-    public GivenIdIsAlreadyAssignedToAnotherObject(String message, String id, String id1)
+    public GivenIdIsAlreadyAssignedToAnotherObject(String message, String id)
     {
         super(message, id);
-        this.id = id1;
+        this.id = id;
     }
 }
