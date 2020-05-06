@@ -49,18 +49,28 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         this.objectType = objectType;
     }
 
+    /**
+     * Implements create operations for the data type.
+     * @param data An instance of a subclass of iReceptorChainDataType containing the data to be saved on the blockchain.
+     * @return The key (id) of the newly created entry on the blockchain.
+     */
     public String create(iReceptorChainDataType data)
     {
         UUID newUUID = UUID.randomUUID();
-        putEntryToDB(newUUID.toString(), data);
+        putEntryToDB(objectTypeIdentifier + "-" + newUUID.toString(), data);
 
         return newUUID.toString();
     }
 
+    /**
+     * Auxiliary method used on the create and update operations. This methods puts (create or update) an entry on the blockchain, represented by the parameter data.
+     * @param key The key of the object to be put. In case it is a create operation, it is the new key (id) of the entry. In case it is an update operation, it is the id that the entry being updated currently has on the blockchain.
+     * @param data An instance of a subclass of iReceptorChainDataType containing the data to be created or updated on the blockchain.
+     */
     private void putEntryToDB(String key, iReceptorChainDataType data)
     {
         String serializedData = genson.serialize(data);
-        ctx.getStub().putStringState(objectTypeIdentifier + "-" + key, serializedData);
+        ctx.getStub().putStringState(key, serializedData);
     }
 
     private iReceptorChainDataType getDataTypeFromDB(String key) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
