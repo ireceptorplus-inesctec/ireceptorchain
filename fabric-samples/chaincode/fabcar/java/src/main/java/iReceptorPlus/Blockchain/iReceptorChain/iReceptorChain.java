@@ -329,7 +329,7 @@ public final class iReceptorChain implements ContractInterface {
             key = api.create(newUUID, traceabilityData);
         } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
         {
-            givenIdIsAlreadyAssignedToAnotherObject.printStackTrace();
+            throw new ChaincodeException(givenIdIsAlreadyAssignedToAnotherObject.getMessage());
         }
 
         TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(key, traceabilityData);
