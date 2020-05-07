@@ -63,15 +63,32 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
      */
     public String create(String newUUID, iReceptorChainDataType data) throws GivenIdIsAlreadyAssignedToAnotherObject
     {
-        String key = uuidToKey(newUUID);
         try
         {
-            iReceptorChainDataType stringState = getDataTypeFromDB(key);
+            iReceptorChainDataType stringState = getDataTypeFromDB(newUUID);
             throw new GivenIdIsAlreadyAssignedToAnotherObject("The id you have provided is not unique: it is already assigned to another object of the same type. Please try with a different id.", newUUID);
         } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
         {
-            putEntryToDB(key, data);
-            return key;
+            putEntryToDB(newUUID, data);
+            return newUUID;
+        }
+    }
+
+    /**
+     * Implements create operations for the data type.
+     * @param dataInfo An instance of a subclass of iReceptorChainDataTypeInfo containing the UUID of the data to be added and the data to be saved on the blockchain.
+     * @return The UUID of the newly created entry on the blockchain.
+     */
+    public String create(iReceptorChainDataTypeInfo dataInfo) throws GivenIdIsAlreadyAssignedToAnotherObject
+    {
+        try
+        {
+            iReceptorChainDataType stringState = getDataTypeFromDB(dataInfo.getUUID());
+            throw new GivenIdIsAlreadyAssignedToAnotherObject("The id you have provided is not unique: it is already assigned to another object of the same type. Please try with a different id.", dataInfo.getUUID());
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            putEntryToDB(dataInfo.getUUID(), dataInfo.getData());
+            return dataInfo.getUUID();
         }
     }
 
@@ -127,14 +144,20 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     {
         read(traceabilityDataInfo.getUUID()); //check if exists
 
-        ctx.getStub().delState(traceabilityDataInfo.getUUID());
+        deleteDataFromDB(traceabilityDataInfo.getUUID());
     }
 
     public void remove(String uuid) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
         read(uuid); //check if exists
 
-        ctx.getStub().delState(uuid);
+        deleteDataFromDB(uuid);
+    }
+
+    public void deleteDataFromDB(String uuid)
+    {
+        String key = uuidToKey(uuid);
+        ctx.getStub().delState(key);
     }
 
 }
