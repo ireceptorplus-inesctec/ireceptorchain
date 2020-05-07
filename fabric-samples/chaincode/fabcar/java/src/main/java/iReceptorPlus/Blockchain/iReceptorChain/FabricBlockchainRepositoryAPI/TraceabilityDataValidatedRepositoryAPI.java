@@ -11,10 +11,11 @@ public class TraceabilityDataValidatedRepositoryAPI extends TraceabilityDataRepo
      * Constructor for this class.
      *
      * @param ctx The blockchain context in which this class will perform the required tasks.
+     * @param objectTypeIdentifier A String that uniquely identifies the object type that will be stored on the blockchain database by this repository class.
      */
-    public TraceabilityDataValidatedRepositoryAPI(Context ctx)
+    public TraceabilityDataValidatedRepositoryAPI(Context ctx, String objectTypeIdentifier)
     {
-        super(ctx);
+        super(ctx, objectTypeIdentifier);
     }
 
     @Override

@@ -13,9 +13,10 @@ public abstract class TraceabilityDataRepositoryAPI extends HyperledgerFabricBlo
      * Constructor for this class.
      *
      * @param ctx The blockchain context in which this class will perform the required tasks.
+     * @param objectTypeIdentifier A String that uniquely identifies the object type that will be stored on the blockchain database by this repository class.
      */
-    public TraceabilityDataRepositoryAPI(Context ctx)
+    public TraceabilityDataRepositoryAPI(Context ctx, String objectTypeIdentifier)
     {
-        super(ctx, TraceabilityData.class);
+        super(ctx, objectTypeIdentifier);
     }
 }

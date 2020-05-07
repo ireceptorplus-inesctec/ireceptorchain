@@ -25,12 +25,6 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     protected Context ctx;
 
     /**
-     * The type of object that will be serialized in order to be saved in the database.
-     * Subclasses should set this attribute accordingly in order for this class to implement the serializing logic necessary for the CRUD operations.
-     */
-    Class objectType;
-
-    /**
      * A String that uniquely identifies the object type that will be stored on the blockchain database by this repository class.
      * It will be used to build the key for storing the object on the blockchain.
      */
@@ -42,12 +36,12 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
      * Constructor for this class.
      *
      * @param ctx        The blockchain context in which this class will perform the required tasks.
-     * @param objectType The type of object that will be serialized in order to be saved in the database.
+     * @param objectTypeIdentifier A String that uniquely identifies the object type that will be stored on the blockchain database by this repository class.
      */
-    public HyperledgerFabricBlockhainRepositoryAPI(Context ctx, Class objectType)
+    public HyperledgerFabricBlockhainRepositoryAPI(Context ctx, String objectTypeIdentifier)
     {
         this.ctx = ctx;
-        this.objectType = objectType;
+        this.objectTypeIdentifier = objectTypeIdentifier;
     }
 
     /**
