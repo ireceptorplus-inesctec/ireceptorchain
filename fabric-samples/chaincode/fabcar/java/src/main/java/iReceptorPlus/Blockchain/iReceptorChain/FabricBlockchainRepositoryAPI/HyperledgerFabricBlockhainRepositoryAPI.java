@@ -95,7 +95,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
 
     public iReceptorChainDataType update(String key, iReceptorChainDataType traceabilityDataInfo) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
-        read(key);
+        read(key); //check if exists
         putEntryToDB(key, traceabilityDataInfo);
 
         return traceabilityDataInfo;
@@ -103,10 +103,24 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
 
     public iReceptorChainDataTypeInfo update(iReceptorChainDataTypeInfo traceabilityDataInfo) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
-        read(traceabilityDataInfo.getKey());
+        read(traceabilityDataInfo.getKey()); //check if exists
         putEntryToDB(traceabilityDataInfo.getKey(), traceabilityDataInfo.getData());
 
         return traceabilityDataInfo;
+    }
+
+    public void remove(iReceptorChainDataTypeInfo traceabilityDataInfo) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
+    {
+        read(traceabilityDataInfo.getKey()); //check if exists
+
+        ctx.getStub().delState(traceabilityDataInfo.getKey());
+    }
+
+    public void remove(String key) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
+    {
+        read(key); //check if exists
+
+        ctx.getStub().delState(key);
     }
 
 }
