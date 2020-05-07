@@ -32,7 +32,7 @@ public abstract class State
         this.api = api;
     }
 
-    public abstract void voteYesForTheVeracityOfTraceabilityInfo(Entity voter) throws ObjectWithGivenKeyNotFoundOnBlockchainDB, GivenIdIsAlreadyAssignedToAnotherObject, IncosistentInfoFoundOnDB;
+    public abstract void voteYesForTheVeracityOfTraceabilityInfo(Entity voter) throws IncosistentInfoFoundOnDB;
 
     public abstract void voteNoForTheVeracityOfTraceabilityInfo(Entity voter) throws IncosistentInfoFoundOnDB;
 
