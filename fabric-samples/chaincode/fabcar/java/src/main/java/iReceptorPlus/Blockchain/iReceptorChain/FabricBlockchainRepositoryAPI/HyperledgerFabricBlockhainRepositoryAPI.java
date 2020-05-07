@@ -51,6 +51,11 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         this(api.ctx, objectTypeIdentifier);
     }
 
+    protected String uuidToKey(String uuid)
+    {
+        return objectTypeIdentifier + "-" + uuid;
+    }
+
     /**
      * Implements create operations for the data type.
      * @param data An instance of a subclass of iReceptorChainDataType containing the data to be saved on the blockchain.
@@ -58,7 +63,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
      */
     public String create(String newUUID, iReceptorChainDataType data) throws GivenIdIsAlreadyAssignedToAnotherObject
     {
-        String key = objectTypeIdentifier + "-" + newUUID;
+        String key = uuidToKey(newUUID);
         try
         {
             iReceptorChainDataType stringState = getDataTypeFromDB(key);
