@@ -14,6 +14,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exc
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataAwatingValidationRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.IncosistentInfoFoundOnDB;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.TraceabilityInfoStateMachine;
 import org.hyperledger.fabric.contract.Context;
@@ -337,5 +338,49 @@ public final class iReceptorChain implements ContractInterface {
 
         TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(newUUID, traceabilityData);
         return traceabilityDataInfo;
+    }
+
+    /**
+     * Allows a node to vote yes for the veracity of a traceability entry on the ledger.
+     *
+     * @param ctx the transaction context
+     * @param key the UUID of the traceability data entry to vote yes for. This not only the UUID, but it should also include the type of data identifier prefix, just as returned by the chaincode.
+     * @return the created Car
+     */
+    @Transaction()
+    public String registerYesVoteForTraceabilityEntryInVotingRound(final Context ctx, final String key) {
+        ChaincodeStub stub = ctx.getStub();
+
+        TraceabilityData traceabilityData;
+
+        TraceabilityDataAwatingValidationRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
+        try
+        {
+            traceabilityData = (TraceabilityData) api.read(key);
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            throw new ChaincodeException(objectWithGivenKeyNotFoundOnBlockchainDB.getMessage());
+        }
+
+        TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(key, traceabilityData);
+        TraceabilityInfoStateMachine traceabilityInfoStateMachine;
+        try
+        {
+            traceabilityInfoStateMachine = new TraceabilityInfoStateMachine(traceabilityDataInfo, api);
+        } catch (UnsupportedTypeOfTraceabilityInfo unsupportedTypeOfTraceabilityInfo)
+        {
+            throw new ChaincodeException("Voting on this type of information is not supported");
+        }
+
+        //TODO fix this aldrabation of the entity
+        try
+        {
+            traceabilityInfoStateMachine.voteYesForTheVeracityOfTraceabilityInfo(new Entity());
+        } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
+        {
+            throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
+        }
+
+        return "Vote submitted Successfully";
     }
 }
