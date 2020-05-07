@@ -10,9 +10,12 @@ import java.util.UUID;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataAwatingValidationRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.TraceabilityInfoStateMachine;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.Contact;
@@ -56,10 +59,10 @@ public final class iReceptorChain implements ContractInterface {
     }
 
     /**
-     * Retrieves a car with the specified key from the ledger.
+     * Retrieves a car with the specified UUID from the ledger.
      *
      * @param ctx the transaction context
-     * @param key the key
+     * @param key the UUID
      * @return the Car found on the ledger if there was one
      */
     @Transaction()
@@ -115,7 +118,7 @@ public final class iReceptorChain implements ContractInterface {
      * Creates a new car on the ledger.
      *
      * @param ctx the transaction context
-     * @param key the key for the new car
+     * @param key the UUID for the new car
      * @param make the make of the new car
      * @param model the model of the new car
      * @param color the color of the new car
@@ -273,7 +276,7 @@ public final class iReceptorChain implements ContractInterface {
      * Changes the owner of a car on the ledger.
      *
      * @param ctx the transaction context
-     * @param key the key
+     * @param key the UUID
      * @param newOwner the new owner
      * @return the updated Car
      */
@@ -310,7 +313,7 @@ public final class iReceptorChain implements ContractInterface {
      * @param softwareVersion the version of the software used to perform the data transformation.
      * @param softwareBinaryExecutableHashValue the hash value of the binary executable used to perform the data transformation.
      * @param softwareConfigParams the configuration parameters of the software used to perform the data transformation.
-     * @return the traceability entry and the key used to reference the traceability information.
+     * @return the traceability entry and the UUID used to reference the traceability information.
      */
     @Transaction()
     public TraceabilityDataInfo createTraceabilityDataEntry(final Context ctx, final String newUUID, final String inputDatasetHashValue,
@@ -332,7 +335,7 @@ public final class iReceptorChain implements ContractInterface {
             throw new ChaincodeException(givenIdIsAlreadyAssignedToAnotherObject.getMessage());
         }
 
-        TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(key, traceabilityData);
+        TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(newUUID, traceabilityData);
         return traceabilityDataInfo;
     }
 }
