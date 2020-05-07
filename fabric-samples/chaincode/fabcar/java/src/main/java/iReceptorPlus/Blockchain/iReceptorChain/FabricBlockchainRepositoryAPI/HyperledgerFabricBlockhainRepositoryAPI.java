@@ -45,6 +45,16 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     }
 
     /**
+     * Constructor that creates a new instance of this class from another class of the same type.
+     * Uses the same blockchain context but not the same objectTypeIdentifier. Is is used when another repository is meant to be created when another repository is needed and the same context should be used.
+     * @param api The instance of HyperledgerFabricBlockhainRepositoryAPI from which to copy the context from.
+     */
+    public HyperledgerFabricBlockhainRepositoryAPI(HyperledgerFabricBlockhainRepositoryAPI api, String objectTypeIdentifier)
+    {
+        this(api.ctx, objectTypeIdentifier);
+    }
+
+    /**
      * Implements create operations for the data type.
      * @param data An instance of a subclass of iReceptorChainDataType containing the data to be saved on the blockchain.
      * @return The key of the newly created entry on the blockchain.

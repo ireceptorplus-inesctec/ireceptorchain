@@ -19,6 +19,16 @@ public class TraceabilityDataAwatingValidationRepositoryAPI extends Traceability
         super(ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix());
     }
 
+    /**
+     * Constructor that creates a new instance of this class from another class of the same type.
+     * Uses the same blockchain context but not the same objectTypeIdentifier. Is is used when another repository is meant to be created when another repository is needed and the same context should be used.
+     * @param api The instance of HyperledgerFabricBlockhainRepositoryAPI from which to copy the context from.
+     */
+    public TraceabilityDataAwatingValidationRepositoryAPI(HyperledgerFabricBlockhainRepositoryAPI api)
+    {
+        super(api.ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix());
+    }
+
     @Override
     protected iReceptorChainDataType deserializeData(String serializedData)
     {
