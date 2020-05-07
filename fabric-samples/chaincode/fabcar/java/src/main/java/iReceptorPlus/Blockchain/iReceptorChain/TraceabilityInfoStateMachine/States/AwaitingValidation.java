@@ -5,8 +5,12 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAw
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataValidatedRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.IncosistentInfoFoundOnDB;
 
 /**
  * This is the sub class for the state machine for the traceability information.
@@ -20,20 +24,44 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public void voteYesForTheVeracityOfTraceabilityInfo(Entity voter)
+    public void voteYesForTheVeracityOfTraceabilityInfo(Entity voter) throws IncosistentInfoFoundOnDB
     {
         TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
         traceabilityData.registerYesVoteForValidity(voter);
-        if (traceabilityData.getNumberOfApprovers() >= ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid.get())
+        if (conditionToApproveTraceabilityInfo(traceabilityData.getNumberOfApprovers(), ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters()))
         {
-            TraceabilityData newTraceabilityData = new TraceabilityDataValidated(traceabilityData.getInputDatasetHashValue(),
-                    traceabilityData.getOutputDatasetHashValue(), traceabilityData.getProcessingDetails(),
-                    ((TraceabilityDataAwatingValidation)traceabilityData).getApprovers());
-
-            TraceabilityDataInfo newTraceabilityDataInfo = new TraceabilityDataInfo(traceabilityDataInfo.getKey(), newTraceabilityData);
-
-            api.switchTraceabilityInfoStateFromAwaitingValidationToValidated(newTraceabilityDataInfo);
+            switchInfoStateFromAwatingValidationToValidated(traceabilityData);
         }
+    }
+
+    private void switchInfoStateFromAwatingValidationToValidated(TraceabilityData traceabilityData) throws IncosistentInfoFoundOnDB
+    {
+        try
+        {
+            api.remove(traceabilityDataInfo);
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            throw new IncosistentInfoFoundOnDB("object not found when trying to delete the info on the DB in order to switch state");
+        }
+
+        TraceabilityData newTraceabilityData = new TraceabilityDataValidated(traceabilityData.getInputDatasetHashValue(),
+                traceabilityData.getOutputDatasetHashValue(), traceabilityData.getProcessingDetails(),
+                ((TraceabilityDataAwatingValidation)traceabilityData).getApprovers());
+        TraceabilityDataInfo newTraceabilityDataInfo = new TraceabilityDataInfo(traceabilityDataInfo.getUUID(), newTraceabilityData);
+        api = new TraceabilityDataValidatedRepositoryAPI(api);
+        try
+        {
+            api.create(newTraceabilityDataInfo);
+        } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
+        {
+            throw new IncosistentInfoFoundOnDB("key is already assigned to another object on trying to create new traceability entry in order to switch state");
+        }
+    }
+
+    private boolean conditionToApproveTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
+    {
+        return numberOfApprovers >= ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid.get()
+                && numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue() >= ChaincodeConfigs.racioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeValid.get();
     }
 
     @Override
