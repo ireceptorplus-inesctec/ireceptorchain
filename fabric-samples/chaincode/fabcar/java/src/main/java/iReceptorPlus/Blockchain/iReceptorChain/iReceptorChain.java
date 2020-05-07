@@ -349,28 +349,7 @@ public final class iReceptorChain implements ContractInterface {
      */
     @Transaction()
     public String registerYesVoteForTraceabilityEntryInVotingRound(final Context ctx, final String key) {
-        ChaincodeStub stub = ctx.getStub();
-
-        TraceabilityData traceabilityData;
-
-        TraceabilityDataAwatingValidationRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
-        try
-        {
-            traceabilityData = (TraceabilityData) api.read(key);
-        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
-        {
-            throw new ChaincodeException(objectWithGivenKeyNotFoundOnBlockchainDB.getMessage());
-        }
-
-        TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(key, traceabilityData);
-        TraceabilityInfoStateMachine traceabilityInfoStateMachine;
-        try
-        {
-            traceabilityInfoStateMachine = new TraceabilityInfoStateMachine(traceabilityDataInfo, api);
-        } catch (UnsupportedTypeOfTraceabilityInfo unsupportedTypeOfTraceabilityInfo)
-        {
-            throw new ChaincodeException("Voting on this type of information is not supported");
-        }
+        TraceabilityInfoStateMachine traceabilityInfoStateMachine = getInfoFromDBAndBuildVotingStateMachine(ctx, key);
 
         //TODO fix this aldrabation of the entity
         try
@@ -393,6 +372,22 @@ public final class iReceptorChain implements ContractInterface {
      */
     @Transaction()
     public String registerNoVoteForTraceabilityEntryInVotingRound(final Context ctx, final String key) {
+        TraceabilityInfoStateMachine traceabilityInfoStateMachine = getInfoFromDBAndBuildVotingStateMachine(ctx, key);
+
+        //TODO fix this aldrabation of the entity
+        try
+        {
+            traceabilityInfoStateMachine.voteNoForTheVeracityOfTraceabilityInfo(new Entity());
+        } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
+        {
+            throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
+        }
+
+        return "Vote submitted Successfully";
+    }
+
+    private TraceabilityInfoStateMachine getInfoFromDBAndBuildVotingStateMachine(Context ctx, String key)
+    {
         ChaincodeStub stub = ctx.getStub();
 
         TraceabilityData traceabilityData;
@@ -415,16 +410,6 @@ public final class iReceptorChain implements ContractInterface {
         {
             throw new ChaincodeException("Voting on this type of information is not supported");
         }
-
-        //TODO fix this aldrabation of the entity
-        try
-        {
-            traceabilityInfoStateMachine.voteNoForTheVeracityOfTraceabilityInfo(new Entity());
-        } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
-        {
-            throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
-        }
-
-        return "Vote submitted Successfully";
+        return traceabilityInfoStateMachine;
     }
 }
