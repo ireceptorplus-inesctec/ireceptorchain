@@ -1,23 +1,24 @@
 package iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes;
 
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 
 public abstract class iReceptorChainDataTypeInfo
 {
     /**
-     * The key used to store the data on the blockchain.
+     * The UUID used to store the data on the blockchain.
+     * This does NOT include the prefix that identifier the datatype.
+     * It only contains the UUID as string.
      */
-    protected String key;
+    protected String UUID;
 
     /**
      * The data that this class refers to just as it is stored on chain.
      */
     protected iReceptorChainDataType data;
 
-    public String getKey()
+    public String getUUID()
     {
-        return key;
+        return UUID;
     }
 
     public iReceptorChainDataType getData()
@@ -25,9 +26,9 @@ public abstract class iReceptorChainDataTypeInfo
         return data;
     }
 
-    public iReceptorChainDataTypeInfo(String key, iReceptorChainDataType data)
+    public iReceptorChainDataTypeInfo(String UUID, iReceptorChainDataType data)
     {
-        this.key = key;
+        this.UUID = UUID;
         this.data = data;
     }
 }

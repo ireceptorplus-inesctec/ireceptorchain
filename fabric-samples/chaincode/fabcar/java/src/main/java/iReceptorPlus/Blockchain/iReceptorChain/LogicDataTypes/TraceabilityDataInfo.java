@@ -15,8 +15,8 @@ public class TraceabilityDataInfo extends iReceptorChainDataTypeInfo
         return (TraceabilityData) data;
     }
 
-    public String getKey()
+    public String getUUID()
     {
-        return key;
+        return UUID;
     }
 }

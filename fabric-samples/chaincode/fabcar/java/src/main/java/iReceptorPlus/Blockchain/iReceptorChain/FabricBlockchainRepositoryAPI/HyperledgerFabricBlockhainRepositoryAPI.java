@@ -4,11 +4,8 @@ import com.owlike.genson.Genson;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
-import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import org.hyperledger.fabric.contract.Context;
-
-import java.util.UUID;
 
 /**
  * This class is an API that handles all calls to the hyperledger functions that are necessary for CRUD operations.
@@ -26,7 +23,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
 
     /**
      * A String that uniquely identifies the object type that will be stored on the blockchain database by this repository class.
-     * It will be used to build the key for storing the object on the blockchain.
+     * It will be used to build the UUID for storing the object on the blockchain.
      */
     String objectTypeIdentifier;
 
@@ -57,7 +54,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     /**
      * Implements create operations for the data type.
      * @param data An instance of a subclass of iReceptorChainDataType containing the data to be saved on the blockchain.
-     * @return The key of the newly created entry on the blockchain.
+     * @return The UUID of the newly created entry on the blockchain.
      */
     public String create(String newUUID, iReceptorChainDataType data) throws GivenIdIsAlreadyAssignedToAnotherObject
     {
@@ -75,7 +72,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
 
     /**
      * Auxiliary method used on the create and update operations. This methods puts (create or update) an entry on the blockchain, represented by the parameter data.
-     * @param key The key of the object to be put. In case it is a create operation, it is the new key (id) of the entry. In case it is an update operation, it is the id that the entry being updated currently has on the blockchain.
+     * @param key The UUID of the object to be put. In case it is a create operation, it is the new UUID (id) of the entry. In case it is an update operation, it is the id that the entry being updated currently has on the blockchain.
      * @param data An instance of a subclass of iReceptorChainDataType containing the data to be created or updated on the blockchain.
      */
     private void putEntryToDB(String key, iReceptorChainDataType data)
@@ -113,17 +110,17 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
 
     public iReceptorChainDataTypeInfo update(iReceptorChainDataTypeInfo traceabilityDataInfo) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
-        read(traceabilityDataInfo.getKey()); //check if exists
-        putEntryToDB(traceabilityDataInfo.getKey(), traceabilityDataInfo.getData());
+        read(traceabilityDataInfo.getUUID()); //check if exists
+        putEntryToDB(traceabilityDataInfo.getUUID(), traceabilityDataInfo.getData());
 
         return traceabilityDataInfo;
     }
 
     public void remove(iReceptorChainDataTypeInfo traceabilityDataInfo) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
-        read(traceabilityDataInfo.getKey()); //check if exists
+        read(traceabilityDataInfo.getUUID()); //check if exists
 
-        ctx.getStub().delState(traceabilityDataInfo.getKey());
+        ctx.getStub().delState(traceabilityDataInfo.getUUID());
     }
 
     public void remove(String key) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
