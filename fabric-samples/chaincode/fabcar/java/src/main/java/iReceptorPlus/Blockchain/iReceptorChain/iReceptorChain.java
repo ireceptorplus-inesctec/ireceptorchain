@@ -383,4 +383,48 @@ public final class iReceptorChain implements ContractInterface {
 
         return "Vote submitted Successfully";
     }
+
+    /**
+     * Allows a node to vote no for the veracity of a traceability entry on the ledger.
+     *
+     * @param ctx the transaction context
+     * @param key the UUID of the traceability data entry to vote no for. This not only the UUID, but it should also include the type of data identifier prefix, just as returned by the chaincode.
+     * @return the created Car
+     */
+    @Transaction()
+    public String registerNoVoteForTraceabilityEntryInVotingRound(final Context ctx, final String key) {
+        ChaincodeStub stub = ctx.getStub();
+
+        TraceabilityData traceabilityData;
+
+        TraceabilityDataAwatingValidationRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
+        try
+        {
+            traceabilityData = (TraceabilityData) api.read(key);
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            throw new ChaincodeException(objectWithGivenKeyNotFoundOnBlockchainDB.getMessage());
+        }
+
+        TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(key, traceabilityData);
+        TraceabilityInfoStateMachine traceabilityInfoStateMachine;
+        try
+        {
+            traceabilityInfoStateMachine = new TraceabilityInfoStateMachine(traceabilityDataInfo, api);
+        } catch (UnsupportedTypeOfTraceabilityInfo unsupportedTypeOfTraceabilityInfo)
+        {
+            throw new ChaincodeException("Voting on this type of information is not supported");
+        }
+
+        //TODO fix this aldrabation of the entity
+        try
+        {
+            traceabilityInfoStateMachine.voteNoForTheVeracityOfTraceabilityInfo(new Entity());
+        } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
+        {
+            throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
+        }
+
+        return "Vote submitted Successfully";
+    }
 }
