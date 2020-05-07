@@ -76,4 +76,15 @@ public class TraceabilityDataAwatingValidation extends TraceabilityData
     {
         return approvers.size();
     }
+
+    /**
+     * Returns the number of rejecters of the traceability information represented by this class.
+     * @return the number of rejecters of the traceability information represented by this class.
+     */
+    public long getNumberOfRejecters()
+    {
+        return rejecters.size();
+    }
+
+
 }
