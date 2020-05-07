@@ -77,38 +77,40 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
 
     /**
      * Auxiliary method used on the create and update operations. This methods puts (create or update) an entry on the blockchain, represented by the parameter data.
-     * @param key The UUID of the object to be put. In case it is a create operation, it is the new UUID (id) of the entry. In case it is an update operation, it is the id that the entry being updated currently has on the blockchain.
+     * @param uuid The UUID of the object to be put. In case it is a create operation, it is the new UUID (id) of the entry. In case it is an update operation, it is the id that the entry being updated currently has on the blockchain.
      * @param data An instance of a subclass of iReceptorChainDataType containing the data to be created or updated on the blockchain.
      */
-    private void putEntryToDB(String key, iReceptorChainDataType data)
+    private void putEntryToDB(String uuid, iReceptorChainDataType data)
     {
+        String key = uuidToKey(uuid);
         String serializedData = genson.serialize(data);
         ctx.getStub().putStringState(key, serializedData);
     }
 
-    private iReceptorChainDataType getDataTypeFromDB(String key) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
+    private iReceptorChainDataType getDataTypeFromDB(String uuid) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
+        String key = uuidToKey(uuid);
         String serializedData = ctx.getStub().getStringState(key);
         if (serializedData.isEmpty())
-            throw new ObjectWithGivenKeyNotFoundOnBlockchainDB("The object referenced does not exist on the blockchain database", key);
+            throw new ObjectWithGivenKeyNotFoundOnBlockchainDB("The object referenced does not exist on the blockchain database", uuid);
 
         return deserializeData(serializedData);
     }
 
     protected abstract iReceptorChainDataType deserializeData(String serializedData);
 
-    public iReceptorChainDataType read(String key) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
+    public iReceptorChainDataType read(String uuid) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
-        iReceptorChainDataType object = getDataTypeFromDB(key);
+        iReceptorChainDataType object = getDataTypeFromDB(uuid);
 
         return object;
     }
 
 
-    public iReceptorChainDataType update(String key, iReceptorChainDataType traceabilityDataInfo) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
+    public iReceptorChainDataType update(String uuid, iReceptorChainDataType traceabilityDataInfo) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
-        read(key); //check if exists
-        putEntryToDB(key, traceabilityDataInfo);
+        read(uuid); //check if exists
+        putEntryToDB(uuid, traceabilityDataInfo);
 
         return traceabilityDataInfo;
     }
@@ -128,11 +130,11 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         ctx.getStub().delState(traceabilityDataInfo.getUUID());
     }
 
-    public void remove(String key) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
+    public void remove(String uuid) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
-        read(key); //check if exists
+        read(uuid); //check if exists
 
-        ctx.getStub().delState(key);
+        ctx.getStub().delState(uuid);
     }
 
 }
