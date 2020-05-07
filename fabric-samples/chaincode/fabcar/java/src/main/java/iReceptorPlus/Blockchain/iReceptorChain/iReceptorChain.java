@@ -345,7 +345,7 @@ public final class iReceptorChain implements ContractInterface {
      *
      * @param ctx the transaction context
      * @param key the UUID of the traceability data entry to vote yes for. This not only the UUID, but it should also include the type of data identifier prefix, just as returned by the chaincode.
-     * @return the created Car
+     * @return a string identifying the success of the operation.
      */
     @Transaction()
     public String registerYesVoteForTraceabilityEntryInVotingRound(final Context ctx, final String key) {
@@ -368,7 +368,7 @@ public final class iReceptorChain implements ContractInterface {
      *
      * @param ctx the transaction context
      * @param key the UUID of the traceability data entry to vote no for. This not only the UUID, but it should also include the type of data identifier prefix, just as returned by the chaincode.
-     * @return the created Car
+     * @return a string identifying the success of the operation.
      */
     @Transaction()
     public String registerNoVoteForTraceabilityEntryInVotingRound(final Context ctx, final String key) {
@@ -386,6 +386,13 @@ public final class iReceptorChain implements ContractInterface {
         return "Vote submitted Successfully";
     }
 
+    /**
+     * Auxiliary method for the voting methods.
+     * Validates the info on the database and builds the state machine that implements the voting rounds logic.
+     * @param ctx the transaction context
+     * @param key the UUID of the traceability data entry to support voting for. This not only the UUID, but it should also include the type of data identifier prefix, just as returned by the chaincode.
+     * @return a string identifying the success of the operation.
+     */
     private TraceabilityInfoStateMachine getInfoFromDBAndBuildVotingStateMachine(Context ctx, String key)
     {
         ChaincodeStub stub = ctx.getStub();
