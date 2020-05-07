@@ -3,6 +3,7 @@ package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
 import org.hyperledger.fabric.contract.Context;
 
 public class TraceabilityDataValidatedRepositoryAPI extends TraceabilityDataRepositoryAPI
@@ -11,11 +12,10 @@ public class TraceabilityDataValidatedRepositoryAPI extends TraceabilityDataRepo
      * Constructor for this class.
      *
      * @param ctx The blockchain context in which this class will perform the required tasks.
-     * @param objectTypeIdentifier A String that uniquely identifies the object type that will be stored on the blockchain database by this repository class.
      */
-    public TraceabilityDataValidatedRepositoryAPI(Context ctx, String objectTypeIdentifier)
+    public TraceabilityDataValidatedRepositoryAPI(Context ctx)
     {
-        super(ctx, objectTypeIdentifier);
+        super(ctx, ChaincodeConfigs.getTraceabilityValidatedKeyPrefix());
     }
 
     @Override
