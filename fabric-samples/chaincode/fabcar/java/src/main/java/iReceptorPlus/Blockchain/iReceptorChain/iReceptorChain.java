@@ -367,12 +367,12 @@ public final class iReceptorChain implements ContractInterface {
      * Allows a node to vote no for the veracity of a traceability entry on the ledger.
      *
      * @param ctx the transaction context
-     * @param key the UUID of the traceability data entry to vote no for.
+     * @param uuid the UUID of the traceability data entry to vote no for.
      * @return a string identifying the success of the operation.
      */
     @Transaction()
-    public String registerNoVoteForTraceabilityEntryInVotingRound(final Context ctx, final String key) {
-        TraceabilityInfoStateMachine traceabilityInfoStateMachine = getInfoFromDBAndBuildVotingStateMachine(ctx, key);
+    public String registerNoVoteForTraceabilityEntryInVotingRound(final Context ctx, final String uuid) {
+        TraceabilityInfoStateMachine traceabilityInfoStateMachine = getInfoFromDBAndBuildVotingStateMachine(ctx, uuid);
 
         //TODO fix this aldrabation of the entity
         try
