@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.UUID;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataAwatingValidationRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.IncosistentInfoFoundOnDB;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.TraceabilityInfoStateMachine;
@@ -418,5 +420,33 @@ public final class iReceptorChain implements ContractInterface {
             throw new ChaincodeException("Voting on this type of information is not supported");
         }
         return traceabilityInfoStateMachine;
+    }
+
+    /**
+     * Retrieves every car between CAR0 and CAR999 from the ledger.
+     *
+     * @param ctx the transaction context
+     * @return array of Cars found on the ledger
+     */
+    @Transaction()
+    public TraceabilityDataReturnType[] getAllAwaitingValidationTraceabilityDataEntries(final Context ctx) {
+
+        ChaincodeStub stub = ctx.getStub();
+
+        HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
+        ArrayList<iReceptorChainDataTypeInfo> results = api.getAllEntries();
+
+        ArrayList<TraceabilityDataReturnType> resultsToReturn = new ArrayList<>();
+
+        for (iReceptorChainDataTypeInfo result: results)
+        {
+            TraceabilityDataInfo traceabilityDataInfo = (TraceabilityDataInfo) result;
+            TraceabilityDataReturnType dataReturnType = new TraceabilityDataReturnType(traceabilityDataInfo.getUUID(), traceabilityDataInfo.getTraceabilityData());
+            resultsToReturn.add(dataReturnType);
+        }
+
+        TraceabilityDataReturnType[] response = resultsToReturn.toArray(new TraceabilityDataReturnType[resultsToReturn.size()]);
+
+        return response;
     }
 }
