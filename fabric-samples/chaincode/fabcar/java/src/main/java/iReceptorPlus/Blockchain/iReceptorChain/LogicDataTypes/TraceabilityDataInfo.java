@@ -5,9 +5,9 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainData
 
 public class TraceabilityDataInfo extends iReceptorChainDataTypeInfo
 {
-    public TraceabilityDataInfo(String key, iReceptorChainDataType data)
+    public TraceabilityDataInfo(String uuid, iReceptorChainDataType data)
     {
-        super(key, data);
+        super(uuid, data);
     }
 
     public TraceabilityData getTraceabilityData()
