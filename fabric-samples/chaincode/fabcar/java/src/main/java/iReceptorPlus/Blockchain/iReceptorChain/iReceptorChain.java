@@ -344,12 +344,12 @@ public final class iReceptorChain implements ContractInterface {
      * Allows a node to vote yes for the veracity of a traceability entry on the ledger.
      *
      * @param ctx the transaction context
-     * @param key the UUID of the traceability data entry to vote yes for. This not only the UUID, but it should also include the type of data identifier prefix, just as returned by the chaincode.
+     * @param uuid the UUID of the traceability data entry to vote yes for.
      * @return a string identifying the success of the operation.
      */
     @Transaction()
-    public String registerYesVoteForTraceabilityEntryInVotingRound(final Context ctx, final String key) {
-        TraceabilityInfoStateMachine traceabilityInfoStateMachine = getInfoFromDBAndBuildVotingStateMachine(ctx, key);
+    public String registerYesVoteForTraceabilityEntryInVotingRound(final Context ctx, final String uuid) {
+        TraceabilityInfoStateMachine traceabilityInfoStateMachine = getInfoFromDBAndBuildVotingStateMachine(ctx, uuid);
 
         //TODO fix this aldrabation of the entity
         try
@@ -367,7 +367,7 @@ public final class iReceptorChain implements ContractInterface {
      * Allows a node to vote no for the veracity of a traceability entry on the ledger.
      *
      * @param ctx the transaction context
-     * @param key the UUID of the traceability data entry to vote no for. This not only the UUID, but it should also include the type of data identifier prefix, just as returned by the chaincode.
+     * @param key the UUID of the traceability data entry to vote no for.
      * @return a string identifying the success of the operation.
      */
     @Transaction()
@@ -390,10 +390,10 @@ public final class iReceptorChain implements ContractInterface {
      * Auxiliary method for the voting methods.
      * Validates the info on the database and builds the state machine that implements the voting rounds logic.
      * @param ctx the transaction context
-     * @param key the UUID of the traceability data entry to support voting for. This not only the UUID, but it should also include the type of data identifier prefix, just as returned by the chaincode.
+     * @param uuid the UUID of the traceability data entry to support voting for.
      * @return a string identifying the success of the operation.
      */
-    private TraceabilityInfoStateMachine getInfoFromDBAndBuildVotingStateMachine(Context ctx, String key)
+    private TraceabilityInfoStateMachine getInfoFromDBAndBuildVotingStateMachine(Context ctx, String uuid)
     {
         ChaincodeStub stub = ctx.getStub();
 
@@ -402,13 +402,13 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataAwatingValidationRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
         try
         {
-            traceabilityData = (TraceabilityData) api.read(key);
+            traceabilityData = (TraceabilityData) api.read(uuid);
         } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
         {
             throw new ChaincodeException(objectWithGivenKeyNotFoundOnBlockchainDB.getMessage());
         }
 
-        TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(key, traceabilityData);
+        TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(uuid, traceabilityData);
         TraceabilityInfoStateMachine traceabilityInfoStateMachine;
         try
         {
