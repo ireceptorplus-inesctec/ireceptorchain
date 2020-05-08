@@ -4,6 +4,8 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAw
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
+import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import org.hyperledger.fabric.contract.Context;
 
 public class TraceabilityDataValidatedRepositoryAPI extends TraceabilityDataRepositoryAPI
@@ -32,5 +34,12 @@ public class TraceabilityDataValidatedRepositoryAPI extends TraceabilityDataRepo
     protected iReceptorChainDataType deserializeData(String serializedData)
     {
         return genson.deserialize(serializedData, TraceabilityDataValidated.class);
+    }
+
+    @Override
+    protected iReceptorChainDataTypeInfo deserializeData(String uuid, String serializedData)
+    {
+        TraceabilityDataValidated data = genson.deserialize(serializedData, TraceabilityDataValidated.class);
+        return new TraceabilityDataInfo(uuid, data);
     }
 }

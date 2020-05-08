@@ -1,11 +1,18 @@
 package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI;
 
 import com.owlike.genson.Genson;
+import iReceptorPlus.Blockchain.iReceptorChain.Car;
+import iReceptorPlus.Blockchain.iReceptorChain.CarQueryResult;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import org.hyperledger.fabric.contract.Context;
+import org.hyperledger.fabric.shim.ledger.KeyValue;
+import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
+
+import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * This class is an API that handles all calls to the hyperledger functions that are necessary for CRUD operations.
@@ -115,6 +122,8 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     }
 
     protected abstract iReceptorChainDataType deserializeData(String serializedData);
+
+    protected abstract iReceptorChainDataTypeInfo deserializeData(String uuid, String serializedData);
 
     public iReceptorChainDataType read(String uuid) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
