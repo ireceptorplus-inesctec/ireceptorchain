@@ -169,4 +169,24 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         ctx.getStub().delState(key);
     }
 
+    public ArrayList<iReceptorChainDataTypeInfo> getAllEntries()
+    {
+        UUID lowerBoundUuid = new UUID(0, 0);
+        UUID upperBoundUuid = new UUID(Long.MAX_VALUE, Long.MAX_VALUE);
+        String startKey = objectTypeIdentifier + "-" + lowerBoundUuid.toString();
+        String endKey = objectTypeIdentifier + "-" + upperBoundUuid.toString();
+        QueryResultsIterator<KeyValue> resultsFromStub = ctx.getStub().getStateByRange(startKey, endKey);
+
+        ArrayList<iReceptorChainDataTypeInfo> results = new ArrayList<>();
+        for (KeyValue result: resultsFromStub)
+        {
+            String uuid = result.getKey().substring((objectTypeIdentifier + "-").length());
+            iReceptorChainDataTypeInfo dataInfo = deserializeData(uuid, result.getStringValue());
+
+            results.add(dataInfo);
+        }
+
+        return results;
+    }
+
 }
