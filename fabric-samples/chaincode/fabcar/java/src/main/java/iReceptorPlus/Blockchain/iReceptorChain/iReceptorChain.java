@@ -428,7 +428,7 @@ public final class iReceptorChain implements ContractInterface {
      * Retrieves all traceability data that is in state awating validation.
      *
      * @param ctx the transaction context
-     * @return array of Cars found on the ledger
+     * @return array of traceability data that is in state awaiting validation.
      */
     @Transaction()
     public TraceabilityDataAwatingValidationReturnType[] getAllAwaitingValidationTraceabilityDataEntries(final Context ctx) {
@@ -456,7 +456,7 @@ public final class iReceptorChain implements ContractInterface {
      * Retrieves all traceability data that is in state validated.
      *
      * @param ctx the transaction context
-     * @return array of Cars found on the ledger
+     * @return array of traceability data that is in state awaiting validation.
      */
     @Transaction()
     public TraceabilityDataValidatedReturnType[] getAllValidatedTraceabilityDataEntries(final Context ctx) {
