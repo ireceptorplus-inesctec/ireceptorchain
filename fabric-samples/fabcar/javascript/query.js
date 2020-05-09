@@ -66,9 +66,11 @@ async function main() {
         );
 
 
-        console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
-        console.log(`Transaction has been evaluated, result is: ${result2.toString()}`);
-
+        console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
+        console.log(`createTraceabilityEntryResult: ${registerYesVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
+        console.log(`createTraceabilityEntryResult: ${registerNoVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
+        console.log(`createTraceabilityEntryResult: ${getAllAwaitingValidationTraceabilityDataEntries.toString()}`);
+        console.log(`createTraceabilityEntryResult: ${getAllValidatedTraceabilityDataEntries.toString()}`);
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);
         process.exit(1);
