@@ -430,7 +430,7 @@ public final class iReceptorChain implements ContractInterface {
      * @return array of Cars found on the ledger
      */
     @Transaction()
-    public TraceabilityDataReturnType[] getAllAwaitingValidationTraceabilityDataEntries(final Context ctx) {
+    public TraceabilityDataAwatingValidationReturnType[] getAllAwaitingValidationTraceabilityDataEntries(final Context ctx) {
 
         ChaincodeStub stub = ctx.getStub();
 
@@ -446,7 +446,7 @@ public final class iReceptorChain implements ContractInterface {
             resultsToReturn.add(dataReturnType);
     }
 
-        TraceabilityDataReturnType[] response = resultsToReturn.toArray(new TraceabilityDataReturnType[resultsToReturn.size()]);
+        TraceabilityDataAwatingValidationReturnType[] response = resultsToReturn.toArray(new TraceabilityDataAwatingValidationReturnType[resultsToReturn.size()]);
 
         return response;
     }
