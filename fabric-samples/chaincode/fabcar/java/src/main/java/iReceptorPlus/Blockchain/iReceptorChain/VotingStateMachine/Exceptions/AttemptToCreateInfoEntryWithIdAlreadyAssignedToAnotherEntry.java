@@ -1,4 +1,4 @@
-package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions;
+package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions;
 
 /**
  * This is a subclass that represents a specific type of exception upon processing by the state machine:

@@ -1,18 +1,16 @@
-package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine;
+package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
-import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.IncosistentInfoFoundOnDB;
-import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
-import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States.AwaitingValidation;
-import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States.State;
-import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.States.Validated;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.IncosistentInfoFoundOnDB;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.AwaitingValidation;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.State;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.Validated;
 
 /**
  * This class implements a state machine for the traceability information.
@@ -34,7 +32,7 @@ public class TraceabilityInfoStateMachine
 
     /**
      * An instance of class HyperledgerFabricBlockhainRepositoryAPI created using the current blockchain context.
-     * The class implements all calls to the Hyperledger API in order to abstract that logic from this class (TraceabilityInfoStateMachine).
+     * The class implements all calls to the Hyperledger API in order to abstract that logic from this class (VotingStateMachine).
      */
     HyperledgerFabricBlockhainRepositoryAPI api;
 

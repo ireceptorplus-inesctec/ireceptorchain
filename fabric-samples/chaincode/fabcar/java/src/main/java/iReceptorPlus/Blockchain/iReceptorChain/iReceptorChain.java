@@ -6,7 +6,6 @@ package iReceptorPlus.Blockchain.iReceptorChain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwatingValidationReturnType;
@@ -18,9 +17,9 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Hyp
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataAwatingValidationRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
-import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.IncosistentInfoFoundOnDB;
-import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
-import iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.TraceabilityInfoStateMachine;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.IncosistentInfoFoundOnDB;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.TraceabilityInfoStateMachine;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.Contact;

@@ -1,4 +1,4 @@
-package iReceptorPlus.Blockchain.iReceptorChain.TraceabilityInfoStateMachine.Exceptions;
+package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions;
 
 public class IncosistentInfoFoundOnDB extends TraceabilityInfoStateMachineException
 {

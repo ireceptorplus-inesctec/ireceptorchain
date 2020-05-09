@@ -8,7 +8,7 @@ import org.hyperledger.fabric.contract.annotation.Property;
  * This class represents an entry of traceability information.
  * This is the base class for traceability information.
  * Sub classes are used where there are necessary additional attributes, depending on the state of validation of the traceability information.
- * Please check the TraceabilityInfoStateMachine package for more information.
+ * Please check the VotingStateMachine package for more information.
  */
 @DataType()
 public abstract class TraceabilityData implements iReceptorChainDataType
