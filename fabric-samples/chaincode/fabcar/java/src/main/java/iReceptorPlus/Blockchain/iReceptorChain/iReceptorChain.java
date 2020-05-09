@@ -418,7 +418,7 @@ public final class iReceptorChain implements ContractInterface {
             traceabilityInfoStateMachine = new TraceabilityInfoStateMachine(traceabilityDataInfo, api);
         } catch (UnsupportedTypeOfTraceabilityInfo unsupportedTypeOfTraceabilityInfo)
         {
-            throw new ChaincodeException("Voting on information with thus type is not supported");
+            throw new ChaincodeException("Voting on information with this type is not supported");
         }
         return traceabilityInfoStateMachine;
     }
