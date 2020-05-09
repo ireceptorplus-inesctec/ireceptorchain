@@ -42,7 +42,30 @@ async function main() {
         // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
         // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
         //const result = await contract.evaluateTransaction('createCar', 'CARRRR', 'make', 'model', 'color', 'owner');
-        const result = await contract.evaluateTransaction('test');
+        //const result = await contract.evaluateTransaction('test');
+        const createTraceabilityEntryResult = await contract.evaluateTransaction('createTraceabilityDataEntry',
+        'uuid',
+        'inputDatasetHashValue',
+        'outputDatasetHashValue',
+        'softwareId',
+        'softwareVersion',
+        'softwareBinaryExecutableHashValue',
+        'softwareConfigParams',
+        );
+        const registerYesVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
+        'uuid',
+        );
+        const registerNoVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerNoVoteForTraceabilityEntryInVotingRoundResult',
+        'uuid',
+        );
+        const getAllAwaitingValidationTraceabilityDataEntries = await contract.evaluateTransaction('registerNoVoteForTraceabilityEntryInVotingRoundResult',
+        'uuid',
+        );
+        const getAllValidatedTraceabilityDataEntries = await contract.evaluateTransaction('registerNoVoteForTraceabilityEntryInVotingRoundResult',
+        'uuid',
+        );
+
+
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
         console.log(`Transaction has been evaluated, result is: ${result2.toString()}`);
 
