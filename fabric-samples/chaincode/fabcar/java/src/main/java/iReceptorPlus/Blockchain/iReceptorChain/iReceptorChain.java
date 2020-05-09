@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwatingValidationReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
@@ -441,9 +442,9 @@ public final class iReceptorChain implements ContractInterface {
         for (iReceptorChainDataTypeInfo result: results)
         {
             TraceabilityDataInfo traceabilityDataInfo = (TraceabilityDataInfo) result;
-            TraceabilityDataReturnType dataReturnType = new TraceabilityDataReturnType(traceabilityDataInfo.getUUID(), traceabilityDataInfo.getTraceabilityData());
+            TraceabilityDataReturnType dataReturnType = new TraceabilityDataAwatingValidationReturnType(traceabilityDataInfo.getUUID(), (TraceabilityDataAwatingValidation) traceabilityDataInfo.getTraceabilityData());
             resultsToReturn.add(dataReturnType);
-        }
+    }
 
         TraceabilityDataReturnType[] response = resultsToReturn.toArray(new TraceabilityDataReturnType[resultsToReturn.size()]);
 
