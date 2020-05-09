@@ -425,7 +425,7 @@ public final class iReceptorChain implements ContractInterface {
     }
 
     /**
-     * Retrieves every car between CAR0 and CAR999 from the ledger.
+     * Retrieves all traceability data that is in state awating validation.
      *
      * @param ctx the transaction context
      * @return array of Cars found on the ledger
@@ -453,7 +453,7 @@ public final class iReceptorChain implements ContractInterface {
     }
 
     /**
-     * Retrieves every car between CAR0 and CAR999 from the ledger.
+     * Retrieves all traceability data that is in state validated.
      *
      * @param ctx the transaction context
      * @return array of Cars found on the ledger
