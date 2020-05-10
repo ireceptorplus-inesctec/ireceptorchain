@@ -504,6 +504,6 @@ public final class iReceptorChain implements ContractInterface {
 
     private void logDebugMsg(String msg)
     {
-        Logger.logMsg(Logger.DEBUG, "************************** " + msg + " **************************");
+        System.err.println("************************** " + msg + " **************************");
     }
 }
