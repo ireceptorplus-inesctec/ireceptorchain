@@ -389,8 +389,10 @@ public final class iReceptorChain implements ContractInterface {
      */
     @Transaction()
     public String registerNoVoteForTraceabilityEntryInVotingRound(final Context ctx, final String uuid) {
+        logDebugMsg("registerNoVoteForTraceabilityEntryInVotingRound");
+
         TraceabilityInfoStateMachine traceabilityInfoStateMachine = getInfoFromDBAndBuildVotingStateMachine(ctx, uuid);
-        System.err.println("registerNoVoteForTraceabilityEntryInVotingRound");
+
         //TODO fix this aldrabation of the entity
         try
         {
@@ -399,6 +401,7 @@ public final class iReceptorChain implements ContractInterface {
         {
             throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
         }
+        logDebugMsg("registerNoVoteForTraceabilityEntryInVotingRound END");
 
         return "Vote submitted Successfully";
     }
@@ -412,8 +415,9 @@ public final class iReceptorChain implements ContractInterface {
      */
     private TraceabilityInfoStateMachine getInfoFromDBAndBuildVotingStateMachine(Context ctx, String uuid)
     {
+        logDebugMsg("getInfoFromDBAndBuildVotingStateMachine");
+
         ChaincodeStub stub = ctx.getStub();
-        System.err.println("getInfoFromDBAndBuildVotingStateMachine");
 
         TraceabilityData traceabilityData;
 
@@ -435,6 +439,8 @@ public final class iReceptorChain implements ContractInterface {
         {
             throw new ChaincodeException("Voting on information with this type is not supported");
         }
+        logDebugMsg("getInfoFromDBAndBuildVotingStateMachine END");
+
         return traceabilityInfoStateMachine;
     }
 
@@ -446,7 +452,7 @@ public final class iReceptorChain implements ContractInterface {
      */
     @Transaction()
     public TraceabilityDataAwatingValidationReturnType[] getAllAwaitingValidationTraceabilityDataEntries(final Context ctx) {
-        System.err.println("getAllAwaitingValidationTraceabilityDataEntries");
+        logDebugMsg("getAllAwaitingValidationTraceabilityDataEntries");
         ChaincodeStub stub = ctx.getStub();
 
         HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
@@ -462,6 +468,7 @@ public final class iReceptorChain implements ContractInterface {
     }
 
         TraceabilityDataAwatingValidationReturnType[] response = resultsToReturn.toArray(new TraceabilityDataAwatingValidationReturnType[resultsToReturn.size()]);
+        logDebugMsg("getAllAwaitingValidationTraceabilityDataEntries END");
 
         return response;
     }
@@ -474,7 +481,7 @@ public final class iReceptorChain implements ContractInterface {
      */
     @Transaction()
     public TraceabilityDataValidatedReturnType[] getAllValidatedTraceabilityDataEntries(final Context ctx) {
-        System.err.println("getAllValidatedTraceabilityDataEntries");
+        logDebugMsg("getAllValidatedTraceabilityDataEntries");
 
         ChaincodeStub stub = ctx.getStub();
 
@@ -491,6 +498,7 @@ public final class iReceptorChain implements ContractInterface {
     }
 
         TraceabilityDataValidatedReturnType[] response = resultsToReturn.toArray(new TraceabilityDataValidatedReturnType[resultsToReturn.size()]);
+        logDebugMsg("getAllValidatedTraceabilityDataEntries END");
 
         return response;
     }
