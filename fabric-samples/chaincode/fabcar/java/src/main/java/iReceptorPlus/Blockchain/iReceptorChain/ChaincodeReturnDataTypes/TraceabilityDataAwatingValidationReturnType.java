@@ -12,13 +12,13 @@ public class TraceabilityDataAwatingValidationReturnType
      * The uuid used to reference the traceability data.
      */
     @Property()
-    String uuid;
+    private final String uuid;
 
     /**
      * The traceability data just as it is stored on the blockchain.
      */
     @Property()
-    String traceabilityDataAwatingValidationData;
+    private final String traceabilityDataAwatingValidationData;
 
     public TraceabilityDataAwatingValidationReturnType(@JsonProperty("uuid") final String uuid,
                                                        @JsonProperty("traceabilityDataAwatingValidationData") final String traceabilityDataAwatingValidationData)
