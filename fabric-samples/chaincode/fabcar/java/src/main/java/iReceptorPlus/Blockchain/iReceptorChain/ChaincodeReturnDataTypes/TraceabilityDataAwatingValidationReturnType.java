@@ -6,41 +6,18 @@ import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
 @DataType()
-public class TraceabilityDataAwatingValidationReturnType
+public class TraceabilityDataAwatingValidationReturnType extends TraceabilityDataReturnType
 {
-    /**
-     * The uuid used to reference the traceability data.
-     */
-    @Property()
-    private final String uuid;
-
     /**
      * The traceability data just as it is stored on the blockchain.
      */
     @Property()
-    private final String traceabilityDataAwatingValidationData;
+    TraceabilityDataAwatingValidation traceabilityDataAwatingValidationData;
 
-    public String getUuid()
-    {
-        return uuid;
-    }
-
-    public String getTraceabilityDataAwatingValidationData()
-    {
-        return traceabilityDataAwatingValidationData;
-    }
-
-    public TraceabilityDataAwatingValidationReturnType(@JsonProperty("uuid") final String uuid,
-                                                       @JsonProperty("traceabilityDataAwatingValidationData") final String traceabilityDataAwatingValidationData)
-    {
-        this.uuid = uuid;
-        this.traceabilityDataAwatingValidationData = traceabilityDataAwatingValidationData;
-    }
     public TraceabilityDataAwatingValidationReturnType(@JsonProperty("uuid") final String uuid,
                                                        @JsonProperty("traceabilityDataAwatingValidationData") final TraceabilityDataAwatingValidation traceabilityDataAwatingValidationData)
     {
-        this.uuid ="";
-        this.traceabilityDataAwatingValidationData = "";
+        super(uuid);
+        this.traceabilityDataAwatingValidationData = traceabilityDataAwatingValidationData;
     }
-
 }
