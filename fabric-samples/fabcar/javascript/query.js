@@ -55,22 +55,22 @@ async function main() {
         const registerYesVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
-        const registerNoVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerNoVoteForTraceabilityEntryInVotingRoundResult',
+        const registerNoVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerNoVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
-        const getAllAwaitingValidationTraceabilityDataEntries = await contract.evaluateTransaction('registerNoVoteForTraceabilityEntryInVotingRoundResult',
+        const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
         'uuid',
         );
-        const getAllValidatedTraceabilityDataEntries = await contract.evaluateTransaction('registerNoVoteForTraceabilityEntryInVotingRoundResult',
+        const getAllValidatedTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllValidatedTraceabilityDataEntries',
         'uuid',
         );
 
 
-        console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
-        console.log(`createTraceabilityEntryResult: ${registerYesVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
-        console.log(`createTraceabilityEntryResult: ${registerNoVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
-        console.log(`createTraceabilityEntryResult: ${getAllAwaitingValidationTraceabilityDataEntries.toString()}`);
-        console.log(`createTraceabilityEntryResult: ${getAllValidatedTraceabilityDataEntries.toString()}`);
+        //console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
+        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult: ${registerYesVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
+        console.log(`registerNoVoteForTraceabilityEntryInVotingRoundResult: ${registerNoVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
+        console.log(`getAllAwaitingValidationTraceabilityDataEntriesResult: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
+        console.log(`getAllValidatedTraceabilityDataEntriesResult: ${getAllValidatedTraceabilityDataEntriesResult.toString()}`);
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);
         process.exit(1);
