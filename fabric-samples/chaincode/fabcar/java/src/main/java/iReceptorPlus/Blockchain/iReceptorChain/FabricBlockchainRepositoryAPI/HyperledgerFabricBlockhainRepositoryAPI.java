@@ -108,7 +108,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     {
         String key = uuidToKey(uuid);
         String serializedData = genson.serialize(data);
-        ctx.getStub().putStringState("uuid", serializedData);
+        ctx.getStub().putStringState(key, serializedData);
     }
 
     private iReceptorChainDataType getDataTypeFromDB(String uuid) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
@@ -175,7 +175,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         UUID upperBoundUuid = new UUID(Long.MAX_VALUE, Long.MAX_VALUE);
         String startKey = objectTypeIdentifier + "-" + lowerBoundUuid.toString();
         String endKey = objectTypeIdentifier + "-" + upperBoundUuid.toString();
-        QueryResultsIterator<KeyValue> resultsFromStub = ctx.getStub().getStateByRange("A","Z");
+        QueryResultsIterator<KeyValue> resultsFromStub = ctx.getStub().getStateByRange("uuid","uuid2");
 
         ArrayList<iReceptorChainDataTypeInfo> results = new ArrayList<>();
         for (KeyValue result: resultsFromStub)
