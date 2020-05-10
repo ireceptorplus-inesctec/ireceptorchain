@@ -320,7 +320,7 @@ public final class iReceptorChain implements ContractInterface {
      * @return the traceability entry and the UUID used to reference the traceability information.
      */
     @Transaction()
-    public TraceabilityDataInfo createTraceabilityDataEntry(final Context ctx, final String newUUID, final String inputDatasetHashValue,
+    public TraceabilityDataAwatingValidationReturnType createTraceabilityDataEntry(final Context ctx, final String newUUID, final String inputDatasetHashValue,
                                                             final String outputDatasetHashValue, final String softwareId,
                                                             final String softwareVersion, final String softwareBinaryExecutableHashValue,
                                                             final String softwareConfigParams) {
@@ -328,7 +328,7 @@ public final class iReceptorChain implements ContractInterface {
 
         ChaincodeStub stub = ctx.getStub();
 
-        TraceabilityData traceabilityData = new TraceabilityDataAwatingValidation(inputDatasetHashValue, outputDatasetHashValue,
+        TraceabilityDataAwatingValidation traceabilityData = new TraceabilityDataAwatingValidation(inputDatasetHashValue, outputDatasetHashValue,
                 new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams));
 
         HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
@@ -341,7 +341,7 @@ public final class iReceptorChain implements ContractInterface {
             throw new ChaincodeException(givenIdIsAlreadyAssignedToAnotherObject.getMessage());
         }
 
-        TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(newUUID, traceabilityData);
+        TraceabilityDataAwatingValidationReturnType traceabilityDataInfo = new TraceabilityDataAwatingValidationReturnType(newUUID, traceabilityData);
 
         logDebugMsg("createTraceabilityDataEntry END");
 
