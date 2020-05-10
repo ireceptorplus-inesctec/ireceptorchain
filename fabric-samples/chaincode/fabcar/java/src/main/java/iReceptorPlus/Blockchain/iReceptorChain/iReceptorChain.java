@@ -325,7 +325,7 @@ public final class iReceptorChain implements ContractInterface {
                                                             final String softwareVersion, final String softwareBinaryExecutableHashValue,
                                                             final String softwareConfigParams) {
         ChaincodeStub stub = ctx.getStub();
-
+        System.err.println("createTraceabilityDataEntry");
         TraceabilityData traceabilityData = new TraceabilityDataAwatingValidation(inputDatasetHashValue, outputDatasetHashValue,
                 new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams));
 
@@ -353,6 +353,7 @@ public final class iReceptorChain implements ContractInterface {
     @Transaction()
     public String registerYesVoteForTraceabilityEntryInVotingRound(final Context ctx, final String uuid) {
         TraceabilityInfoStateMachine traceabilityInfoStateMachine = getInfoFromDBAndBuildVotingStateMachine(ctx, uuid);
+        System.err.println("registerYesVoteForTraceabilityEntryInVotingRound");
 
         //TODO fix this aldrabation of the entity
         try
@@ -376,7 +377,7 @@ public final class iReceptorChain implements ContractInterface {
     @Transaction()
     public String registerNoVoteForTraceabilityEntryInVotingRound(final Context ctx, final String uuid) {
         TraceabilityInfoStateMachine traceabilityInfoStateMachine = getInfoFromDBAndBuildVotingStateMachine(ctx, uuid);
-
+        System.err.println("registerNoVoteForTraceabilityEntryInVotingRound");
         //TODO fix this aldrabation of the entity
         try
         {
@@ -399,6 +400,7 @@ public final class iReceptorChain implements ContractInterface {
     private TraceabilityInfoStateMachine getInfoFromDBAndBuildVotingStateMachine(Context ctx, String uuid)
     {
         ChaincodeStub stub = ctx.getStub();
+        System.err.println("getInfoFromDBAndBuildVotingStateMachine");
 
         TraceabilityData traceabilityData;
 
@@ -431,7 +433,7 @@ public final class iReceptorChain implements ContractInterface {
      */
     @Transaction()
     public TraceabilityDataAwatingValidationReturnType[] getAllAwaitingValidationTraceabilityDataEntries(final Context ctx) {
-
+        System.err.println("getAllAwaitingValidationTraceabilityDataEntries");
         ChaincodeStub stub = ctx.getStub();
 
         HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
@@ -459,6 +461,7 @@ public final class iReceptorChain implements ContractInterface {
      */
     @Transaction()
     public TraceabilityDataValidatedReturnType[] getAllValidatedTraceabilityDataEntries(final Context ctx) {
+        System.err.println("getAllValidatedTraceabilityDataEntries");
 
         ChaincodeStub stub = ctx.getStub();
 
