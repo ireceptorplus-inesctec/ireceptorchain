@@ -108,7 +108,6 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     {
         String key = uuidToKey(uuid);
         String serializedData = genson.serialize(data);
-        System.err.println("********************* key is: " + key + " *******************************");
         ctx.getStub().putStringState(key, serializedData);
     }
 
@@ -176,12 +175,13 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         UUID upperBoundUuid = new UUID(Long.MAX_VALUE, Long.MAX_VALUE);
         String startKey = objectTypeIdentifier + "-" + lowerBoundUuid.toString();
         String endKey = objectTypeIdentifier + "-" + upperBoundUuid.toString();
-        QueryResultsIterator<KeyValue> resultsFromStub = ctx.getStub().getStateByRange(objectTypeIdentifier + "-uuid", objectTypeIdentifier +"-uuid2");
+        QueryResultsIterator<KeyValue> resultsFromStub = ctx.getStub().getStateByRange("A","Z");
 
         ArrayList<iReceptorChainDataTypeInfo> results = new ArrayList<>();
         for (KeyValue result: resultsFromStub)
         {
-            String uuid = "a";
+            System.err.println("*************** result.getKey(): " + result.getKey());
+            String uuid = result.getKey().substring((objectTypeIdentifier + "-").length());
             iReceptorChainDataTypeInfo dataInfo = deserializeData(uuid, result.getStringValue());
 
             results.add(dataInfo);
