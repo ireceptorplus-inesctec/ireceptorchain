@@ -61,4 +61,14 @@ public class TraceabilityDataValidated extends TraceabilityData
     {
         return validators.size();
     }
+
+    public ArrayList<Entity> getValidators()
+    {
+        return validators;
+    }
+
+    public ArrayList<Entity> getCorroborators()
+    {
+        return corroborators;
+    }
 }
