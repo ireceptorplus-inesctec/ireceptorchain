@@ -7,6 +7,7 @@ package iReceptorPlus.Blockchain.iReceptorChain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.media.jfxmedia.logging.Logger;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwatingValidationReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
@@ -324,8 +325,10 @@ public final class iReceptorChain implements ContractInterface {
                                                             final String outputDatasetHashValue, final String softwareId,
                                                             final String softwareVersion, final String softwareBinaryExecutableHashValue,
                                                             final String softwareConfigParams) {
+        logDebugMsg("createTraceabilityDataEntry");
+
         ChaincodeStub stub = ctx.getStub();
-        System.err.println("createTraceabilityDataEntry");
+
         TraceabilityData traceabilityData = new TraceabilityDataAwatingValidation(inputDatasetHashValue, outputDatasetHashValue,
                 new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams));
 
@@ -340,6 +343,10 @@ public final class iReceptorChain implements ContractInterface {
         }
 
         TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(newUUID, traceabilityData);
+        System.err.println("createTraceabilityDataEntry END");
+
+        logDebugMsg("createTraceabilityDataEntry END");
+
         return traceabilityDataInfo;
     }
 
@@ -352,8 +359,12 @@ public final class iReceptorChain implements ContractInterface {
      */
     @Transaction()
     public String registerYesVoteForTraceabilityEntryInVotingRound(final Context ctx, final String uuid) {
+
+        logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound");
+
         TraceabilityInfoStateMachine traceabilityInfoStateMachine = getInfoFromDBAndBuildVotingStateMachine(ctx, uuid);
-        System.err.println("registerYesVoteForTraceabilityEntryInVotingRound");
+
+
 
         //TODO fix this aldrabation of the entity
         try
@@ -363,6 +374,8 @@ public final class iReceptorChain implements ContractInterface {
         {
             throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
         }
+
+        logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound END");
 
         return "Vote submitted Successfully";
     }
@@ -480,5 +493,10 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataValidatedReturnType[] response = resultsToReturn.toArray(new TraceabilityDataValidatedReturnType[resultsToReturn.size()]);
 
         return response;
+    }
+
+    private void logDebugMsg(String msg)
+    {
+        Logger.logMsg(Logger.DEBUG, "************************** " + msg + " **************************");
     }
 }
