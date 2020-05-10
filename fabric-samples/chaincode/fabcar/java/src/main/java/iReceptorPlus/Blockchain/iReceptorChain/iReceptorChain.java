@@ -7,7 +7,6 @@ package iReceptorPlus.Blockchain.iReceptorChain;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.media.jfxmedia.logging.Logger;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwatingValidationReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
