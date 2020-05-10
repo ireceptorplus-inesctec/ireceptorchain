@@ -108,6 +108,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     {
         String key = uuidToKey(uuid);
         String serializedData = genson.serialize(data);
+        System.err.println("********************* key is: " + key + " *******************************");
         ctx.getStub().putStringState(key, serializedData);
     }
 
