@@ -489,7 +489,7 @@ public final class iReceptorChain implements ContractInterface {
      * @return array of traceability data that is in state awaiting validation.
      */
     @Transaction()
-    public TraceabilityDataValidatedReturnType[] getAllValidatedTraceabilityDataEntries(final Context ctx) {
+    public TraceabilityDataValidatedReturnType getAllValidatedTraceabilityDataEntries(final Context ctx) {
         logDebugMsg("getAllValidatedTraceabilityDataEntries");
 
         ChaincodeStub stub = ctx.getStub();
@@ -509,7 +509,7 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataValidatedReturnType[] response = resultsToReturn.toArray(new TraceabilityDataValidatedReturnType[resultsToReturn.size()]);
         logDebugMsg("getAllValidatedTraceabilityDataEntries END");
 
-        return response;
+        return new TraceabilityDataValidatedReturnType("uuid", new TraceabilityDataValidated("a", "a", new ProcessingDetails("a", "a", "a", "a"), new ArrayList<>()));
     }
 
     private void logDebugMsg(String msg)
