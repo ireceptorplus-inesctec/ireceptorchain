@@ -26,21 +26,6 @@ public final class Car {
     @Property()
     private final String owner;
 
-    public String getMake() {
-        return make;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
 
     public Car(@JsonProperty("make") final String make, @JsonProperty("model") final String model,
             @JsonProperty("color") final String color, @JsonProperty("owner") final String owner) {
