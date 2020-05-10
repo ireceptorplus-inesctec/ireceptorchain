@@ -456,7 +456,7 @@ public final class iReceptorChain implements ContractInterface {
         HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
         ArrayList<iReceptorChainDataTypeInfo> results = api.getAllEntries();
 
-        ArrayList<TraceabilityDataReturnType> resultsToReturn = new ArrayList<>();
+        ArrayList<TraceabilityDataAwatingValidationReturnType> resultsToReturn = new ArrayList<>();
 
         for (iReceptorChainDataTypeInfo result: results)
         {
