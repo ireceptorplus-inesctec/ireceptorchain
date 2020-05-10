@@ -14,6 +14,11 @@ public abstract class TraceabilityDataReturnType implements ChaincodeReturnDataT
     @Property()
     String uuid;
 
+    public String getUuid()
+    {
+        return uuid;
+    }
+
     public TraceabilityDataReturnType(@JsonProperty("inputDatasetHashValue") final String uuid)
     {
         this.uuid = uuid;

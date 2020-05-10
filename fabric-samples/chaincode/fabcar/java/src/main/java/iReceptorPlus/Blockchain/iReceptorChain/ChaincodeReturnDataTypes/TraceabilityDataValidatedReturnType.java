@@ -15,6 +15,11 @@ public class TraceabilityDataValidatedReturnType extends TraceabilityDataReturnT
     @Property()
     TraceabilityDataValidated traceabilityDataValidatedData;
 
+    public TraceabilityDataValidated getTraceabilityDataValidatedData()
+    {
+        return traceabilityDataValidatedData;
+    }
+
     public TraceabilityDataValidatedReturnType(@JsonProperty("uuid") final String uuid,
                                                @JsonProperty("traceabilityDataValidatedData") final TraceabilityDataValidated traceabilityDataValidatedData)
     {

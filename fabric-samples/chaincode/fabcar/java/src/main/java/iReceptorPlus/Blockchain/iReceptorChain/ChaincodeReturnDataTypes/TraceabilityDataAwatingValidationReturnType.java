@@ -14,6 +14,11 @@ public class TraceabilityDataAwatingValidationReturnType extends TraceabilityDat
     @Property()
     TraceabilityDataAwatingValidation traceabilityDataAwatingValidationData;
 
+    public TraceabilityDataAwatingValidation getTraceabilityDataAwatingValidationData()
+    {
+        return traceabilityDataAwatingValidationData;
+    }
+
     public TraceabilityDataAwatingValidationReturnType(@JsonProperty("uuid") final String uuid,
                                                        @JsonProperty("traceabilityDataAwatingValidationData") final TraceabilityDataAwatingValidation traceabilityDataAwatingValidationData)
     {
