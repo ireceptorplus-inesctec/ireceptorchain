@@ -25,6 +25,11 @@ public class TraceabilityDataAwatingValidationReturnType
         return traceabilityDataAwatingValidationData;
     }
 
+    public String getUuid()
+    {
+        return uuid;
+    }
+
     public TraceabilityDataAwatingValidationReturnType(@JsonProperty("uuid") final String uuid,
                                                        @JsonProperty("traceabilityDataAwatingValidationData") final TraceabilityDataAwatingValidation traceabilityDataAwatingValidationData)
     {
