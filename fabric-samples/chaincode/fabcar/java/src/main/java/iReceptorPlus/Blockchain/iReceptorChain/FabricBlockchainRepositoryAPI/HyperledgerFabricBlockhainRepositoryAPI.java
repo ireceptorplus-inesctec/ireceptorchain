@@ -173,9 +173,9 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     {
         UUID lowerBoundUuid = new UUID(0, 0);
         UUID upperBoundUuid = new UUID(Long.MAX_VALUE, Long.MAX_VALUE);
-        String startKey = "";
+        String startKey = "a";
         String endKey = objectTypeIdentifier + "-" + upperBoundUuid.toString();
-                    QueryResultsIterator<KeyValue> resultsFromStub = ctx.getStub().getStateByRange(startKey, endKey);
+        QueryResultsIterator<KeyValue> resultsFromStub = ctx.getStub().getStateByRange(startKey, endKey);
 
         ArrayList<iReceptorChainDataTypeInfo> results = new ArrayList<>();
         for (KeyValue result: resultsFromStub)
