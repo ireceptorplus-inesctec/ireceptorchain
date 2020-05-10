@@ -4,7 +4,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAw
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
-@DataType
+@DataType()
 public class TraceabilityDataAwatingValidationReturnType
 {
     /**
