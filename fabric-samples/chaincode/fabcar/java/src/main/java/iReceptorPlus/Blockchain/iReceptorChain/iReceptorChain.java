@@ -509,7 +509,7 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataValidatedReturnType[] response = resultsToReturn.toArray(new TraceabilityDataValidatedReturnType[resultsToReturn.size()]);
         logDebugMsg("getAllValidatedTraceabilityDataEntries END");
 
-        return new TraceabilityDataAwatingValidationReturnType("uuid", new TraceabilityDataAwatingValidation("a", "a", new ProcessingDetails("a", "a", "a", "a")));
+        return new TraceabilityDataAwatingValidationReturnType("uuid", "traceability data");
     }
 
     private void logDebugMsg(String msg)

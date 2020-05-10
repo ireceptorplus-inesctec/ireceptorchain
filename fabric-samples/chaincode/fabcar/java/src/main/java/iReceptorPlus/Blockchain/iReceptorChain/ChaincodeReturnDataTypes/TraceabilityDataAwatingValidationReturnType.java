@@ -18,10 +18,10 @@ public class TraceabilityDataAwatingValidationReturnType
      * The traceability data just as it is stored on the blockchain.
      */
     @Property()
-    TraceabilityDataAwatingValidation traceabilityDataAwatingValidationData;
+    String traceabilityDataAwatingValidationData;
 
     public TraceabilityDataAwatingValidationReturnType(@JsonProperty("uuid") final String uuid,
-                                                       @JsonProperty("traceabilityDataAwatingValidationData") final TraceabilityDataAwatingValidation traceabilityDataAwatingValidationData)
+                                                       @JsonProperty("traceabilityDataAwatingValidationData") final String traceabilityDataAwatingValidationData)
     {
         this.uuid = uuid;
         this.traceabilityDataAwatingValidationData = traceabilityDataAwatingValidationData;
