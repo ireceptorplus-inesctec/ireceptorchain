@@ -284,36 +284,6 @@ public final class iReceptorChain implements ContractInterface {
 
     }
 
-
-    /**
-     * Changes the owner of a car on the ledger.
-     *
-     * @param ctx the transaction context
-     * @param key the UUID
-     * @param newOwner the new owner
-     * @return the updated Car
-     */
-    @Transaction()
-    public Car changeCarOwner(final Context ctx, final String key, final String newOwner) {
-        ChaincodeStub stub = ctx.getStub();
-
-        String carState = stub.getStringState(key);
-
-        if (carState.isEmpty()) {
-            String errorMessage = String.format("Car %s does not exist", key);
-            System.out.println(errorMessage);
-            throw new ChaincodeException(errorMessage, FabCarErrors.CAR_NOT_FOUND.toString());
-        }
-
-        Car car = genson.deserialize(carState, Car.class);
-
-        Car newCar = new Car(car.getMake(), car.getModel(), car.getColor(), newOwner);
-        String newCarState = genson.serialize(newCar);
-        stub.putStringState(key, newCarState);
-
-        return newCar;
-    }
-
     /**
      * Creates a new traceability data entry on the ledger.
      * The entry is placed on the pool of traceability data's waiting to be validated by peers.
