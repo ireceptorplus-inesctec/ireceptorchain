@@ -343,7 +343,6 @@ public final class iReceptorChain implements ContractInterface {
         }
 
         TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(newUUID, traceabilityData);
-        System.err.println("createTraceabilityDataEntry END");
 
         logDebugMsg("createTraceabilityDataEntry END");
 
