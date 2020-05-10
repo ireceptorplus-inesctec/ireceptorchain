@@ -26,4 +26,11 @@ public class TraceabilityDataAwatingValidationReturnType
         this.uuid = uuid;
         this.traceabilityDataAwatingValidationData = traceabilityDataAwatingValidationData;
     }
+    public TraceabilityDataAwatingValidationReturnType(@JsonProperty("uuid") final String uuid,
+                                                       @JsonProperty("traceabilityDataAwatingValidationData") final TraceabilityDataAwatingValidation traceabilityDataAwatingValidationData)
+    {
+        this.uuid ="";
+        this.traceabilityDataAwatingValidationData = "";
+    }
+
 }

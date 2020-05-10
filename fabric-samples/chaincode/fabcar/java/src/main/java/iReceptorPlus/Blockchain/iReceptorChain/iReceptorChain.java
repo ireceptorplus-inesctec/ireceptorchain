@@ -284,6 +284,36 @@ public final class iReceptorChain implements ContractInterface {
 
     }
 
+
+    /**
+     * Changes the owner of a car on the ledger.
+     *
+     * @param ctx the transaction context
+     * @param key the UUID
+     * @param newOwner the new owner
+     * @return the updated Car
+     */
+    @Transaction()
+    public Car changeCarOwner(final Context ctx, final String key, final String newOwner) {
+        ChaincodeStub stub = ctx.getStub();
+
+        String carState = stub.getStringState(key);
+
+        if (carState.isEmpty()) {
+            String errorMessage = String.format("Car %s does not exist", key);
+            System.out.println(errorMessage);
+            throw new ChaincodeException(errorMessage, FabCarErrors.CAR_NOT_FOUND.toString());
+        }
+
+        Car car = genson.deserialize(carState, Car.class);
+
+        Car newCar = new Car(car.getMake(), car.getModel(), car.getColor(), newOwner);
+        String newCarState = genson.serialize(newCar);
+        stub.putStringState(key, newCarState);
+
+        return newCar;
+    }
+
     /**
      * Creates a new traceability data entry on the ledger.
      * The entry is placed on the pool of traceability data's waiting to be validated by peers.
@@ -299,7 +329,7 @@ public final class iReceptorChain implements ContractInterface {
      * @return the traceability entry and the UUID used to reference the traceability information.
      */
     @Transaction()
-    public void createTraceabilityDataEntry(final Context ctx, final String newUUID, final String inputDatasetHashValue,
+    public TraceabilityDataAwatingValidationReturnType createTraceabilityDataEntry(final Context ctx, final String newUUID, final String inputDatasetHashValue,
                                                             final String outputDatasetHashValue, final String softwareId,
                                                             final String softwareVersion, final String softwareBinaryExecutableHashValue,
                                                             final String softwareConfigParams) {
@@ -320,11 +350,11 @@ public final class iReceptorChain implements ContractInterface {
             throw new ChaincodeException(givenIdIsAlreadyAssignedToAnotherObject.getMessage());
         }
 
-        //TraceabilityDataAwatingValidationReturnType traceabilityDataInfo = new TraceabilityDataAwatingValidationReturnType(newUUID, traceabilityData);
+        TraceabilityDataAwatingValidationReturnType traceabilityDataInfo = new TraceabilityDataAwatingValidationReturnType(newUUID, traceabilityData);
 
         logDebugMsg("createTraceabilityDataEntry END");
 
-        //return traceabilityDataInfo;
+        return traceabilityDataInfo;
     }
 
     /**
@@ -440,8 +470,8 @@ public final class iReceptorChain implements ContractInterface {
         for (iReceptorChainDataTypeInfo result: results)
         {
             TraceabilityDataInfo traceabilityDataInfo = (TraceabilityDataInfo) result;
-            //TraceabilityDataAwatingValidationReturnType dataReturnType = new TraceabilityDataAwatingValidationReturnType(traceabilityDataInfo.getUUID(), (TraceabilityDataAwatingValidation) traceabilityDataInfo.getTraceabilityData());
-            //resultsToReturn.add(dataReturnType);
+            TraceabilityDataAwatingValidationReturnType dataReturnType = new TraceabilityDataAwatingValidationReturnType(traceabilityDataInfo.getUUID(), (TraceabilityDataAwatingValidation) traceabilityDataInfo.getTraceabilityData());
+            resultsToReturn.add(dataReturnType);
         }
 
         TraceabilityDataAwatingValidationReturnType[] response = resultsToReturn.toArray(new TraceabilityDataAwatingValidationReturnType[resultsToReturn.size()]);
@@ -459,7 +489,7 @@ public final class iReceptorChain implements ContractInterface {
      * @return array of traceability data that is in state awaiting validation.
      */
     @Transaction()
-    public Car getAllValidatedTraceabilityDataEntries(final Context ctx) {
+    public TraceabilityDataAwatingValidationReturnType getAllValidatedTraceabilityDataEntries(final Context ctx) {
         logDebugMsg("getAllValidatedTraceabilityDataEntries");
 
         ChaincodeStub stub = ctx.getStub();
@@ -478,8 +508,8 @@ public final class iReceptorChain implements ContractInterface {
 
         TraceabilityDataValidatedReturnType[] response = resultsToReturn.toArray(new TraceabilityDataValidatedReturnType[resultsToReturn.size()]);
         logDebugMsg("getAllValidatedTraceabilityDataEntries END");
-        return new Car("make", "model", "color", "owner");
-        //return new TraceabilityDataAwatingValidationReturnType("uuid", "traceability data");
+
+        return new TraceabilityDataAwatingValidationReturnType("uuid", "traceability data");
     }
 
     private void logDebugMsg(String msg)
