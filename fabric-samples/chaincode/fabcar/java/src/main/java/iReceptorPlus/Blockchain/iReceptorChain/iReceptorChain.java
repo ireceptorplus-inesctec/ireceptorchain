@@ -472,9 +472,11 @@ public final class iReceptorChain implements ContractInterface {
             TraceabilityDataInfo traceabilityDataInfo = (TraceabilityDataInfo) result;
             TraceabilityDataAwatingValidationReturnType dataReturnType = new TraceabilityDataAwatingValidationReturnType(traceabilityDataInfo.getUUID(), (TraceabilityDataAwatingValidation) traceabilityDataInfo.getTraceabilityData());
             resultsToReturn.add(dataReturnType);
-    }
+        }
 
         TraceabilityDataAwatingValidationReturnType[] response = resultsToReturn.toArray(new TraceabilityDataAwatingValidationReturnType[resultsToReturn.size()]);
+        System.err.println("*************** response[0]: " + genson.serialize(response[0]));
+
         logDebugMsg("getAllAwaitingValidationTraceabilityDataEntries END");
 
         return response;
