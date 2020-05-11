@@ -186,6 +186,11 @@ public final class iReceptorChain implements ContractInterface {
         return response;
     }
 
+    private EntityID getEntityIdFromContext(Context ctx)
+    {
+        return new EntityID(ctx.getClientIdentity().getId());
+    }
+
     @Transaction()
     public TraceabilityData createTraceabilityEntries(final Context ctx) {
         iReceptorChainDataType traceabilityDataAwatingValidation = new TraceabilityDataAwatingValidation("a","b", new ProcessingDetails("", "", "", ""));
@@ -224,8 +229,8 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityData resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityDataValidated.class);
 
 
-        resultsAwatingValidation.registerYesVoteForValidity(new EntityID());
-        resultsValidated.registerYesVoteForValidity(new EntityID());
+        resultsAwatingValidation.registerYesVoteForValidity(getEntityIdFromContext(ctx));
+        resultsValidated.registerYesVoteForValidity(getEntityIdFromContext(ctx));
         System.err.println("stuff4");
 
 
@@ -286,8 +291,8 @@ public final class iReceptorChain implements ContractInterface {
 
         return (TraceabilityData) resultsValidated;
 /*
-        resultsAwatingValidation.registerYesVoteForValidity(new EntityID());
-        resultsValidated.registerYesVoteForValidity(new EntityID());
+        resultsAwatingValidation.registerYesVoteForValidity(getEntityIdFromContext(ctx));
+        resultsValidated.registerYesVoteForValidity(getEntityIdFromContext(ctx));
         System.err.println("stuff4");
 */
 
@@ -385,7 +390,7 @@ public final class iReceptorChain implements ContractInterface {
         //TODO fix this aldrabation of the entity
         try
         {
-            traceabilityInfoStateMachine.voteYesForTheVeracityOfTraceabilityInfo(new EntityID());
+            traceabilityInfoStateMachine.voteYesForTheVeracityOfTraceabilityInfo(getEntityIdFromContext(ctx));
         } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
         {
             throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
@@ -412,7 +417,7 @@ public final class iReceptorChain implements ContractInterface {
         //TODO fix this aldrabation of the entity
         try
         {
-            traceabilityInfoStateMachine.voteNoForTheVeracityOfTraceabilityInfo(new EntityID());
+            traceabilityInfoStateMachine.voteNoForTheVeracityOfTraceabilityInfo(getEntityIdFromContext(ctx));
         } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
         {
             throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
