@@ -2,27 +2,29 @@ package iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes;
 
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.annotation.DataType;
+import org.hyperledger.fabric.contract.annotation.Property;
 
 /**
- * This class represents an entity.
- * Is used to store information about the entities who have validated a traceability information entry.
+ * This class represents the identifier of an entity.
+ * It is used to reference an entity from other data type classes.
+ * The information about an entity can be easily retrieved from the blockchain, given its ID.
  */
 @DataType()
 public class EntityID implements iReceptorChainDataType
 {
     /**
-     * An instance of class ClientIdentity that hyperledger fabric uses to represent the identity of a client (peer).
-     * This contains the its certificate, an id, an msp id (id of the organization it belongs to) and may contain additional attributes created upon creation of the peers' certificate.
+     * A string representing the id of the entity.
      */
-    ClientIdentity clientIdentity;
+    @Property()
+    private final String id;
 
-    public ClientIdentity getClientIdentity()
+    public String getId()
     {
-        return clientIdentity;
+        return id;
     }
 
-    public EntityID(ClientIdentity clientIdentity)
+    public EntityID(String id)
     {
-        this.clientIdentity = clientIdentity;
+        this.id = id;
     }
 }
