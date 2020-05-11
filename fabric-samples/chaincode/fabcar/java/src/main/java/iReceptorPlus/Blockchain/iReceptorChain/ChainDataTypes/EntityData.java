@@ -25,7 +25,7 @@ public class EntityData implements iReceptorChainDataType
      * If an entity creates fake traceability entries or makes false votes for other traceability data entries, it is highly penalized.
      */
     @Property()
-    private final Long reputation;
+    private Long reputation;
 
     /**
      * This is a counter for the reputation of the entity that is currently at stake.
