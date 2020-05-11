@@ -2,11 +2,13 @@ package iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes;
 
 import jdk.nashorn.internal.objects.annotations.Property;
 import org.hyperledger.fabric.contract.ClientIdentity;
+import org.hyperledger.fabric.contract.annotation.DataType;
 
 /**
  * This class represents an entity.
  * Is used to store information about the entities who have validated a traceability information entry.
  */
+@DataType()
 public class EntityData
 {
     /**
