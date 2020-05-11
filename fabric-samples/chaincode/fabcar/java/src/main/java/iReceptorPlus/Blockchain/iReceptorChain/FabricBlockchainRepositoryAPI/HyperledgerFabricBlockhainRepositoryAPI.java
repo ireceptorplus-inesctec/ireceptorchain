@@ -44,7 +44,6 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
      */
     public HyperledgerFabricBlockhainRepositoryAPI(Context ctx, String objectTypeIdentifier)
     {
-        System.err.println("******* constrcutor called with identifier: " + objectTypeIdentifier);
         this.ctx = ctx;
         this.objectTypeIdentifier = objectTypeIdentifier;
     }
@@ -181,8 +180,6 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         ArrayList<iReceptorChainDataTypeInfo> results = new ArrayList<>();
         for (KeyValue result: resultsFromStub)
         {
-            System.err.println("*****************result.getKey(): " + result.getKey());
-            System.err.println("*****************objectTypeIdentifier: " + objectTypeIdentifier);
             String uuid = result.getKey().substring((objectTypeIdentifier + "-").length());
             iReceptorChainDataTypeInfo dataInfo = deserializeData(uuid, result.getStringValue());
 
