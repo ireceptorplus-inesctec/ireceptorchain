@@ -19,8 +19,6 @@ public class TraceabilityDataAwatingValidationRepositoryAPI extends Traceability
     public TraceabilityDataAwatingValidationRepositoryAPI(Context ctx)
     {
         super(ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix());
-        System.err.println("******* TraceabilityDataAwatingValidationRepositoryAPI constrcutor1 called with identifier: " + objectTypeIdentifier);
-
     }
 
     /**
@@ -31,7 +29,6 @@ public class TraceabilityDataAwatingValidationRepositoryAPI extends Traceability
     public TraceabilityDataAwatingValidationRepositoryAPI(HyperledgerFabricBlockhainRepositoryAPI api)
     {
         super(api.ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix());
-        System.err.println("******* TraceabilityDataAwatingValidationRepositoryAPI constrcutor2 called with identifier: " + objectTypeIdentifier);
     }
 
     @Override
