@@ -230,6 +230,11 @@ public final class iReceptorChain implements ContractInterface {
 
     }
 
+    @Transaction()
+    public String testClientIdentity(final Context ctx)
+    {
+        return genson.serialize(ctx.getClientIdentity());
+    }
 
     @Transaction()
     public TraceabilityData test(final Context ctx) {
