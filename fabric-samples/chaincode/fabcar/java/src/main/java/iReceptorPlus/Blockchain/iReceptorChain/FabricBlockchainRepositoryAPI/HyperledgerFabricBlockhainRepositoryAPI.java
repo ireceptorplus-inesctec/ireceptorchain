@@ -44,6 +44,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
      */
     public HyperledgerFabricBlockhainRepositoryAPI(Context ctx, String objectTypeIdentifier)
     {
+        System.err.println("******* constrcutor called with identifier: " + objectTypeIdentifier);
         this.ctx = ctx;
         this.objectTypeIdentifier = objectTypeIdentifier;
     }
@@ -107,7 +108,6 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     private void putEntryToDB(String uuid, iReceptorChainDataType data)
     {
         String key = uuidToKey(uuid);
-        System.err.println("*********creating with key: " + key);
         String serializedData = genson.serialize(data);
         ctx.getStub().putStringState(key, serializedData);
     }
