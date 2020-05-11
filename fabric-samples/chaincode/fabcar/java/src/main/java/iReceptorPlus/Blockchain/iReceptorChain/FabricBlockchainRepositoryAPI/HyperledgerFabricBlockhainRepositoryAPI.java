@@ -107,6 +107,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     private void putEntryToDB(String uuid, iReceptorChainDataType data)
     {
         String key = uuidToKey(uuid);
+        System.err.println("*********creating with key: " + key);
         String serializedData = genson.serialize(data);
         ctx.getStub().putStringState(key, serializedData);
     }
