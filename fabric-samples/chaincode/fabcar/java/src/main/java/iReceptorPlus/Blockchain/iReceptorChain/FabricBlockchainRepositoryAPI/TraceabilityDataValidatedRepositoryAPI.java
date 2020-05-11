@@ -18,6 +18,7 @@ public class TraceabilityDataValidatedRepositoryAPI extends TraceabilityDataRepo
     public TraceabilityDataValidatedRepositoryAPI(Context ctx)
     {
         super(ctx, ChaincodeConfigs.getTraceabilityValidatedKeyPrefix());
+        System.err.println("******* TraceabilityDataValidatedRepositoryAPI constrcutor1 called with identifier: " + objectTypeIdentifier);
     }
 
     /**
@@ -28,6 +29,7 @@ public class TraceabilityDataValidatedRepositoryAPI extends TraceabilityDataRepo
     public TraceabilityDataValidatedRepositoryAPI(HyperledgerFabricBlockhainRepositoryAPI api)
     {
         super(api.ctx, ChaincodeConfigs.getTraceabilityValidatedKeyPrefix());
+        System.err.println("******* TraceabilityDataValidatedRepositoryAPI constrcutor2 called with identifier: " + objectTypeIdentifier);
     }
 
     @Override

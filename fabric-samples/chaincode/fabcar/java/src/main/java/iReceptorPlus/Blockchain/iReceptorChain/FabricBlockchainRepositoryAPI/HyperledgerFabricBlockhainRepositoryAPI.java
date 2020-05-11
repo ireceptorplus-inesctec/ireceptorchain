@@ -44,7 +44,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
      */
     public HyperledgerFabricBlockhainRepositoryAPI(Context ctx, String objectTypeIdentifier)
     {
-        System.err.println("******* constrcutor called with identifier: " + objectTypeIdentifier);
+        System.err.println("******* constrcutor1 called with identifier: " + objectTypeIdentifier);
         this.ctx = ctx;
         this.objectTypeIdentifier = objectTypeIdentifier;
     }
@@ -57,6 +57,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     public HyperledgerFabricBlockhainRepositoryAPI(HyperledgerFabricBlockhainRepositoryAPI api, String objectTypeIdentifier)
     {
         this(api.ctx, objectTypeIdentifier);
+        System.err.println("******* constrcutor2 called with identifier: " + objectTypeIdentifier);
     }
 
     protected String uuidToKey(String uuid)
