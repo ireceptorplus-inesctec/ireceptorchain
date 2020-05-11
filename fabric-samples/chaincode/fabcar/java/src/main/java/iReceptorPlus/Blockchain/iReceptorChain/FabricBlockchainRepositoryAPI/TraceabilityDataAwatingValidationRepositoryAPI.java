@@ -40,7 +40,6 @@ public class TraceabilityDataAwatingValidationRepositoryAPI extends Traceability
     @Override
     protected iReceptorChainDataTypeInfo deserializeData(String uuid, String serializedData)
     {
-        TraceabilityDataAwatingValidation data = genson.deserialize(serializedData, TraceabilityDataAwatingValidation.class);
-        return new TraceabilityDataInfo(uuid, data);
+        return new TraceabilityDataInfo(uuid, deserializeData(serializedData));
     }
 }

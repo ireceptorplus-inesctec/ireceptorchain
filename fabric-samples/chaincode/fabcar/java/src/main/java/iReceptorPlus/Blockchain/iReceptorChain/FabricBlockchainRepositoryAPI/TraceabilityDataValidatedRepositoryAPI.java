@@ -39,7 +39,6 @@ public class TraceabilityDataValidatedRepositoryAPI extends TraceabilityDataRepo
     @Override
     protected iReceptorChainDataTypeInfo deserializeData(String uuid, String serializedData)
     {
-        TraceabilityDataValidated data = genson.deserialize(serializedData, TraceabilityDataValidated.class);
-        return new TraceabilityDataInfo(uuid, data);
+        return new TraceabilityDataInfo(uuid, deserializeData(serializedData));
     }
 }
