@@ -181,6 +181,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         for (KeyValue result: resultsFromStub)
         {
             System.err.println("*****************result.getKey(): " + result.getKey());
+            System.err.println("*****************objectTypeIdentifier: " + objectTypeIdentifier);
             String uuid = result.getKey().substring((objectTypeIdentifier + "-").length());
             iReceptorChainDataTypeInfo dataInfo = deserializeData(uuid, result.getStringValue());
 
