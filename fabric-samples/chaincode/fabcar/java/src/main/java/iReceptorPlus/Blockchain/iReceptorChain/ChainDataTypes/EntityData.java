@@ -9,7 +9,7 @@ import org.hyperledger.fabric.contract.annotation.DataType;
  * Is used to store information about the entities who have validated a traceability information entry.
  */
 @DataType()
-public class EntityData
+public class EntityData implements iReceptorChainDataType
 {
     /**
      * An instance of class ClientIdentity that hyperledger fabric uses to represent the identity of a client (peer).
