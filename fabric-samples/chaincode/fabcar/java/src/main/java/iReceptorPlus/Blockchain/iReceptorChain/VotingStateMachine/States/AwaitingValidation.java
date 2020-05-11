@@ -34,6 +34,7 @@ public class AwaitingValidation extends State
         if (conditionToApproveTraceabilityInfo(traceabilityData.getNumberOfApprovers(), ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters()))
         {
             switchInfoStateFromAwatingValidationToValidated(traceabilityData);
+
         }
         try
         {
