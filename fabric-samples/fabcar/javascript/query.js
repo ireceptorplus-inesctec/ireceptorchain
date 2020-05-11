@@ -55,6 +55,12 @@ async function main() {
         const registerYesVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
+        const registerYesVoteForTraceabilityEntryInVotingRoundResult2 = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
+        'uuid',
+        );
+        const registerYesVoteForTraceabilityEntryInVotingRoundResult3 = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
+        'uuid',
+        );
         const registerNoVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerNoVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
@@ -68,6 +74,8 @@ async function main() {
 
         //console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
         console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult: ${registerYesVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
+        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult2: ${registerYesVoteForTraceabilityEntryInVotingRoundResult23.toString()}`);
+        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult3: ${registerYesVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
         console.log(`registerNoVoteForTraceabilityEntryInVotingRoundResult: ${registerNoVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
         console.log(`getAllAwaitingValidationTraceabilityDataEntriesResult: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
         console.log(`getAllValidatedTraceabilityDataEntriesResult: ${getAllValidatedTraceabilityDataEntriesResult.toString()}`);
