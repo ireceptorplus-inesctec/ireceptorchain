@@ -10,10 +10,21 @@ import org.hyperledger.fabric.contract.annotation.Property;
 public class TraceabilityDataValidatedReturnType extends TraceabilityDataReturnType
 {
     /**
+     * The uuid used to reference the traceability data.
+     */
+    @Property()
+    String uuid;
+
+    /**
      * The traceability data just as it is stored on the blockchain.
      */
     @Property()
     TraceabilityDataValidated traceabilityDataValidatedData;
+
+    public String getUuid()
+    {
+        return uuid;
+    }
 
     public TraceabilityDataValidated getTraceabilityDataValidatedData()
     {
@@ -23,7 +34,7 @@ public class TraceabilityDataValidatedReturnType extends TraceabilityDataReturnT
     public TraceabilityDataValidatedReturnType(@JsonProperty("uuid") final String uuid,
                                                @JsonProperty("traceabilityDataValidatedData") final TraceabilityDataValidated traceabilityDataValidatedData)
     {
-        super(uuid);
+        this.uuid = uuid;
         this.traceabilityDataValidatedData = traceabilityDataValidatedData;
     }
 }
