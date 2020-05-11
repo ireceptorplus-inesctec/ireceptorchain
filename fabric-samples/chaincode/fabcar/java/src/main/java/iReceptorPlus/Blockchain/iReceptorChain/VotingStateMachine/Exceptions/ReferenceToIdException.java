@@ -3,7 +3,7 @@ package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions;
 public abstract class ReferenceToIdException extends TraceabilityInfoStateMachineException
 {
     /**
-     * The id used to reference the traceability information.
+     * The id used to reference the information.
      */
     String id;
 
@@ -12,6 +12,7 @@ public abstract class ReferenceToIdException extends TraceabilityInfoStateMachin
      * Should be called by the subclasses and the message should be customized by them (either built or received as their own constructor parameter).
      *
      * @param message The string message that will be set as the message for the exception that occurred.
+     * @param id The id used to reference the information.
      */
     public ReferenceToIdException(String message, String id)
     {

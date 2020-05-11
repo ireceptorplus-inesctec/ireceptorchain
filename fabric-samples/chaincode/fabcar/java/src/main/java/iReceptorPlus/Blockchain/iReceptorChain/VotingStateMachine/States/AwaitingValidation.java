@@ -1,16 +1,16 @@
 package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States;
 
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityID;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.EntityDataRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataValidatedRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.IncosistentInfoFoundOnDB;
+
+import javax.swing.text.html.parser.Entity;
 
 /**
  * This is the sub class for the state machine for the traceability information.
@@ -34,7 +34,14 @@ public class AwaitingValidation extends State
         if (conditionToApproveTraceabilityInfo(traceabilityData.getNumberOfApprovers(), ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters()))
         {
             switchInfoStateFromAwatingValidationToValidated(traceabilityData);
-
+            EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
+            try
+            {
+                EntityData entityData = (EntityData) entityRepository.read(voterID.getId());
+            } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+            {
+                throw new IncosistentInfoFoundOnDB("Voter id not found on database");
+            }
         }
         try
         {
