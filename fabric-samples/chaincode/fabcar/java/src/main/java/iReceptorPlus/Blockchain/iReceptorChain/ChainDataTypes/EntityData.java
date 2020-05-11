@@ -1,8 +1,8 @@
 package iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes;
 
-import jdk.nashorn.internal.objects.annotations.Property;
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.annotation.DataType;
+import org.hyperledger.fabric.contract.annotation.Property;
 
 /**
  * This class represents an entity.
