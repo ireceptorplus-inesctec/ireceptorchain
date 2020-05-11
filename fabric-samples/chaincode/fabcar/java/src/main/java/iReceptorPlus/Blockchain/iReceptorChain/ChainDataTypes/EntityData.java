@@ -16,7 +16,7 @@ public class EntityData implements iReceptorChainDataType
      * This contains the its certificate, an id, an msp id (id of the organization it belongs to) and may contain additional attributes created upon creation of the peers' certificate.
      */
     @Property()
-    private final ClientIdentity clientIdentity;
+    private ClientIdentity clientIdentity;
 
     /**
      * This is a counter for the reputation of the entity.
