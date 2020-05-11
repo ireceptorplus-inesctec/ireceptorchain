@@ -224,8 +224,8 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityData resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityDataValidated.class);
 
 
-        resultsAwatingValidation.registerYesVoteForValidity(new Entity());
-        resultsValidated.registerYesVoteForValidity(new Entity());
+        resultsAwatingValidation.registerYesVoteForValidity(new EntityID());
+        resultsValidated.registerYesVoteForValidity(new EntityID());
         System.err.println("stuff4");
 
 
@@ -286,8 +286,8 @@ public final class iReceptorChain implements ContractInterface {
 
         return (TraceabilityData) resultsValidated;
 /*
-        resultsAwatingValidation.registerYesVoteForValidity(new Entity());
-        resultsValidated.registerYesVoteForValidity(new Entity());
+        resultsAwatingValidation.registerYesVoteForValidity(new EntityID());
+        resultsValidated.registerYesVoteForValidity(new EntityID());
         System.err.println("stuff4");
 */
 
@@ -385,7 +385,7 @@ public final class iReceptorChain implements ContractInterface {
         //TODO fix this aldrabation of the entity
         try
         {
-            traceabilityInfoStateMachine.voteYesForTheVeracityOfTraceabilityInfo(new Entity());
+            traceabilityInfoStateMachine.voteYesForTheVeracityOfTraceabilityInfo(new EntityID());
         } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
         {
             throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
@@ -412,7 +412,7 @@ public final class iReceptorChain implements ContractInterface {
         //TODO fix this aldrabation of the entity
         try
         {
-            traceabilityInfoStateMachine.voteNoForTheVeracityOfTraceabilityInfo(new Entity());
+            traceabilityInfoStateMachine.voteNoForTheVeracityOfTraceabilityInfo(new EntityID());
         } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
         {
             throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());

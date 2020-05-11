@@ -19,7 +19,7 @@ public class TraceabilityDataValidated extends TraceabilityData
      * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
      */
     @Property()
-    private final ArrayList<Entity> validators;
+    private final ArrayList<EntityID> validators;
 
     /**
      * An array of entities which have voted for the validity of the traceability information after its voting round had endeds.
@@ -27,12 +27,12 @@ public class TraceabilityDataValidated extends TraceabilityData
      * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
      */
     @Property()
-    private final ArrayList<Entity> corroborators;
+    private final ArrayList<EntityID> corroborators;
 
     public TraceabilityDataValidated(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                                      @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
                                      @JsonProperty("processingDetails") final ProcessingDetails processingDetails,
-                                     @JsonProperty("validators") final ArrayList<Entity> validators)
+                                     @JsonProperty("validators") final ArrayList<EntityID> validators)
     {
         super(inputDatasetHashValue, outputDatasetHashValue, processingDetails);
         this.validators = validators;
@@ -40,13 +40,13 @@ public class TraceabilityDataValidated extends TraceabilityData
     }
 
     @Override
-    public void registerYesVoteForValidity(Entity entity)
+    public void registerYesVoteForValidity(EntityID entityID)
     {
-        corroborators.add(entity);
+        corroborators.add(entityID);
     }
 
     @Override
-    public void registerNoVoteForValidity(Entity entity)
+    public void registerNoVoteForValidity(EntityID entityID)
     {
         //TODO
 
@@ -62,12 +62,12 @@ public class TraceabilityDataValidated extends TraceabilityData
         return validators.size();
     }
 
-    public ArrayList<Entity> getValidators()
+    public ArrayList<EntityID> getValidators()
     {
         return validators;
     }
 
-    public ArrayList<Entity> getCorroborators()
+    public ArrayList<EntityID> getCorroborators()
     {
         return corroborators;
     }

@@ -1,6 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States;
 
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityID;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.IncosistentInfoFoundOnDB;
@@ -30,8 +30,8 @@ public abstract class State
         this.api = api;
     }
 
-    public abstract void voteYesForTheVeracityOfTraceabilityInfo(Entity voter) throws IncosistentInfoFoundOnDB;
+    public abstract void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB;
 
-    public abstract void voteNoForTheVeracityOfTraceabilityInfo(Entity voter) throws IncosistentInfoFoundOnDB;
+    public abstract void voteNoForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB;
 
 }

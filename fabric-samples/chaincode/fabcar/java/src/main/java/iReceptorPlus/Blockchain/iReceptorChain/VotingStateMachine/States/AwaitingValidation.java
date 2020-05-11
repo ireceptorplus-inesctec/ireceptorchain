@@ -1,10 +1,10 @@
 package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States;
 
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityID;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
@@ -24,7 +24,7 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public void voteYesForTheVeracityOfTraceabilityInfo(Entity voter) throws IncosistentInfoFoundOnDB
+    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB
     {
         TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
         traceabilityData.registerYesVoteForValidity(voter);
@@ -75,7 +75,7 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public void voteNoForTheVeracityOfTraceabilityInfo(Entity voter) throws IncosistentInfoFoundOnDB
+    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB
     {
         //TODO ver o q fazer neste caso (shut down the round immediately???)
         traceabilityDataInfo.getTraceabilityData().registerNoVoteForValidity(voter);

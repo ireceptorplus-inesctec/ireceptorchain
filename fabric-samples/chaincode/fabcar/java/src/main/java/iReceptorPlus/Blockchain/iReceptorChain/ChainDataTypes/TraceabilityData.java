@@ -61,16 +61,16 @@ public abstract class TraceabilityData implements iReceptorChainDataType
     /**
      * This method is called whenever a user votes yes for the validity of the traceability information.
      * Depending on the state of the traceability information, different actions are necessary, so the methods must be overridden by the derived classes that implement specific behavior necessary for each state.
-     * @param entity An instance of class Entity containing information about the entity that has voted yes for the traceability information. For more information, please read the documentation for the Entity class.
+     * @param entityID An instance of class EntityID containing information about the entityID that has voted yes for the traceability information. For more information, please read the documentation for the EntityID class.
      */
-    public abstract void registerYesVoteForValidity(Entity entity);
+    public abstract void registerYesVoteForValidity(EntityID entityID);
 
     /**
      * This method is called whenever a user votes no for the validity of the traceability information.
      * Depending on the state of the traceability information, different actions are necessary, so the methods must be overridden by the derived classes that implement specific behavior necessary for each state.
-     * @param entity An instance of class Entity containing information about the entity that has voted yes for the traceability information. For more information, please read the documentation for the Entity class.
+     * @param entityID An instance of class EntityID containing information about the entityID that has voted yes for the traceability information. For more information, please read the documentation for the EntityID class.
      */
-    public abstract void registerNoVoteForValidity(Entity entity);
+    public abstract void registerNoVoteForValidity(EntityID entityID);
 
     /**
      * Returns the number of approvers of the traceability information represented by this class.

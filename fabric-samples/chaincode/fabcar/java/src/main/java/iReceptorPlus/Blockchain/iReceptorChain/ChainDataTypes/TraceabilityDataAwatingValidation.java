@@ -18,14 +18,14 @@ public class TraceabilityDataAwatingValidation extends TraceabilityData
      * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
      */
     @Property()
-    private final ArrayList<Entity> approvers;
+    private final ArrayList<EntityID> approvers;
 
     /**
      * An array of entities who have submitted a NO vote for the validity of the traceability information.
      * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
      */
     @Property()
-    private final ArrayList<Entity> rejecters;
+    private final ArrayList<EntityID> rejecters;
 
 
     public TraceabilityDataAwatingValidation(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
@@ -37,34 +37,34 @@ public class TraceabilityDataAwatingValidation extends TraceabilityData
         rejecters = new ArrayList<>();
     }
 
-    public ArrayList<Entity> getApprovers()
+    public ArrayList<EntityID> getApprovers()
     {
         return approvers;
     }
 
-    public ArrayList<Entity> getRejecters()
+    public ArrayList<EntityID> getRejecters()
     {
         return rejecters;
     }
 
     /**
-     * Registers the entity passed as parameter as an approver of the traceability information.
-     * @param entity An instance of class Entity containing information about the entity that has voted yes for the traceability information. For more information, please read the documentation for the Entity class.
+     * Registers the entityID passed as parameter as an approver of the traceability information.
+     * @param entityID An instance of class EntityID containing information about the entityID that has voted yes for the traceability information. For more information, please read the documentation for the EntityID class.
      */
     @Override
-    public void registerYesVoteForValidity(Entity entity)
+    public void registerYesVoteForValidity(EntityID entityID)
     {
-        approvers.add(entity);
+        approvers.add(entityID);
     }
 
     /**
-     * Registers the entity passed as parameter as a rejecter of the traceability information.
-     * @param entity An instance of class Entity containing information about the entity that has voted yes for the traceability information. For more information, please read the documentation for the Entity class.
+     * Registers the entityID passed as parameter as a rejecter of the traceability information.
+     * @param entityID An instance of class EntityID containing information about the entityID that has voted yes for the traceability information. For more information, please read the documentation for the EntityID class.
      */
     @Override
-    public void registerNoVoteForValidity(Entity entity)
+    public void registerNoVoteForValidity(EntityID entityID)
     {
-        rejecters.add(entity);
+        rejecters.add(entityID);
     }
 
     /**

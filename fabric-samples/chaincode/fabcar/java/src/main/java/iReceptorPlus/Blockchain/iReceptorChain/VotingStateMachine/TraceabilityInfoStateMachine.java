@@ -1,6 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine;
 
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.Entity;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityID;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
@@ -51,12 +51,12 @@ public class TraceabilityInfoStateMachine
 
     }
 
-    public void voteYesForTheVeracityOfTraceabilityInfo(Entity voter) throws IncosistentInfoFoundOnDB
+    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB
     {
         state.voteYesForTheVeracityOfTraceabilityInfo(voter);
     }
 
-    public void voteNoForTheVeracityOfTraceabilityInfo(Entity voter) throws IncosistentInfoFoundOnDB
+    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB
     {
         state.voteNoForTheVeracityOfTraceabilityInfo(voter);
     }
