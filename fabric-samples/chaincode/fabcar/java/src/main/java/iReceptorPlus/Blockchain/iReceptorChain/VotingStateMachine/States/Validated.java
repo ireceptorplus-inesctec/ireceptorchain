@@ -18,9 +18,9 @@ public class Validated extends State
     }
 
     @Override
-    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB
+    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB
     {
-        traceabilityDataInfo.getTraceabilityData().registerYesVoteForValidity(voter);
+        traceabilityDataInfo.getTraceabilityData().registerYesVoteForValidity(voterID);
         try
         {
             api.update(traceabilityDataInfo);
@@ -31,7 +31,7 @@ public class Validated extends State
     }
 
     @Override
-    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voter)
+    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID)
     {
         //TODO ver o que fazer quando alguem vota nao a algo q ja foi aprovado
     }

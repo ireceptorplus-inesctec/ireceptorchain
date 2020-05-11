@@ -24,10 +24,10 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB
+    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB
     {
         TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
-        traceabilityData.registerYesVoteForValidity(voter);
+        traceabilityData.registerYesVoteForValidity(voterID);
         System.err.println("traceabilityData.getNumberOfApprovers(): " + traceabilityData.getNumberOfApprovers());
         System.err.println("((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters(): " + ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters());
         System.err.println("numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue(): " + (double) traceabilityData.getNumberOfApprovers() / ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters());
@@ -75,10 +75,10 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB
+    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB
     {
         //TODO ver o q fazer neste caso (shut down the round immediately???)
-        traceabilityDataInfo.getTraceabilityData().registerNoVoteForValidity(voter);
+        traceabilityDataInfo.getTraceabilityData().registerNoVoteForValidity(voterID);
         try
         {
             api.update(traceabilityDataInfo);
