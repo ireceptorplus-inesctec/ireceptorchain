@@ -1,5 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes;
 
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
@@ -58,7 +59,7 @@ public class EntityData implements iReceptorChainDataType
     public EntityData(ClientIdentity clientIdentity)
     {
         this.clientIdentity = clientIdentity;
-        this.reputation = new Long(0);
+        this.reputation = new Long(ChaincodeConfigs.initialReputationForEntities.get());
         this.reputationAtStake = new Long(0);
     }
 
