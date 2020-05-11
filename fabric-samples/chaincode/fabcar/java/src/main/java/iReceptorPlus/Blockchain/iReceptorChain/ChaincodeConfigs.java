@@ -16,7 +16,6 @@ public class ChaincodeConfigs
 
     private static String entityDataKeyPrefix = "Entity";
 
-
     public synchronized static String getTraceabilityAwaitingValidationKeyPrefix()
     {
         return new String(traceabilityAwaitingValidationKeyPrefix);
