@@ -21,6 +21,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainData
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.IncosistentInfoFoundOnDB;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.TraceabilityInfoStateMachine;
+import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.Contact;
@@ -233,7 +234,10 @@ public final class iReceptorChain implements ContractInterface {
     @Transaction()
     public String testClientIdentity(final Context ctx)
     {
-        return genson.serialize(ctx.getClientIdentity());
+        ClientIdentity clientIdentity = ctx.getClientIdentity();
+        System.err.println("client id: " + clientIdentity.getId());
+        System.err.println("client msp id: " + clientIdentity.getMSPID());
+        return genson.serialize(clientIdentity);
     }
 
     @Transaction()
