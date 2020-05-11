@@ -27,6 +27,14 @@ public class EntityData implements iReceptorChainDataType
     @Property()
     private final Long reputation;
 
+    /**
+     * This is a counter for the reputation of the entity that is currently at stake.
+     * Reputation is put at stake when the entity votes for a traceability data entry that is still awating validation.
+     * This reputation may be lost if the entity is decided to be lying (by majority consensus).
+     */
+    @Property()
+    private final Long reputationAtStake;
+
     public ClientIdentity getClientIdentity()
     {
         return clientIdentity;
@@ -35,6 +43,11 @@ public class EntityData implements iReceptorChainDataType
     public Long getReputation()
     {
         return reputation;
+    }
+
+    public Long getReputationAtStake()
+    {
+        return reputationAtStake;
     }
 
     /**
@@ -46,15 +59,20 @@ public class EntityData implements iReceptorChainDataType
     {
         this.clientIdentity = clientIdentity;
         this.reputation = new Long(0);
+        this.reputationAtStake = new Long(0);
     }
+
     /**
      * Constructor used to create a representation of the entity's data that is already stored in the blockchain database.
      * It receives all attributes of an entity.
      * @param clientIdentity An instance of class ClientIdentity that hyperledger fabric uses to represent the identity of a client (peer).
+     * @param reputation The current reputation of the entity.
+     * @param reputationAtStake The current reputation the entity.
      */
-    public EntityData(ClientIdentity clientIdentity, Long reputation)
+    public EntityData(ClientIdentity clientIdentity, Long reputation, Long reputationAtStake)
     {
         this.clientIdentity = clientIdentity;
         this.reputation = reputation;
+        this.reputationAtStake = reputationAtStake;
     }
 }
