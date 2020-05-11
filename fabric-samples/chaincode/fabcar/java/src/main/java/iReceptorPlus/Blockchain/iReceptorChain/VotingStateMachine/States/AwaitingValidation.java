@@ -36,7 +36,6 @@ public class AwaitingValidation extends State
 
     private void switchInfoStateFromAwatingValidationToValidated(TraceabilityData traceabilityData) throws IncosistentInfoFoundOnDB
     {
-        System.err.println("*********** switching state");
         try
         {
             api.remove(traceabilityDataInfo);
