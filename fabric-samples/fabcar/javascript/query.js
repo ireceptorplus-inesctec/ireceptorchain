@@ -61,6 +61,9 @@ async function main() {
         const registerYesVoteForTraceabilityEntryInVotingRoundResult3 = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
+        const registerYesVoteForTraceabilityEntryInVotingRoundResult4 = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
+        'uuid',
+        );
         const registerNoVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerNoVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
@@ -74,8 +77,9 @@ async function main() {
 
         //console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
         console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult: ${registerYesVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
-        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult2: ${registerYesVoteForTraceabilityEntryInVotingRoundResult23.toString()}`);
-        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult3: ${registerYesVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
+        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult2: ${registerYesVoteForTraceabilityEntryInVotingRoundResult2.toString()}`);
+        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult3: ${registerYesVoteForTraceabilityEntryInVotingRoundResult3.toString()}`);
+        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult4: ${registerYesVoteForTraceabilityEntryInVotingRoundResult4.toString()}`);
         console.log(`registerNoVoteForTraceabilityEntryInVotingRoundResult: ${registerNoVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
         console.log(`getAllAwaitingValidationTraceabilityDataEntriesResult: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
         console.log(`getAllValidatedTraceabilityDataEntriesResult: ${getAllValidatedTraceabilityDataEntriesResult.toString()}`);
