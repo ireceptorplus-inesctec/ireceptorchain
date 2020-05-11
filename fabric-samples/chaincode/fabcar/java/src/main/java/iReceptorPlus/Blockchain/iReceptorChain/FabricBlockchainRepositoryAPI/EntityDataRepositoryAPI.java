@@ -3,6 +3,7 @@ package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityData;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
+import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.EntityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import org.hyperledger.fabric.contract.Context;
 
@@ -27,6 +28,6 @@ public class EntityDataRepositoryAPI extends HyperledgerFabricBlockhainRepositor
     @Override
     protected iReceptorChainDataTypeInfo deserializeData(String uuid, String serializedData)
     {
-        return null;
+        return new EntityDataInfo(uuid, deserializeData(serializedData));
     }
 }
