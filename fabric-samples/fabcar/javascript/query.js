@@ -73,6 +73,9 @@ async function main() {
         const getAllValidatedTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllValidatedTraceabilityDataEntries',
         'uuid',
         );
+        const testNotFinalAttribsResult = await contract.evaluateTransaction('testNotFinalAttribs',
+        'uuid',
+        );
 
 
         //console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
@@ -83,6 +86,7 @@ async function main() {
         console.log(`registerNoVoteForTraceabilityEntryInVotingRoundResult: ${registerNoVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
         console.log(`getAllAwaitingValidationTraceabilityDataEntriesResult: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
         console.log(`getAllValidatedTraceabilityDataEntriesResult: ${getAllValidatedTraceabilityDataEntriesResult.toString()}`);
+        console.log(`testNotFinalAttribsResult: ${testNotFinalAttribsResult.toString()}`);
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);
         process.exit(1);
