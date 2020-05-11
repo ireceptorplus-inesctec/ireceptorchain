@@ -35,6 +35,13 @@ public class AwaitingValidation extends State
         {
             switchInfoStateFromAwatingValidationToValidated(traceabilityData);
         }
+        try
+        {
+            api.update(traceabilityDataInfo);
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            throw new IncosistentInfoFoundOnDB("key is already assigned to another object on trying to update traceability entry after registering yes vote");
+        }
     }
 
     private void switchInfoStateFromAwatingValidationToValidated(TraceabilityData traceabilityData) throws IncosistentInfoFoundOnDB
