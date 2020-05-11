@@ -12,6 +12,7 @@ public abstract class ReferenceToIdException extends HyperledgerFabricBlockhainR
      * Should be called by the subclasses and the message should be customized by them (either built or received as their own constructor parameter).
      *
      * @param message The string message that will be set as the message for the exception that occurred.
+     * @param id The id used to reference the information.
      */
     public ReferenceToIdException(String message, String id)
     {
