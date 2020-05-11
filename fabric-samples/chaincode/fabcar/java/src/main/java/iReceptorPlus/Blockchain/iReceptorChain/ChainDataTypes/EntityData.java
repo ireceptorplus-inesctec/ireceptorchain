@@ -67,7 +67,7 @@ public class EntityData implements iReceptorChainDataType
      * It receives all attributes of an entity.
      * @param clientIdentity An instance of class ClientIdentity that hyperledger fabric uses to represent the identity of a client (peer).
      * @param reputation The current reputation of the entity.
-     * @param reputationAtStake The current reputation the entity.
+     * @param reputationAtStake The current amount of reputation of the entity that is at stake.
      */
     public EntityData(ClientIdentity clientIdentity, Long reputation, Long reputationAtStake)
     {
