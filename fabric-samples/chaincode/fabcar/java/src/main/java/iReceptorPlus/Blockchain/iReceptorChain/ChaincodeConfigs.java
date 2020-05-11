@@ -16,6 +16,14 @@ public class ChaincodeConfigs
 
     public static AtomicLong reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry = new AtomicLong(50);
 
+    public static AtomicLong reputationRewardForUpVotingTruthfulTraceabiltiyDataEntry = new AtomicLong(30);
+
+    public static AtomicLong reputationRewardForDownVotingTruthfulTraceabiltiyDataEntry = new AtomicLong(50);
+
+    public static AtomicLong reputationPenaltyForUpVotingFakeTraceabiltiyDataEntry = new AtomicLong(30);
+
+    public static AtomicLong reputationPenaltyForDownVotingFakeTraceabiltiyDataEntry = new AtomicLong(50);
+
 
     private static String traceabilityAwaitingValidationKeyPrefix = "TracreabilityInfoAwaitingValidation";
 
