@@ -125,6 +125,9 @@ public final class iReceptorChain implements ContractInterface {
                 "softwareBinaryExecutableHashValue",
                 "softwareConfigParams"
                 );
+        registerYesVoteForTraceabilityEntryInVotingRound(ctx, "uuid");
+        registerYesVoteForTraceabilityEntryInVotingRound(ctx, "uuid");
+        registerYesVoteForTraceabilityEntryInVotingRound(ctx, "uuid");
     }
 
     /**
