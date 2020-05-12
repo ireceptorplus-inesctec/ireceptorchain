@@ -28,6 +28,31 @@ public class AwaitingValidation extends State
     @Override
     public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
+        updateEntityReputation(voterID);
+
+        TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
+        traceabilityData.registerYesVoteForValidity(voterID);
+        System.err.println("traceabilityData.getNumberOfApprovers(): " + traceabilityData.getNumberOfApprovers());
+        System.err.println("((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters(): " + ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters());
+        System.err.println("numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue(): " + (double) traceabilityData.getNumberOfApprovers() / ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters());
+        if (conditionToApproveTraceabilityInfo(traceabilityData.getNumberOfApprovers(), ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters()))
+        {
+            switchInfoStateFromAwatingValidationToValidated(traceabilityData);
+
+
+
+        }
+        try
+        {
+            api.update(traceabilityDataInfo);
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            throw new IncosistentInfoFoundOnDB("key is already assigned to another object on trying to update traceability entry after registering yes vote");
+        }
+    }
+
+    private void updateEntityReputation(EntityID voterID) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
+    {
         EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
         EntityData entityData;
         try
@@ -53,26 +78,6 @@ public class AwaitingValidation extends State
         } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
         {
             throw new ReferenceToNonexistentEntity(voterID.getId());
-        }
-
-        TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
-        traceabilityData.registerYesVoteForValidity(voterID);
-        System.err.println("traceabilityData.getNumberOfApprovers(): " + traceabilityData.getNumberOfApprovers());
-        System.err.println("((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters(): " + ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters());
-        System.err.println("numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue(): " + (double) traceabilityData.getNumberOfApprovers() / ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters());
-        if (conditionToApproveTraceabilityInfo(traceabilityData.getNumberOfApprovers(), ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters()))
-        {
-            switchInfoStateFromAwatingValidationToValidated(traceabilityData);
-
-
-
-        }
-        try
-        {
-            api.update(traceabilityDataInfo);
-        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
-        {
-            throw new IncosistentInfoFoundOnDB("key is already assigned to another object on trying to update traceability entry after registering yes vote");
         }
     }
 
