@@ -39,9 +39,6 @@ public class AwaitingValidation extends State
         if (conditionToApproveTraceabilityInfo(traceabilityData.getNumberOfApprovers(), ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters()))
         {
             switchInfoStateFromAwatingValidationToValidated(traceabilityData);
-
-
-
         }
         try
         {
@@ -112,8 +109,11 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB
+    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
+        long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
+        updateEntityReputation(voterID, stakeNecessary);
+
         //TODO ver o q fazer neste caso (shut down the round immediately???)
         traceabilityDataInfo.getTraceabilityData().registerNoVoteForValidity(voterID);
         try
