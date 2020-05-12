@@ -13,6 +13,6 @@ public class ReferenceToNonexistentEntity extends ReferenceToIdException
      */
     public ReferenceToNonexistentEntity(String id)
     {
-        super("Reference to nonexistent traceability data information entry.", id);
+        super("Reference to nonexistent entity.", id);
     }
 }
