@@ -6,7 +6,9 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAw
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPlaceVote;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.IncosistentInfoFoundOnDB;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.ReferenceToNonexistentEntity;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.AwaitingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.State;
@@ -51,12 +53,12 @@ public class TraceabilityInfoStateMachine
 
     }
 
-    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB
+    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
         state.voteYesForTheVeracityOfTraceabilityInfo(voter);
     }
 
-    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB
+    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
         state.voteNoForTheVeracityOfTraceabilityInfo(voter);
     }
