@@ -12,6 +12,8 @@ public class ChaincodeConfigs
 
     public static AtomicLong initialReputationForEntities = new AtomicLong(100);
 
+    public static AtomicLong reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry = new AtomicLong(30);
+
     public static AtomicLong reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry = new AtomicLong(30);
 
     public static AtomicLong reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry = new AtomicLong(50);

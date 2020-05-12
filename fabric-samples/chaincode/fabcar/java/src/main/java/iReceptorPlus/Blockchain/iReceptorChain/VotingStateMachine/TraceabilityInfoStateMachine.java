@@ -1,15 +1,12 @@
 package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine;
 
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityID;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.EntityDataRepositoryAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPlaceVote;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.IncosistentInfoFoundOnDB;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.ReferenceToNonexistentEntity;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.*;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.AwaitingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.State;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.Validated;
@@ -51,6 +48,36 @@ public class TraceabilityInfoStateMachine
         else
             throw new UnsupportedTypeOfTraceabilityInfo("The traceability information given is not supported by the state machine");
 
+    }
+
+    public void initVotingRound(EntityID creatorID) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry
+    {
+        Long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
+        EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
+        EntityData entityData;
+        try
+        {
+            entityData = (EntityData) entityRepository.read(creatorID.getId());
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            throw new ReferenceToNonexistentEntity(creatorID.getId());
+        }
+        Long currentReputation = entityData.getReputation();
+        Long reputationAtStake = entityData.getReputationAtStake();
+        if (currentReputation < stakeNecessary)
+        {
+            throw new EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry(currentReputation, stakeNecessary);
+        }
+        currentReputation -= stakeNecessary;
+        reputationAtStake += stakeNecessary;
+        entityData = new EntityData(entityData.getClientIdentity(), currentReputation, reputationAtStake);
+        try
+        {
+            entityRepository.update(creatorID.getId(), entityData);
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            throw new ReferenceToNonexistentEntity(creatorID.getId());
+        }
     }
 
     public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
