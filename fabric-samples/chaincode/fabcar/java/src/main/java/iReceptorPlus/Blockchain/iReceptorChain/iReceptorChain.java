@@ -18,7 +18,9 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Tra
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataValidatedRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPlaceVote;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.IncosistentInfoFoundOnDB;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.ReferenceToNonexistentEntity;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.UnsupportedTypeOfTraceabilityInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.TraceabilityInfoStateMachine;
 import org.hyperledger.fabric.contract.ClientIdentity;
@@ -400,6 +402,12 @@ public final class iReceptorChain implements ContractInterface {
         } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
         {
             throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
+        } catch (EntityDoesNotHaveEnoughReputationToPlaceVote entityDoesNotHaveEnoughReputationToPlaceVote)
+        {
+            throw new ChaincodeException(entityDoesNotHaveEnoughReputationToPlaceVote.getMessage());
+        } catch (ReferenceToNonexistentEntity referenceToNonexistentEntity)
+        {
+            throw new ChaincodeException(referenceToNonexistentEntity.getMessage());
         }
 
         logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound END");
@@ -427,7 +435,15 @@ public final class iReceptorChain implements ContractInterface {
         } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
         {
             throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
+        } catch (EntityDoesNotHaveEnoughReputationToPlaceVote entityDoesNotHaveEnoughReputationToPlaceVote)
+        {
+            throw new ChaincodeException(entityDoesNotHaveEnoughReputationToPlaceVote.getMessage());
+        } catch (ReferenceToNonexistentEntity referenceToNonexistentEntity)
+        {
+            throw new ChaincodeException(referenceToNonexistentEntity.getMessage());
         }
+
+
         logDebugMsg("registerNoVoteForTraceabilityEntryInVotingRound END");
 
         return "Vote submitted Successfully";
