@@ -8,7 +8,9 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exc
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataValidatedRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPlaceVote;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.IncosistentInfoFoundOnDB;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.ReferenceToNonexistentEntity;
 
 import javax.swing.text.html.parser.Entity;
 
@@ -24,8 +26,35 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB
+    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
+        EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
+        EntityData entityData;
+        try
+        {
+            entityData = (EntityData) entityRepository.read(voterID.getId());
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            throw new ReferenceToNonexistentEntity(voterID.getId());
+        }
+        Long currentReputation = entityData.getReputation();
+        Long reputationAtStake = entityData.getReputationAtStake();
+        long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
+        if (currentReputation < stakeNecessary)
+        {
+            throw new EntityDoesNotHaveEnoughReputationToPlaceVote(currentReputation, stakeNecessary);
+        }
+        currentReputation -= stakeNecessary;
+        reputationAtStake += stakeNecessary;
+        entityData = new EntityData(entityData.getClientIdentity(), currentReputation, reputationAtStake);
+        try
+        {
+            entityRepository.update(voterID.getId(), entityData);
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            throw new ReferenceToNonexistentEntity(voterID.getId());
+        }
+
         TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
         traceabilityData.registerYesVoteForValidity(voterID);
         System.err.println("traceabilityData.getNumberOfApprovers(): " + traceabilityData.getNumberOfApprovers());
@@ -34,14 +63,9 @@ public class AwaitingValidation extends State
         if (conditionToApproveTraceabilityInfo(traceabilityData.getNumberOfApprovers(), ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters()))
         {
             switchInfoStateFromAwatingValidationToValidated(traceabilityData);
-            EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
-            try
-            {
-                EntityData entityData = (EntityData) entityRepository.read(voterID.getId());
-            } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
-            {
-                throw new IncosistentInfoFoundOnDB("Voter id not found on database");
-            }
+
+
+
         }
         try
         {
