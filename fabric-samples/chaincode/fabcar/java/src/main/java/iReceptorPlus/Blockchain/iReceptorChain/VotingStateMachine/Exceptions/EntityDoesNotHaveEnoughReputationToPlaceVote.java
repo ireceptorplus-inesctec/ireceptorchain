@@ -8,7 +8,7 @@ public class EntityDoesNotHaveEnoughReputationToPlaceVote extends TraceabilityIn
 
     public EntityDoesNotHaveEnoughReputationToPlaceVote(Long reputationOfEntity, Long necessaryReputationForVoting)
     {
-        super("Entity does not have enough reputation to place vote");
+        super("Entity does not have enough reputation to place vote. Reputation of entity is " + reputationOfEntity + " and necessary reputation is " + necessaryReputationForVoting);
         this.reputationOfEntity = reputationOfEntity;
         this.necessaryReputationForVoting = necessaryReputationForVoting;
     }
