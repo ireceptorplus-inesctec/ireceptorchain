@@ -28,7 +28,8 @@ public class AwaitingValidation extends State
     @Override
     public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
-        updateEntityReputation(voterID);
+        long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
+        updateEntityReputation(voterID, stakeNecessary);
 
         TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
         traceabilityData.registerYesVoteForValidity(voterID);
@@ -51,7 +52,7 @@ public class AwaitingValidation extends State
         }
     }
 
-    private void updateEntityReputation(EntityID voterID) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
+    private void updateEntityReputation(EntityID voterID, Long stakeNecessary) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
         EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
         EntityData entityData;
@@ -64,7 +65,6 @@ public class AwaitingValidation extends State
         }
         Long currentReputation = entityData.getReputation();
         Long reputationAtStake = entityData.getReputationAtStake();
-        long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
         if (currentReputation < stakeNecessary)
         {
             throw new EntityDoesNotHaveEnoughReputationToPlaceVote(currentReputation, stakeNecessary);
