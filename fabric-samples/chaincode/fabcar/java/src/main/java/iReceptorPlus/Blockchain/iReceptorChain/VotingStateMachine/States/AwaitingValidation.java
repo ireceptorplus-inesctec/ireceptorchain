@@ -58,6 +58,7 @@ public class AwaitingValidation extends State
             entityData = (EntityData) entityRepository.read(voterID.getId());
         } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
         {
+            System.err.println("****** non existent entity");
             throw new ReferenceToNonexistentEntity(voterID.getId());
         }
         Long currentReputation = entityData.getReputation();
