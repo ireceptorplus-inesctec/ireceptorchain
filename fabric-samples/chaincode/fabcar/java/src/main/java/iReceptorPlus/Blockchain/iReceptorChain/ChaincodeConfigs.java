@@ -18,9 +18,13 @@ public class ChaincodeConfigs
 
     public static AtomicLong reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry = new AtomicLong(50);
 
+    public static AtomicLong reputationRewardForCreatingTruthfulTraceabiltiyDataEntry = new AtomicLong(0);
+
     public static AtomicLong reputationRewardForUpVotingTruthfulTraceabiltiyDataEntry = new AtomicLong(30);
 
     public static AtomicLong reputationRewardForDownVotingTruthfulTraceabiltiyDataEntry = new AtomicLong(50);
+
+    public static AtomicLong reputationPenaltyForCreatingFakeTraceabiltiyDataEntry = new AtomicLong(70);
 
     public static AtomicLong reputationPenaltyForUpVotingFakeTraceabiltiyDataEntry = new AtomicLong(30);
 
