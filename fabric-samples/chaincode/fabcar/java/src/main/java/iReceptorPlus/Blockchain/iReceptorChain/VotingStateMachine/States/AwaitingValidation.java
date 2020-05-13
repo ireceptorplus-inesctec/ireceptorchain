@@ -44,7 +44,7 @@ public class AwaitingValidation extends State
         System.err.println("numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue(): " + (double) traceabilityData.getNumberOfApprovers() / ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters());
         if (conditionToApproveTraceabilityInfo(traceabilityData.getNumberOfApprovers(), ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters()))
         {
-            switchInfoStateFromAwatingValidationToValidated(traceabilityData);
+            switchInfoStateFromAwatingValidationToValidated(traceabilityData, voterID);
         }
         try
         {
@@ -55,7 +55,7 @@ public class AwaitingValidation extends State
         }
     }
 
-    private void switchInfoStateFromAwatingValidationToValidated(TraceabilityData traceabilityData) throws IncosistentInfoFoundOnDB
+    private void switchInfoStateFromAwatingValidationToValidated(TraceabilityData traceabilityData, EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
     {
         try
         {
@@ -76,6 +76,16 @@ public class AwaitingValidation extends State
         } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
         {
             throw new IncosistentInfoFoundOnDB("key is already assigned to another object on trying to create new traceability entry in order to switch state");
+        }
+
+        long rewardAmount = ChaincodeConfigs.reputationRewardForCreatingTruthfulTraceabiltiyDataEntry.get();
+        EntityReputationManager entityReputationManager = new EntityReputationManager(api);
+        try
+        {
+            entityReputationManager.rewardEntity(voterID, rewardAmount);
+        } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
+        {
+            throw new InternalError("Internal error occurred on processing by the state machine: got not enough reputation error on trying to reward entity. This means that a number was going to be made negative when adding a positive factor to it. Something went really wrong...");
         }
     }
 
