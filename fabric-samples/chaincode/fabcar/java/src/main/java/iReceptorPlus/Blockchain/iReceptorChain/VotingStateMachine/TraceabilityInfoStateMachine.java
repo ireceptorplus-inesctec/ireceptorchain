@@ -52,40 +52,17 @@ public class TraceabilityInfoStateMachine
 
     public void initVotingRound(EntityID creatorID) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry
     {
-        Long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
-        EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
-        EntityData entityData;
-        try
-        {
-            entityData = (EntityData) entityRepository.read(creatorID.getId());
-        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
-        {
-            throw new ReferenceToNonexistentEntity(creatorID.getId());
-        }
-        Long currentReputation = entityData.getReputation();
-        Long reputationAtStake = entityData.getReputationAtStake();
-        if (currentReputation < stakeNecessary)
-        {
-            throw new EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry(currentReputation, stakeNecessary);
-        }
-        currentReputation -= stakeNecessary;
-        reputationAtStake += stakeNecessary;
-        entityData = new EntityData(entityData.getClientIdentity(), currentReputation, reputationAtStake);
-        try
-        {
-            entityRepository.update(creatorID.getId(), entityData);
-        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
-        {
-            throw new ReferenceToNonexistentEntity(creatorID.getId());
-        }
+        long stakeNecessaryForCreating = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
+        EntityReputationManager entityReputationManager = new EntityReputationManager(api,
+                new EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry(stakeNecessaryForCreating));
     }
 
-    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
+    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         state.voteYesForTheVeracityOfTraceabilityInfo(voter);
     }
 
-    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
+    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         state.voteNoForTheVeracityOfTraceabilityInfo(voter);
     }
