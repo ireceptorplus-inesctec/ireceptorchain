@@ -27,6 +27,12 @@ public class EntityReputationManager
      */
     private boolean allowNegativeReputation;
 
+    public EntityReputationManager(HyperledgerFabricBlockhainRepositoryAPI api)
+    {
+        this.api = api;
+        this.allowNegativeReputation = false;
+    }
+
     public EntityReputationManager(HyperledgerFabricBlockhainRepositoryAPI api, boolean allowNegativeReputation)
     {
         this.api = api;
