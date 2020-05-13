@@ -10,20 +10,55 @@ import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.Ent
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.ReferenceToNonexistentEntity;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.AwaitingValidation;
 
+/**
+ * This class is used by the voting state machine classes to manage the reputation of a peer.
+ * The methods should be called perform the changes to the reputation of the peer.
+ */
 public class EntityReputationManager
 {
+    /**
+     * An instance of class HyperledgerFabricBlockhainRepositoryAPI that represents the repository for querying the data.
+     */
     private final HyperledgerFabricBlockhainRepositoryAPI api;
+
+    /**
+     * An instance of class EntityDoesNotHaveEnoughReputationToPerformAction initialized with the appropriate subclass instance.
+     */
     private EntityDoesNotHaveEnoughReputationToPerformAction exceptionToThrow;
 
+    /**
+     * Boolean identifying if negative reputation should be allowed.
+     * If negative reputation is allowed, when subtracting reputation to the peer, no restrictions will be applied.
+     * The value of this variable is set by the constructor and used by the functions.
+     */
+    private boolean allowNegativeReputation;
+
+    /**
+     * Constructor for this class. Receives the repository api and the exception to throw in case of negative resulting reputation.
+     * @param api An instance of class HyperledgerFabricBlockhainRepositoryAPI that represents the repository for querying the data.
+     * @param exceptionToThrow An instance of class EntityDoesNotHaveEnoughReputationToPerformAction initialized with the appropriate subclass instance.
+     */
     public EntityReputationManager(HyperledgerFabricBlockhainRepositoryAPI api, EntityDoesNotHaveEnoughReputationToPerformAction exceptionToThrow)
     {
         this.api = api;
         this.exceptionToThrow = exceptionToThrow;
+        this.allowNegativeReputation = false;
+    }
+
+    /**
+     * Constructor for this class. Receives the only the the repository api.
+     * It is used when the exception should be ignored, i.e., when negative reputation should be allowed.
+     * @param api An instance of class HyperledgerFabricBlockhainRepositoryAPI that represents the repository for querying the data.
+     */
+    public EntityReputationManager(HyperledgerFabricBlockhainRepositoryAPI api)
+    {
+        this.api = api;
+        this.allowNegativeReputation = true;
     }
 
     public void stakeEntityReputation(EntityID voterID, Long stakeNecessary) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        updateEntityReputation(voterID, -stakeNecessary, stakeNecessary, false);
+        updateEntityReputation(voterID, -stakeNecessary, stakeNecessary);
     }
 
     public void unstakeEntityReputation(EntityID voterID, Long unstakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
@@ -33,20 +68,15 @@ public class EntityReputationManager
 
     public void penalizeEntity(EntityID voterID, Long penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        updateEntityReputation(voterID, -penalty, new Long(0), true);
+        updateEntityReputation(voterID, -penalty, new Long(0));
     }
 
     public void rewardEntity(EntityID voterID, Long reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        updateEntityReputation(voterID, reward, new Long(0), true);
+        updateEntityReputation(voterID, reward, new Long(0));
     }
 
     private void updateEntityReputation(EntityID voterID, Long addToCurrentReputation, Long addToReputationAtStake) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
-    {
-        updateEntityReputation(voterID, addToCurrentReputation, addToReputationAtStake);
-    }
-
-    private void updateEntityReputation(EntityID voterID, Long addToCurrentReputation, Long addToReputationAtStake, boolean allowNegativeReputation) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
         EntityData entityData;
