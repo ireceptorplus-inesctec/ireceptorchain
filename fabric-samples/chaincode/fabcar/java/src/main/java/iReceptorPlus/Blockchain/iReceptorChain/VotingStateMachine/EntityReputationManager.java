@@ -41,6 +41,7 @@ public class EntityReputationManager
         Long reputationAtStake = entityData.getReputationAtStake();
         if (currentReputation < -addToCurrentReputation)
         {
+            exceptionToThrow.setReputationOfEntity(currentReputation);
             throw exceptionToThrow;
         }
         currentReputation += addToCurrentReputation;
