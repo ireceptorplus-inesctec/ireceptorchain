@@ -29,7 +29,7 @@ public class AwaitingValidation extends State
     public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
         long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
-        entityReputationManager.updateEntityReputation(voterID, stakeNecessary);
+        entityReputationManager.stakeEntityReputation(voterID, stakeNecessary);
 
         TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
         traceabilityData.registerYesVoteForValidity(voterID);
@@ -47,11 +47,6 @@ public class AwaitingValidation extends State
         {
             throw new IncosistentInfoFoundOnDB("key is already assigned to another object on trying to update traceability entry after registering yes vote");
         }
-    }
-
-    private void updateEntityReputation(EntityID voterID, Long stakeNecessary) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
-    {
-        entityReputationManager.updateEntityReputation(voterID, stakeNecessary);
     }
 
     private void switchInfoStateFromAwatingValidationToValidated(TraceabilityData traceabilityData) throws IncosistentInfoFoundOnDB
@@ -88,7 +83,7 @@ public class AwaitingValidation extends State
     public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
         long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
-        entityReputationManager.updateEntityReputation(voterID, stakeNecessary);
+        entityReputationManager.stakeEntityReputation(voterID, stakeNecessary);
 
         //TODO ver o q fazer neste caso (shut down the round immediately???)
         traceabilityDataInfo.getTraceabilityData().registerNoVoteForValidity(voterID);
