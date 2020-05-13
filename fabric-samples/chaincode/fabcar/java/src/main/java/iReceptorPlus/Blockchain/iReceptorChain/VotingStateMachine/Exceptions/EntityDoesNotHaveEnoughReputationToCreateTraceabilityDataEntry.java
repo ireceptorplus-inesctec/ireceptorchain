@@ -1,6 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions;
 
-public class EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry extends TraceabilityInfoStateMachineException
+public class EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry extends EntityDoesNotHaveEnoughReputationToPerformAction
 {
     Long reputationOfEntity;
 
