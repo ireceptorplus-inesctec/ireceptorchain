@@ -91,7 +91,7 @@ public class EntityReputationManager
         Long reputationAtStake = entityData.getReputationAtStake();
         if (currentReputation < -addToCurrentReputation && !allowNegativeReputation)
         {
-            exceptionToThrow.setReputationOfEntity(currentReputation);
+            new EntityDoesNotHaveEnoughReputationToPerformAction("Entity does not have enough reputation", currentReputation, addToReputationAtStake);
             throw exceptionToThrow;
         }
         currentReputation += addToCurrentReputation;
