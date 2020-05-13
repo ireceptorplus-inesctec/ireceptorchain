@@ -2,10 +2,8 @@ package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataValidatedRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.EntityReputationManager;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPerformAction;
@@ -57,36 +55,8 @@ public class AwaitingValidation extends State
 
     private void switchInfoStateFromAwatingValidationToValidated(TraceabilityData traceabilityData, EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
     {
-        try
-        {
-            api.remove(traceabilityDataInfo);
-        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
-        {
-            throw new IncosistentInfoFoundOnDB("object not found when trying to delete the info on the DB in order to switch state");
-        }
-
-        TraceabilityData newTraceabilityData = new TraceabilityDataValidated(traceabilityData.getInputDatasetHashValue(),
-                traceabilityData.getOutputDatasetHashValue(), traceabilityData.getProcessingDetails(),
-                ((TraceabilityDataAwatingValidation)traceabilityData).getApprovers());
-        TraceabilityDataInfo newTraceabilityDataInfo = new TraceabilityDataInfo(traceabilityDataInfo.getUUID(), newTraceabilityData);
-        api = new TraceabilityDataValidatedRepositoryAPI(api);
-        try
-        {
-            api.create(newTraceabilityDataInfo);
-        } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
-        {
-            throw new IncosistentInfoFoundOnDB("key is already assigned to another object on trying to create new traceability entry in order to switch state");
-        }
-
-        long rewardAmount = ChaincodeConfigs.reputationRewardForCreatingTruthfulTraceabiltiyDataEntry.get();
-        EntityReputationManager entityReputationManager = new EntityReputationManager(api);
-        try
-        {
-            entityReputationManager.rewardEntity(voterID, rewardAmount);
-        } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
-        {
-            throw new InternalError("Internal error occurred on processing by the state machine: got not enough reputation error on trying to reward entity. This means that a number was going to be made negative when adding a positive factor to it. Something went really wrong...");
-        }
+        RoundFinisher roundFinisher = new RoundFinisher();
+        roundFinisher.switchInfoStateFromAwatingValidationToValidated(traceabilityData, voterID);
     }
 
     private boolean conditionToApproveTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
