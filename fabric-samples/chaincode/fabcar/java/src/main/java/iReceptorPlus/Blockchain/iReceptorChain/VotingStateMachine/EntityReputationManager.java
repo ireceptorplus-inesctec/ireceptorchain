@@ -23,10 +23,30 @@ public class EntityReputationManager
 
     public void stakeEntityReputation(EntityID voterID, Long stakeNecessary) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        updateEntityReputation(voterID, -stakeNecessary, stakeNecessary);
+        updateEntityReputation(voterID, -stakeNecessary, stakeNecessary, false);
+    }
+
+    public void unstakeEntityReputation(EntityID voterID, Long unstakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    {
+        updateEntityReputation(voterID, +unstakeAmount, -unstakeAmount);
+    }
+
+    public void penalizeEntity(EntityID voterID, Long penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    {
+        updateEntityReputation(voterID, -penalty, new Long(0), true);
+    }
+
+    public void rewardEntity(EntityID voterID, Long reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    {
+        updateEntityReputation(voterID, reward, new Long(0), true);
     }
 
     private void updateEntityReputation(EntityID voterID, Long addToCurrentReputation, Long addToReputationAtStake) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    {
+        updateEntityReputation(voterID, addToCurrentReputation, addToReputationAtStake);
+    }
+
+    private void updateEntityReputation(EntityID voterID, Long addToCurrentReputation, Long addToReputationAtStake, boolean allowNegativeReputation) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
         EntityData entityData;
@@ -39,7 +59,7 @@ public class EntityReputationManager
         }
         Long currentReputation = entityData.getReputation();
         Long reputationAtStake = entityData.getReputationAtStake();
-        if (currentReputation < -addToCurrentReputation)
+        if (currentReputation < -addToCurrentReputation && !allowNegativeReputation)
         {
             exceptionToThrow.setReputationOfEntity(currentReputation);
             throw exceptionToThrow;
