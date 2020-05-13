@@ -23,10 +23,10 @@ public class EntityReputationManager
 
     public void stakeEntityReputation(EntityID voterID, Long stakeNecessary) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        updateEntityReputation(voterID, stakeNecessary);
+        updateEntityReputation(voterID, -stakeNecessary, stakeNecessary);
     }
 
-    private void updateEntityReputation(EntityID voterID, Long moveToStakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    private void updateEntityReputation(EntityID voterID, Long addToCurrentReputation, Long addToReputationAtStake) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
         EntityData entityData;
@@ -39,12 +39,12 @@ public class EntityReputationManager
         }
         Long currentReputation = entityData.getReputation();
         Long reputationAtStake = entityData.getReputationAtStake();
-        if (currentReputation < moveToStakeAmount)
+        if (currentReputation < -addToCurrentReputation)
         {
             throw exceptionToThrow;
         }
-        currentReputation -= moveToStakeAmount;
-        reputationAtStake += moveToStakeAmount;
+        currentReputation += addToCurrentReputation;
+        reputationAtStake += addToReputationAtStake;
         entityData = new EntityData(entityData.getClientIdentity(), currentReputation, reputationAtStake);
         try
         {
