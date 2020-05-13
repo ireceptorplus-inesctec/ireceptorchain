@@ -3,6 +3,7 @@ package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.EntityDataRepositoryAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
@@ -10,6 +11,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.*;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.AwaitingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.State;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.Validated;
+import org.hyperledger.fabric.shim.ChaincodeException;
 
 /**
  * This class implements a state machine for the traceability information.
@@ -61,6 +63,15 @@ public class TraceabilityInfoStateMachine
     {
         long stakeNecessaryForCreating = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
         EntityReputationManager entityReputationManager = new EntityReputationManager(api);
+
+        String key = null;
+        try
+        {
+            key = api.create(traceabilityDataInfo.getUUID(), traceabilityDataInfo.getTraceabilityData());
+        } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
+        {
+            throw new ChaincodeException(givenIdIsAlreadyAssignedToAnotherObject.getMessage());
+        }
     }
 
     public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
