@@ -53,16 +53,15 @@ public class TraceabilityInfoStateMachine
     public void initVotingRound(EntityID creatorID) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry
     {
         long stakeNecessaryForCreating = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
-        EntityReputationManager entityReputationManager = new EntityReputationManager(api,
-                new EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry(stakeNecessaryForCreating));
+        EntityReputationManager entityReputationManager = new EntityReputationManager(api);
     }
 
-    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
         state.voteYesForTheVeracityOfTraceabilityInfo(voter);
     }
 
-    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
         state.voteNoForTheVeracityOfTraceabilityInfo(voter);
     }
