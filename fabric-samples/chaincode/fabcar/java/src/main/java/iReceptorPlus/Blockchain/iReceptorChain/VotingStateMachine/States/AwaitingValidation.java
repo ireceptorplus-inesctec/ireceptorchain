@@ -2,17 +2,15 @@ package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.EntityDataRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataValidatedRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.EntityReputationManager;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPlaceVote;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.IncosistentInfoFoundOnDB;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.ReferenceToNonexistentEntity;
-
-import javax.swing.text.html.parser.Entity;
 
 /**
  * This is the sub class for the state machine for the traceability information.
@@ -20,6 +18,8 @@ import javax.swing.text.html.parser.Entity;
  */
 public class AwaitingValidation extends State
 {
+    private final EntityReputationManager entityReputationManager = new EntityReputationManager(api);
+
     public AwaitingValidation(TraceabilityDataInfo traceabilityData, HyperledgerFabricBlockhainRepositoryAPI api)
     {
         super(traceabilityData, api);
@@ -29,7 +29,7 @@ public class AwaitingValidation extends State
     public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
         long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
-        updateEntityReputation(voterID, stakeNecessary);
+        entityReputationManager.updateEntityReputation(voterID, stakeNecessary);
 
         TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
         traceabilityData.registerYesVoteForValidity(voterID);
@@ -51,31 +51,7 @@ public class AwaitingValidation extends State
 
     private void updateEntityReputation(EntityID voterID, Long stakeNecessary) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
-        EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
-        EntityData entityData;
-        try
-        {
-            entityData = (EntityData) entityRepository.read(voterID.getId());
-        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
-        {
-            throw new ReferenceToNonexistentEntity(voterID.getId());
-        }
-        Long currentReputation = entityData.getReputation();
-        Long reputationAtStake = entityData.getReputationAtStake();
-        if (currentReputation < stakeNecessary)
-        {
-            throw new EntityDoesNotHaveEnoughReputationToPlaceVote(currentReputation, stakeNecessary);
-        }
-        currentReputation -= stakeNecessary;
-        reputationAtStake += stakeNecessary;
-        entityData = new EntityData(entityData.getClientIdentity(), currentReputation, reputationAtStake);
-        try
-        {
-            entityRepository.update(voterID.getId(), entityData);
-        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
-        {
-            throw new ReferenceToNonexistentEntity(voterID.getId());
-        }
+        entityReputationManager.updateEntityReputation(voterID, stakeNecessary);
     }
 
     private void switchInfoStateFromAwatingValidationToValidated(TraceabilityData traceabilityData) throws IncosistentInfoFoundOnDB
@@ -112,7 +88,7 @@ public class AwaitingValidation extends State
     public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
         long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
-        updateEntityReputation(voterID, stakeNecessary);
+        entityReputationManager.updateEntityReputation(voterID, stakeNecessary);
 
         //TODO ver o q fazer neste caso (shut down the round immediately???)
         traceabilityDataInfo.getTraceabilityData().registerNoVoteForValidity(voterID);
