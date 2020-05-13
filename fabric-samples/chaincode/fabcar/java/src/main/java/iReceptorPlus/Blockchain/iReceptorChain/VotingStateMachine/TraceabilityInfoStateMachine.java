@@ -50,6 +50,13 @@ public class TraceabilityInfoStateMachine
 
     }
 
+    /**
+     * Makes the necessary procedures to initiate the voting round.
+     * Creates the entry on the database and stakes the reputation for the peer who creates it.
+     * @param creatorID An instance of class EntityID containing the information of the creator's id.
+     * @throws ReferenceToNonexistentEntity Exception thrown when an entity with an id that is not registered is passed as parameter.
+     * @throws EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry Exception thrown when the entity corresponding to the id passed as parameter does not have enough reputation to stake for creation of the traceability entry.
+     */
     public void initVotingRound(EntityID creatorID) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry
     {
         long stakeNecessaryForCreating = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
