@@ -8,6 +8,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Hyp
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataValidatedRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.EntityReputationManager;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPerformAction;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPlaceVote;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.IncosistentInfoFoundOnDB;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.ReferenceToNonexistentEntity;
@@ -18,17 +19,16 @@ import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.Ref
  */
 public class AwaitingValidation extends State
 {
-    private final EntityReputationManager entityReputationManager = new EntityReputationManager(api);
-
     public AwaitingValidation(TraceabilityDataInfo traceabilityData, HyperledgerFabricBlockhainRepositoryAPI api)
     {
         super(traceabilityData, api);
     }
 
     @Override
-    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
+    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
+        EntityReputationManager entityReputationManager = new EntityReputationManager(api, new EntityDoesNotHaveEnoughReputationToPlaceVote(stakeNecessary));
         entityReputationManager.stakeEntityReputation(voterID, stakeNecessary);
 
         TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
@@ -80,9 +80,10 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
+    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
+        EntityReputationManager entityReputationManager = new EntityReputationManager(api, new EntityDoesNotHaveEnoughReputationToPlaceVote(stakeNecessary));
         entityReputationManager.stakeEntityReputation(voterID, stakeNecessary);
 
         //TODO ver o q fazer neste caso (shut down the round immediately???)
