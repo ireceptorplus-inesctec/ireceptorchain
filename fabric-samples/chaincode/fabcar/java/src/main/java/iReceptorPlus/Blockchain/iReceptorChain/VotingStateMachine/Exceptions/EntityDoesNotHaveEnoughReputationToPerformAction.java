@@ -18,4 +18,14 @@ public class EntityDoesNotHaveEnoughReputationToPerformAction extends Traceabili
         this.reputationOfEntity = reputationOfEntity;
         this.necessaryReputation = necessaryReputation;
     }
+
+    public Long getReputationOfEntity()
+    {
+        return reputationOfEntity;
+    }
+
+    public Long getNecessaryReputation()
+    {
+        return necessaryReputation;
+    }
 }
