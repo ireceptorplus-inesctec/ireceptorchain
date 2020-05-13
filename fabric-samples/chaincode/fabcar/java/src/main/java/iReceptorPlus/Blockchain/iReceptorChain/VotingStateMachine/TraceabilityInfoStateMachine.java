@@ -59,19 +59,12 @@ public class TraceabilityInfoStateMachine
      * @throws ReferenceToNonexistentEntity Exception thrown when an entity with an id that is not registered is passed as parameter.
      * @throws EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry Exception thrown when the entity corresponding to the id passed as parameter does not have enough reputation to stake for creation of the traceability entry.
      */
-    public void initVotingRound(EntityID creatorID) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry
+    public void initVotingRound(EntityID creatorID) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry, GivenIdIsAlreadyAssignedToAnotherObject
     {
         long stakeNecessaryForCreating = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
         EntityReputationManager entityReputationManager = new EntityReputationManager(api);
 
-        String key = null;
-        try
-        {
-            key = api.create(traceabilityDataInfo.getUUID(), traceabilityDataInfo.getTraceabilityData());
-        } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
-        {
-            throw new ChaincodeException(givenIdIsAlreadyAssignedToAnotherObject.getMessage());
-        }
+        api.create(traceabilityDataInfo.getUUID(), traceabilityDataInfo.getTraceabilityData());
     }
 
     public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
