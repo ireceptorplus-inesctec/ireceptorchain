@@ -22,38 +22,15 @@ public class EntityReputationManager
     private final HyperledgerFabricBlockhainRepositoryAPI api;
 
     /**
-     * An instance of class EntityDoesNotHaveEnoughReputationToPerformAction initialized with the appropriate subclass instance.
-     */
-    private EntityDoesNotHaveEnoughReputationToPerformAction exceptionToThrow;
-
-    /**
      * Boolean identifying if negative reputation should be allowed.
      * If negative reputation is allowed, when subtracting reputation to the peer, no restrictions will be applied.
-     * The value of this variable is set by the constructor and used by the functions.
      */
     private boolean allowNegativeReputation;
 
-    /**
-     * Constructor for this class. Receives the repository api and the exception to throw in case of negative resulting reputation.
-     * @param api An instance of class HyperledgerFabricBlockhainRepositoryAPI that represents the repository for querying the data.
-     * @param exceptionToThrow An instance of class EntityDoesNotHaveEnoughReputationToPerformAction initialized with the appropriate subclass instance.
-     */
-    public EntityReputationManager(HyperledgerFabricBlockhainRepositoryAPI api, EntityDoesNotHaveEnoughReputationToPerformAction exceptionToThrow)
+    public EntityReputationManager(HyperledgerFabricBlockhainRepositoryAPI api, boolean allowNegativeReputation)
     {
         this.api = api;
-        this.exceptionToThrow = exceptionToThrow;
-        this.allowNegativeReputation = false;
-    }
-
-    /**
-     * Constructor for this class. Receives the only the the repository api.
-     * It is used when the exception should be ignored, i.e., when negative reputation should be allowed.
-     * @param api An instance of class HyperledgerFabricBlockhainRepositoryAPI that represents the repository for querying the data.
-     */
-    public EntityReputationManager(HyperledgerFabricBlockhainRepositoryAPI api)
-    {
-        this.api = api;
-        this.allowNegativeReputation = true;
+        this.allowNegativeReputation = allowNegativeReputation;
     }
 
     public void stakeEntityReputation(EntityID voterID, Long stakeNecessary) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
@@ -91,8 +68,7 @@ public class EntityReputationManager
         Long reputationAtStake = entityData.getReputationAtStake();
         if (currentReputation < -addToCurrentReputation && !allowNegativeReputation)
         {
-            new EntityDoesNotHaveEnoughReputationToPerformAction("Entity does not have enough reputation", currentReputation, addToReputationAtStake);
-            throw exceptionToThrow;
+            throw new EntityDoesNotHaveEnoughReputationToPerformAction("Entity does not have enough reputation", currentReputation, addToReputationAtStake);
         }
         currentReputation += addToCurrentReputation;
         reputationAtStake += addToReputationAtStake;
