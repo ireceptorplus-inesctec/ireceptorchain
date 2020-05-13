@@ -25,11 +25,17 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
         long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
-        EntityReputationManager entityReputationManager = new EntityReputationManager(api, new EntityDoesNotHaveEnoughReputationToPlaceVote(stakeNecessary));
-        entityReputationManager.stakeEntityReputation(voterID, stakeNecessary);
+        EntityReputationManager entityReputationManager = new EntityReputationManager(api);
+        try
+        {
+            entityReputationManager.stakeEntityReputation(voterID, stakeNecessary);
+        } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
+        {
+            throw new EntityDoesNotHaveEnoughReputationToPlaceVote(entityDoesNotHaveEnoughReputationToPerformAction.getReputationOfEntity(), entityDoesNotHaveEnoughReputationToPerformAction.getNecessaryReputation());
+        }
 
         TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
         traceabilityData.registerYesVoteForValidity(voterID);
@@ -80,11 +86,17 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
         long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
-        EntityReputationManager entityReputationManager = new EntityReputationManager(api, new EntityDoesNotHaveEnoughReputationToPlaceVote(stakeNecessary));
-        entityReputationManager.stakeEntityReputation(voterID, stakeNecessary);
+        EntityReputationManager entityReputationManager = new EntityReputationManager(api);
+        try
+        {
+            entityReputationManager.stakeEntityReputation(voterID, stakeNecessary);
+        } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
+        {
+            throw new EntityDoesNotHaveEnoughReputationToPlaceVote(entityDoesNotHaveEnoughReputationToPerformAction.getReputationOfEntity(), entityDoesNotHaveEnoughReputationToPerformAction.getNecessaryReputation());
+        }
 
         //TODO ver o q fazer neste caso (shut down the round immediately???)
         traceabilityDataInfo.getTraceabilityData().registerNoVoteForValidity(voterID);
