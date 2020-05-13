@@ -5,6 +5,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityID;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.EntityDataRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPerformAction;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPlaceVote;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.ReferenceToNonexistentEntity;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.AwaitingValidation;
@@ -12,19 +13,20 @@ import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.Awaitin
 public class EntityReputationManager
 {
     private final HyperledgerFabricBlockhainRepositoryAPI api;
+    private EntityDoesNotHaveEnoughReputationToPerformAction exceptionToThrow;
 
-    public EntityReputationManager(HyperledgerFabricBlockhainRepositoryAPI api)
+    public EntityReputationManager(HyperledgerFabricBlockhainRepositoryAPI api, EntityDoesNotHaveEnoughReputationToPerformAction exceptionToThrow)
     {
         this.api = api;
+        this.exceptionToThrow = exceptionToThrow;
     }
 
-
-    public void stakeEntityReputation(EntityID voterID, Long stakeNecessary) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
+    public void stakeEntityReputation(EntityID voterID, Long stakeNecessary) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         updateEntityReputation(voterID, stakeNecessary);
     }
 
-    private void updateEntityReputation(EntityID voterID, Long moveToStakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
+    private void updateEntityReputation(EntityID voterID, Long moveToStakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
         EntityData entityData;
@@ -39,7 +41,7 @@ public class EntityReputationManager
         Long reputationAtStake = entityData.getReputationAtStake();
         if (currentReputation < moveToStakeAmount)
         {
-            throw new EntityDoesNotHaveEnoughReputationToPlaceVote(currentReputation, moveToStakeAmount);
+            throw exceptionToThrow;
         }
         currentReputation -= moveToStakeAmount;
         reputationAtStake += moveToStakeAmount;
