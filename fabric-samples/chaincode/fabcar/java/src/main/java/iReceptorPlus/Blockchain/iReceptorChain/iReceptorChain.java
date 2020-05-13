@@ -359,11 +359,23 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataAwatingValidation traceabilityData = new TraceabilityDataAwatingValidation(inputDatasetHashValue, outputDatasetHashValue,
                 new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams));
 
+        TraceabilityDataInfo dataInfo = new TraceabilityDataInfo(newUUID, traceabilityData);
+
         HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
-        String key = null;
+
         try
         {
-            key = api.create(newUUID, traceabilityData);
+            TraceabilityInfoStateMachine stateMachine = new TraceabilityInfoStateMachine(dataInfo, api);
+            stateMachine.initVotingRound(new EntityID(ctx.getClientIdentity().getId()));
+        } catch (UnsupportedTypeOfTraceabilityInfo unsupportedTypeOfTraceabilityInfo)
+        {
+            throw new ChaincodeException(unsupportedTypeOfTraceabilityInfo.getMessage());
+        } catch (ReferenceToNonexistentEntity referenceToNonexistentEntity)
+        {
+            throw new ChaincodeException(referenceToNonexistentEntity.getMessage());
+        } catch (EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry entityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry)
+        {
+            throw new ChaincodeException(entityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry.getMessage());
         } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
         {
             throw new ChaincodeException(givenIdIsAlreadyAssignedToAnotherObject.getMessage());
