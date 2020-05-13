@@ -12,10 +12,9 @@ public class EntityDoesNotHaveEnoughReputationToPerformAction extends Traceabili
      *
      * @param message The string message that will be set as the message for the exception that occurred.
      */
-    public EntityDoesNotHaveEnoughReputationToPerformAction(String message, Long reputationOfEntity, Long necessaryReputation)
+    public EntityDoesNotHaveEnoughReputationToPerformAction(String message, Long necessaryReputation)
     {
         super(message);
-        this.reputationOfEntity = reputationOfEntity;
         this.necessaryReputation = necessaryReputation;
     }
 
