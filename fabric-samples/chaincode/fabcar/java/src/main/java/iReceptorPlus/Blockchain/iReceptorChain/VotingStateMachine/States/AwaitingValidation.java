@@ -61,7 +61,7 @@ public class AwaitingValidation extends State
 
     private boolean conditionToApproveTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
     {
-        return numberOfApprovers >= ChaincodeConfigs.numberOfRejectionsNecessaryForTraceabilityInfoToBeInvalid.get()
+        return numberOfApprovers >= ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeInvalid.get()
                 && numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue() >= ChaincodeConfigs.ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeValid.get();
     }
 
