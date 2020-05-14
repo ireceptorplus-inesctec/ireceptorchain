@@ -51,6 +51,14 @@ public class EntityReputationManager
         updateEntityReputation(voterID, +unstakeAmount, -unstakeAmount);
     }
 
+    public void unstakeEntitiesReputation(ArrayList<EntityID> voterID, Long unstakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    {
+        for (EntityID currVoterID : voterID)
+        {
+            unstakeEntityReputation(currVoterID, unstakeAmount);
+        }
+    }
+
     public void rewardEntity(EntityID voterID, Long reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         updateEntityReputation(voterID, reward, new Long(0));
