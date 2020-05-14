@@ -32,8 +32,8 @@ public class TraceabilityDataValidated extends TraceabilityData
     public TraceabilityDataValidated(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                                      @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
                                      @JsonProperty("processingDetails") final ProcessingDetails processingDetails,
-                                     @JsonProperty("validators") final ArrayList<EntityID> validators,
-                                     @JsonProperty("creatorID") final EntityID creatorID)
+                                     @JsonProperty("creatorID") final EntityID creatorID,
+                                     @JsonProperty("validators") final ArrayList<EntityID> validators)
     {
         super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID);
         this.validators = validators;
