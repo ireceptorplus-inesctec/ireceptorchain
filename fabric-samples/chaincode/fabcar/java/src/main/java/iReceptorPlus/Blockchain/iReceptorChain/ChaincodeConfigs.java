@@ -26,13 +26,13 @@ public class ChaincodeConfigs
 
     public static AtomicLong reputationRewardForUpVotingTruthfulTraceabiltiyDataEntry = new AtomicLong(30);
 
-    public static AtomicLong reputationRewardForDownVotingTruthfulTraceabiltiyDataEntry = new AtomicLong(50);
+    public static AtomicLong reputationRewardForDownVotingFakeTraceabiltiyDataEntry = new AtomicLong(50);
 
     public static AtomicLong reputationPenaltyForCreatingFakeTraceabiltiyDataEntry = new AtomicLong(70);
 
     public static AtomicLong reputationPenaltyForUpVotingFakeTraceabiltiyDataEntry = new AtomicLong(30);
 
-    public static AtomicLong reputationPenaltyForDownVotingFakeTraceabiltiyDataEntry = new AtomicLong(50);
+    public static AtomicLong reputationPenaltyForDownVotingTruthfulTraceabiltiyDataEntry = new AtomicLong(50);
 
 
     private static String traceabilityAwaitingValidationKeyPrefix = "TracreabilityInfoAwaitingValidation";
