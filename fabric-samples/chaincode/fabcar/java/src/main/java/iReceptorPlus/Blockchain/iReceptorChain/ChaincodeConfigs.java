@@ -62,4 +62,10 @@ public class ChaincodeConfigs
                 && numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue() >= ChaincodeConfigs.ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeValid.get();
     }
 
+    public static synchronized boolean conditionToRejectTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
+    {
+        return numberOfApprovers >= ChaincodeConfigs.numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid.get()
+                && numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue() >= ChaincodeConfigs.ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeInvalid.get();
+    }
+
 }
