@@ -10,7 +10,7 @@ public class ChaincodeConfigs
 
     public static AtomicDouble ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeValid = new AtomicDouble(0.7);
 
-    public static AtomicLong numberOfConfirmationsNecessaryForTraceabilityInfoToBeInvalid = new AtomicLong(3);
+    public static AtomicLong numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid = new AtomicLong(3);
 
     public static AtomicDouble ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeInvalid = new AtomicDouble(0.7);
 
