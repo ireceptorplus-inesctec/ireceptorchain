@@ -88,9 +88,30 @@ public class RoundFinisher
         }
     }
 
-    void rejectTraceabilityDataEntry(TraceabilityData traceabilityData, EntityID voterID) throws IncosistentInfoFoundOnDB
+    void rejectTraceabilityDataEntry(TraceabilityData traceabilityData, EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
     {
         removeTraceabilityDataFromDB();
+
+
+        EntityReputationManager entityReputationManager = new EntityReputationManager(api);
+        unStakeCreatorAndVotersReputation(traceabilityData, entityReputationManager);
+
+        Long penaltyForCreating = ChaincodeConfigs.reputationPenaltyForCreatingFakeTraceabiltiyDataEntry.get();
+        Long penaltyForUpVoters = ChaincodeConfigs.reputationPenaltyForUpVotingFakeTraceabiltiyDataEntry.get();
+        Long rewardForDownVoters = ChaincodeConfigs.reputationRewardForDownVotingFakeTraceabiltiyDataEntry.get();
+        try
+        {
+            entityReputationManager.rewardEntity(traceabilityData.getCreatorID(), penaltyForCreating);
+            entityReputationManager.penalizeEntities(((TraceabilityDataAwatingValidation) traceabilityData).getApprovers(), penaltyForUpVoters);
+            entityReputationManager.rewardEntities(((TraceabilityDataAwatingValidation) traceabilityData).getRejecters(), rewardForDownVoters);
+
+        } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
+        {
+            throw new InternalError("Internal error occurred on processing by the state machine: got not enough reputation error on trying to reward entity. This means that a number was going to be made negative when adding a positive factor to it. Something went really wrong...");
+        } catch (ReferenceToNonexistentEntity referenceToNonexistentEntity)
+        {
+            referenceToNonexistentEntity.printStackTrace();
+        }
     }
 
     private void removeTraceabilityDataFromDB() throws IncosistentInfoFoundOnDB
