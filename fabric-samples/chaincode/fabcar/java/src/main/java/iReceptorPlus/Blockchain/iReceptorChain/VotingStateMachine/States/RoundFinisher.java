@@ -73,14 +73,14 @@ public class RoundFinisher
 
     private void unStakeCreatorAndVotersReputation(TraceabilityData traceabilityData, EntityReputationManager entityReputationManager) throws ReferenceToNonexistentEntity
     {
-        Long unstakeForCreating = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
-        Long unstakeForApprovers = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
-        Long unstakeForRejecters = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
+        Long unStakeForCreating = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
+        Long unStakeForApprovers = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
+        Long unStakeForRejecters = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
         try
         {
-            entityReputationManager.unstakeEntityReputation(traceabilityData.getCreatorID(), unstakeForCreating);
-            entityReputationManager.unstakeEntitiesReputation(((TraceabilityDataAwatingValidation) traceabilityData).getApprovers(), unstakeForApprovers);
-            entityReputationManager.unstakeEntitiesReputation(((TraceabilityDataAwatingValidation) traceabilityData).getRejecters(), unstakeForRejecters);
+            entityReputationManager.unstakeEntityReputation(traceabilityData.getCreatorID(), unStakeForCreating);
+            entityReputationManager.unstakeEntitiesReputation(((TraceabilityDataAwatingValidation) traceabilityData).getApprovers(), unStakeForApprovers);
+            entityReputationManager.unstakeEntitiesReputation(((TraceabilityDataAwatingValidation) traceabilityData).getRejecters(), unStakeForRejecters);
 
         } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
         {
