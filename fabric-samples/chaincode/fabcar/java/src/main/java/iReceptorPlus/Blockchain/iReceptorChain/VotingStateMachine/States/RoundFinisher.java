@@ -53,30 +53,42 @@ public class RoundFinisher
         }
 
         api = new EntityDataRepositoryAPI(api);
-        Long unstakeForCreating = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
-        Long unstakeForApprovers = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
-        Long unstakeForRejecters = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
+        EntityReputationManager entityReputationManager = new EntityReputationManager(api);
+
+        unStakeCreatorAndVotersReputation(traceabilityData, entityReputationManager);
 
         Long rewardForCreating = ChaincodeConfigs.reputationRewardForCreatingTruthfulTraceabiltiyDataEntry.get();
         Long rewardForApprovers = ChaincodeConfigs.reputationRewardForUpVotingTruthfulTraceabiltiyDataEntry.get();
         Long penaltyForRejecters = ChaincodeConfigs.reputationPenaltyForDownVotingTruthfulTraceabiltiyDataEntry.get();
-        EntityReputationManager entityReputationManager = new EntityReputationManager(api);
+        try
+        {
+            entityReputationManager.rewardEntity(traceabilityData.getCreatorID(), rewardForCreating);
+            entityReputationManager.rewardEntities(((TraceabilityDataAwatingValidation) traceabilityData).getApprovers(), rewardForApprovers);
+            entityReputationManager.penalizeEntities(((TraceabilityDataAwatingValidation) traceabilityData).getRejecters(), penaltyForRejecters);
+        } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
+        {
+            throw new InternalError("Internal error occurred on processing by the state machine: got not enough reputation error on closing voting round: rewarding and penalizing creator and voters");
+        }
+    }
+
+    private void unStakeCreatorAndVotersReputation(TraceabilityData traceabilityData, EntityReputationManager entityReputationManager) throws ReferenceToNonexistentEntity
+    {
+        Long unstakeForCreating = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
+        Long unstakeForApprovers = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
+        Long unstakeForRejecters = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
         try
         {
             entityReputationManager.unstakeEntityReputation(traceabilityData.getCreatorID(), unstakeForCreating);
             entityReputationManager.unstakeEntitiesReputation(((TraceabilityDataAwatingValidation) traceabilityData).getApprovers(), unstakeForApprovers);
             entityReputationManager.unstakeEntitiesReputation(((TraceabilityDataAwatingValidation) traceabilityData).getRejecters(), unstakeForRejecters);
 
-            entityReputationManager.rewardEntity(traceabilityData.getCreatorID(), rewardForCreating);
-            entityReputationManager.rewardEntities(((TraceabilityDataAwatingValidation) traceabilityData).getApprovers(), rewardForApprovers);
-            entityReputationManager.penalizeEntities(((TraceabilityDataAwatingValidation) traceabilityData).getRejecters(), penaltyForRejecters);
         } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
         {
-            throw new InternalError("Internal error occurred on processing by the state machine: got not enough reputation error on trying to reward entity. This means that a number was going to be made negative when adding a positive factor to it. Something went really wrong...");
+            throw new InternalError("Internal error occurred on processing by the state machine: got not enough reputation error on closing voting round: unstaking stake ammounts");
         }
     }
 
-    void rejectTraceabilityDataEntry(TraceabilityData data, EntityID voterID) throws IncosistentInfoFoundOnDB
+    void rejectTraceabilityDataEntry(TraceabilityData traceabilityData, EntityID voterID) throws IncosistentInfoFoundOnDB
     {
         removeTraceabilityDataFromDB();
     }
