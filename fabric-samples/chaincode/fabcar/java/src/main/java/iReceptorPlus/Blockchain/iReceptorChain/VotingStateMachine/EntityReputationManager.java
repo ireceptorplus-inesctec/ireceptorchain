@@ -10,6 +10,8 @@ import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.Ent
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.ReferenceToNonexistentEntity;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.AwaitingValidation;
 
+import java.util.ArrayList;
+
 /**
  * This class is used by the voting state machine classes to manage the reputation of a peer.
  * The methods should be called perform the changes to the reputation of the peer.
@@ -54,10 +56,27 @@ public class EntityReputationManager
         updateEntityReputation(voterID, reward, new Long(0));
     }
 
+    public void rewardEntities(ArrayList<EntityID> voterID, Long reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    {
+        for (EntityID currVoterID : voterID)
+        {
+            rewardEntity(currVoterID, reward);
+        }
+    }
+
     public void penalizeEntity(EntityID voterID, Long penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         updateEntityReputation(voterID, -penalty, new Long(0));
     }
+
+    public void penalizeEntities(ArrayList<EntityID> voterID, Long penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    {
+        for (EntityID currVoterID : voterID)
+        {
+            penalizeEntity(currVoterID, penalty);
+        }
+    }
+
     private void updateEntityReputation(EntityID voterID, Long addToCurrentReputation, Long addToReputationAtStake) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
