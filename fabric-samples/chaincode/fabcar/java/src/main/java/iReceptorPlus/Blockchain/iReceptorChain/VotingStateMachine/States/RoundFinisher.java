@@ -35,7 +35,7 @@ public class RoundFinisher
      */
     HyperledgerFabricBlockhainRepositoryAPI api;
 
-    void switchInfoStateFromAwatingValidationToValidated(TraceabilityData traceabilityData, EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
+    void approveTraceabilityDataEntry(TraceabilityData traceabilityData, EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
     {
         api = new TraceabilityDataAwatingValidationRepositoryAPI(api);
         try

@@ -56,7 +56,7 @@ public class AwaitingValidation extends State
     private void switchInfoStateFromAwatingValidationToValidated(TraceabilityData traceabilityData, EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
     {
         RoundFinisher roundFinisher = new RoundFinisher();
-        roundFinisher.switchInfoStateFromAwatingValidationToValidated(traceabilityData, voterID);
+        roundFinisher.approveTraceabilityDataEntry(traceabilityData, voterID);
     }
 
     private boolean conditionToApproveTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
