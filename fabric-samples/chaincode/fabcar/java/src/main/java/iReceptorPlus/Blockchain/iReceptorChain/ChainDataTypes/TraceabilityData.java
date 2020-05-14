@@ -66,6 +66,11 @@ public abstract class TraceabilityData implements iReceptorChainDataType
         return processingDetails;
     }
 
+    public EntityID getCreatorID()
+    {
+        return creatorID;
+    }
+
     /**
      * This method is called whenever a user votes yes for the validity of the traceability information.
      * Depending on the state of the traceability information, different actions are necessary, so the methods must be overridden by the derived classes that implement specific behavior necessary for each state.
