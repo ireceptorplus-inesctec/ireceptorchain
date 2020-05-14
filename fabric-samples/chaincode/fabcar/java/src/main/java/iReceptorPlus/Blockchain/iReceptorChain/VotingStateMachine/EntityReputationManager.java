@@ -49,16 +49,15 @@ public class EntityReputationManager
         updateEntityReputation(voterID, +unstakeAmount, -unstakeAmount);
     }
 
-    public void penalizeEntity(EntityID voterID, Long penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
-    {
-        updateEntityReputation(voterID, -penalty, new Long(0));
-    }
-
     public void rewardEntity(EntityID voterID, Long reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         updateEntityReputation(voterID, reward, new Long(0));
     }
 
+    public void penalizeEntity(EntityID voterID, Long penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    {
+        updateEntityReputation(voterID, -penalty, new Long(0));
+    }
     private void updateEntityReputation(EntityID voterID, Long addToCurrentReputation, Long addToReputationAtStake) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
