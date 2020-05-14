@@ -87,7 +87,6 @@ public class AwaitingValidation extends State
             RoundFinisher roundFinisher = new RoundFinisher();
             roundFinisher.rejectTraceabilityDataEntry(traceabilityData, voterID);
         }
-
     }
 
     private boolean conditionToRejectTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
