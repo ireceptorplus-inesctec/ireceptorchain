@@ -30,9 +30,10 @@ public class TraceabilityDataAwatingValidation extends TraceabilityData
 
     public TraceabilityDataAwatingValidation(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                                              @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
-                                             @JsonProperty("processingDetails") final ProcessingDetails processingDetails)
+                                             @JsonProperty("processingDetails") final ProcessingDetails processingDetails,
+                                             @JsonProperty("creatorID") final EntityID creatorID)
     {
-        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails);
+        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID);
         approvers = new ArrayList<>();
         rejecters = new ArrayList<>();
     }

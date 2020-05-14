@@ -32,9 +32,10 @@ public class TraceabilityDataValidated extends TraceabilityData
     public TraceabilityDataValidated(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                                      @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
                                      @JsonProperty("processingDetails") final ProcessingDetails processingDetails,
-                                     @JsonProperty("validators") final ArrayList<EntityID> validators)
+                                     @JsonProperty("validators") final ArrayList<EntityID> validators,
+                                     @JsonProperty("creatorID") final EntityID creatorID)
     {
-        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails);
+        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID);
         this.validators = validators;
         corroborators = new ArrayList<>();
     }
@@ -54,6 +55,7 @@ public class TraceabilityDataValidated extends TraceabilityData
 
     /**
      * Returns the number of approvers of the traceability information represented by this class.
+     *
      * @return the number of approvers of the traceability information represented by this class.
      */
     @Override

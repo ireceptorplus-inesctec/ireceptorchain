@@ -34,13 +34,21 @@ public abstract class TraceabilityData implements iReceptorChainDataType
     @Property()
     protected final ProcessingDetails processingDetails;
 
+    /**
+     * An instance of class EntityID containing information about the id of the entity that created the traceability data entry.
+     */
+    @Property()
+    protected final EntityID creatorID;
+
     public TraceabilityData(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                             @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
-                            @JsonProperty("processingDetails") final ProcessingDetails processingDetails)
+                            @JsonProperty("processingDetails") final ProcessingDetails processingDetails,
+                            @JsonProperty("creatorID") final EntityID creatorID)
     {
         this.inputDatasetHashValue = inputDatasetHashValue;
         this.outputDatasetHashValue = outputDatasetHashValue;
         this.processingDetails = processingDetails;
+        this.creatorID = creatorID;
     }
 
     public String getInputDatasetHashValue()
