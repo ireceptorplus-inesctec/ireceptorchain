@@ -37,15 +37,7 @@ public class RoundFinisher
 
     void approveTraceabilityDataEntry(TraceabilityData traceabilityData, EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
     {
-        api = new TraceabilityDataAwatingValidationRepositoryAPI(api);
-        try
-        {
-            api.remove(traceabilityDataInfo);
-        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
-        {
-            throw new IncosistentInfoFoundOnDB("object not found when trying to delete the info on the DB in order to switch state");
-        }
-
+        removeTraceabilityDataFromDB();
 
         api = new TraceabilityDataValidatedRepositoryAPI(api);
         TraceabilityData newTraceabilityData = new TraceabilityDataValidated(traceabilityData.getInputDatasetHashValue(),
@@ -73,6 +65,11 @@ public class RoundFinisher
     }
 
     void rejectTraceabilityDataEntry(TraceabilityData data, EntityID voterID) throws IncosistentInfoFoundOnDB
+    {
+        removeTraceabilityDataFromDB();
+    }
+
+    private void removeTraceabilityDataFromDB() throws IncosistentInfoFoundOnDB
     {
         api = new TraceabilityDataAwatingValidationRepositoryAPI(api);
         try
