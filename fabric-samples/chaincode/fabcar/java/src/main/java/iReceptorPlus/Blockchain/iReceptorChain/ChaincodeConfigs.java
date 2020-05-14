@@ -55,4 +55,11 @@ public class ChaincodeConfigs
     {
         return new String(entityDataKeyPrefix);
     }
+
+    public static synchronized boolean conditionToApproveTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
+    {
+        return numberOfApprovers >= ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid.get()
+                && numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue() >= ChaincodeConfigs.ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeValid.get();
+    }
+
 }
