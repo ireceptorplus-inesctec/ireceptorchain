@@ -41,7 +41,7 @@ public class RoundFinisher
 
         api = new TraceabilityDataValidatedRepositoryAPI(api);
         TraceabilityData newTraceabilityData = new TraceabilityDataValidated(traceabilityData.getInputDatasetHashValue(),
-                traceabilityData.getOutputDatasetHashValue(), traceabilityData.getProcessingDetails(),
+                traceabilityData.getOutputDatasetHashValue(), traceabilityData.getProcessingDetails(), traceabilityData.getCreatorID(),
                 ((TraceabilityDataAwatingValidation) traceabilityData).getApprovers());
         TraceabilityDataInfo newTraceabilityDataInfo = new TraceabilityDataInfo(traceabilityDataInfo.getUUID(), newTraceabilityData);
         try
@@ -53,11 +53,13 @@ public class RoundFinisher
         }
 
         api = new EntityDataRepositoryAPI(api);
-        long rewardAmount = ChaincodeConfigs.reputationRewardForCreatingTruthfulTraceabiltiyDataEntry.get();
+        Long rewardForCreating = ChaincodeConfigs.reputationRewardForCreatingTruthfulTraceabiltiyDataEntry.get();
+        Long rewardForVoting = ChaincodeConfigs.reputationRewardForUpVotingTruthfulTraceabiltiyDataEntry.get();
         EntityReputationManager entityReputationManager = new EntityReputationManager(api);
         try
         {
-            entityReputationManager.rewardEntity(voterID, rewardAmount);
+            entityReputationManager.rewardEntity(voterID, rewardForCreating);
+            entityReputationManager.rewardEntity(voterID, rewardForVoting);
         } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
         {
             throw new InternalError("Internal error occurred on processing by the state machine: got not enough reputation error on trying to reward entity. This means that a number was going to be made negative when adding a positive factor to it. Something went really wrong...");

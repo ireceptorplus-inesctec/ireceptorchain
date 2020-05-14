@@ -193,7 +193,7 @@ public final class iReceptorChain implements ContractInterface {
     @Transaction()
     public TraceabilityData createTraceabilityEntries(final Context ctx) {
         iReceptorChainDataType traceabilityDataAwatingValidation = new TraceabilityDataAwatingValidation("a","b", new ProcessingDetails("", "", "", ""), new EntityID("a"));
-        iReceptorChainDataType traceabilityDataValidated = new TraceabilityDataValidated("c","d", new ProcessingDetails("", "", "", ""), new ArrayList<>(), new EntityID("a"));
+        iReceptorChainDataType traceabilityDataValidated = new TraceabilityDataValidated("c","d", new ProcessingDetails("", "", "", ""), new EntityID("a"), new ArrayList<>());
 
         ChaincodeStub stub = ctx.getStub();
 
