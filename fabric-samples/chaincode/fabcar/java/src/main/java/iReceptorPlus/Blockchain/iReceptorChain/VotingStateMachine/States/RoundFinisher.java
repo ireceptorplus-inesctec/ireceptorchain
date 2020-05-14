@@ -71,4 +71,16 @@ public class RoundFinisher
             throw new InternalError("Internal error occurred on processing by the state machine: got not enough reputation error on trying to reward entity. This means that a number was going to be made negative when adding a positive factor to it. Something went really wrong...");
         }
     }
+
+    void rejectTraceabilityDataEntry(TraceabilityData data, EntityID voterID) throws IncosistentInfoFoundOnDB
+    {
+        api = new TraceabilityDataAwatingValidationRepositoryAPI(api);
+        try
+        {
+            api.remove(traceabilityDataInfo);
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            throw new IncosistentInfoFoundOnDB("object not found when trying to delete the info on the DB in order to switch state");
+        }
+    }
 }
