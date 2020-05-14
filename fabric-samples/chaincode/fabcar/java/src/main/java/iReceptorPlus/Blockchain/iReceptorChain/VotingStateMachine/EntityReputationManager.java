@@ -41,60 +41,60 @@ public class EntityReputationManager
         this.allowNegativeReputation = allowNegativeReputation;
     }
 
-    public void stakeEntityReputation(EntityID voterID, Long stakeNecessary) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void stakeEntityReputation(EntityID entityID, Long stakeNecessary) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        updateEntityReputation(voterID, -stakeNecessary, stakeNecessary);
+        updateEntityReputation(entityID, -stakeNecessary, stakeNecessary);
     }
 
-    public void unstakeEntityReputation(EntityID voterID, Long unstakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void unstakeEntityReputation(EntityID entityID, Long unstakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        updateEntityReputation(voterID, +unstakeAmount, -unstakeAmount);
+        updateEntityReputation(entityID, +unstakeAmount, -unstakeAmount);
     }
 
-    public void unstakeEntitiesReputation(ArrayList<EntityID> voterID, Long unstakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void unstakeEntitiesReputation(ArrayList<EntityID> entityIDS, Long unstakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        for (EntityID currVoterID : voterID)
+        for (EntityID currVoterID : entityIDS)
         {
             unstakeEntityReputation(currVoterID, unstakeAmount);
         }
     }
 
-    public void rewardEntity(EntityID voterID, Long reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void rewardEntity(EntityID entityID, Long reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        updateEntityReputation(voterID, reward, new Long(0));
+        updateEntityReputation(entityID, reward, new Long(0));
     }
 
-    public void rewardEntities(ArrayList<EntityID> voterID, Long reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void rewardEntities(ArrayList<EntityID> entityIDS, Long reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        for (EntityID currVoterID : voterID)
+        for (EntityID currVoterID : entityIDS)
         {
             rewardEntity(currVoterID, reward);
         }
     }
 
-    public void penalizeEntity(EntityID voterID, Long penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void penalizeEntity(EntityID entityID, Long penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        updateEntityReputation(voterID, -penalty, new Long(0));
+        updateEntityReputation(entityID, -penalty, new Long(0));
     }
 
-    public void penalizeEntities(ArrayList<EntityID> voterID, Long penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void penalizeEntities(ArrayList<EntityID> entityIDS, Long penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        for (EntityID currVoterID : voterID)
+        for (EntityID currVoterID : entityIDS)
         {
             penalizeEntity(currVoterID, penalty);
         }
     }
 
-    private void updateEntityReputation(EntityID voterID, Long addToCurrentReputation, Long addToReputationAtStake) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    private void updateEntityReputation(EntityID entityID, Long addToCurrentReputation, Long addToReputationAtStake) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
         EntityData entityData;
         try
         {
-            entityData = (EntityData) entityRepository.read(voterID.getId());
+            entityData = (EntityData) entityRepository.read(entityID.getId());
         } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
         {
-            throw new ReferenceToNonexistentEntity(voterID.getId());
+            throw new ReferenceToNonexistentEntity(entityID.getId());
         }
         Long currentReputation = entityData.getReputation();
         Long reputationAtStake = entityData.getReputationAtStake();
@@ -107,10 +107,10 @@ public class EntityReputationManager
         entityData = new EntityData(entityData.getClientIdentity(), currentReputation, reputationAtStake);
         try
         {
-            entityRepository.update(voterID.getId(), entityData);
+            entityRepository.update(entityID.getId(), entityData);
         } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
         {
-            throw new ReferenceToNonexistentEntity(voterID.getId());
+            throw new ReferenceToNonexistentEntity(entityID.getId());
         }
     }
 }
