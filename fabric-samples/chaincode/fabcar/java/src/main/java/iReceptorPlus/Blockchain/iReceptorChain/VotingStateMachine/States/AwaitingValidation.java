@@ -42,7 +42,8 @@ public class AwaitingValidation extends State
         System.err.println("numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue(): " + (double) traceabilityData.getNumberOfApprovers() / ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters());
         if (conditionToApproveTraceabilityInfo(traceabilityData.getNumberOfApprovers(), ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters()))
         {
-            switchInfoStateFromAwatingValidationToValidated(traceabilityData, voterID);
+            RoundFinisher roundFinisher = new RoundFinisher();
+            roundFinisher.approveTraceabilityDataEntry(traceabilityData, voterID);
         }
         try
         {
@@ -51,12 +52,6 @@ public class AwaitingValidation extends State
         {
             throw new IncosistentInfoFoundOnDB("key is already assigned to another object on trying to update traceability entry after registering yes vote");
         }
-    }
-
-    private void switchInfoStateFromAwatingValidationToValidated(TraceabilityData traceabilityData, EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
-    {
-        RoundFinisher roundFinisher = new RoundFinisher();
-        roundFinisher.approveTraceabilityDataEntry(traceabilityData, voterID);
     }
 
     private boolean conditionToApproveTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
