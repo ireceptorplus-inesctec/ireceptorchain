@@ -10,6 +10,10 @@ public class ChaincodeConfigs
 
     public static AtomicDouble ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeValid = new AtomicDouble(0.7);
 
+    public static AtomicLong numberOfRejectionsNecessaryForTraceabilityInfoToBeInvalid = new AtomicLong(3);
+
+    public static AtomicDouble ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeInvalid = new AtomicDouble(0.7);
+
     public static AtomicLong initialReputationForEntities = new AtomicLong(100);
 
     public static AtomicLong reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry = new AtomicLong(30);
