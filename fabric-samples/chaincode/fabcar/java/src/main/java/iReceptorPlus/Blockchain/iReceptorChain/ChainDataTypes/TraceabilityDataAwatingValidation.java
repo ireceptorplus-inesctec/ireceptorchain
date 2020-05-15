@@ -42,24 +42,5 @@ public class TraceabilityDataAwatingValidation extends TraceabilityData
         rejecters.add(entityID);
     }
 
-    /**
-     * Returns the number of approvers of the traceability information represented by this class.
-     * @return the number of approvers of the traceability information represented by this class.
-     */
-    @Override
-    public long getNumberOfApprovers()
-    {
-        return approvers.size();
-    }
-
-    /**
-     * Returns the number of rejecters of the traceability information represented by this class.
-     * @return the number of rejecters of the traceability information represented by this class.
-     */
-    public long getNumberOfRejecters()
-    {
-        return rejecters.size();
-    }
-
 
 }
