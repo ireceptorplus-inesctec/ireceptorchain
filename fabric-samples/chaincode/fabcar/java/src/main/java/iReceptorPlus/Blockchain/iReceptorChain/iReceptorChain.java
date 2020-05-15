@@ -11,11 +11,13 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwatingValidationReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataValidatedReturnType;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.EntityDataRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataAwatingValidationRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.TraceabilityDataValidatedRepositoryAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.EntityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.*;
@@ -331,6 +333,33 @@ public final class iReceptorChain implements ContractInterface {
         stub.putStringState(key, newCarState);
 
         return newCar;
+    }
+
+    /**
+     * Creates a new entity on the ledger.
+     *
+     * @param ctx the transaction context
+     * @param clientIdentity An instance of class ClientIdentity containing information of the client's identity.
+     * @return the EntityData entry just created on the blockchain.
+     */
+    @Transaction()
+    public EntityDataInfo createEntity(final Context ctx, final ClientIdentity clientIdentity) {
+        logDebugMsg("createTraceabilityDataEntry");
+
+        ChaincodeStub stub = ctx.getStub();
+
+        EntityData entityData = new EntityData(clientIdentity);
+        EntityDataInfo entityDataInfo = new EntityDataInfo(entityData.getClientIdentity().getId(), entityData);
+        EntityDataRepositoryAPI api = new EntityDataRepositoryAPI(ctx);
+        try
+        {
+            api.create(entityDataInfo);
+        } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
+        {
+            throw new ChaincodeException("Entity with the same id already exists on the blockchain database");
+        }
+
+        return entityDataInfo;
     }
 
     /**
