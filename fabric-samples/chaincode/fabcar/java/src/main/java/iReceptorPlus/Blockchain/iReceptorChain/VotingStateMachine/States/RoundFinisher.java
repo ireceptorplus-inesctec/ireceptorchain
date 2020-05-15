@@ -41,7 +41,7 @@ public class RoundFinisher
         api = new TraceabilityDataValidatedRepositoryAPI(api);
         TraceabilityData newTraceabilityData = new TraceabilityDataValidated(traceabilityData.getInputDatasetHashValue(),
                 traceabilityData.getOutputDatasetHashValue(), traceabilityData.getProcessingDetails(), traceabilityData.getCreatorID(),
-                ((TraceabilityDataAwatingValidation) traceabilityData).getApprovers(), traceabilityData.getRejecters());
+                traceabilityData.getApprovers(), traceabilityData.getRejecters());
         TraceabilityDataInfo newTraceabilityDataInfo = new TraceabilityDataInfo(traceabilityDataInfo.getUUID(), newTraceabilityData);
         try
         {
@@ -62,8 +62,8 @@ public class RoundFinisher
         try
         {
             entityReputationManager.rewardEntity(traceabilityData.getCreatorID(), rewardForCreating);
-            entityReputationManager.rewardEntities(((TraceabilityDataAwatingValidation) traceabilityData).getApprovers(), rewardForApprovers);
-            entityReputationManager.penalizeEntities(((TraceabilityDataAwatingValidation) traceabilityData).getRejecters(), penaltyForRejecters);
+            entityReputationManager.rewardEntities(traceabilityData.getApprovers(), rewardForApprovers);
+            entityReputationManager.penalizeEntities(traceabilityData.getRejecters(), penaltyForRejecters);
         } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
         {
             throw new InternalError("Internal error occurred on processing by the state machine: got not enough reputation error on closing voting round: rewarding and penalizing creator and voters");
@@ -78,8 +78,8 @@ public class RoundFinisher
         try
         {
             entityReputationManager.unstakeEntityReputation(traceabilityData.getCreatorID(), unStakeForCreating);
-            entityReputationManager.unstakeEntitiesReputation(((TraceabilityDataAwatingValidation) traceabilityData).getApprovers(), unStakeForApprovers);
-            entityReputationManager.unstakeEntitiesReputation(((TraceabilityDataAwatingValidation) traceabilityData).getRejecters(), unStakeForRejecters);
+            entityReputationManager.unstakeEntitiesReputation(traceabilityData.getApprovers(), unStakeForApprovers);
+            entityReputationManager.unstakeEntitiesReputation(traceabilityData.getRejecters(), unStakeForRejecters);
 
         } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
         {
@@ -100,8 +100,8 @@ public class RoundFinisher
         try
         {
             entityReputationManager.rewardEntity(traceabilityData.getCreatorID(), penaltyForCreating);
-            entityReputationManager.penalizeEntities(((TraceabilityDataAwatingValidation) traceabilityData).getApprovers(), penaltyForApprovers);
-            entityReputationManager.rewardEntities(((TraceabilityDataAwatingValidation) traceabilityData).getRejecters(), rewardForRejecters);
+            entityReputationManager.penalizeEntities(traceabilityData.getApprovers(), penaltyForApprovers);
+            entityReputationManager.rewardEntities(traceabilityData.getRejecters(), rewardForRejecters);
 
         } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
         {

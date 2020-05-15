@@ -38,9 +38,9 @@ public class AwaitingValidation extends State
         TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
         traceabilityData.registerYesVoteForValidity(voterID);
         System.err.println("traceabilityData.getNumberOfApprovers(): " + traceabilityData.getNumberOfApprovers());
-        System.err.println("(getEntityIdFromContext(ctx)traceabilityData).getNumberOfRejecters(): " + ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters());
-        System.err.println("numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue(): " + (double) traceabilityData.getNumberOfApprovers() / ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters());
-        if (conditionToApproveTraceabilityInfo(traceabilityData.getNumberOfApprovers(), ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters()))
+        System.err.println("(getEntityIdFromContext(ctx)traceabilityData).getNumberOfRejecters(): " + traceabilityData.getNumberOfRejecters());
+        System.err.println("numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue(): " + (double) traceabilityData.getNumberOfApprovers() / traceabilityData.getNumberOfRejecters());
+        if (conditionToApproveTraceabilityInfo(traceabilityData.getNumberOfApprovers(), traceabilityData.getNumberOfRejecters()))
         {
             RoundFinisher roundFinisher = new RoundFinisher();
             roundFinisher.approveTraceabilityDataEntry(traceabilityData);
@@ -82,7 +82,7 @@ public class AwaitingValidation extends State
             throw new IncosistentInfoFoundOnDB("key is already assigned to another object on trying to create new traceability entry in order to switch state");
         }
         TraceabilityData traceabilityData = (TraceabilityData) traceabilityDataInfo.getData();
-        if (conditionToRejectTraceabilityInfo(traceabilityData.getNumberOfApprovers(), ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters()))
+        if (conditionToRejectTraceabilityInfo(traceabilityData.getNumberOfApprovers(), traceabilityData.getNumberOfRejecters()))
         {
             RoundFinisher roundFinisher = new RoundFinisher();
             roundFinisher.rejectTraceabilityDataEntry(traceabilityData);
