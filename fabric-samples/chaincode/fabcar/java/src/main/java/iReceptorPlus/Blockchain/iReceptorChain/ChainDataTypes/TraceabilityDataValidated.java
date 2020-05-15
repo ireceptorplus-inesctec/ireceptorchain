@@ -14,14 +14,6 @@ public class TraceabilityDataValidated extends TraceabilityData
 {
 
     /**
-     * An array of entities which have voted for the validity of the traceability information during the its voting round.
-     * (They have submitted a yes vote when the traceability information was in a voting round.)
-     * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
-     */
-    @Property()
-    private final ArrayList<EntityID> validators;
-
-    /**
      * An array of entities which have voted for the validity of the traceability information after its voting round had endeds.
      * (They have submitted a yes vote when the traceability information after it was already registered on the blockchain as valid.)
      * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
@@ -33,10 +25,10 @@ public class TraceabilityDataValidated extends TraceabilityData
                                      @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
                                      @JsonProperty("processingDetails") final ProcessingDetails processingDetails,
                                      @JsonProperty("creatorID") final EntityID creatorID,
-                                     @JsonProperty("validators") final ArrayList<EntityID> validators)
+                                     @JsonProperty("approvers") final ArrayList<EntityID> approvers,
+                                     @JsonProperty("rejecters") final ArrayList<EntityID> rejecters)
     {
         super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID);
-        this.validators = validators;
         corroborators = new ArrayList<>();
     }
 
@@ -51,22 +43,6 @@ public class TraceabilityDataValidated extends TraceabilityData
     {
         //TODO
 
-    }
-
-    /**
-     * Returns the number of approvers of the traceability information represented by this class.
-     *
-     * @return the number of approvers of the traceability information represented by this class.
-     */
-    @Override
-    public long getNumberOfApprovers()
-    {
-        return validators.size();
-    }
-
-    public ArrayList<EntityID> getValidators()
-    {
-        return validators;
     }
 
     public ArrayList<EntityID> getCorroborators()

@@ -20,6 +20,8 @@ public class TraceabilityDataAwatingValidation extends TraceabilityData
                                              @JsonProperty("creatorID") final EntityID creatorID)
     {
         super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID);
+        approvers = new ArrayList<>();
+        rejecters = new ArrayList<>();
     }
 
     /**

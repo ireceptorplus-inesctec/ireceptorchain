@@ -47,14 +47,14 @@ public abstract class TraceabilityData implements iReceptorChainDataType
      * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
      */
     @Property()
-    protected final ArrayList<EntityID> approvers;
+    protected ArrayList<EntityID> approvers;
 
     /**
      * An array of entities who have submitted a NO vote for the validity of the traceability information.
      * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
      */
     @Property()
-    protected final ArrayList<EntityID> rejecters;
+    protected ArrayList<EntityID> rejecters;
 
     public TraceabilityData(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                             @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
@@ -65,8 +65,6 @@ public abstract class TraceabilityData implements iReceptorChainDataType
         this.outputDatasetHashValue = outputDatasetHashValue;
         this.processingDetails = processingDetails;
         this.creatorID = creatorID;
-        approvers = new ArrayList<>();
-        rejecters = new ArrayList<>();
     }
 
     public String getInputDatasetHashValue()
