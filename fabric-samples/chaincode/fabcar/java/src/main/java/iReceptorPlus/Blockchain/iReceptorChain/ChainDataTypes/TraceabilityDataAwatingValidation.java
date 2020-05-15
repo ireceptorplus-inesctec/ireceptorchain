@@ -13,20 +13,6 @@ import java.util.ArrayList;
 public class TraceabilityDataAwatingValidation extends TraceabilityData
 {
 
-    /**
-     * An array of entities who have submitted a YES vote for the validity of the traceability information.
-     * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
-     */
-    @Property()
-    private final ArrayList<EntityID> approvers;
-
-    /**
-     * An array of entities who have submitted a NO vote for the validity of the traceability information.
-     * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
-     */
-    @Property()
-    private final ArrayList<EntityID> rejecters;
-
 
     public TraceabilityDataAwatingValidation(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                                              @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
@@ -34,18 +20,6 @@ public class TraceabilityDataAwatingValidation extends TraceabilityData
                                              @JsonProperty("creatorID") final EntityID creatorID)
     {
         super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID);
-        approvers = new ArrayList<>();
-        rejecters = new ArrayList<>();
-    }
-
-    public ArrayList<EntityID> getApprovers()
-    {
-        return approvers;
-    }
-
-    public ArrayList<EntityID> getRejecters()
-    {
-        return rejecters;
     }
 
     /**

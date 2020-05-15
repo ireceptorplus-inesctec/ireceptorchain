@@ -4,6 +4,8 @@ import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
+import java.util.ArrayList;
+
 /**
  * This class represents an entry of traceability information.
  * This is the base class for traceability information.
@@ -39,6 +41,18 @@ public abstract class TraceabilityData implements iReceptorChainDataType
      */
     @Property()
     protected final EntityID creatorID;
+    /**
+     * An array of entities who have submitted a YES vote for the validity of the traceability information.
+     * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
+     */
+    @Property()
+    protected final ArrayList<EntityID> approvers;
+    /**
+     * An array of entities who have submitted a NO vote for the validity of the traceability information.
+     * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
+     */
+    @Property()
+    protected final ArrayList<EntityID> rejecters;
 
     public TraceabilityData(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
                             @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
@@ -49,6 +63,8 @@ public abstract class TraceabilityData implements iReceptorChainDataType
         this.outputDatasetHashValue = outputDatasetHashValue;
         this.processingDetails = processingDetails;
         this.creatorID = creatorID;
+        approvers = new ArrayList<>();
+        rejecters = new ArrayList<>();
     }
 
     public String getInputDatasetHashValue()
@@ -69,6 +85,16 @@ public abstract class TraceabilityData implements iReceptorChainDataType
     public EntityID getCreatorID()
     {
         return creatorID;
+    }
+
+    public ArrayList<EntityID> getApprovers()
+    {
+        return approvers;
+    }
+
+    public ArrayList<EntityID> getRejecters()
+    {
+        return rejecters;
     }
 
     /**
