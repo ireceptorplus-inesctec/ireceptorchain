@@ -1,7 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.EntityDataRepositoryAPI;
@@ -56,9 +55,9 @@ public class RoundFinisher
 
         unStakeCreatorAndVotersReputation(traceabilityData, entityReputationManager);
 
-        Long rewardForCreating = ChaincodeConfigs.reputationRewardForCreatingTruthfulTraceabiltiyDataEntry.get();
-        Long rewardForApprovers = ChaincodeConfigs.reputationRewardForUpVotingTruthfulTraceabiltiyDataEntry.get();
-        Long penaltyForRejecters = ChaincodeConfigs.reputationPenaltyForDownVotingTruthfulTraceabiltiyDataEntry.get();
+        Long rewardForCreating = ChaincodeConfigs.reputationRewardForCreatingTruthfulTraceabilityDataEntry.get();
+        Long rewardForApprovers = ChaincodeConfigs.reputationRewardForUpVotingTruthfulTraceabilityDataEntry.get();
+        Long penaltyForRejecters = ChaincodeConfigs.reputationPenaltyForDownVotingTruthfulTraceabilityDataEntry.get();
         try
         {
             entityReputationManager.rewardEntity(traceabilityData.getCreatorID(), rewardForCreating);
@@ -94,9 +93,9 @@ public class RoundFinisher
         EntityReputationManager entityReputationManager = new EntityReputationManager(api);
         unStakeCreatorAndVotersReputation(traceabilityData, entityReputationManager);
 
-        Long penaltyForCreating = ChaincodeConfigs.reputationPenaltyForCreatingFakeTraceabiltiyDataEntry.get();
-        Long penaltyForApprovers = ChaincodeConfigs.reputationPenaltyForUpVotingFakeTraceabiltiyDataEntry.get();
-        Long rewardForRejecters = ChaincodeConfigs.reputationRewardForDownVotingFakeTraceabiltiyDataEntry.get();
+        Long penaltyForCreating = ChaincodeConfigs.reputationPenaltyForCreatingFakeTraceabilityDataEntry.get();
+        Long penaltyForApprovers = ChaincodeConfigs.reputationPenaltyForUpVotingFakeTraceabilityDataEntry.get();
+        Long rewardForRejecters = ChaincodeConfigs.reputationRewardForDownVotingFakeTraceabilityDataEntry.get();
         try
         {
             entityReputationManager.rewardEntity(traceabilityData.getCreatorID(), penaltyForCreating);
