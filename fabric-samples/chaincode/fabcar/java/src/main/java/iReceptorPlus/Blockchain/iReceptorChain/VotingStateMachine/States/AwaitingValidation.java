@@ -43,7 +43,7 @@ public class AwaitingValidation extends State
         if (conditionToApproveTraceabilityInfo(traceabilityData.getNumberOfApprovers(), ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters()))
         {
             RoundFinisher roundFinisher = new RoundFinisher();
-            roundFinisher.approveTraceabilityDataEntry(traceabilityData, voterID);
+            roundFinisher.approveTraceabilityDataEntry(traceabilityData);
         }
         try
         {
@@ -85,7 +85,7 @@ public class AwaitingValidation extends State
         if (conditionToRejectTraceabilityInfo(traceabilityData.getNumberOfApprovers(), ((TraceabilityDataAwatingValidation) traceabilityData).getNumberOfRejecters()))
         {
             RoundFinisher roundFinisher = new RoundFinisher();
-            roundFinisher.rejectTraceabilityDataEntry(traceabilityData, voterID);
+            roundFinisher.rejectTraceabilityDataEntry(traceabilityData);
         }
     }
 

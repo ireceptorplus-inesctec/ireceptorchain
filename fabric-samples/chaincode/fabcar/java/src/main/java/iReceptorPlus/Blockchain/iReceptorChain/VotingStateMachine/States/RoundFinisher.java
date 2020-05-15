@@ -1,6 +1,5 @@
 package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States;
 
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityID;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
@@ -35,7 +34,7 @@ public class RoundFinisher
      */
     HyperledgerFabricBlockhainRepositoryAPI api;
 
-    void approveTraceabilityDataEntry(TraceabilityData traceabilityData, EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
+    void approveTraceabilityDataEntry(TraceabilityData traceabilityData) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
     {
         removeTraceabilityDataFromDB();
 
@@ -88,7 +87,7 @@ public class RoundFinisher
         }
     }
 
-    void rejectTraceabilityDataEntry(TraceabilityData traceabilityData, EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
+    void rejectTraceabilityDataEntry(TraceabilityData traceabilityData) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
     {
         removeTraceabilityDataFromDB();
 
