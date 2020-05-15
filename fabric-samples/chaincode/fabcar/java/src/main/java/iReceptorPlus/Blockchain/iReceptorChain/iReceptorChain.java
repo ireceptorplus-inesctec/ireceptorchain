@@ -516,7 +516,7 @@ public final class iReceptorChain implements ContractInterface {
         {
             TraceabilityDataInfo traceabilityDataInfo = (TraceabilityDataInfo) result;
             logDebugMsg("uuid: " + traceabilityDataInfo.getUUID());
-            TraceabilityDataAwatingValidationReturnType dataReturnType = new TraceabilityDataAwatingValidationReturnType(traceabilityDataInfo.getUUID(), getEntityIdFromContext(ctx)traceabilityDataInfo.getTraceabilityData());
+            TraceabilityDataAwatingValidationReturnType dataReturnType = new TraceabilityDataAwatingValidationReturnType(traceabilityDataInfo.getUUID(), (TraceabilityDataAwatingValidation) traceabilityDataInfo.getTraceabilityData());
             resultsToReturn.add(dataReturnType);
         }
 
