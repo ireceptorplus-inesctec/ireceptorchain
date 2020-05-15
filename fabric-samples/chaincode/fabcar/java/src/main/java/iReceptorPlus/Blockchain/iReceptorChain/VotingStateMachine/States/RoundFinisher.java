@@ -92,18 +92,17 @@ public class RoundFinisher
     {
         removeTraceabilityDataFromDB();
 
-
         EntityReputationManager entityReputationManager = new EntityReputationManager(api);
         unStakeCreatorAndVotersReputation(traceabilityData, entityReputationManager);
 
         Long penaltyForCreating = ChaincodeConfigs.reputationPenaltyForCreatingFakeTraceabiltiyDataEntry.get();
-        Long penaltyForUpVoters = ChaincodeConfigs.reputationPenaltyForUpVotingFakeTraceabiltiyDataEntry.get();
-        Long rewardForDownVoters = ChaincodeConfigs.reputationRewardForDownVotingFakeTraceabiltiyDataEntry.get();
+        Long penaltyForApprovers = ChaincodeConfigs.reputationPenaltyForUpVotingFakeTraceabiltiyDataEntry.get();
+        Long rewardForRejecters = ChaincodeConfigs.reputationRewardForDownVotingFakeTraceabiltiyDataEntry.get();
         try
         {
             entityReputationManager.rewardEntity(traceabilityData.getCreatorID(), penaltyForCreating);
-            entityReputationManager.penalizeEntities(((TraceabilityDataAwatingValidation) traceabilityData).getApprovers(), penaltyForUpVoters);
-            entityReputationManager.rewardEntities(((TraceabilityDataAwatingValidation) traceabilityData).getRejecters(), rewardForDownVoters);
+            entityReputationManager.penalizeEntities(((TraceabilityDataAwatingValidation) traceabilityData).getApprovers(), penaltyForApprovers);
+            entityReputationManager.rewardEntities(((TraceabilityDataAwatingValidation) traceabilityData).getRejecters(), rewardForRejecters);
 
         } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
         {
