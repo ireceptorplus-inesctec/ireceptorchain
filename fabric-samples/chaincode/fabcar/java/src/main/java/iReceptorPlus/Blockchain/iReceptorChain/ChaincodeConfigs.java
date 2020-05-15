@@ -35,9 +35,9 @@ public class ChaincodeConfigs
     public static AtomicLong reputationPenaltyForDownVotingTruthfulTraceabilityDataEntry = new AtomicLong(50);
 
 
-    private static String traceabilityAwaitingValidationKeyPrefix = "TracreabilityInfoAwaitingValidation";
+    private static String traceabilityAwaitingValidationKeyPrefix = "TraceabilityInfoAwaitingValidation";
 
-    private static String traceabilityValidatedKeyPrefix = "TracreabilityInfoValidated";
+    private static String traceabilityValidatedKeyPrefix = "TraceabilityInfoValidated";
 
     private static String entityDataKeyPrefix = "Entity";
 
