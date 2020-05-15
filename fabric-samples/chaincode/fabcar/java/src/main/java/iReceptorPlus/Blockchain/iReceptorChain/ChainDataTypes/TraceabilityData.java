@@ -41,12 +41,14 @@ public abstract class TraceabilityData implements iReceptorChainDataType
      */
     @Property()
     protected final EntityID creatorID;
+
     /**
      * An array of entities who have submitted a YES vote for the validity of the traceability information.
      * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
      */
     @Property()
     protected final ArrayList<EntityID> approvers;
+
     /**
      * An array of entities who have submitted a NO vote for the validity of the traceability information.
      * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
