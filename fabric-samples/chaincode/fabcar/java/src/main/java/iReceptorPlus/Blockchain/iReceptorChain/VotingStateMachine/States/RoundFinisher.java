@@ -41,7 +41,7 @@ public class RoundFinisher
         api = new TraceabilityDataValidatedRepositoryAPI(api);
         TraceabilityData newTraceabilityData = new TraceabilityDataValidated(traceabilityData.getInputDatasetHashValue(),
                 traceabilityData.getOutputDatasetHashValue(), traceabilityData.getProcessingDetails(), traceabilityData.getCreatorID(),
-                ((TraceabilityDataAwatingValidation) traceabilityData).getApprovers());
+                ((TraceabilityDataAwatingValidation) traceabilityData).getApprovers(), traceabilityData.getRejecters());
         TraceabilityDataInfo newTraceabilityDataInfo = new TraceabilityDataInfo(traceabilityDataInfo.getUUID(), newTraceabilityData);
         try
         {
