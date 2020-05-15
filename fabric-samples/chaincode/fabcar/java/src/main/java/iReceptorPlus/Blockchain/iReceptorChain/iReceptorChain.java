@@ -5,6 +5,7 @@
 package iReceptorPlus.Blockchain.iReceptorChain;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
@@ -243,7 +244,9 @@ public final class iReceptorChain implements ContractInterface {
         ClientIdentity clientIdentity = ctx.getClientIdentity();
         System.err.println("client id: " + clientIdentity.getId());
         System.err.println("client msp id: " + clientIdentity.getMSPID());
-        return genson.serialize(clientIdentity);
+        byte[] creatorBytes = ctx.getStub().getCreator();
+        String creatorBytesBase64 = Base64.getEncoder().encodeToString(creatorBytes);
+        return creatorBytesBase64;
     }
 
     @Transaction()
