@@ -427,9 +427,6 @@ public final class iReceptorChain implements ContractInterface {
         } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
         {
             throw new ChaincodeException(givenIdIsAlreadyAssignedToAnotherObject.getMessage());
-        } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
-        {
-            throw new ChaincodeException(entityDoesNotHaveEnoughReputationToPerformAction.getMessage());
         }
 
         TraceabilityDataAwatingValidationReturnType traceabilityDataInfo = new TraceabilityDataAwatingValidationReturnType(newUUID, traceabilityData);
