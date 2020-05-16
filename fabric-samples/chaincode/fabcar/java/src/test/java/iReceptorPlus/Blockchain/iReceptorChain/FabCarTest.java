@@ -287,6 +287,11 @@ public final class FabCarTest {
         }
     }
 
+    public void putEntryToDB(Context context, String key, String value)
+    {
+        when(context.getStub().getStringState(key)).thenReturn(value);
+    }
+
     public class MockClientIdentity
     {
         private ClientIdentity clientIdentity;
