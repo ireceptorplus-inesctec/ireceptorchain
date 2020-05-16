@@ -386,8 +386,7 @@ public final class FabCarTest {
             }
         }
 
-        @Test
-        public void whenCreatorDoesNotExist() throws CertificateException, IOException
+        private void initVariables() throws CertificateException, IOException
         {
             contract = new iReceptorChain();
             ctx = mock(Context.class);
@@ -405,6 +404,12 @@ public final class FabCarTest {
             processingDetails = traceabilityData.getProcessingDetails();
 
             entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
+        }
+
+        @Test
+        public void whenCreatorDoesNotExist() throws CertificateException, IOException
+        {
+            initVariables();
 
             when(ctx.getStub()).thenReturn(stub);
             when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
