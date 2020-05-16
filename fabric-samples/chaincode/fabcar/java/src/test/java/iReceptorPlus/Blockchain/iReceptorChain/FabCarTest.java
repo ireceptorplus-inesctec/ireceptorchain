@@ -290,13 +290,13 @@ public final class FabCarTest {
     @Nested
     class CreateEntityTransaction
     {
-        public class MockEntity
+        public class MockClientIdentity
         {
             private ClientIdentity clientIdentity;
             private String id;
             private String asJson;
 
-            public MockEntity() throws CertificateException, IOException
+            public MockClientIdentity() throws CertificateException, IOException
             {
                 this.clientIdentity = getMockClientIdentity();
                 this.id = "x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US";
@@ -310,20 +310,18 @@ public final class FabCarTest {
             iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
-            MockEntity mockEntity = new MockEntity();
+            MockClientIdentity mockClientIdentity = new MockClientIdentity();
 
-            ClientIdentity clientIdentity = mockEntity.clientIdentity;
-            String entityID = mockEntity.id;
-            String mockEntityAsJson = mockEntity.asJson;
+            ClientIdentity clientIdentity = mockClientIdentity.clientIdentity;
+            String entityID = mockClientIdentity.id;
+            String mockClientIdentityAsJson = mockClientIdentity.asJson;
+            EntityData entityData = new EntityData(entityID);
+            String entityDataAsJson = genson.serialize(entityData);
 
             String entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
 
             when(ctx.getStub()).thenReturn(stub);
-            when(ctx.getStub()).thenReturn(stub);
-            when(stub.getStringState(entityKeyOnDB)).thenReturn(mockEntityAsJson);
-            //when(ctx.getStub().getStringState(entityKeyOnDB)).thenReturn(mockEntityAsJson);
-
-            String testClientIdentity = contract.testClientIdentity(ctx);
+            when(stub.getStringState(entityKeyOnDB)).thenReturn(entityDataAsJson);
 
             Throwable thrown = catchThrowable(() -> {
                 contract.createEntity(ctx, clientIdentity);
@@ -331,6 +329,7 @@ public final class FabCarTest {
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasNoCause()
                     .hasMessage("Entity with the same id already exists on the blockchain database");
+
         }
 
         @Test
@@ -339,16 +338,20 @@ public final class FabCarTest {
             iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
-            Genson genson = new Genson();
-            ClientIdentity clientIdentity = getMockClientIdentity();
+            MockClientIdentity mockClientIdentity = new MockClientIdentity();
+
+            ClientIdentity clientIdentity = mockClientIdentity.clientIdentity;
+            String entityID = mockClientIdentity.id;
+            String mockClientIdentityAsJson = mockClientIdentity.asJson;
+            EntityData entityData = new EntityData(entityID);
+            String entityDataAsJson = genson.serialize(entityData);
+
+            String entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
+
             when(ctx.getStub()).thenReturn(stub);
-            String mockEntityAsJson = "{\"id\":\"x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US\",\"mSPID\":\"Org1MSP\",\"x509Certificate\":{\"extendedKeyUsage\":null,\"issuerAlternativeNames\":null,\"issuerX500Principal\":{\"encoded\":\"MGgxCzAJBgNVBAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEUMBIGA1UEChMLSHlwZXJsZWRnZXIxDzANBgNVBAsTBkZhYnJpYzEZMBcGA1UEAxMQZmFicmljLWNhLXNlcnZlcg==\",\"name\":\"CN=fabric-ca-server,OU=Fabric,O=Hyperledger,ST=North Carolina,C=US\"},\"subjectAlternativeNames\":null,\"subjectX500Principal\":{\"encoded\":\"MEQxMDALBgNVBAsTBG9yZzEwDQYDVQQLEwZjbGllbnQwEgYDVQQLEwtkZXBhcnRtZW50MTEQMA4GA1UEAxMHYXBwVXNlcg==\",\"name\":\"CN=appUser,OU=client+OU=org1+OU=department1\"},\"type\":\"X.509\"}}";
-
-            when(clientIdentity.getId()).thenReturn("entityID");
-
 
             EntityDataInfo entityCreated = contract.createEntity(ctx, clientIdentity);
-            EntityDataInfo entityDataInfo = new EntityDataInfo("x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US", new EntityData(clientIdentity.getId()));
+            EntityDataInfo entityDataInfo = new EntityDataInfo(entityID, entityData);
             assertThat(entityCreated).isEqualTo(entityDataInfo);
 
         }
