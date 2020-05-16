@@ -27,6 +27,7 @@ import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.KeyValue;
 import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
@@ -386,6 +387,7 @@ public final class FabCarTest {
             }
         }
 
+        @BeforeEach
         private void initVariables() throws CertificateException, IOException
         {
             contract = new iReceptorChain();
@@ -409,8 +411,6 @@ public final class FabCarTest {
         @Test
         public void whenCreatorDoesNotExist() throws CertificateException, IOException
         {
-            initVariables();
-
             when(ctx.getStub()).thenReturn(stub);
             when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
 
