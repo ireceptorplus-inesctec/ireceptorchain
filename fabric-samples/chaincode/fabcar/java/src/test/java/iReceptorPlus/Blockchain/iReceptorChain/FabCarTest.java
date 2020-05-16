@@ -414,6 +414,27 @@ public final class FabCarTest {
             when(ctx.getStub()).thenReturn(stub);
             when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
 
+            //ensure no entity is returned upon querying the DB
+            when(stub.getStringState(ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID)).thenReturn("");
+
+
+            Throwable thrown = catchThrowable(() -> {
+                contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
+                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
+                        processingDetails.getSoftwareConfigParams());
+            });
+
+            assertThat(thrown).isInstanceOf(ChaincodeException.class);
+
+        }
+
+        @Test
+        public void whenCreatorExistsButDoesNotHaveEnoughReputation() throws CertificateException, IOException
+        {
+            when(ctx.getStub()).thenReturn(stub);
+            when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
+            when(stub.getStringState(ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID)).thenReturn(entityDataAsJson);
+
             Throwable thrown = catchThrowable(() -> {
                 contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
                         processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
