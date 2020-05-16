@@ -2,6 +2,8 @@ package iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 
+import java.util.Objects;
+
 public abstract class iReceptorChainDataTypeInfo
 {
     /**
@@ -30,5 +32,21 @@ public abstract class iReceptorChainDataTypeInfo
     {
         this.UUID = UUID;
         this.data = data;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        iReceptorChainDataTypeInfo that = (iReceptorChainDataTypeInfo) o;
+        return UUID.equals(that.UUID) &&
+                data.equals(that.data);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(UUID, data);
     }
 }

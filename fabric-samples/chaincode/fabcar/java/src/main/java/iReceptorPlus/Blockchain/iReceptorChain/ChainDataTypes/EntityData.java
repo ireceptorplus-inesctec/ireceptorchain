@@ -5,6 +5,8 @@ import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
+import java.util.Objects;
+
 /**
  * This class represents an entity.
  * Is used to store information about the entities who have validated a traceability information entry.
@@ -75,5 +77,22 @@ public class EntityData implements iReceptorChainDataType
         this.clientIdentity = clientIdentity;
         this.reputation = reputation;
         this.reputationAtStake = reputationAtStake;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EntityData that = (EntityData) o;
+        return clientIdentity.equals(that.clientIdentity) &&
+                reputation.equals(that.reputation) &&
+                reputationAtStake.equals(that.reputationAtStake);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(clientIdentity, reputation, reputationAtStake);
     }
 }
