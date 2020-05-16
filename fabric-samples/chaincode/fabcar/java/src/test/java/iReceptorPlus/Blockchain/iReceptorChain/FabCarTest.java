@@ -420,7 +420,7 @@ public final class FabCarTest {
             when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
 
             //ensure no entity is returned upon querying the DB
-            when(stub.getStringState(ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID)).thenReturn("");
+            putEntryToDB(ctx, ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, "");
 
 
             Throwable thrown = catchThrowable(() -> {
@@ -480,8 +480,9 @@ public final class FabCarTest {
             EntityData entityData = new EntityData(entityID, reputation, reputationAtStake);
             String entityDataAsJson = genson.serialize(entityData);
 
-            when(stub.getStringState(ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID)).thenReturn(entityDataAsJson);
+            putEntryToDB(ctx, ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, entityDataAsJson);
         }
 
-    }
+
+        }
 }
