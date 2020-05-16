@@ -19,7 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.owlike.genson.Genson;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityData;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.EntityDataInfo;
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
@@ -286,24 +286,23 @@ public final class FabCarTest {
         }
     }
 
+    public class MockClientIdentity
+    {
+        private ClientIdentity clientIdentity;
+        private String id;
+        private String asJson;
+
+        public MockClientIdentity() throws CertificateException, IOException
+        {
+            this.clientIdentity = getMockClientIdentity();
+            this.id = "x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US";
+            this.asJson = "{\"id\":\"x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US\",\"mSPID\":\"Org1MSP\",\"x509Certificate\":{\"extendedKeyUsage\":null,\"issuerAlternativeNames\":null,\"issuerX500Principal\":{\"encoded\":\"MGgxCzAJBgNVBAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEUMBIGA1UEChMLSHlwZXJsZWRnZXIxDzANBgNVBAsTBkZhYnJpYzEZMBcGA1UEAxMQZmFicmljLWNhLXNlcnZlcg==\",\"name\":\"CN=fabric-ca-server,OU=Fabric,O=Hyperledger,ST=North Carolina,C=US\"},\"subjectAlternativeNames\":null,\"subjectX500Principal\":{\"encoded\":\"MEQxMDALBgNVBAsTBG9yZzEwDQYDVQQLEwZjbGllbnQwEgYDVQQLEwtkZXBhcnRtZW50MTEQMA4GA1UEAxMHYXBwVXNlcg==\",\"name\":\"CN=appUser,OU=client+OU=org1+OU=department1\"},\"type\":\"X.509\"}}";
+        }
+    }
 
     @Nested
     class CreateEntityTransaction
     {
-        public class MockClientIdentity
-        {
-            private ClientIdentity clientIdentity;
-            private String id;
-            private String asJson;
-
-            public MockClientIdentity() throws CertificateException, IOException
-            {
-                this.clientIdentity = getMockClientIdentity();
-                this.id = "x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US";
-                this.asJson = "{\"id\":\"x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US\",\"mSPID\":\"Org1MSP\",\"x509Certificate\":{\"extendedKeyUsage\":null,\"issuerAlternativeNames\":null,\"issuerX500Principal\":{\"encoded\":\"MGgxCzAJBgNVBAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEUMBIGA1UEChMLSHlwZXJsZWRnZXIxDzANBgNVBAsTBkZhYnJpYzEZMBcGA1UEAxMQZmFicmljLWNhLXNlcnZlcg==\",\"name\":\"CN=fabric-ca-server,OU=Fabric,O=Hyperledger,ST=North Carolina,C=US\"},\"subjectAlternativeNames\":null,\"subjectX500Principal\":{\"encoded\":\"MEQxMDALBgNVBAsTBG9yZzEwDQYDVQQLEwZjbGllbnQwEgYDVQQLEwtkZXBhcnRtZW50MTEQMA4GA1UEAxMHYXBwVXNlcg==\",\"name\":\"CN=appUser,OU=client+OU=org1+OU=department1\"},\"type\":\"X.509\"}}";
-            }
-        }
-
         @Test
         public void whenEntityExists() throws CertificateException, IOException
         {
@@ -355,5 +354,56 @@ public final class FabCarTest {
             assertThat(entityCreated).isEqualTo(entityDataInfo);
 
         }
+    }
+
+    @Nested
+    class CreateTraceabilityDataEntry
+    {
+        public class MockTraceabilityData
+        {
+            TraceabilityData traceabilityData;
+
+            public MockTraceabilityData() throws CertificateException, IOException
+            {
+                MockClientIdentity mockClientIdentity = new MockClientIdentity();
+                traceabilityData = new TraceabilityDataAwatingValidation("inputDatasetHashValue", "outputDatasetHashValue",
+                        new ProcessingDetails("softwareId", "softwareVersion", "softwareBinaryExecutableHashValue", "softwareConfigParams"), new EntityID(mockClientIdentity.id));
+            }
+        }
+
+        @Test
+        public void whenCreatorDoesNotExist() throws CertificateException, IOException
+        {
+            iReceptorChain contract = new iReceptorChain();
+            Context ctx = mock(Context.class);
+            ChaincodeStub stub = mock(ChaincodeStub.class);
+            MockClientIdentity mockClientIdentity = new MockClientIdentity();
+
+            ClientIdentity clientIdentity = mockClientIdentity.clientIdentity;
+            String entityID = mockClientIdentity.id;
+            String mockClientIdentityAsJson = mockClientIdentity.asJson;
+            EntityData entityData = new EntityData(entityID);
+            String entityDataAsJson = genson.serialize(entityData);
+
+
+            MockTraceabilityData mockTraceabilityData = new MockTraceabilityData();
+            TraceabilityData traceabilityData = mockTraceabilityData.traceabilityData;
+
+            String entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
+
+            when(ctx.getStub()).thenReturn(stub);
+            when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
+
+            ProcessingDetails processingDetails = traceabilityData.getProcessingDetails();
+            Throwable thrown = catchThrowable(() -> {
+                contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
+                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
+                        processingDetails.getSoftwareConfigParams());
+            });
+
+            assertThat(thrown).isInstanceOf(ChaincodeException.class);
+
+        }
+
     }
 }
