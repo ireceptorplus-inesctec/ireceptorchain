@@ -359,6 +359,21 @@ public final class FabCarTest {
     @Nested
     class CreateTraceabilityDataEntry
     {
+
+        private iReceptorChain contract;
+        private Context ctx;
+        private ChaincodeStub stub;
+        private MockClientIdentity mockClientIdentity;
+        private ClientIdentity clientIdentity;
+        private String entityID;
+        private String mockClientIdentityAsJson;
+        private EntityData entityData;
+        private String entityDataAsJson;
+        private MockTraceabilityData mockTraceabilityData;
+        private TraceabilityData traceabilityData;
+        private String entityKeyOnDB;
+        private ProcessingDetails processingDetails;
+
         public class MockTraceabilityData
         {
             TraceabilityData traceabilityData;
@@ -374,27 +389,26 @@ public final class FabCarTest {
         @Test
         public void whenCreatorDoesNotExist() throws CertificateException, IOException
         {
-            iReceptorChain contract = new iReceptorChain();
-            Context ctx = mock(Context.class);
-            ChaincodeStub stub = mock(ChaincodeStub.class);
-            MockClientIdentity mockClientIdentity = new MockClientIdentity();
+            contract = new iReceptorChain();
+            ctx = mock(Context.class);
+            stub = mock(ChaincodeStub.class);
+            mockClientIdentity = new MockClientIdentity();
 
-            ClientIdentity clientIdentity = mockClientIdentity.clientIdentity;
-            String entityID = mockClientIdentity.id;
-            String mockClientIdentityAsJson = mockClientIdentity.asJson;
-            EntityData entityData = new EntityData(entityID);
-            String entityDataAsJson = genson.serialize(entityData);
+            clientIdentity = mockClientIdentity.clientIdentity;
+            entityID = mockClientIdentity.id;
+            mockClientIdentityAsJson = mockClientIdentity.asJson;
+            entityData = new EntityData(entityID);
+            entityDataAsJson = genson.serialize(entityData);
 
+            mockTraceabilityData = new MockTraceabilityData();
+            traceabilityData = mockTraceabilityData.traceabilityData;
+            processingDetails = traceabilityData.getProcessingDetails();
 
-            MockTraceabilityData mockTraceabilityData = new MockTraceabilityData();
-            TraceabilityData traceabilityData = mockTraceabilityData.traceabilityData;
-
-            String entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
+            entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
 
             when(ctx.getStub()).thenReturn(stub);
             when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
 
-            ProcessingDetails processingDetails = traceabilityData.getProcessingDetails();
             Throwable thrown = catchThrowable(() -> {
                 contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
                         processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
