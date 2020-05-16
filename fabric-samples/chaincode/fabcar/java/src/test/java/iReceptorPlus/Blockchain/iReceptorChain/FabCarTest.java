@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.owlike.genson.Genson;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityData;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.EntityDataInfo;
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
@@ -33,6 +34,12 @@ import org.mockito.InOrder;
 public final class FabCarTest {
     Genson genson = new Genson();
     //ClientIdentity cl = genson.deserialize("{\"id\":\"x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US\",\"mSPID\":\"Org1MSP\",\"x509Certificate\":{\"extendedKeyUsage\":null,\"issuerAlternativeNames\":null,\"issuerX500Principal\":{\"encoded\":\"MGgxCzAJBgNVBAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEUMBIGA1UEChMLSHlwZXJsZWRnZXIxDzANBgNVBAsTBkZhYnJpYzEZMBcGA1UEAxMQZmFicmljLWNhLXNlcnZlcg==\",\"name\":\"CN=fabric-ca-server,OU=Fabric,O=Hyperledger,ST=North Carolina,C=US\"},\"subjectAlternativeNames\":null,\"subjectX500Principal\":{\"encoded\":\"MEQxMDALBgNVBAsTBG9yZzEwDQYDVQQLEwZjbGllbnQwEgYDVQQLEwtkZXBhcnRtZW50MTEQMA4GA1UEAxMHYXBwVXNlcg==\",\"name\":\"CN=appUser,OU=client+OU=org1+OU=department1\"},\"type\":\"X.509\"}}", ClientIdentity.class);
+    boolean mockClientIdentityAlreadyCalled = false;
+    ClientIdentity mockClientIdentity = getMockClientIdentity();
+
+    public FabCarTest() throws CertificateException, IOException
+    {
+    }
 
     private ClientIdentity getMockClientIdentity() throws CertificateException, IOException
     {
@@ -276,6 +283,74 @@ public final class FabCarTest {
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasNoCause()
                     .hasMessage("Car CAR0 does not exist");
             assertThat(((ChaincodeException) thrown).getPayload()).isEqualTo("CAR_NOT_FOUND".getBytes());
+        }
+    }
+
+
+    @Nested
+    class CreateEntityTransaction
+    {
+        public class MockEntity
+        {
+            private ClientIdentity clientIdentity;
+            private String id;
+            private String asJson;
+
+            public MockEntity() throws CertificateException, IOException
+            {
+                this.clientIdentity = getMockClientIdentity();
+                this.id = "x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US";
+                this.asJson = "{\"id\":\"x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US\",\"mSPID\":\"Org1MSP\",\"x509Certificate\":{\"extendedKeyUsage\":null,\"issuerAlternativeNames\":null,\"issuerX500Principal\":{\"encoded\":\"MGgxCzAJBgNVBAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEUMBIGA1UEChMLSHlwZXJsZWRnZXIxDzANBgNVBAsTBkZhYnJpYzEZMBcGA1UEAxMQZmFicmljLWNhLXNlcnZlcg==\",\"name\":\"CN=fabric-ca-server,OU=Fabric,O=Hyperledger,ST=North Carolina,C=US\"},\"subjectAlternativeNames\":null,\"subjectX500Principal\":{\"encoded\":\"MEQxMDALBgNVBAsTBG9yZzEwDQYDVQQLEwZjbGllbnQwEgYDVQQLEwtkZXBhcnRtZW50MTEQMA4GA1UEAxMHYXBwVXNlcg==\",\"name\":\"CN=appUser,OU=client+OU=org1+OU=department1\"},\"type\":\"X.509\"}}";
+            }
+        }
+
+        @Test
+        public void whenEntityExists() throws CertificateException, IOException
+        {
+            iReceptorChain contract = new iReceptorChain();
+            Context ctx = mock(Context.class);
+            ChaincodeStub stub = mock(ChaincodeStub.class);
+            MockEntity mockEntity = new MockEntity();
+
+            ClientIdentity clientIdentity = mockEntity.clientIdentity;
+            String entityID = mockEntity.id;
+            String mockEntityAsJson = mockEntity.asJson;
+
+            String entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
+
+            when(ctx.getStub()).thenReturn(stub);
+            when(ctx.getStub()).thenReturn(stub);
+            when(stub.getStringState(entityKeyOnDB)).thenReturn(mockEntityAsJson);
+            //when(ctx.getStub().getStringState(entityKeyOnDB)).thenReturn(mockEntityAsJson);
+
+            String testClientIdentity = contract.testClientIdentity(ctx);
+
+            Throwable thrown = catchThrowable(() -> {
+                contract.createEntity(ctx, clientIdentity);
+            });
+
+            assertThat(thrown).isInstanceOf(ChaincodeException.class).hasNoCause()
+                    .hasMessage("Entity with the same id already exists on the blockchain database");
+        }
+
+        @Test
+        public void whenEntityDoesNotExist() throws CertificateException, IOException
+        {
+            iReceptorChain contract = new iReceptorChain();
+            Context ctx = mock(Context.class);
+            ChaincodeStub stub = mock(ChaincodeStub.class);
+            Genson genson = new Genson();
+            ClientIdentity clientIdentity = getMockClientIdentity();
+            when(ctx.getStub()).thenReturn(stub);
+            String mockEntityAsJson = "{\"id\":\"x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US\",\"mSPID\":\"Org1MSP\",\"x509Certificate\":{\"extendedKeyUsage\":null,\"issuerAlternativeNames\":null,\"issuerX500Principal\":{\"encoded\":\"MGgxCzAJBgNVBAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEUMBIGA1UEChMLSHlwZXJsZWRnZXIxDzANBgNVBAsTBkZhYnJpYzEZMBcGA1UEAxMQZmFicmljLWNhLXNlcnZlcg==\",\"name\":\"CN=fabric-ca-server,OU=Fabric,O=Hyperledger,ST=North Carolina,C=US\"},\"subjectAlternativeNames\":null,\"subjectX500Principal\":{\"encoded\":\"MEQxMDALBgNVBAsTBG9yZzEwDQYDVQQLEwZjbGllbnQwEgYDVQQLEwtkZXBhcnRtZW50MTEQMA4GA1UEAxMHYXBwVXNlcg==\",\"name\":\"CN=appUser,OU=client+OU=org1+OU=department1\"},\"type\":\"X.509\"}}";
+
+            when(clientIdentity.getId()).thenReturn("entityID");
+
+
+            EntityDataInfo entityCreated = contract.createEntity(ctx, clientIdentity);
+            EntityDataInfo entityDataInfo = new EntityDataInfo("x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US", new EntityData(clientIdentity.getId()));
+            assertThat(entityCreated).isEqualTo(entityDataInfo);
+
         }
     }
 }
