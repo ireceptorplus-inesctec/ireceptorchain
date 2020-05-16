@@ -1,5 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes;
 
+import com.owlike.genson.annotation.JsonProperty;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.annotation.DataType;
@@ -58,7 +59,7 @@ public class EntityData implements iReceptorChainDataType
      * Initializes the reputation counter to 0.
      * @param id A String representing the id of the peer.
      */
-    public EntityData(String id)
+    public EntityData(@JsonProperty("id") final String id)
     {
         this.id = id;
         this.reputation = new Long(ChaincodeConfigs.initialReputationForEntities.get());
@@ -72,7 +73,9 @@ public class EntityData implements iReceptorChainDataType
      * @param reputation The current reputation of the entity.
      * @param reputationAtStake The current amount of reputation of the entity that is at stake.
      */
-    public EntityData(String id, Long reputation, Long reputationAtStake)
+    public EntityData(@JsonProperty("id") final String id,
+                      @JsonProperty("reputation") final Long reputation,
+                      @JsonProperty("reputationAtStake") final Long reputationAtStake)
     {
         this.id = id;
         this.reputation = reputation;
