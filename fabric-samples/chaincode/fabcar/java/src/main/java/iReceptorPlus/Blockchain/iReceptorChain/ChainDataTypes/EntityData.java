@@ -59,7 +59,7 @@ public class EntityData implements iReceptorChainDataType
      * Initializes the reputation counter to 0.
      * @param id A String representing the id of the peer.
      */
-    public EntityData(@JsonProperty("id") final String id)
+    public EntityData(String id)
     {
         this.id = id;
         this.reputation = new Long(ChaincodeConfigs.initialReputationForEntities.get());
