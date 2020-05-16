@@ -433,16 +433,49 @@ public final class FabCarTest {
         {
             when(ctx.getStub()).thenReturn(stub);
             when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
-            when(stub.getStringState(ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID)).thenReturn(entityDataAsJson);
 
+            putMockEntityToDB(0, 0);
             Throwable thrown = catchThrowable(() -> {
                 contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
                         processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
                         processingDetails.getSoftwareConfigParams());
             });
 
-            assertThat(thrown).isInstanceOf(ChaincodeException.class);
+            putMockEntityToDB(0, 100);
+            Throwable thrown2 = catchThrowable(() -> {
+                contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
+                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
+                        processingDetails.getSoftwareConfigParams());
+            });
 
+            putMockEntityToDB(1, 0);
+            Throwable thrown3 = catchThrowable(() -> {
+                contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
+                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
+                        processingDetails.getSoftwareConfigParams());
+            });
+
+            long reputationJustBelowLimit = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get() - 1;
+            putMockEntityToDB(reputationJustBelowLimit, 0);
+            Throwable thrown4 = catchThrowable(() -> {
+                contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
+                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
+                        processingDetails.getSoftwareConfigParams());
+            });
+
+            assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is 30");
+            assertThat(thrown2).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is 30");
+            assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 1 and necessary reputation is 30");
+            assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is 30");
+        }
+
+        private void putMockEntityToDB(long reputation, long reputationAtStake)
+        {
+            //override setup entity data and make entity not have enough reputation for this test
+            EntityData entityData = new EntityData(entityID, reputation, reputationAtStake);
+            String entityDataAsJson = genson.serialize(entityData);
+
+            when(stub.getStringState(ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID)).thenReturn(entityDataAsJson);
         }
 
     }
