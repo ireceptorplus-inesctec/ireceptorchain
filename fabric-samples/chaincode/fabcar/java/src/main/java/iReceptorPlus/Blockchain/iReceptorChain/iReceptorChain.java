@@ -252,7 +252,7 @@ public final class iReceptorChain implements ContractInterface {
     @Transaction()
     public EntityData testNotFinalAttribs(final Context ctx)
     {
-        return new EntityData(ctx.getClientIdentity());
+        return new EntityData(ctx.getClientIdentity().getId());
     }
 
     @Transaction()
@@ -351,8 +351,8 @@ public final class iReceptorChain implements ContractInterface {
 
         ChaincodeStub stub = ctx.getStub();
 
-        EntityData entityData = new EntityData(clientIdentity);
-        EntityDataInfo entityDataInfo = new EntityDataInfo(entityData.getClientIdentity().getId(), entityData);
+        EntityData entityData = new EntityData(clientIdentity.getId());
+        EntityDataInfo entityDataInfo = new EntityDataInfo(entityData.getId(), entityData);
         EntityDataRepositoryAPI api = new EntityDataRepositoryAPI(ctx);
         try
         {

@@ -104,7 +104,7 @@ public class EntityReputationManager
         }
         currentReputation += addToCurrentReputation;
         reputationAtStake += addToReputationAtStake;
-        entityData = new EntityData(entityData.getClientIdentity(), currentReputation, reputationAtStake);
+        entityData = new EntityData(entityID.getId(), currentReputation, reputationAtStake);
         try
         {
             entityRepository.update(entityID.getId(), entityData);
