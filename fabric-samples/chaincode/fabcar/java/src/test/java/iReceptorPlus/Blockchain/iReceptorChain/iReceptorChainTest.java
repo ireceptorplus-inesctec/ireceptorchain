@@ -59,6 +59,27 @@ public final class iReceptorChainTest
     private String entityKeyOnDB;
     private ProcessingDetails processingDetails;
 
+    @BeforeEach
+    private void initVariables() throws CertificateException, IOException
+    {
+        contract = new iReceptorChain();
+        ctx = mock(Context.class);
+        stub = mock(ChaincodeStub.class);
+        mockClientIdentity = new MockClientIdentity();
+
+        clientIdentity = mockClientIdentity.clientIdentity;
+        entityID = mockClientIdentity.id;
+        mockClientIdentityAsJson = mockClientIdentity.asJson;
+        entityData = new EntityData(entityID);
+        entityDataAsJson = genson.serialize(entityData);
+
+        mockTraceabilityData = new MockTraceabilityData();
+        traceabilityData = mockTraceabilityData.traceabilityData;
+        processingDetails = traceabilityData.getProcessingDetails();
+
+        entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
+    }
+
     @Nested
     class CreateEntityTransaction
     {
@@ -119,27 +140,6 @@ public final class iReceptorChainTest
     @Nested
     class CreateTraceabilityDataEntry
     {
-
-        @BeforeEach
-        private void initVariables() throws CertificateException, IOException
-        {
-            contract = new iReceptorChain();
-            ctx = mock(Context.class);
-            stub = mock(ChaincodeStub.class);
-            mockClientIdentity = new MockClientIdentity();
-
-            clientIdentity = mockClientIdentity.clientIdentity;
-            entityID = mockClientIdentity.id;
-            mockClientIdentityAsJson = mockClientIdentity.asJson;
-            entityData = new EntityData(entityID);
-            entityDataAsJson = genson.serialize(entityData);
-
-            mockTraceabilityData = new MockTraceabilityData();
-            traceabilityData = mockTraceabilityData.traceabilityData;
-            processingDetails = traceabilityData.getProcessingDetails();
-
-            entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
-        }
 
         @Test
         public void whenUuidIsAlreadyAssignedToAnotherTraceabilityData() throws CertificateException, IOException
