@@ -72,6 +72,14 @@ public final class iReceptorChainTest
         entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
     }
 
+    private void putMockEntityToDB(String entityID, long reputation, long reputationAtStake)
+    {
+        EntityData entityData = new EntityData(entityID, reputation, reputationAtStake);
+        String entityDataAsJson = genson.serialize(entityData);
+
+        putEntryToDB(ctx, ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, entityDataAsJson);
+    }
+
     @Nested
     class CreateEntityTransaction
     {
