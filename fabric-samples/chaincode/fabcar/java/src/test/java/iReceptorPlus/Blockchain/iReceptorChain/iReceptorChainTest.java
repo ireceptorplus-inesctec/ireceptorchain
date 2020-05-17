@@ -45,6 +45,20 @@ public final class iReceptorChainTest
         when(context.getStub().getStringState(key)).thenReturn(value);
     }
 
+    private iReceptorChain contract;
+    private Context ctx;
+    private ChaincodeStub stub;
+    private MockClientIdentity mockClientIdentity;
+    private ClientIdentity clientIdentity;
+    private String entityID;
+    private String mockClientIdentityAsJson;
+    private EntityData entityData;
+    private String entityDataAsJson;
+    private MockTraceabilityData mockTraceabilityData;
+    private TraceabilityDataAwatingValidation traceabilityData;
+    private String entityKeyOnDB;
+    private ProcessingDetails processingDetails;
+
     @Nested
     class CreateEntityTransaction
     {
@@ -105,21 +119,6 @@ public final class iReceptorChainTest
     @Nested
     class CreateTraceabilityDataEntry
     {
-
-        private iReceptorChain contract;
-        private Context ctx;
-        private ChaincodeStub stub;
-        private MockClientIdentity mockClientIdentity;
-        private ClientIdentity clientIdentity;
-        private String entityID;
-        private String mockClientIdentityAsJson;
-        private EntityData entityData;
-        private String entityDataAsJson;
-        private MockTraceabilityData mockTraceabilityData;
-        private TraceabilityDataAwatingValidation traceabilityData;
-        private String entityKeyOnDB;
-        private ProcessingDetails processingDetails;
-
 
         @BeforeEach
         private void initVariables() throws CertificateException, IOException
