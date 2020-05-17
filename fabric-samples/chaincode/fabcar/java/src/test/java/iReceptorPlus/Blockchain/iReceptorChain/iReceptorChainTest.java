@@ -14,7 +14,6 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 
@@ -305,18 +304,6 @@ public final class iReceptorChainTest
         when(context.getStub().getStringState(key)).thenReturn(value);
     }
 
-
-    public class MockTraceabilityData
-    {
-        TraceabilityDataAwatingValidation traceabilityData;
-
-        public MockTraceabilityData() throws CertificateException, IOException
-        {
-            MockClientIdentity mockClientIdentity = new MockClientIdentity();
-            traceabilityData = new TraceabilityDataAwatingValidation("inputDatasetHashValue", "outputDatasetHashValue",
-                    new ProcessingDetails("softwareId", "softwareVersion", "softwareBinaryExecutableHashValue", "softwareConfigParams"), new EntityID(mockClientIdentity.id));
-        }
-    }
 
     @Nested
     class CreateEntityTransaction
