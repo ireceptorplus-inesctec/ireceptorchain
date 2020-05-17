@@ -6,16 +6,11 @@ package iReceptorPlus.Blockchain.iReceptorChain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.ThrowableAssert.catchThrowable;
-import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.security.cert.CertificateException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import com.owlike.genson.Genson;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
@@ -25,12 +20,9 @@ import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
-import org.hyperledger.fabric.shim.ledger.KeyValue;
-import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.InOrder;
 
 public final class iReceptorChainTest
 {
@@ -125,7 +117,7 @@ public final class iReceptorChainTest
             when(ctx.getStub()).thenReturn(stub);
             when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
 
-            putMockEntityToDB(100, 0);
+            setEntityReputation(100, 0);
             String serializedTraceabilityData = genson.serialize(traceabilityData);
 
             String uuid = "uuid";
@@ -168,7 +160,7 @@ public final class iReceptorChainTest
             when(ctx.getStub()).thenReturn(stub);
             when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
 
-            putMockEntityToDB(0, 0);
+            setEntityReputation(0, 0);
             Throwable thrown = catchThrowable(() ->
             {
                 contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
@@ -176,7 +168,7 @@ public final class iReceptorChainTest
                         processingDetails.getSoftwareConfigParams());
             });
 
-            putMockEntityToDB(0, 100);
+            setEntityReputation(0, 100);
             Throwable thrown2 = catchThrowable(() ->
             {
                 contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
@@ -184,7 +176,7 @@ public final class iReceptorChainTest
                         processingDetails.getSoftwareConfigParams());
             });
 
-            putMockEntityToDB(1, 0);
+            setEntityReputation(1, 0);
             Throwable thrown3 = catchThrowable(() ->
             {
                 contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
@@ -193,7 +185,7 @@ public final class iReceptorChainTest
             });
 
             long reputationJustBelowLimit = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get() - 1;
-            putMockEntityToDB(reputationJustBelowLimit, 0);
+            setEntityReputation(reputationJustBelowLimit, 0);
             Throwable thrown4 = catchThrowable(() ->
             {
                 contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
@@ -207,7 +199,7 @@ public final class iReceptorChainTest
             assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is 30");
         }
 
-        private void putMockEntityToDB(long reputation, long reputationAtStake)
+        private void setEntityReputation(long reputation, long reputationAtStake)
         {
             //override setup entity data and make entity not have enough reputation for this test
             EntityData entityData = new EntityData(entityID, reputation, reputationAtStake);
@@ -222,7 +214,7 @@ public final class iReceptorChainTest
             when(ctx.getStub()).thenReturn(stub);
             when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
 
-            putMockEntityToDB(100, 0);
+            setEntityReputation(100, 0);
 
             String uuid = "uuid";
             TraceabilityDataAwatingValidationReturnType returned = contract.createTraceabilityDataEntry(ctx, uuid, traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
@@ -235,4 +227,5 @@ public final class iReceptorChainTest
         }
 
     }
+
 }
