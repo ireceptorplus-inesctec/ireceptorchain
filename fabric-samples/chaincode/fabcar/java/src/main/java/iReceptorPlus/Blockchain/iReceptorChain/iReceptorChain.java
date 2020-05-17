@@ -120,7 +120,7 @@ public final class iReceptorChain implements ContractInterface {
         }
 
         createTraceabilityDataEntry(ctx,
-                "uuid2asddas",
+                "uuid",
                 "inputDatasetHashValue",
                 "outputDatasetHashValue",
                 "softwareId",
