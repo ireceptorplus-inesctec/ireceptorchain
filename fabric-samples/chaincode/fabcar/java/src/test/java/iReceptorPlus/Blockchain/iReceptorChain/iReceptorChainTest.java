@@ -216,7 +216,6 @@ public final class iReceptorChainTest
             putEntryToDB(ctx, ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, entityDataAsJson);
         }
 
-
         @Test
         public void whenAllIsFine() throws CertificateException, IOException
         {
