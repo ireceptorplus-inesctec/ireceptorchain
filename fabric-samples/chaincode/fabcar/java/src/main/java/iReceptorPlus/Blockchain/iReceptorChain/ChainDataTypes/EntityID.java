@@ -1,5 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes;
 
+import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
@@ -23,7 +24,7 @@ public class EntityID implements iReceptorChainDataType
         return id;
     }
 
-    public EntityID(String id)
+    public EntityID(@JsonProperty("id") final String id)
     {
         this.id = id;
     }
