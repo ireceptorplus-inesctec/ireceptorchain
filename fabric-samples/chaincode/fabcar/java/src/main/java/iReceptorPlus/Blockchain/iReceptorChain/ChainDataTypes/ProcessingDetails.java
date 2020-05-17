@@ -4,6 +4,8 @@ import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
+import java.util.Objects;
+
 /**
  * This class represents the steps taken to make a data transformation.
  */
@@ -67,5 +69,23 @@ public class ProcessingDetails implements iReceptorChainDataType
         this.softwareVersion = softwareVersion;
         this.softwareBinaryExecutableHashValue = softwareBinaryExecutableHashValue;
         this.softwareConfigParams = softwareConfigParams;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProcessingDetails that = (ProcessingDetails) o;
+        return softwareId.equals(that.softwareId) &&
+                softwareVersion.equals(that.softwareVersion) &&
+                softwareBinaryExecutableHashValue.equals(that.softwareBinaryExecutableHashValue) &&
+                softwareConfigParams.equals(that.softwareConfigParams);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams);
     }
 }

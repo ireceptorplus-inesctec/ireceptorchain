@@ -5,6 +5,7 @@ import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * This class represents an entry of traceability information.
@@ -127,5 +128,25 @@ public abstract class TraceabilityData implements iReceptorChainDataType
     public long getNumberOfRejecters()
     {
         return rejecters.size();
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TraceabilityData that = (TraceabilityData) o;
+        return inputDatasetHashValue.equals(that.inputDatasetHashValue) &&
+                outputDatasetHashValue.equals(that.outputDatasetHashValue) &&
+                processingDetails.equals(that.processingDetails) &&
+                creatorID.equals(that.creatorID) &&
+                approvers.equals(that.approvers) &&
+                rejecters.equals(that.rejecters);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, approvers, rejecters);
     }
 }
