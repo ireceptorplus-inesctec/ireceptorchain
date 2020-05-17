@@ -86,17 +86,6 @@ public final class iReceptorChainTest
         @Test
         public void whenEntityExists() throws CertificateException, IOException
         {
-            iReceptorChain contract = new iReceptorChain();
-            Context ctx = mock(Context.class);
-            ChaincodeStub stub = mock(ChaincodeStub.class);
-            MockClientIdentity mockClientIdentity = new MockClientIdentity();
-
-            ClientIdentity clientIdentity = mockClientIdentity.clientIdentity;
-            String entityID = mockClientIdentity.id;
-            String mockClientIdentityAsJson = mockClientIdentity.asJson;
-            EntityData entityData = new EntityData(entityID);
-            String entityDataAsJson = genson.serialize(entityData);
-
             String entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
 
             when(ctx.getStub()).thenReturn(stub);
@@ -115,20 +104,8 @@ public final class iReceptorChainTest
         @Test
         public void whenEntityDoesNotExist() throws CertificateException, IOException
         {
-            iReceptorChain contract = new iReceptorChain();
-            Context ctx = mock(Context.class);
-            ChaincodeStub stub = mock(ChaincodeStub.class);
-            MockClientIdentity mockClientIdentity = new MockClientIdentity();
-
-            ClientIdentity clientIdentity = mockClientIdentity.clientIdentity;
-            String entityID = mockClientIdentity.id;
-            String mockClientIdentityAsJson = mockClientIdentity.asJson;
-            EntityData entityData = new EntityData(entityID);
-            String entityDataAsJson = genson.serialize(entityData);
-
-            String entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
-
             when(ctx.getStub()).thenReturn(stub);
+            when(stub.getStringState(entityKeyOnDB)).thenReturn("");
 
             EntityDataInfo entityCreated = contract.createEntity(ctx, clientIdentity);
             EntityDataInfo entityDataInfo = new EntityDataInfo(entityID, entityData);
