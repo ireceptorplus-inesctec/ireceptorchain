@@ -4,6 +4,8 @@
 
 package iReceptorPlus.Blockchain.iReceptorChain;
 
+import java.io.IOException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -347,11 +349,24 @@ public final class iReceptorChain implements ContractInterface {
      */
     @Transaction()
     public EntityDataInfo createEntity(final Context ctx, final ClientIdentity clientIdentity) {
+
+        return createEntity(ctx, clientIdentity.getId());
+    }
+
+    /**
+     * Creates a new entity on the ledger.
+     *
+     * @param ctx the transaction context
+     * @param entityID A string representing the id of the entity.
+     * @return the EntityData entry just created on the blockchain.
+     */
+    @Transaction()
+    public EntityDataInfo createEntity(final Context ctx, final String entityID) {
         logDebugMsg("createTraceabilityDataEntry");
 
         ChaincodeStub stub = ctx.getStub();
 
-        EntityData entityData = new EntityData(clientIdentity.getId());
+        EntityData entityData = new EntityData(entityID);
         EntityDataInfo entityDataInfo = new EntityDataInfo(entityData.getId(), entityData);
         EntityDataRepositoryAPI api = new EntityDataRepositoryAPI(ctx);
         try
