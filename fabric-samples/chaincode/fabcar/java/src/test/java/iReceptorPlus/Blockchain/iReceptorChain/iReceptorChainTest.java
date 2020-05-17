@@ -56,22 +56,22 @@ public final class iReceptorChainTest
     @BeforeEach
     private void initVariables() throws CertificateException, IOException
     {
-        contract = new iReceptorChain();
-        ctx = mock(Context.class);
-        stub = mock(ChaincodeStub.class);
-        mockClientIdentity = new MockClientIdentity();
+        setContract(new iReceptorChain());
+        setCtx(mock(Context.class));
+        setStub(mock(ChaincodeStub.class));
+        setMockClientIdentity(new MockClientIdentity());
 
-        clientIdentity = mockClientIdentity.clientIdentity;
-        entityID = mockClientIdentity.id;
-        mockClientIdentityAsJson = mockClientIdentity.asJson;
-        entityData = new EntityData(entityID);
-        entityDataAsJson = genson.serialize(entityData);
+        setClientIdentity(getMockClientIdentity().clientIdentity);
+        setEntityID(getMockClientIdentity().id);
+        setMockClientIdentityAsJson(getMockClientIdentity().asJson);
+        setEntityData(new EntityData(getEntityID()));
+        setEntityDataAsJson(genson.serialize(getEntityData()));
 
-        mockTraceabilityData = new MockTraceabilityData();
-        traceabilityData = mockTraceabilityData.traceabilityData;
-        processingDetails = traceabilityData.getProcessingDetails();
+        setMockTraceabilityData(new MockTraceabilityData());
+        setTraceabilityData(getMockTraceabilityData().traceabilityData);
+        setProcessingDetails(getTraceabilityData().getProcessingDetails());
 
-        entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
+        setEntityKeyOnDB(ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID());
     }
 
     private void putMockEntityToDB(String entityID, long reputation, long reputationAtStake)
@@ -79,7 +79,137 @@ public final class iReceptorChainTest
         EntityData entityData = new EntityData(entityID, reputation, reputationAtStake);
         String entityDataAsJson = genson.serialize(entityData);
 
-        putEntryToDB(ctx, ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, entityDataAsJson);
+        putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, entityDataAsJson);
+    }
+
+    public iReceptorChain getContract()
+    {
+        return contract;
+    }
+
+    public void setContract(iReceptorChain contract)
+    {
+        this.contract = contract;
+    }
+
+    public Context getCtx()
+    {
+        return ctx;
+    }
+
+    public void setCtx(Context ctx)
+    {
+        this.ctx = ctx;
+    }
+
+    public ChaincodeStub getStub()
+    {
+        return stub;
+    }
+
+    public void setStub(ChaincodeStub stub)
+    {
+        this.stub = stub;
+    }
+
+    public MockClientIdentity getMockClientIdentity()
+    {
+        return mockClientIdentity;
+    }
+
+    public void setMockClientIdentity(MockClientIdentity mockClientIdentity)
+    {
+        this.mockClientIdentity = mockClientIdentity;
+    }
+
+    public ClientIdentity getClientIdentity()
+    {
+        return clientIdentity;
+    }
+
+    public void setClientIdentity(ClientIdentity clientIdentity)
+    {
+        this.clientIdentity = clientIdentity;
+    }
+
+    public String getEntityID()
+    {
+        return entityID;
+    }
+
+    public void setEntityID(String entityID)
+    {
+        this.entityID = entityID;
+    }
+
+    public String getMockClientIdentityAsJson()
+    {
+        return mockClientIdentityAsJson;
+    }
+
+    public void setMockClientIdentityAsJson(String mockClientIdentityAsJson)
+    {
+        this.mockClientIdentityAsJson = mockClientIdentityAsJson;
+    }
+
+    public EntityData getEntityData()
+    {
+        return entityData;
+    }
+
+    public void setEntityData(EntityData entityData)
+    {
+        this.entityData = entityData;
+    }
+
+    public String getEntityDataAsJson()
+    {
+        return entityDataAsJson;
+    }
+
+    public void setEntityDataAsJson(String entityDataAsJson)
+    {
+        this.entityDataAsJson = entityDataAsJson;
+    }
+
+    public MockTraceabilityData getMockTraceabilityData()
+    {
+        return mockTraceabilityData;
+    }
+
+    public void setMockTraceabilityData(MockTraceabilityData mockTraceabilityData)
+    {
+        this.mockTraceabilityData = mockTraceabilityData;
+    }
+
+    public TraceabilityDataAwatingValidation getTraceabilityData()
+    {
+        return traceabilityData;
+    }
+
+    public void setTraceabilityData(TraceabilityDataAwatingValidation traceabilityData)
+    {
+        this.traceabilityData = traceabilityData;
+    }
+
+    public String getEntityKeyOnDB()
+    {
+        return entityKeyOnDB;
+    }
+
+    public void setEntityKeyOnDB(String entityKeyOnDB)
+    {
+        this.entityKeyOnDB = entityKeyOnDB;
+    }
+
+    public ProcessingDetails getProcessingDetails()
+    {
+        return processingDetails;
+    }
+
+    public void setProcessingDetails(ProcessingDetails processingDetails)
+    {
+        this.processingDetails = processingDetails;
     }
 
     @Nested
@@ -88,14 +218,14 @@ public final class iReceptorChainTest
         @Test
         public void whenEntityExists() throws CertificateException, IOException
         {
-            String entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID;
+            String entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID();
 
-            when(ctx.getStub()).thenReturn(stub);
-            when(stub.getStringState(entityKeyOnDB)).thenReturn(entityDataAsJson);
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getStub().getStringState(entityKeyOnDB)).thenReturn(getEntityDataAsJson());
 
             Throwable thrown = catchThrowable(() ->
             {
-                contract.createEntity(ctx, clientIdentity);
+                getContract().createEntity(getCtx(), getClientIdentity());
             });
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasNoCause()
@@ -106,11 +236,11 @@ public final class iReceptorChainTest
         @Test
         public void whenEntityDoesNotExist() throws CertificateException, IOException
         {
-            when(ctx.getStub()).thenReturn(stub);
-            when(stub.getStringState(entityKeyOnDB)).thenReturn("");
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getStub().getStringState(getEntityKeyOnDB())).thenReturn("");
 
-            EntityDataInfo entityCreated = contract.createEntity(ctx, clientIdentity);
-            EntityDataInfo entityDataInfo = new EntityDataInfo(entityID, entityData);
+            EntityDataInfo entityCreated = getContract().createEntity(getCtx(), getClientIdentity());
+            EntityDataInfo entityDataInfo = new EntityDataInfo(getEntityID(), getEntityData());
             assertThat(entityCreated).isEqualTo(entityDataInfo);
 
         }
@@ -124,20 +254,20 @@ public final class iReceptorChainTest
         public void whenUuidIsAlreadyAssignedToAnotherTraceabilityData() throws CertificateException, IOException
         {
 
-            when(ctx.getStub()).thenReturn(stub);
-            when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
             setEntityReputation(100, 0);
-            String serializedTraceabilityData = genson.serialize(traceabilityData);
+            String serializedTraceabilityData = genson.serialize(getTraceabilityData());
 
             String uuid = "uuid";
-            putEntryToDB(ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + "-" + uuid, serializedTraceabilityData);
+            putEntryToDB(getCtx(), ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + "-" + uuid, serializedTraceabilityData);
 
             Throwable thrown = catchThrowable(() ->
             {
-                contract.createTraceabilityDataEntry(ctx, uuid, traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
-                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
-                        processingDetails.getSoftwareConfigParams());
+                getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
+                        getProcessingDetails().getSoftwareConfigParams());
             });
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("The id you have provided is not unique: it is already assigned to another object of the same type. Please try with a different id.Id used was: " + uuid);
@@ -146,18 +276,18 @@ public final class iReceptorChainTest
         @Test
         public void whenCreatorDoesNotExist() throws CertificateException, IOException
         {
-            when(ctx.getStub()).thenReturn(stub);
-            when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
             //ensure no entity is returned upon querying the DB
-            putEntryToDB(ctx, ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, "");
+            putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID(), "");
 
 
             Throwable thrown = catchThrowable(() ->
             {
-                contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
-                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
-                        processingDetails.getSoftwareConfigParams());
+                getContract().createTraceabilityDataEntry(getCtx(), "uuid", getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
+                        getProcessingDetails().getSoftwareConfigParams());
             });
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class);
@@ -167,40 +297,40 @@ public final class iReceptorChainTest
         @Test
         public void whenCreatorExistsButDoesNotHaveEnoughReputation() throws CertificateException, IOException
         {
-            when(ctx.getStub()).thenReturn(stub);
-            when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
             setEntityReputation(0, 0);
             Throwable thrown = catchThrowable(() ->
             {
-                contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
-                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
-                        processingDetails.getSoftwareConfigParams());
+                getContract().createTraceabilityDataEntry(getCtx(), "uuid", getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
+                        getProcessingDetails().getSoftwareConfigParams());
             });
 
             setEntityReputation(0, 100);
             Throwable thrown2 = catchThrowable(() ->
             {
-                contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
-                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
-                        processingDetails.getSoftwareConfigParams());
+                getContract().createTraceabilityDataEntry(getCtx(), "uuid", getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
+                        getProcessingDetails().getSoftwareConfigParams());
             });
 
             setEntityReputation(1, 0);
             Throwable thrown3 = catchThrowable(() ->
             {
-                contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
-                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
-                        processingDetails.getSoftwareConfigParams());
+                getContract().createTraceabilityDataEntry(getCtx(), "uuid", getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
+                        getProcessingDetails().getSoftwareConfigParams());
             });
 
             long reputationJustBelowLimit = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get() - 1;
             setEntityReputation(reputationJustBelowLimit, 0);
             Throwable thrown4 = catchThrowable(() ->
             {
-                contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
-                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
-                        processingDetails.getSoftwareConfigParams());
+                getContract().createTraceabilityDataEntry(getCtx(), "uuid", getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
+                        getProcessingDetails().getSoftwareConfigParams());
             });
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is 30");
@@ -212,26 +342,26 @@ public final class iReceptorChainTest
         private void setEntityReputation(long reputation, long reputationAtStake)
         {
             //override setup entity data and make entity not have enough reputation for this test
-            EntityData entityData = new EntityData(entityID, reputation, reputationAtStake);
+            EntityData entityData = new EntityData(getEntityID(), reputation, reputationAtStake);
             String entityDataAsJson = genson.serialize(entityData);
 
-            putEntryToDB(ctx, ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, entityDataAsJson);
+            putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID(), entityDataAsJson);
         }
 
         @Test
         public void whenAllIsFine() throws CertificateException, IOException
         {
-            when(ctx.getStub()).thenReturn(stub);
-            when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
             setEntityReputation(100, 0);
 
             String uuid = "uuid";
-            TraceabilityDataAwatingValidationReturnType returned = contract.createTraceabilityDataEntry(ctx, uuid, traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
-                    processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
-                    processingDetails.getSoftwareConfigParams());
+            TraceabilityDataAwatingValidationReturnType returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                    getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
+                    getProcessingDetails().getSoftwareConfigParams());
 
-            TraceabilityDataAwatingValidationReturnType expected = new TraceabilityDataAwatingValidationReturnType(uuid, traceabilityData);
+            TraceabilityDataAwatingValidationReturnType expected = new TraceabilityDataAwatingValidationReturnType(uuid, getTraceabilityData());
 
             assertThat(returned).isEqualTo(expected);
         }
