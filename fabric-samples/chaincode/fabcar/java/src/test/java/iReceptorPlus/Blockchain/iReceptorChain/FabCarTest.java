@@ -32,7 +32,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 
-public final class FabCarTest {
+public final class FabCarTest
+{
     Genson genson = new Genson();
     //ClientIdentity cl = genson.deserialize("{\"id\":\"x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US\",\"mSPID\":\"Org1MSP\",\"x509Certificate\":{\"extendedKeyUsage\":null,\"issuerAlternativeNames\":null,\"issuerX500Principal\":{\"encoded\":\"MGgxCzAJBgNVBAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEUMBIGA1UEChMLSHlwZXJsZWRnZXIxDzANBgNVBAsTBkZhYnJpYzEZMBcGA1UEAxMQZmFicmljLWNhLXNlcnZlcg==\",\"name\":\"CN=fabric-ca-server,OU=Fabric,O=Hyperledger,ST=North Carolina,C=US\"},\"subjectAlternativeNames\":null,\"subjectX500Principal\":{\"encoded\":\"MEQxMDALBgNVBAsTBG9yZzEwDQYDVQQLEwZjbGllbnQwEgYDVQQLEwtkZXBhcnRtZW50MTEQMA4GA1UEAxMHYXBwVXNlcg==\",\"name\":\"CN=appUser,OU=client+OU=org1+OU=department1\"},\"type\":\"X.509\"}}", ClientIdentity.class);
     boolean mockClientIdentityAlreadyCalled = false;
@@ -53,39 +54,46 @@ public final class FabCarTest {
         return clientIdentity;
     }
 
-    private final class MockKeyValue implements KeyValue {
+    private final class MockKeyValue implements KeyValue
+    {
 
         private final String key;
         private final String value;
 
-        MockKeyValue(final String key, final String value) {
+        MockKeyValue(final String key, final String value)
+        {
             super();
             this.key = key;
             this.value = value;
         }
 
         @Override
-        public String getKey() {
+        public String getKey()
+        {
             return this.key;
         }
 
         @Override
-        public String getStringValue() {
+        public String getStringValue()
+        {
             return this.value;
         }
 
         @Override
-        public byte[] getValue() {
+        public byte[] getValue()
+        {
             return this.value.getBytes();
         }
 
     }
 
-    private final class MockCarResultsIterator implements QueryResultsIterator<KeyValue> {
+    private final class MockCarResultsIterator implements QueryResultsIterator<KeyValue>
+    {
 
         private final List<KeyValue> carList;
 
-        MockCarResultsIterator() {
+        MockCarResultsIterator()
+        {
             super();
 
             carList = new ArrayList<KeyValue>();
@@ -103,23 +111,27 @@ public final class FabCarTest {
         }
 
         @Override
-        public Iterator<KeyValue> iterator() {
+        public Iterator<KeyValue> iterator()
+        {
             return carList.iterator();
         }
 
         @Override
-        public void close() throws Exception {
+        public void close() throws Exception
+        {
             // do nothing
         }
 
     }
 
     @Test
-    public void invokeUnknownTransaction() {
+    public void invokeUnknownTransaction()
+    {
         iReceptorChain contract = new iReceptorChain();
         Context ctx = mock(Context.class);
 
-        Throwable thrown = catchThrowable(() -> {
+        Throwable thrown = catchThrowable(() ->
+        {
             contract.unknownTransaction(ctx);
         });
 
@@ -131,10 +143,12 @@ public final class FabCarTest {
     }
 
     @Nested
-    class InvokeQueryCarTransaction {
+    class InvokeQueryCarTransaction
+    {
 
         @Test
-        public void whenCarExists() {
+        public void whenCarExists()
+        {
             iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
@@ -148,14 +162,16 @@ public final class FabCarTest {
         }
 
         @Test
-        public void whenCarDoesNotExist() {
+        public void whenCarDoesNotExist()
+        {
             iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
             when(stub.getStringState("CAR0")).thenReturn("");
 
-            Throwable thrown = catchThrowable(() -> {
+            Throwable thrown = catchThrowable(() ->
+            {
                 contract.queryCar(ctx, "CAR0");
             });
 
@@ -166,7 +182,8 @@ public final class FabCarTest {
     }
 
     @Test
-    void invokeInitLedgerTransaction() {
+    void invokeInitLedgerTransaction()
+    {
         iReceptorChain contract = new iReceptorChain();
         Context ctx = mock(Context.class);
         ChaincodeStub stub = mock(ChaincodeStub.class);
@@ -198,10 +215,12 @@ public final class FabCarTest {
     }
 
     @Nested
-    class InvokeCreateCarTransaction {
+    class InvokeCreateCarTransaction
+    {
 
         @Test
-        public void whenCarExists() {
+        public void whenCarExists()
+        {
             iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
@@ -209,7 +228,8 @@ public final class FabCarTest {
             when(stub.getStringState("CAR0"))
                     .thenReturn("{\"color\":\"blue\",\"make\":\"Toyota\",\"model\":\"Prius\",\"owner\":\"Tomoko\"}");
 
-            Throwable thrown = catchThrowable(() -> {
+            Throwable thrown = catchThrowable(() ->
+            {
                 contract.createCar(ctx, "CAR0", "Nissan", "Leaf", "green", "Siobhán");
             });
 
@@ -219,7 +239,8 @@ public final class FabCarTest {
         }
 
         @Test
-        public void whenCarDoesNotExist() {
+        public void whenCarDoesNotExist()
+        {
             iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
@@ -233,7 +254,8 @@ public final class FabCarTest {
     }
 
     @Test
-    void invokeQueryAllCarsTransaction() {
+    void invokeQueryAllCarsTransaction()
+    {
         iReceptorChain contract = new iReceptorChain();
         Context ctx = mock(Context.class);
         ChaincodeStub stub = mock(ChaincodeStub.class);
@@ -253,10 +275,12 @@ public final class FabCarTest {
     }
 
     @Nested
-    class ChangeCarOwnerTransaction {
+    class ChangeCarOwnerTransaction
+    {
 
         @Test
-        public void whenCarExists() {
+        public void whenCarExists()
+        {
             iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
@@ -270,14 +294,16 @@ public final class FabCarTest {
         }
 
         @Test
-        public void whenCarDoesNotExist() {
+        public void whenCarDoesNotExist()
+        {
             iReceptorChain contract = new iReceptorChain();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
             when(stub.getStringState("CAR0")).thenReturn("");
 
-            Throwable thrown = catchThrowable(() -> {
+            Throwable thrown = catchThrowable(() ->
+            {
                 contract.changeCarOwner(ctx, "CAR0", "Dr Evil");
             });
 
@@ -328,7 +354,8 @@ public final class FabCarTest {
             when(ctx.getStub()).thenReturn(stub);
             when(stub.getStringState(entityKeyOnDB)).thenReturn(entityDataAsJson);
 
-            Throwable thrown = catchThrowable(() -> {
+            Throwable thrown = catchThrowable(() ->
+            {
                 contract.createEntity(ctx, clientIdentity);
             });
 
@@ -423,7 +450,8 @@ public final class FabCarTest {
             putEntryToDB(ctx, ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, "");
 
 
-            Throwable thrown = catchThrowable(() -> {
+            Throwable thrown = catchThrowable(() ->
+            {
                 contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
                         processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
                         processingDetails.getSoftwareConfigParams());
@@ -440,21 +468,24 @@ public final class FabCarTest {
             when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
 
             putMockEntityToDB(0, 0);
-            Throwable thrown = catchThrowable(() -> {
+            Throwable thrown = catchThrowable(() ->
+            {
                 contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
                         processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
                         processingDetails.getSoftwareConfigParams());
             });
 
             putMockEntityToDB(0, 100);
-            Throwable thrown2 = catchThrowable(() -> {
+            Throwable thrown2 = catchThrowable(() ->
+            {
                 contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
                         processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
                         processingDetails.getSoftwareConfigParams());
             });
 
             putMockEntityToDB(1, 0);
-            Throwable thrown3 = catchThrowable(() -> {
+            Throwable thrown3 = catchThrowable(() ->
+            {
                 contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
                         processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
                         processingDetails.getSoftwareConfigParams());
@@ -462,7 +493,8 @@ public final class FabCarTest {
 
             long reputationJustBelowLimit = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get() - 1;
             putMockEntityToDB(reputationJustBelowLimit, 0);
-            Throwable thrown4 = catchThrowable(() -> {
+            Throwable thrown4 = catchThrowable(() ->
+            {
                 contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
                         processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
                         processingDetails.getSoftwareConfigParams());
@@ -497,14 +529,15 @@ public final class FabCarTest {
             String uuid = "uuid";
             putEntryToDB(ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + "-" + uuid, serializedTraceabilityData);
 
-            Throwable thrown = catchThrowable(() -> {
+            Throwable thrown = catchThrowable(() ->
+            {
                 contract.createTraceabilityDataEntry(ctx, uuid, traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
                         processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
                         processingDetails.getSoftwareConfigParams());
-        });
+            });
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("The id you have provided is not unique: it is already assigned to another object of the same type. Please try with a different id.Id used was: " + uuid);
         }
 
-        }
+    }
 }
