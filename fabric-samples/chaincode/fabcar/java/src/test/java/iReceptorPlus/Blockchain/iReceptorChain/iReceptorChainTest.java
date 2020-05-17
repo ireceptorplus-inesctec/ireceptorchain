@@ -28,15 +28,6 @@ public final class iReceptorChainTest
 {
     Genson genson = new Genson();
 
-    public iReceptorChainTest() throws CertificateException, IOException
-    {
-    }
-
-    public void putEntryToDB(Context context, String key, String value)
-    {
-        when(context.getStub().getStringState(key)).thenReturn(value);
-    }
-
     private iReceptorChain contract;
     private Context ctx;
     private ChaincodeStub stub;
@@ -50,6 +41,17 @@ public final class iReceptorChainTest
     private TraceabilityDataAwatingValidation traceabilityData;
     private String entityKeyOnDB;
     private ProcessingDetails processingDetails;
+
+
+    public iReceptorChainTest() throws CertificateException, IOException
+    {
+    }
+
+    public void putEntryToDB(Context context, String key, String value)
+    {
+        when(context.getStub().getStringState(key)).thenReturn(value);
+    }
+
 
     @BeforeEach
     private void initVariables() throws CertificateException, IOException
