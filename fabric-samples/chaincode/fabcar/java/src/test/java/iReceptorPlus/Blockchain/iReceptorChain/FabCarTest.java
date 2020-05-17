@@ -441,6 +441,29 @@ public final class FabCarTest
         }
 
         @Test
+        public void whenUuidIsAlreadyAssignedToAnotherTraceabilityData() throws CertificateException, IOException
+        {
+
+            when(ctx.getStub()).thenReturn(stub);
+            when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
+
+            putMockEntityToDB(100, 0);
+            String serializedTraceabilityData = genson.serialize(traceabilityData);
+
+            String uuid = "uuid";
+            putEntryToDB(ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + "-" + uuid, serializedTraceabilityData);
+
+            Throwable thrown = catchThrowable(() ->
+            {
+                contract.createTraceabilityDataEntry(ctx, uuid, traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
+                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
+                        processingDetails.getSoftwareConfigParams());
+            });
+
+            assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("The id you have provided is not unique: it is already assigned to another object of the same type. Please try with a different id.Id used was: " + uuid);
+        }
+
+        @Test
         public void whenCreatorDoesNotExist() throws CertificateException, IOException
         {
             when(ctx.getStub()).thenReturn(stub);
@@ -516,28 +539,6 @@ public final class FabCarTest
         }
 
 
-        @Test
-        public void whenUuidIsAlreadyAssignedToAnotherTraceabilityData() throws CertificateException, IOException
-        {
-
-            when(ctx.getStub()).thenReturn(stub);
-            when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
-
-            putMockEntityToDB(100, 0);
-            String serializedTraceabilityData = genson.serialize(traceabilityData);
-
-            String uuid = "uuid";
-            putEntryToDB(ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + "-" + uuid, serializedTraceabilityData);
-
-            Throwable thrown = catchThrowable(() ->
-            {
-                contract.createTraceabilityDataEntry(ctx, uuid, traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
-                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
-                        processingDetails.getSoftwareConfigParams());
-            });
-
-            assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("The id you have provided is not unique: it is already assigned to another object of the same type. Please try with a different id.Id used was: " + uuid);
-        }
 
     }
 }
