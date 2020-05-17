@@ -34,13 +34,7 @@ public final class iReceptorChainTest
     private MockClientIdentity mockClientIdentity;
     private ClientIdentity clientIdentity;
     private EntityData entityData;
-    private String entityID;
-    private String mockClientIdentityAsJson;
-    private String entityDataAsJson;
     private MockTraceabilityData mockTraceabilityData;
-    private TraceabilityDataAwatingValidation traceabilityData;
-    private String entityKeyOnDB;
-    private ProcessingDetails processingDetails;
 
 
     public iReceptorChainTest() throws CertificateException, IOException
@@ -62,16 +56,9 @@ public final class iReceptorChainTest
         setMockClientIdentity(new MockClientIdentity());
 
         setClientIdentity(getMockClientIdentity().clientIdentity);
-        setEntityID(getMockClientIdentity().id);
-        setMockClientIdentityAsJson(getMockClientIdentity().asJson);
-        setEntityData(new EntityData(getEntityID()));
-        setEntityDataAsJson(genson.serialize(getEntityData()));
+        setEntityData(new EntityData(clientIdentity.getId()));
 
         setMockTraceabilityData(new MockTraceabilityData());
-        setTraceabilityData(getMockTraceabilityData().traceabilityData);
-        setProcessingDetails(getTraceabilityData().getProcessingDetails());
-
-        setEntityKeyOnDB(ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID());
     }
 
     private void putMockEntityToDB(String entityID, long reputation, long reputationAtStake)
@@ -119,17 +106,17 @@ public final class iReceptorChainTest
 
     public String getEntityID()
     {
-        return entityID;
+        return entityData.getId();
     }
 
     public String getMockClientIdentityAsJson()
     {
-        return mockClientIdentityAsJson;
+        return genson.serialize(mockClientIdentity);
     }
 
     public String getEntityDataAsJson()
     {
-        return entityDataAsJson;
+        return genson.serialize(entityData);
     }
 
     public MockTraceabilityData getMockTraceabilityData()
@@ -139,17 +126,17 @@ public final class iReceptorChainTest
 
     public TraceabilityDataAwatingValidation getTraceabilityData()
     {
-        return traceabilityData;
+        return mockTraceabilityData.traceabilityData;
     }
 
     public String getEntityKeyOnDB()
     {
-        return entityKeyOnDB;
+        return ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID();
     }
 
     public ProcessingDetails getProcessingDetails()
     {
-        return processingDetails;
+        return getTraceabilityData().getProcessingDetails();
     }
 
     public void setGenson(Genson genson)
@@ -187,39 +174,9 @@ public final class iReceptorChainTest
         this.entityData = entityData;
     }
 
-    public void setEntityID(String entityID)
-    {
-        this.entityID = entityID;
-    }
-
-    public void setMockClientIdentityAsJson(String mockClientIdentityAsJson)
-    {
-        this.mockClientIdentityAsJson = mockClientIdentityAsJson;
-    }
-
-    public void setEntityDataAsJson(String entityDataAsJson)
-    {
-        this.entityDataAsJson = entityDataAsJson;
-    }
-
     public void setMockTraceabilityData(MockTraceabilityData mockTraceabilityData)
     {
         this.mockTraceabilityData = mockTraceabilityData;
-    }
-
-    public void setTraceabilityData(TraceabilityDataAwatingValidation traceabilityData)
-    {
-        this.traceabilityData = traceabilityData;
-    }
-
-    public void setEntityKeyOnDB(String entityKeyOnDB)
-    {
-        this.entityKeyOnDB = entityKeyOnDB;
-    }
-
-    public void setProcessingDetails(ProcessingDetails processingDetails)
-    {
-        this.processingDetails = processingDetails;
     }
 
     @Nested
