@@ -40,13 +40,10 @@ public final class iReceptorChainTest
     {
     }
 
-
-
     public void putEntryToDB(Context context, String key, String value)
     {
         when(context.getStub().getStringState(key)).thenReturn(value);
     }
-
 
     @Nested
     class CreateEntityTransaction
