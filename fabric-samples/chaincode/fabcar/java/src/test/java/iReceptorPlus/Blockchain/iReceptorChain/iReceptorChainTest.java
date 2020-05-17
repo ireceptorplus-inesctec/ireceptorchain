@@ -33,9 +33,9 @@ public final class iReceptorChainTest
     private ChaincodeStub stub;
     private MockClientIdentity mockClientIdentity;
     private ClientIdentity clientIdentity;
+    private EntityData entityData;
     private String entityID;
     private String mockClientIdentityAsJson;
-    private EntityData entityData;
     private String entityDataAsJson;
     private MockTraceabilityData mockTraceabilityData;
     private TraceabilityDataAwatingValidation traceabilityData;
@@ -82,14 +82,14 @@ public final class iReceptorChainTest
         putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, entityDataAsJson);
     }
 
+    public Genson getGenson()
+    {
+        return genson;
+    }
+
     public iReceptorChain getContract()
     {
         return contract;
-    }
-
-    public void setContract(iReceptorChain contract)
-    {
-        this.contract = contract;
     }
 
     public Context getCtx()
@@ -97,19 +97,9 @@ public final class iReceptorChainTest
         return ctx;
     }
 
-    public void setCtx(Context ctx)
-    {
-        this.ctx = ctx;
-    }
-
     public ChaincodeStub getStub()
     {
         return stub;
-    }
-
-    public void setStub(ChaincodeStub stub)
-    {
-        this.stub = stub;
     }
 
     public MockClientIdentity getMockClientIdentity()
@@ -117,39 +107,9 @@ public final class iReceptorChainTest
         return mockClientIdentity;
     }
 
-    public void setMockClientIdentity(MockClientIdentity mockClientIdentity)
-    {
-        this.mockClientIdentity = mockClientIdentity;
-    }
-
     public ClientIdentity getClientIdentity()
     {
         return clientIdentity;
-    }
-
-    public void setClientIdentity(ClientIdentity clientIdentity)
-    {
-        this.clientIdentity = clientIdentity;
-    }
-
-    public String getEntityID()
-    {
-        return entityID;
-    }
-
-    public void setEntityID(String entityID)
-    {
-        this.entityID = entityID;
-    }
-
-    public String getMockClientIdentityAsJson()
-    {
-        return mockClientIdentityAsJson;
-    }
-
-    public void setMockClientIdentityAsJson(String mockClientIdentityAsJson)
-    {
-        this.mockClientIdentityAsJson = mockClientIdentityAsJson;
     }
 
     public EntityData getEntityData()
@@ -157,9 +117,14 @@ public final class iReceptorChainTest
         return entityData;
     }
 
-    public void setEntityData(EntityData entityData)
+    public String getEntityID()
     {
-        this.entityData = entityData;
+        return entityID;
+    }
+
+    public String getMockClientIdentityAsJson()
+    {
+        return mockClientIdentityAsJson;
     }
 
     public String getEntityDataAsJson()
@@ -167,19 +132,9 @@ public final class iReceptorChainTest
         return entityDataAsJson;
     }
 
-    public void setEntityDataAsJson(String entityDataAsJson)
-    {
-        this.entityDataAsJson = entityDataAsJson;
-    }
-
     public MockTraceabilityData getMockTraceabilityData()
     {
         return mockTraceabilityData;
-    }
-
-    public void setMockTraceabilityData(MockTraceabilityData mockTraceabilityData)
-    {
-        this.mockTraceabilityData = mockTraceabilityData;
     }
 
     public TraceabilityDataAwatingValidation getTraceabilityData()
@@ -187,24 +142,79 @@ public final class iReceptorChainTest
         return traceabilityData;
     }
 
-    public void setTraceabilityData(TraceabilityDataAwatingValidation traceabilityData)
-    {
-        this.traceabilityData = traceabilityData;
-    }
-
     public String getEntityKeyOnDB()
     {
         return entityKeyOnDB;
     }
 
-    public void setEntityKeyOnDB(String entityKeyOnDB)
-    {
-        this.entityKeyOnDB = entityKeyOnDB;
-    }
-
     public ProcessingDetails getProcessingDetails()
     {
         return processingDetails;
+    }
+
+    public void setGenson(Genson genson)
+    {
+        this.genson = genson;
+    }
+
+    public void setContract(iReceptorChain contract)
+    {
+        this.contract = contract;
+    }
+
+    public void setCtx(Context ctx)
+    {
+        this.ctx = ctx;
+    }
+
+    public void setStub(ChaincodeStub stub)
+    {
+        this.stub = stub;
+    }
+
+    public void setMockClientIdentity(MockClientIdentity mockClientIdentity)
+    {
+        this.mockClientIdentity = mockClientIdentity;
+    }
+
+    public void setClientIdentity(ClientIdentity clientIdentity)
+    {
+        this.clientIdentity = clientIdentity;
+    }
+
+    public void setEntityData(EntityData entityData)
+    {
+        this.entityData = entityData;
+    }
+
+    public void setEntityID(String entityID)
+    {
+        this.entityID = entityID;
+    }
+
+    public void setMockClientIdentityAsJson(String mockClientIdentityAsJson)
+    {
+        this.mockClientIdentityAsJson = mockClientIdentityAsJson;
+    }
+
+    public void setEntityDataAsJson(String entityDataAsJson)
+    {
+        this.entityDataAsJson = entityDataAsJson;
+    }
+
+    public void setMockTraceabilityData(MockTraceabilityData mockTraceabilityData)
+    {
+        this.mockTraceabilityData = mockTraceabilityData;
+    }
+
+    public void setTraceabilityData(TraceabilityDataAwatingValidation traceabilityData)
+    {
+        this.traceabilityData = traceabilityData;
+    }
+
+    public void setEntityKeyOnDB(String entityKeyOnDB)
+    {
+        this.entityKeyOnDB = entityKeyOnDB;
     }
 
     public void setProcessingDetails(ProcessingDetails processingDetails)
