@@ -18,9 +18,8 @@ public class MockTraceabilityData
                 new ProcessingDetails("softwareId", "softwareVersion", "softwareBinaryExecutableHashValue", "softwareConfigParams"), new EntityID(mockClientIdentity.id));
     }
 
-    public MockTraceabilityData(String creatorID) throws CertificateException, IOException
+    public MockTraceabilityData(String creatorID)
     {
-        MockClientIdentity mockClientIdentity = new MockClientIdentity();
         traceabilityData = new TraceabilityDataAwatingValidation("inputDatasetHashValue", "outputDatasetHashValue",
                 new ProcessingDetails("softwareId", "softwareVersion", "softwareBinaryExecutableHashValue", "softwareConfigParams"), new EntityID(creatorID));
     }
