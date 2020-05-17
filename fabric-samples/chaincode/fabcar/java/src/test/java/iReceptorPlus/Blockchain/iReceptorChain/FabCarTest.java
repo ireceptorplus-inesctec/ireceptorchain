@@ -376,13 +376,13 @@ public final class FabCarTest {
         private EntityData entityData;
         private String entityDataAsJson;
         private MockTraceabilityData mockTraceabilityData;
-        private TraceabilityData traceabilityData;
+        private TraceabilityDataAwatingValidation traceabilityData;
         private String entityKeyOnDB;
         private ProcessingDetails processingDetails;
 
         public class MockTraceabilityData
         {
-            TraceabilityData traceabilityData;
+            TraceabilityDataAwatingValidation traceabilityData;
 
             public MockTraceabilityData() throws CertificateException, IOException
             {
@@ -483,6 +483,27 @@ public final class FabCarTest {
             putEntryToDB(ctx, ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, entityDataAsJson);
         }
 
+
+        @Test
+        public void whenUuidIsAlreadyAssignedToAnotherTraceabilityData() throws CertificateException, IOException
+        {
+            when(ctx.getStub()).thenReturn(stub);
+            when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
+
+            putMockEntityToDB(100, 0);
+            String serializedTraceabilityData = genson.serialize(traceabilityData);
+            TraceabilityData data = genson.deserialize(serializedTraceabilityData, TraceabilityDataAwatingValidation.class);
+            putEntryToDB(ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + "-" + "uuid", serializedTraceabilityData);
+
+            Throwable thrown = catchThrowable(() -> {
+                contract.createTraceabilityDataEntry(ctx, "uuid", traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
+                        processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
+                        processingDetails.getSoftwareConfigParams());
+            });
+
+
+
+        }
 
         }
 }
