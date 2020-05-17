@@ -63,9 +63,10 @@ public final class iReceptorChainTest
         putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, entityDataAsJson);
     }
 
-    private void putMockTraceabilityDataToDB(String id, TraceabilityData traceabilityData, long reputation, long reputationAtStake)
+    private void putMockTraceabilityDataToDB(String id, String creatorID)
     {
-        String traceabilityDataAsJson = genson.serialize(traceabilityData);
+        MockTraceabilityData mockTraceabilityData = new MockTraceabilityData(creatorID);
+        String traceabilityDataAsJson = genson.serialize(mockTraceabilityData.traceabilityData);
 
         putEntryToDB(getCtx(), ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + "-" + id, traceabilityDataAsJson);
     }
