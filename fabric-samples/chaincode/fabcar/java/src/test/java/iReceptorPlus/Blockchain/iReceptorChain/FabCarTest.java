@@ -20,6 +20,7 @@ import java.util.List;
 
 import com.owlike.genson.Genson;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwatingValidationReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.EntityDataInfo;
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
@@ -539,6 +540,23 @@ public final class FabCarTest
         }
 
 
+        @Test
+        public void whenAllIsFine() throws CertificateException, IOException
+        {
+            when(ctx.getStub()).thenReturn(stub);
+            when(ctx.getClientIdentity()).thenReturn(mockClientIdentity.clientIdentity);
+
+            putMockEntityToDB(100, 0);
+
+            String uuid = "uuid";
+            TraceabilityDataAwatingValidationReturnType returned = contract.createTraceabilityDataEntry(ctx, uuid, traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
+                    processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
+                    processingDetails.getSoftwareConfigParams());
+
+            TraceabilityDataAwatingValidationReturnType expected = new TraceabilityDataAwatingValidationReturnType(uuid, traceabilityData);
+
+            assertThat(returned).isEqualTo(expected);
+        }
 
     }
 }
