@@ -41,12 +41,6 @@ public final class iReceptorChainTest
     {
     }
 
-    public void putEntryToDB(Context context, String key, String value)
-    {
-        when(context.getStub().getStringState(key)).thenReturn(value);
-    }
-
-
     @BeforeEach
     private void initVariables() throws CertificateException, IOException
     {
@@ -67,6 +61,11 @@ public final class iReceptorChainTest
         String entityDataAsJson = genson.serialize(entityData);
 
         putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, entityDataAsJson);
+    }
+
+    public void putEntryToDB(Context context, String key, String value)
+    {
+        when(context.getStub().getStringState(key)).thenReturn(value);
     }
 
     public Genson getGenson()
@@ -335,4 +334,4 @@ public final class iReceptorChainTest
 
     }
 
-}
+    }
