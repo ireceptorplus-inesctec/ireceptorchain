@@ -45,17 +45,17 @@ public class AwaitingValidation extends State
         {
             RoundFinisher roundFinisher = new RoundFinisher();
             roundFinisher.approveTraceabilityDataEntry(traceabilityData);
-            return new VotingStateMachineReturn("Vote submitted successfully. Traceability data was approved", true);
+            return new VotingStateMachineReturn("Vote submitted successfully. Traceability data was approved.", true);
         }
         try
         {
             api.update(traceabilityDataInfo);
         } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
         {
-            throw new IncosistentInfoFoundOnDB("key is already assigned to another object on trying to update traceability entry after registering yes vote");
+            throw new IncosistentInfoFoundOnDB("key is already assigned to another object on trying to update traceability entry after registering yes vote.");
         }
 
-        return new VotingStateMachineReturn("Vote submitted successfully. Traceability data remains waiting for validation", false);
+        return new VotingStateMachineReturn("Vote submitted successfully. Traceability data remains waiting for validation.", false);
     }
 
     private boolean conditionToApproveTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
@@ -66,7 +66,6 @@ public class AwaitingValidation extends State
     @Override
     public VotingStateMachineReturn voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
-        VotingStateMachineReturn ret;
         long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
         EntityReputationManager entityReputationManager = new EntityReputationManager(api);
         try
@@ -91,7 +90,10 @@ public class AwaitingValidation extends State
         {
             RoundFinisher roundFinisher = new RoundFinisher();
             roundFinisher.rejectTraceabilityDataEntry(traceabilityData);
+            return new VotingStateMachineReturn("Vote submitted successfully. Traceability data was rejected.", true);
         }
+
+        return new VotingStateMachineReturn("Vote submitted successfully. Traceability data remains waiting for validation.", false);
     }
 
     private boolean conditionToRejectTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
