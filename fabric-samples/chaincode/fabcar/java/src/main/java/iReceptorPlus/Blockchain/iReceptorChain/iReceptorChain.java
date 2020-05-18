@@ -22,6 +22,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.EntityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.*;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Returns.VotingStateMachineReturn;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.TraceabilityInfoStateMachine;
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
@@ -464,10 +465,10 @@ public final class iReceptorChain implements ContractInterface {
         logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound");
 
         TraceabilityInfoStateMachine traceabilityInfoStateMachine = getTraceabilityDataFromDBAndBuildVotingStateMachine(ctx, uuid);
-
+        VotingStateMachineReturn votingStateMachineReturn;
         try
         {
-            traceabilityInfoStateMachine.voteYesForTheVeracityOfTraceabilityInfo(getEntityIdFromContext(ctx));
+            votingStateMachineReturn = traceabilityInfoStateMachine.voteYesForTheVeracityOfTraceabilityInfo(getEntityIdFromContext(ctx));
         } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
         {
             throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
@@ -481,7 +482,7 @@ public final class iReceptorChain implements ContractInterface {
 
         logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound END");
 
-        return "Vote submitted Successfully";
+        return votingStateMachineReturn.getMessage();
     }
 
     /**
