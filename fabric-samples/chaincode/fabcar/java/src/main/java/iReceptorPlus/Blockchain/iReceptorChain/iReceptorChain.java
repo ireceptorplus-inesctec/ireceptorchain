@@ -542,7 +542,9 @@ public final class iReceptorChain implements ContractInterface {
             throw new ChaincodeException(objectWithGivenKeyNotFoundOnBlockchainDB.getMessage());
         }
 
-        if (ctx.getClientIdentity().getId().equals(traceabilityData.getCreatorID()))
+        String voterID = ctx.getClientIdentity().getId();
+        String creatorID = traceabilityData.getCreatorID().getId();
+        if (voterID.equals(creatorID))
             throw new ChaincodeException("Creator of traceability data cannot vote for it.");
 
         TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(uuid, traceabilityData);
