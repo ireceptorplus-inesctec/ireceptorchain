@@ -364,6 +364,26 @@ public final class iReceptorChainTest
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Reference to nonexistent entity.Id used was: " + getEntityID());
 
         }
+
+
+        @Test
+        public void whenVoterIsTheSameAsCreator() throws CertificateException, IOException
+        {
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
+
+            putMockEntityToDB(getEntityID(), 100, 0);
+            putMockTraceabilityDataToDB("uuid", getEntityID());
+
+            Throwable thrown = catchThrowable(() ->
+            {
+                getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), "uuid");
+            });
+
+            assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Creator of traceability data cannot vote for it.");
+
+
+        }
     }
 
     }
