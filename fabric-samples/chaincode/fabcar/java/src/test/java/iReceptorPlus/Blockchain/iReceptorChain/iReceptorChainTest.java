@@ -76,6 +76,15 @@ public final class iReceptorChainTest
         when(context.getStub().getStringState(key)).thenReturn(value);
     }
 
+    private void setEntityReputation(long reputation, long reputationAtStake)
+    {
+        //override setup entity data and make entity not have enough reputation for this test
+        EntityData entityData = new EntityData(getEntityID(), reputation, reputationAtStake);
+        String entityDataAsJson = genson.serialize(entityData);
+
+        putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID(), entityDataAsJson);
+    }
+
     public Genson getGenson()
     {
         return genson;
@@ -313,15 +322,6 @@ public final class iReceptorChainTest
             assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is 30");
         }
 
-        private void setEntityReputation(long reputation, long reputationAtStake)
-        {
-            //override setup entity data and make entity not have enough reputation for this test
-            EntityData entityData = new EntityData(getEntityID(), reputation, reputationAtStake);
-            String entityDataAsJson = genson.serialize(entityData);
-
-            putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID(), entityDataAsJson);
-        }
-
         @Test
         public void whenAllIsFine() throws CertificateException, IOException
         {
@@ -344,7 +344,6 @@ public final class iReceptorChainTest
     @Nested
     class RegisterYesVoteForTraceabilityData
     {
-
         @Test
         public void whenVoterDoesNotExist() throws CertificateException, IOException
         {
