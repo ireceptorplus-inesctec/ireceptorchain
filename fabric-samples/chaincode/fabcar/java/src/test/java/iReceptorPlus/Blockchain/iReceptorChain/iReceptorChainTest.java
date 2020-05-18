@@ -379,6 +379,7 @@ public final class iReceptorChainTest
     class RegisterVoteForTraceabilityData
     {
         String traceabilityDataUUID = "traceabilityDataUUID";
+        TraceabilityData traceabilityData = getTraceabilityData();
 
         private void whenVoterDoesNotExist()
         {
@@ -511,6 +512,17 @@ public final class iReceptorChainTest
                 assertThat(returned).isEqualTo(expected);
             }
         }
+
+
+        @Test
+        public void whenAllIsFineButNotFinishRound() throws CertificateException, IOException
+        {
+            setupVoterExistsAndIsNotTheSameAsCreator();
+
+
+
+        }
+
 
 
         @Nested
