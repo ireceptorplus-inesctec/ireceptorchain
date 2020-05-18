@@ -5,6 +5,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exc
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.IncosistentInfoFoundOnDB;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Returns.VotingStateMachineReturn;
 
 /**
  * This is the sub class for the state machine for the traceability information.
@@ -18,7 +19,7 @@ public class Validated extends State
     }
 
     @Override
-    public void voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB
+    public VotingStateMachineReturn voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB
     {
         traceabilityDataInfo.getTraceabilityData().registerYesVoteForValidity(voterID);
         try
@@ -31,7 +32,7 @@ public class Validated extends State
     }
 
     @Override
-    public void voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID)
+    public VotingStateMachineReturn voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID)
     {
         //TODO ver o que fazer quando alguem vota nao a algo q ja foi aprovado
     }
