@@ -473,6 +473,44 @@ public final class iReceptorChainTest
             assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 1 and necessary reputation is 30");
             assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is 30");
         }
+
+        @Test
+        public void whenAllIsFine() throws CertificateException, IOException
+        {
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
+
+            String traceabilityDataUUID = "traceabilityDataUUID";
+            putMockTraceabilityDataToDB(traceabilityDataUUID, "creator");
+
+            long reputationStakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
+            String expected = "Vote submitted Successfully";
+            String returned;
+
+            setEntityReputation(reputationStakeNecessary, 0);
+            returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+            assertThat(returned).isEqualTo(expected);
+
+            setEntityReputation(reputationStakeNecessary, reputationStakeNecessary);
+            returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+            assertThat(returned).isEqualTo(expected);
+
+            setEntityReputation(reputationStakeNecessary + 1, 0);
+            returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+            assertThat(returned).isEqualTo(expected);
+
+            setEntityReputation(reputationStakeNecessary + 1, reputationStakeNecessary + 1);
+            returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+            assertThat(returned).isEqualTo(expected);
+
+            setEntityReputation(reputationStakeNecessary * 5, 0);
+            returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+            assertThat(returned).isEqualTo(expected);
+
+            setEntityReputation(reputationStakeNecessary * 5, reputationStakeNecessary * 5);
+            returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+            assertThat(returned).isEqualTo(expected);
+        }
     }
 
     }
