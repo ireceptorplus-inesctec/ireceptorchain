@@ -365,7 +365,6 @@ public final class iReceptorChainTest
 
         }
 
-
         @Test
         public void whenVoterIsTheSameAsCreator() throws CertificateException, IOException
         {
@@ -381,8 +380,6 @@ public final class iReceptorChainTest
             });
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Creator of traceability data cannot vote for it.");
-
-
         }
     }
 
