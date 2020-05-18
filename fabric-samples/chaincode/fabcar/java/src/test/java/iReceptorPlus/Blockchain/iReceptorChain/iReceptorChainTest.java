@@ -317,10 +317,10 @@ public final class iReceptorChainTest
                         getProcessingDetails().getSoftwareConfigParams());
             });
 
-            assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is 30");
-            assertThat(thrown2).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is 30");
-            assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 1 and necessary reputation is 30");
-            assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is 30");
+            assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to create traceability data entry. Reputation of entity is 0 and necessary reputation is 30");
+            assertThat(thrown2).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to create traceability data entry. Reputation of entity is 0 and necessary reputation is 30");
+            assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to create traceability data entry. Reputation of entity is 1 and necessary reputation is 30");
+            assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to create traceability data entry. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is 30");
         }
 
         @Test
