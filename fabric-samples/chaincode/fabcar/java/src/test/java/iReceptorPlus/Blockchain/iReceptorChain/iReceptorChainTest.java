@@ -412,6 +412,9 @@ public final class iReceptorChainTest
         @Nested
         class RegisterYesVoteForTraceabilityData
         {
+
+            private long reputationStakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
+
             @Test
             public void whenVoterDoesNotExist() throws CertificateException, IOException
             {
@@ -462,17 +465,17 @@ public final class iReceptorChainTest
                     getContract().registerYesVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
                 });
 
-                long reputationJustBelowLimit = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get() - 1;
+                long reputationJustBelowLimit = reputationStakeNecessary - 1;
                 setEntityReputation(reputationJustBelowLimit, 0);
                 Throwable thrown4 = catchThrowable(() ->
                 {
                     getContract().registerYesVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
                 });
 
-                assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is 30");
-                assertThat(thrown2).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is 30");
-                assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 1 and necessary reputation is 30");
-                assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is 30");
+                assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is " + reputationStakeNecessary);
+                assertThat(thrown2).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is " + reputationStakeNecessary);
+                assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 1 and necessary reputation is " + reputationStakeNecessary);
+                assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is " + reputationStakeNecessary);
             }
 
             @Test
@@ -480,7 +483,6 @@ public final class iReceptorChainTest
             {
                 RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
 
-                long reputationStakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
                 String expected = "Vote submitted Successfully";
                 String returned;
 
@@ -511,8 +513,112 @@ public final class iReceptorChainTest
         }
 
 
+        @Nested
+        class RegisterNoVoteForTraceabilityData
+        {
+
+            private long reputationStakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
+
+            @Test
+            public void whenVoterDoesNotExist() throws CertificateException, IOException
+            {
+                RegisterVoteForTraceabilityData.this.whenVoterDoesNotExist();
+
+                Throwable thrown = catchThrowable(() ->
+                {
+                    getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+                });
+
+                assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Reference to nonexistent entity.Id used was: " + getEntityID());
+
+            }
+
+            @Test
+            public void whenVoterIsTheSameAsCreator() throws CertificateException, IOException
+            {
+                RegisterVoteForTraceabilityData.this.setupVoterIsTheSameAsCreator();
+
+                Throwable thrown = catchThrowable(() ->
+                {
+                    getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+                });
+
+                assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Creator of traceability data cannot vote for it.");
+            }
+
+            @Test
+            public void whenVoterExistsButDoesNotHaveEnoughReputationToVote() throws CertificateException, IOException
+            {
+                RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
+
+                setEntityReputation(0, 0);
+                Throwable thrown = catchThrowable(() ->
+                {
+                    getContract().registerNoVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
+                });
+
+                setEntityReputation(0, 100);
+                Throwable thrown2 = catchThrowable(() ->
+                {
+                    getContract().registerNoVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
+                });
+
+                setEntityReputation(1, 0);
+                Throwable thrown3 = catchThrowable(() ->
+                {
+                    getContract().registerNoVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
+                });
+
+                long reputationJustBelowLimit = reputationStakeNecessary - 1;
+                setEntityReputation(reputationJustBelowLimit, 0);
+                Throwable thrown4 = catchThrowable(() ->
+                {
+                    getContract().registerNoVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
+                });
+
+                assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is " + reputationStakeNecessary);
+                assertThat(thrown2).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is " + reputationStakeNecessary);
+                assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 1 and necessary reputation is " + reputationStakeNecessary);
+                assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is " + reputationStakeNecessary);
+            }
+
+            @Test
+            public void whenAllIsFine() throws CertificateException, IOException
+            {
+                RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
+
+                String expected = "Vote submitted Successfully";
+                String returned;
+
+                setEntityReputation(reputationStakeNecessary, 0);
+                returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+                assertThat(returned).isEqualTo(expected);
+
+                setEntityReputation(reputationStakeNecessary, reputationStakeNecessary);
+                returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+                assertThat(returned).isEqualTo(expected);
+
+                setEntityReputation(reputationStakeNecessary + 1, 0);
+                returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+                assertThat(returned).isEqualTo(expected);
+
+                setEntityReputation(reputationStakeNecessary + 1, reputationStakeNecessary + 1);
+                returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+                assertThat(returned).isEqualTo(expected);
+
+                setEntityReputation(reputationStakeNecessary * 5, 0);
+                returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+                assertThat(returned).isEqualTo(expected);
+
+                setEntityReputation(reputationStakeNecessary * 5, reputationStakeNecessary * 5);
+                returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+                assertThat(returned).isEqualTo(expected);
+            }
+        }
+
+
     }
 
 
+}
 
-    }
