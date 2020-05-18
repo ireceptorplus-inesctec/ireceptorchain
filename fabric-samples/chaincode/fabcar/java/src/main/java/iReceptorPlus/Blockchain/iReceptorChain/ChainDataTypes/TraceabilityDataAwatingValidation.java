@@ -14,14 +14,24 @@ public class TraceabilityDataAwatingValidation extends TraceabilityData
 {
 
 
-    public TraceabilityDataAwatingValidation(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
-                                             @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
-                                             @JsonProperty("processingDetails") final ProcessingDetails processingDetails,
-                                             @JsonProperty("creatorID") final EntityID creatorID)
+    public TraceabilityDataAwatingValidation(String inputDatasetHashValue,
+                                             String outputDatasetHashValue,
+                                             ProcessingDetails processingDetails,
+                                             EntityID creatorID)
     {
         super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID);
         approvers = new ArrayList<>();
         rejecters = new ArrayList<>();
+    }
+
+    public TraceabilityDataAwatingValidation(@JsonProperty("inputDatasetHashValue") String inputDatasetHashValue,
+                                             @JsonProperty("outputDatasetHashValue") String outputDatasetHashValue,
+                                             @JsonProperty("processingDetails") ProcessingDetails processingDetails,
+                                             @JsonProperty("creatorID") EntityID creatorID,
+                                             @JsonProperty("approvers") ArrayList<EntityID> approvers,
+                                             @JsonProperty("rejecters") ArrayList<EntityID> rejecters)
+    {
+        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, approvers, rejecters);
     }
 
     /**

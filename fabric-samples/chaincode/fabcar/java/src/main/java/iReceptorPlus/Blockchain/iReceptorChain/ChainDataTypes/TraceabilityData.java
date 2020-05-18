@@ -57,15 +57,30 @@ public abstract class TraceabilityData implements iReceptorChainDataType
     @Property()
     protected ArrayList<EntityID> rejecters;
 
-    public TraceabilityData(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
-                            @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
-                            @JsonProperty("processingDetails") final ProcessingDetails processingDetails,
-                            @JsonProperty("creatorID") final EntityID creatorID)
+    public TraceabilityData(String inputDatasetHashValue,
+                            String outputDatasetHashValue,
+                            ProcessingDetails processingDetails,
+                            EntityID creatorID)
     {
         this.inputDatasetHashValue = inputDatasetHashValue;
         this.outputDatasetHashValue = outputDatasetHashValue;
         this.processingDetails = processingDetails;
         this.creatorID = creatorID;
+    }
+
+    public TraceabilityData(@JsonProperty("inputDatasetHashValue") String inputDatasetHashValue,
+                            @JsonProperty("outputDatasetHashValue") String outputDatasetHashValue,
+                            @JsonProperty("processingDetails") ProcessingDetails processingDetails,
+                            @JsonProperty("creatorID") EntityID creatorID,
+                            @JsonProperty("approvers") ArrayList<EntityID> approvers,
+                            @JsonProperty("rejecters") ArrayList<EntityID> rejecters)
+    {
+        this.inputDatasetHashValue = inputDatasetHashValue;
+        this.outputDatasetHashValue = outputDatasetHashValue;
+        this.processingDetails = processingDetails;
+        this.creatorID = creatorID;
+        this.approvers = approvers;
+        this.rejecters = rejecters;
     }
 
     public String getInputDatasetHashValue()
