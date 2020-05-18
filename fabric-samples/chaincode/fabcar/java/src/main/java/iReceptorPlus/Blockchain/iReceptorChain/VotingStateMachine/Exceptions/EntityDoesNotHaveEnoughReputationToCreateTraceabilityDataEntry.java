@@ -4,7 +4,7 @@ public class EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry exte
 {
     public EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry(Long reputationOfEntity, Long necessaryReputationForCreating)
     {
-        super("Entity does not have enough reputation to place vote.", reputationOfEntity, necessaryReputationForCreating);
+        super("Entity does not have enough reputation to create traceability data entry.", reputationOfEntity, necessaryReputationForCreating);
     }
 
     @Override
