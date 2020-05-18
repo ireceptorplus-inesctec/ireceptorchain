@@ -71,6 +71,13 @@ public final class iReceptorChainTest
         putEntryToDB(getCtx(), ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + "-" + id, traceabilityDataAsJson);
     }
 
+    private void putTraceabilityDataToDB(String id, TraceabilityData traceabilityData)
+    {
+        String traceabilityDataAsJson = genson.serialize(traceabilityData);
+
+        putEntryToDB(getCtx(), ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + "-" + id, traceabilityDataAsJson);
+    }
+
     public void putEntryToDB(Context context, String key, String value)
     {
         when(context.getStub().getStringState(key)).thenReturn(value);
@@ -379,10 +386,11 @@ public final class iReceptorChainTest
     class RegisterVoteForTraceabilityData
     {
         String traceabilityDataUUID = "traceabilityDataUUID";
-        TraceabilityData traceabilityData = getTraceabilityData();
+        TraceabilityData traceabilityData;
 
         private void whenVoterDoesNotExist()
         {
+            traceabilityData = getTraceabilityData();
             when(getCtx().getStub()).thenReturn(getStub());
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
@@ -394,6 +402,7 @@ public final class iReceptorChainTest
 
         private void setupVoterIsTheSameAsCreator()
         {
+            traceabilityData = getTraceabilityData();
             when(getCtx().getStub()).thenReturn(getStub());
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
@@ -403,6 +412,7 @@ public final class iReceptorChainTest
 
         private void setupVoterExistsAndIsNotTheSameAsCreator()
         {
+            traceabilityData = getTraceabilityData();
             when(getCtx().getStub()).thenReturn(getStub());
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
@@ -511,17 +521,9 @@ public final class iReceptorChainTest
                 returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
                 assertThat(returned).isEqualTo(expected);
             }
-        }
-
-
-        @Test
-        public void whenAllIsFineButNotFinishRound() throws CertificateException, IOException
-        {
-            setupVoterExistsAndIsNotTheSameAsCreator();
-
-
 
         }
+
 
 
 
