@@ -29,12 +29,15 @@ public class Validated extends State
         {
             throw new IncosistentInfoFoundOnDB("key is already assigned to another object on trying to create new traceability entry in order to switch state");
         }
+
+        return new VotingStateMachineReturn("Traceability data corroborated successfully. It remains on Valited state.", false)
     }
 
     @Override
     public VotingStateMachineReturn voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID)
     {
         //TODO ver o que fazer quando alguem vota nao a algo q ja foi aprovado
+        return null;
     }
 
 }
