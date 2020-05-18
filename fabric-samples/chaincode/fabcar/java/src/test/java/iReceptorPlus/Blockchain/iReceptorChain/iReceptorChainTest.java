@@ -332,65 +332,45 @@ public final class iReceptorChainTest
             String uuid = "uuid";
             long reputationStakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
 
-            setEntityReputation(reputationStakeNecessary, 0);
-            {
-                TraceabilityDataAwatingValidationReturnType returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams());
+            TraceabilityDataAwatingValidationReturnType returned;
+            TraceabilityDataAwatingValidationReturnType expected = new TraceabilityDataAwatingValidationReturnType(uuid, getTraceabilityData());
 
-                TraceabilityDataAwatingValidationReturnType expected = new TraceabilityDataAwatingValidationReturnType(uuid, getTraceabilityData());
-                assertThat(returned).isEqualTo(expected);
-            }
+            setEntityReputation(reputationStakeNecessary, 0);
+            returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                    getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
+                    getProcessingDetails().getSoftwareConfigParams());
+            assertThat(returned).isEqualTo(expected);
 
             setEntityReputation(reputationStakeNecessary, reputationStakeNecessary);
-            {
-                TraceabilityDataAwatingValidationReturnType returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams());
+            returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                    getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
+                    getProcessingDetails().getSoftwareConfigParams());
+            assertThat(returned).isEqualTo(expected);
 
-                TraceabilityDataAwatingValidationReturnType expected = new TraceabilityDataAwatingValidationReturnType(uuid, getTraceabilityData());
-                assertThat(returned).isEqualTo(expected);
-            }
-
-            setEntityReputation(reputationStakeNecessary + 1, 0);
-            {
-                TraceabilityDataAwatingValidationReturnType returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams());
-
-                TraceabilityDataAwatingValidationReturnType expected = new TraceabilityDataAwatingValidationReturnType(uuid, getTraceabilityData());
-                assertThat(returned).isEqualTo(expected);
-            }
+            setEntityReputation(reputationStakeNecessary, 0);
+            returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                    getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
+                    getProcessingDetails().getSoftwareConfigParams());
+            assertThat(returned).isEqualTo(expected);
 
             setEntityReputation(reputationStakeNecessary + 1, reputationStakeNecessary + 1);
-            {
-                TraceabilityDataAwatingValidationReturnType returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams());
+            returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                    getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
+                    getProcessingDetails().getSoftwareConfigParams());
+            assertThat(returned).isEqualTo(expected);
 
-                TraceabilityDataAwatingValidationReturnType expected = new TraceabilityDataAwatingValidationReturnType(uuid, getTraceabilityData());
-                assertThat(returned).isEqualTo(expected);
-            }
-
-            setEntityReputation(reputationStakeNecessary * 5, 0);
-            {
-                TraceabilityDataAwatingValidationReturnType returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams());
-
-                TraceabilityDataAwatingValidationReturnType expected = new TraceabilityDataAwatingValidationReturnType(uuid, getTraceabilityData());
-                assertThat(returned).isEqualTo(expected);
-            }
+            setEntityReputation(reputationStakeNecessary, 0);
+            returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                    getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
+                    getProcessingDetails().getSoftwareConfigParams());
+            assertThat(returned).isEqualTo(expected);
 
             setEntityReputation(reputationStakeNecessary * 5, reputationStakeNecessary * 5);
-            {
-                TraceabilityDataAwatingValidationReturnType returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams());
+            returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                    getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
+                    getProcessingDetails().getSoftwareConfigParams());
+            assertThat(returned).isEqualTo(expected);
 
-                TraceabilityDataAwatingValidationReturnType expected = new TraceabilityDataAwatingValidationReturnType(uuid, getTraceabilityData());
-                assertThat(returned).isEqualTo(expected);
-            }
         }
 
     }
