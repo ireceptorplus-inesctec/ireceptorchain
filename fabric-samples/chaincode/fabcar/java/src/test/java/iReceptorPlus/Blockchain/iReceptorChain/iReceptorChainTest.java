@@ -380,19 +380,42 @@ public final class iReceptorChainTest
     {
         String traceabilityDataUUID = "traceabilityDataUUID";
 
+        private void whenVoterDoesNotExist()
+        {
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
+
+            //ensure no entity is returned upon querying the DB
+            putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID(), "");
+
+            putMockTraceabilityDataToDB(traceabilityDataUUID, "creator");
+        }
+
+        private void setupVoterIsTheSameAsCreator()
+        {
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
+
+            putMockEntityToDB(getEntityID(), 100, 0);
+            putMockTraceabilityDataToDB(traceabilityDataUUID, getEntityID());
+        }
+
+        private void setupVoterExistsAndIsNotTheSameAsCreator()
+        {
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
+
+
+            putMockTraceabilityDataToDB(traceabilityDataUUID, "creator");
+        }
+
         @Nested
         class RegisterYesVoteForTraceabilityData
         {
             @Test
             public void whenVoterDoesNotExist() throws CertificateException, IOException
             {
-                when(getCtx().getStub()).thenReturn(getStub());
-                when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
-
-                //ensure no entity is returned upon querying the DB
-                putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID(), "");
-
-                putMockTraceabilityDataToDB(traceabilityDataUUID, "creator");
+                RegisterVoteForTraceabilityData.this.whenVoterDoesNotExist();
 
                 Throwable thrown = catchThrowable(() ->
                 {
@@ -406,11 +429,7 @@ public final class iReceptorChainTest
             @Test
             public void whenVoterIsTheSameAsCreator() throws CertificateException, IOException
             {
-                when(getCtx().getStub()).thenReturn(getStub());
-                when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
-
-                putMockEntityToDB(getEntityID(), 100, 0);
-                putMockTraceabilityDataToDB(traceabilityDataUUID, getEntityID());
+                RegisterVoteForTraceabilityData.this.setupVoterIsTheSameAsCreator();
 
                 Throwable thrown = catchThrowable(() ->
                 {
@@ -423,11 +442,7 @@ public final class iReceptorChainTest
             @Test
             public void whenVoterExistsButDoesNotHaveEnoughReputationToVote() throws CertificateException, IOException
             {
-                when(getCtx().getStub()).thenReturn(getStub());
-                when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
-
-
-                putMockTraceabilityDataToDB(traceabilityDataUUID, "creator");
+                whenVoterExistsButDoesNotHaveEnoughReputationToVote();
 
                 setEntityReputation(0, 0);
                 Throwable thrown = catchThrowable(() ->
@@ -463,10 +478,7 @@ public final class iReceptorChainTest
             @Test
             public void whenAllIsFine() throws CertificateException, IOException
             {
-                when(getCtx().getStub()).thenReturn(getStub());
-                when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
-
-                putMockTraceabilityDataToDB(traceabilityDataUUID, "creator");
+                RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
 
                 long reputationStakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
                 String expected = "Vote submitted Successfully";
