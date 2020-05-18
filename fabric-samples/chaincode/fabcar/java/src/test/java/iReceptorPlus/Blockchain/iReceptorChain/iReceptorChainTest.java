@@ -415,6 +415,7 @@ public final class iReceptorChainTest
             traceabilityData = getTraceabilityData();
             when(getCtx().getStub()).thenReturn(getStub());
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
+            putMockEntityToDB("creator", 100, 100);
 
 
             putMockTraceabilityDataToDB(traceabilityDataUUID, "creator");
