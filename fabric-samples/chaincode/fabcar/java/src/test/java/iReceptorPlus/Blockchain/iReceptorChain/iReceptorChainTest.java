@@ -378,6 +378,8 @@ public final class iReceptorChainTest
     @Nested
     class RegisterVoteForTraceabilityData
     {
+        String traceabilityDataUUID = "traceabilityDataUUID";
+
         @Nested
         class RegisterYesVoteForTraceabilityData
         {
@@ -390,11 +392,11 @@ public final class iReceptorChainTest
                 //ensure no entity is returned upon querying the DB
                 putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID(), "");
 
-                putMockTraceabilityDataToDB("uuid", "creator");
+                putMockTraceabilityDataToDB(traceabilityDataUUID, "creator");
 
                 Throwable thrown = catchThrowable(() ->
                 {
-                    getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), "uuid");
+                    getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
                 });
 
                 assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Reference to nonexistent entity.Id used was: " + getEntityID());
@@ -408,11 +410,11 @@ public final class iReceptorChainTest
                 when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
                 putMockEntityToDB(getEntityID(), 100, 0);
-                putMockTraceabilityDataToDB("uuid", getEntityID());
+                putMockTraceabilityDataToDB(traceabilityDataUUID, getEntityID());
 
                 Throwable thrown = catchThrowable(() ->
                 {
-                    getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), "uuid");
+                    getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
                 });
 
                 assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Creator of traceability data cannot vote for it.");
@@ -424,7 +426,7 @@ public final class iReceptorChainTest
                 when(getCtx().getStub()).thenReturn(getStub());
                 when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
-                String traceabilityDataUUID = "traceabilityDataUUID";
+
                 putMockTraceabilityDataToDB(traceabilityDataUUID, "creator");
 
                 setEntityReputation(0, 0);
@@ -464,7 +466,6 @@ public final class iReceptorChainTest
                 when(getCtx().getStub()).thenReturn(getStub());
                 when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
-                String traceabilityDataUUID = "traceabilityDataUUID";
                 putMockTraceabilityDataToDB(traceabilityDataUUID, "creator");
 
                 long reputationStakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
