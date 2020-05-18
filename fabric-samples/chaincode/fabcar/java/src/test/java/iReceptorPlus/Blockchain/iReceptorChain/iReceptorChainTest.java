@@ -534,6 +534,28 @@ public final class iReceptorChainTest
                 Long confirmationsJustBelowNecessaryForApproval = ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid.get() - 1;
 
                 TraceabilityData traceabilityData = new MockTraceabilityData("creator").traceabilityData;
+                putTraceabilityDataJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, traceabilityData);
+
+                setEntityReputation(reputationStakeNecessary, 0);
+                putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
+
+                expected = "Vote submitted successfully. Traceability data was approved.";
+                returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+                assertThat(returned).isEqualTo(expected);
+
+                //reset and test with down votes
+                traceabilityData = new MockTraceabilityData("creator").traceabilityData;
+                expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
+                putTraceabilityDataJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, traceabilityData);
+
+                returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+                assertThat(returned).isEqualTo(expected);
+
+            }
+
+            private void putTraceabilityDataJustBelowApprovalAndVerifyReturns(String expected, Long confirmationsJustBelowNecessaryForApproval, TraceabilityData traceabilityData)
+            {
+                String returned;
                 for (long i = 0; i < confirmationsJustBelowNecessaryForApproval; i++)
                 {
                     setEntityReputation(reputationStakeNecessary, 0);
@@ -545,14 +567,6 @@ public final class iReceptorChainTest
                     traceabilityData.registerYesVoteForValidity(new EntityID(getEntityID()));
 
                 }
-                setEntityReputation(reputationStakeNecessary, 0);
-                putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
-
-                expected = "Vote submitted successfully. Traceability data was approved.";
-                returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
-                assertThat(returned).isEqualTo(expected);
-
-
             }
 
         }
