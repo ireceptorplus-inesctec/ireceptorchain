@@ -33,6 +33,12 @@ public class RoundFinisher
      */
     HyperledgerFabricBlockhainRepositoryAPI api;
 
+    public RoundFinisher(TraceabilityDataInfo traceabilityDataInfo, HyperledgerFabricBlockhainRepositoryAPI api)
+    {
+        this.traceabilityDataInfo = traceabilityDataInfo;
+        this.api = api;
+    }
+
     void approveTraceabilityDataEntry(TraceabilityData traceabilityData) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
     {
         removeTraceabilityDataFromDB();

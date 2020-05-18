@@ -43,7 +43,7 @@ public class AwaitingValidation extends State
         System.err.println("numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue(): " + (double) traceabilityData.getNumberOfApprovers() / traceabilityData.getNumberOfRejecters());
         if (conditionToApproveTraceabilityInfo(traceabilityData.getNumberOfApprovers(), traceabilityData.getNumberOfRejecters()))
         {
-            RoundFinisher roundFinisher = new RoundFinisher();
+            RoundFinisher roundFinisher = new RoundFinisher(traceabilityDataInfo, api);
             roundFinisher.approveTraceabilityDataEntry(traceabilityData);
             return new VotingStateMachineReturn("Vote submitted successfully. Traceability data was approved.", true);
         }
@@ -88,7 +88,7 @@ public class AwaitingValidation extends State
         TraceabilityData traceabilityData = (TraceabilityData) traceabilityDataInfo.getData();
         if (conditionToRejectTraceabilityInfo(traceabilityData.getNumberOfApprovers(), traceabilityData.getNumberOfRejecters()))
         {
-            RoundFinisher roundFinisher = new RoundFinisher();
+            RoundFinisher roundFinisher = new RoundFinisher(traceabilityDataInfo, api);
             roundFinisher.rejectTraceabilityDataEntry(traceabilityData);
             return new VotingStateMachineReturn("Vote submitted successfully. Traceability data was rejected.", true);
         }
