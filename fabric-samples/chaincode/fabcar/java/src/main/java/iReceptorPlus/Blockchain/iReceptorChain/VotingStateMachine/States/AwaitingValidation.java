@@ -26,7 +26,6 @@ public class AwaitingValidation extends State
     @Override
     public VotingStateMachineReturn voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
-        VotingStateMachineReturn ret;
         long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
         EntityReputationManager entityReputationManager = new EntityReputationManager(api);
         try
@@ -46,11 +45,8 @@ public class AwaitingValidation extends State
         {
             RoundFinisher roundFinisher = new RoundFinisher();
             roundFinisher.approveTraceabilityDataEntry(traceabilityData);
-            ret = new VotingStateMachineReturn("Vote submitted successfully. Traceability data was approved", true);
+            return new VotingStateMachineReturn("Vote submitted successfully. Traceability data was approved", true);
         }
-        else
-            ret = new VotingStateMachineReturn("Vote submitted successfully. Traceability data remains waiting for validation", false);
-
         try
         {
             api.update(traceabilityDataInfo);
@@ -59,7 +55,7 @@ public class AwaitingValidation extends State
             throw new IncosistentInfoFoundOnDB("key is already assigned to another object on trying to update traceability entry after registering yes vote");
         }
 
-        return ret;
+        return new VotingStateMachineReturn("Vote submitted successfully. Traceability data remains waiting for validation", false);
     }
 
     private boolean conditionToApproveTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
@@ -70,6 +66,7 @@ public class AwaitingValidation extends State
     @Override
     public VotingStateMachineReturn voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
     {
+        VotingStateMachineReturn ret;
         long stakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
         EntityReputationManager entityReputationManager = new EntityReputationManager(api);
         try
