@@ -284,9 +284,10 @@ public final class iReceptorChainTest
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
             setEntityReputation(0, 0);
+            String traceabilityDataUUID = "traceabilityDataUUID";
             Throwable thrown = catchThrowable(() ->
             {
-                getContract().createTraceabilityDataEntry(getCtx(), "uuid", getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                getContract().createTraceabilityDataEntry(getCtx(), traceabilityDataUUID, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                         getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
                         getProcessingDetails().getSoftwareConfigParams());
             });
@@ -294,7 +295,7 @@ public final class iReceptorChainTest
             setEntityReputation(0, 100);
             Throwable thrown2 = catchThrowable(() ->
             {
-                getContract().createTraceabilityDataEntry(getCtx(), "uuid", getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                getContract().createTraceabilityDataEntry(getCtx(), traceabilityDataUUID, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                         getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
                         getProcessingDetails().getSoftwareConfigParams());
             });
@@ -302,7 +303,7 @@ public final class iReceptorChainTest
             setEntityReputation(1, 0);
             Throwable thrown3 = catchThrowable(() ->
             {
-                getContract().createTraceabilityDataEntry(getCtx(), "uuid", getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                getContract().createTraceabilityDataEntry(getCtx(), traceabilityDataUUID, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                         getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
                         getProcessingDetails().getSoftwareConfigParams());
             });
@@ -311,7 +312,7 @@ public final class iReceptorChainTest
             setEntityReputation(reputationJustBelowLimit, 0);
             Throwable thrown4 = catchThrowable(() ->
             {
-                getContract().createTraceabilityDataEntry(getCtx(), "uuid", getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
+                getContract().createTraceabilityDataEntry(getCtx(), traceabilityDataUUID, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                         getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
                         getProcessingDetails().getSoftwareConfigParams());
             });
