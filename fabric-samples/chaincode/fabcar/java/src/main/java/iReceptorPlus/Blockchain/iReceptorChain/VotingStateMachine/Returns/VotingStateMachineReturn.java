@@ -12,19 +12,13 @@ public abstract class VotingStateMachineReturn
     String message;
 
     /**
-     * A boolean identifying whether the execution was successful or not.
-     */
-    boolean success;
-
-    /**
      * A boolean identifying whether the execution has caused the traceability information to change its state.
      */
     boolean stateChange;
 
-    public VotingStateMachineReturn(String message, boolean success, boolean stateChange)
+    public VotingStateMachineReturn(String message, boolean stateChange)
     {
         this.message = message;
-        this.success = success;
         this.stateChange = stateChange;
     }
 }
