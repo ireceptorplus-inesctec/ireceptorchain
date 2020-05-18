@@ -324,7 +324,7 @@ public final class iReceptorChainTest
         }
 
         @Test
-        public void whenAllIsFine() throws CertificateException, IOException
+        public void whenAllIsFineButNotFinishRound() throws CertificateException, IOException
         {
             when(getCtx().getStub()).thenReturn(getStub());
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
@@ -479,7 +479,7 @@ public final class iReceptorChainTest
             }
 
             @Test
-            public void whenAllIsFine() throws CertificateException, IOException
+            public void whenAllIsFineButNotFinishRound() throws CertificateException, IOException
             {
                 RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
 
