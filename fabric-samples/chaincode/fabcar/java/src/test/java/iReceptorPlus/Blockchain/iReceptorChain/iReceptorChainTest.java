@@ -341,5 +341,29 @@ public final class iReceptorChainTest
         }
 
     }
+    @Nested
+    class RegisterYesVoteForTraceabilityData
+    {
+
+        @Test
+        public void whenVoterDoesNotExist() throws CertificateException, IOException
+        {
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
+
+            //ensure no entity is returned upon querying the DB
+            putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID(), "");
+
+            putMockTraceabilityDataToDB("uuid", "creator");
+
+            Throwable thrown = catchThrowable(() ->
+            {
+                getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), "uuid");
+            });
+
+            assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Reference to nonexistent entity.Id used was: " + getEntityID());
+
+        }
+    }
 
     }
