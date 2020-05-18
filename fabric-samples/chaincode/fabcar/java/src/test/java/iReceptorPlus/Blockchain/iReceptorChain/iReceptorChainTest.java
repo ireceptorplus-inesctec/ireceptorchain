@@ -601,7 +601,7 @@ public final class iReceptorChainTest
             {
                 RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
 
-                String expected = "Vote submitted Successfully";
+                String expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
                 String returned;
 
                 setEntityReputation(reputationStakeNecessary, 0);
