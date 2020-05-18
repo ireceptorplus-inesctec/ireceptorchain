@@ -21,4 +21,14 @@ public class VotingStateMachineReturn
         this.message = message;
         this.stateChange = stateChange;
     }
+
+    public String getMessage()
+    {
+        return message;
+    }
+
+    public boolean isStateChange()
+    {
+        return stateChange;
+    }
 }
