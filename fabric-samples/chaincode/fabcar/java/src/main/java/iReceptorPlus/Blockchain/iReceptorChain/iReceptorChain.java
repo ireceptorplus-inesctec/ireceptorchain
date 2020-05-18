@@ -498,7 +498,6 @@ public final class iReceptorChain implements ContractInterface {
 
         TraceabilityInfoStateMachine traceabilityInfoStateMachine = getTraceabilityDataFromDBAndBuildVotingStateMachine(ctx, uuid);
         VotingStateMachineReturn votingStateMachineReturn;
-        //TODO fix this aldrabation of the entity
         try
         {
             votingStateMachineReturn = traceabilityInfoStateMachine.voteNoForTheVeracityOfTraceabilityInfo(getEntityIdFromContext(ctx));
