@@ -331,7 +331,7 @@ public final class iReceptorChainTest
         }
 
         @Test
-        public void whenAllIsFineButNotFinishRound() throws CertificateException, IOException
+        public void whenAllIsFine() throws CertificateException, IOException
         {
             when(getCtx().getStub()).thenReturn(getStub());
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
