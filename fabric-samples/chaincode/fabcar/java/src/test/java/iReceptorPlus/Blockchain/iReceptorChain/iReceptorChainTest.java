@@ -524,7 +524,7 @@ public final class iReceptorChainTest
             }
 
             @Test
-            public void whenAllIsFineAndFinishRound() throws CertificateException, IOException
+            public void testRoundFinishLogic() throws CertificateException, IOException
             {
                 RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
 
