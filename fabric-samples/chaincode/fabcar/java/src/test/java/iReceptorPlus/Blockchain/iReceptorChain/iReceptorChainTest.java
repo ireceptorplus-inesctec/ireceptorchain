@@ -380,6 +380,46 @@ public final class iReceptorChainTest
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Creator of traceability data cannot vote for it.");
         }
+
+        @Test
+        public void whenVoterExistsButDoesNotHaveEnoughReputationToVote() throws CertificateException, IOException
+        {
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
+
+            String traceabilityDataUUID = "traceabilityDataUUID";
+            putMockTraceabilityDataToDB(traceabilityDataUUID, "creator");
+
+            setEntityReputation(0, 0);
+            Throwable thrown = catchThrowable(() ->
+            {
+                getContract().registerYesVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
+            });
+
+            setEntityReputation(0, 100);
+            Throwable thrown2 = catchThrowable(() ->
+            {
+                getContract().registerYesVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
+            });
+
+            setEntityReputation(1, 0);
+            Throwable thrown3 = catchThrowable(() ->
+            {
+                getContract().registerYesVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
+            });
+
+            long reputationJustBelowLimit = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get() - 1;
+            setEntityReputation(reputationJustBelowLimit, 0);
+            Throwable thrown4 = catchThrowable(() ->
+            {
+                getContract().registerYesVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
+            });
+
+            assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is 30");
+            assertThat(thrown2).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is 30");
+            assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 1 and necessary reputation is 30");
+            assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is 30");
+        }
     }
 
     }
