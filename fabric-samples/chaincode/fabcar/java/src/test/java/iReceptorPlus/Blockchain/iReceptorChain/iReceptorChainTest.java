@@ -442,7 +442,7 @@ public final class iReceptorChainTest
             @Test
             public void whenVoterExistsButDoesNotHaveEnoughReputationToVote() throws CertificateException, IOException
             {
-                whenVoterExistsButDoesNotHaveEnoughReputationToVote();
+                RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
 
                 setEntityReputation(0, 0);
                 Throwable thrown = catchThrowable(() ->
