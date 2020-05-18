@@ -497,11 +497,11 @@ public final class iReceptorChain implements ContractInterface {
         logDebugMsg("registerNoVoteForTraceabilityEntryInVotingRound");
 
         TraceabilityInfoStateMachine traceabilityInfoStateMachine = getTraceabilityDataFromDBAndBuildVotingStateMachine(ctx, uuid);
-
+        VotingStateMachineReturn votingStateMachineReturn;
         //TODO fix this aldrabation of the entity
         try
         {
-            traceabilityInfoStateMachine.voteNoForTheVeracityOfTraceabilityInfo(getEntityIdFromContext(ctx));
+            votingStateMachineReturn = traceabilityInfoStateMachine.voteNoForTheVeracityOfTraceabilityInfo(getEntityIdFromContext(ctx));
         } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
         {
             throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
@@ -516,7 +516,7 @@ public final class iReceptorChain implements ContractInterface {
 
         logDebugMsg("registerNoVoteForTraceabilityEntryInVotingRound END");
 
-        return "Vote submitted Successfully";
+        return votingStateMachineReturn.getMessage();
     }
 
     /**
