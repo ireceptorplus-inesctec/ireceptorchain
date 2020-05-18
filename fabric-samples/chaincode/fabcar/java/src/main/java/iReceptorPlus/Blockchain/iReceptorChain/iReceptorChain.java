@@ -4,8 +4,6 @@
 
 package iReceptorPlus.Blockchain.iReceptorChain;
 
-import java.io.IOException;
-import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -465,7 +463,7 @@ public final class iReceptorChain implements ContractInterface {
 
         logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound");
 
-        TraceabilityInfoStateMachine traceabilityInfoStateMachine = getInfoFromDBAndBuildVotingStateMachine(ctx, uuid);
+        TraceabilityInfoStateMachine traceabilityInfoStateMachine = getTraceabilityDataFromDBAndBuildVotingStateMachine(ctx, uuid);
 
         try
         {
@@ -497,7 +495,7 @@ public final class iReceptorChain implements ContractInterface {
     public String registerNoVoteForTraceabilityEntryInVotingRound(final Context ctx, final String uuid) {
         logDebugMsg("registerNoVoteForTraceabilityEntryInVotingRound");
 
-        TraceabilityInfoStateMachine traceabilityInfoStateMachine = getInfoFromDBAndBuildVotingStateMachine(ctx, uuid);
+        TraceabilityInfoStateMachine traceabilityInfoStateMachine = getTraceabilityDataFromDBAndBuildVotingStateMachine(ctx, uuid);
 
         //TODO fix this aldrabation of the entity
         try
@@ -527,9 +525,9 @@ public final class iReceptorChain implements ContractInterface {
      * @param uuid the UUID of the traceability data entry to support voting for.
      * @return a string identifying the success of the operation.
      */
-    private TraceabilityInfoStateMachine getInfoFromDBAndBuildVotingStateMachine(Context ctx, String uuid)
+    private TraceabilityInfoStateMachine getTraceabilityDataFromDBAndBuildVotingStateMachine(Context ctx, String uuid)
     {
-        logDebugMsg("getInfoFromDBAndBuildVotingStateMachine");
+        logDebugMsg("getTraceabilityDataFromDBAndBuildVotingStateMachine");
 
         ChaincodeStub stub = ctx.getStub();
 
@@ -553,7 +551,7 @@ public final class iReceptorChain implements ContractInterface {
         {
             throw new ChaincodeException("Voting on information with this type is not supported");
         }
-        logDebugMsg("getInfoFromDBAndBuildVotingStateMachine END");
+        logDebugMsg("getTraceabilityDataFromDBAndBuildVotingStateMachine END");
 
         return traceabilityInfoStateMachine;
     }
