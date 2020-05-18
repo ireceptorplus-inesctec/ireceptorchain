@@ -46,10 +46,10 @@ public class AwaitingValidation extends State
         {
             RoundFinisher roundFinisher = new RoundFinisher();
             roundFinisher.approveTraceabilityDataEntry(traceabilityData);
-            ret = new VotingStateMachineReturn("Vote submited successfully. Traceability data was approved", true);
+            ret = new VotingStateMachineReturn("Vote submitted successfully. Traceability data was approved", true);
         }
         else
-            ret = new VotingStateMachineReturn("Vote submited successfully. Traceability data remains waiting for validation", false);
+            ret = new VotingStateMachineReturn("Vote submitted successfully. Traceability data remains waiting for validation", false);
 
         try
         {
