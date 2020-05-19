@@ -65,7 +65,7 @@ public class ChaincodeConfigs
     public static synchronized boolean conditionToRejectTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
     {
         return numberOfRejecters >= ChaincodeConfigs.numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid.get()
-                && numberOfApprovers.doubleValue() / numberOfRejecters.doubleValue() >= ChaincodeConfigs.ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeInvalid.get();
+                &&  numberOfRejecters.doubleValue() / numberOfApprovers.doubleValue() >= ChaincodeConfigs.ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeInvalid.get();
     }
 
 }
