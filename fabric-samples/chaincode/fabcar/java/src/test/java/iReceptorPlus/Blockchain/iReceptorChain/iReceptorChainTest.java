@@ -696,12 +696,27 @@ public final class iReceptorChainTest
 
 
 
-
-
+            //reset and test with down votes and up votes, final decision should be rejection
+            traceabilityData = new MockTraceabilityData("creator").traceabilityData;
+            expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
             downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, rejectsJustBelowNecessaryForRejection, ratioNecessaryForRejection, traceabilityData);
 
+            //ensure that a yes vote makes the traceability data remain in awaiting validation state
+            setEntityReputation(reputationStakeNecessaryForDownVote, 0);
+            putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
+            returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+            traceabilityData.registerYesVoteForValidity(new EntityID(getEntityID()));
+            assertThat(returned).isEqualTo(expected);
 
+            //make the traceability data be just below approval
+            downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, rejectsJustBelowNecessaryForRejection, ratioNecessaryForRejection, traceabilityData);
 
+            //make the last (decisive) yes vote and check if it is rejected, with also having approvals (to test the ratio logic)
+            expected = "Vote submitted successfully. Traceability data was rejected.";
+            setEntityReputation(reputationStakeNecessaryForDownVote, 0);
+            putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
+            returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+            assertThat(returned).isEqualTo(expected);
         }
 
         private void upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(String expected, Long confirmationsJustBelowNecessaryForApproval, double ratioNecessaryForApproval, TraceabilityData traceabilityData)
