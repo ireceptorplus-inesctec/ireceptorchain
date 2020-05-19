@@ -686,6 +686,9 @@ public final class iReceptorChainTest
 
             //make the traceability data be just below approval
             upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, ratioNecessaryForApproval, traceabilityData);
+
+            //make the last (decisive) yes vote and check if it is approved, with also having rejections (to test the ratio logic)
+            expected = "Vote submitted successfully. Traceability data was approved.";
             setEntityReputation(reputationStakeNecessaryForDownVote, 0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
             returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
