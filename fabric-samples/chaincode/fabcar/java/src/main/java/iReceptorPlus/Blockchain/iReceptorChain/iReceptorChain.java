@@ -191,11 +191,6 @@ public final class iReceptorChain implements ContractInterface {
         return response;
     }
 
-    private EntityID getEntityIdFromContext(Context ctx)
-    {
-        return new EntityID(ctx.getClientIdentity().getId());
-    }
-
     @Transaction()
     public TraceabilityData createTraceabilityEntries(final Context ctx) {
         iReceptorChainDataType traceabilityDataAwatingValidation = new TraceabilityDataAwatingValidation("a","b", new ProcessingDetails("", "", "", ""), new EntityID("a"));
@@ -352,6 +347,16 @@ public final class iReceptorChain implements ContractInterface {
     public EntityDataInfo createEntity(final Context ctx, final ClientIdentity clientIdentity) {
 
         return createEntity(ctx, clientIdentity.getId());
+    }
+
+    /**
+     * Returns the entity that has called the Transaction, based on the context.
+     * @param ctx The context.
+     * @return An instance of EntityID representing the entity that has called a given transaction.
+     */
+    private EntityID getEntityIdFromContext(Context ctx)
+    {
+        return new EntityID(ctx.getClientIdentity().getId());
     }
 
     /**
