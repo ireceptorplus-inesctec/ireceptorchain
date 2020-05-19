@@ -10,9 +10,9 @@ public class ChaincodeConfigs
 
     public static AtomicDouble ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeValid = new AtomicDouble(0.7);
 
-    public static AtomicLong numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid = new AtomicLong(3);
+    public static AtomicLong numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid = new AtomicLong(4);
 
-    public static AtomicDouble ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeInvalid = new AtomicDouble(0.3);
+    public static AtomicDouble ratioBetweenRejectionsAndApprovesNecessaryForTraceabilityInfoToBeInvalid = new AtomicDouble(0.3);
 
     public static AtomicLong initialReputationForEntities = new AtomicLong(100);
 
@@ -65,7 +65,7 @@ public class ChaincodeConfigs
     public static synchronized boolean conditionToRejectTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
     {
         return numberOfRejecters >= ChaincodeConfigs.numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid.get()
-                &&  numberOfRejecters.doubleValue() / numberOfApprovers.doubleValue() >= ChaincodeConfigs.ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeInvalid.get();
+                &&  numberOfRejecters.doubleValue() / numberOfApprovers.doubleValue() >= ChaincodeConfigs.ratioBetweenRejectionsAndApprovesNecessaryForTraceabilityInfoToBeInvalid.get();
     }
 
 }
