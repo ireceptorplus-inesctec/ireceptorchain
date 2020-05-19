@@ -732,7 +732,7 @@ public final class iReceptorChainTest
             String returned;
             Long approvals = traceabilityData.getNumberOfApprovers();
             Long rejections = traceabilityData.getNumberOfRejecters();
-            double nextRatio =  (double) (approvals + 1) / (approvals + rejections);
+            double nextRatio =  (double) (rejections + 1) / (approvals + rejections);
             while (rejections < confirmationsJustBelowNecessaryForRejection || nextRatio < ratioNecessaryForRejection)
             {
                 setEntityReputation(reputationStakeNecessaryForDownVote, 0);
@@ -745,7 +745,7 @@ public final class iReceptorChainTest
 
                 approvals = traceabilityData.getNumberOfApprovers();
                 rejections = traceabilityData.getNumberOfRejecters();
-                nextRatio =  (double) (approvals + 1) / (approvals + rejections);
+                nextRatio =  (double) (rejections + 1) / (approvals + rejections);
 
             }
         }
