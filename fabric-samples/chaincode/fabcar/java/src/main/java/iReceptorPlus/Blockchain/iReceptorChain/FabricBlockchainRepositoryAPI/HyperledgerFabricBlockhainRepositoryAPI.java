@@ -1,8 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI;
 
 import com.owlike.genson.Genson;
-import iReceptorPlus.Blockchain.iReceptorChain.Car;
-import iReceptorPlus.Blockchain.iReceptorChain.CarQueryResult;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
