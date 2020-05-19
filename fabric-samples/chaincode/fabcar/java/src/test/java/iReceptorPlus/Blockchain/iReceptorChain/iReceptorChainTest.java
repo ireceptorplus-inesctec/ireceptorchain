@@ -639,6 +639,7 @@ public final class iReceptorChainTest
             String expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
             String returned;
 
+            //test with up votes only
             Long confirmationsJustBelowNecessaryForApproval = ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid.get() - 1;
 
             TraceabilityData traceabilityData = new MockTraceabilityData("creator").traceabilityData;
@@ -651,12 +652,21 @@ public final class iReceptorChainTest
             returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
             assertThat(returned).isEqualTo(expected);
 
-            //reset and test with down votes
+            //reset and test with down votes only
+            Long confirmationsJustBelowNecessaryForRejection = ChaincodeConfigs.numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid.get() - 1;
+
             traceabilityData = new MockTraceabilityData("creator").traceabilityData;
             expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
-            upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, traceabilityData);
+            downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForRejection, traceabilityData);
 
-            //returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+            setEntityReputation(reputationStakeNecessaryForDownVote, 0);
+            putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
+
+            expected = "Vote submitted successfully. Traceability data was rejected.";
+            returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+            assertThat(returned).isEqualTo(expected);
+
+            returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
             //assertThat(returned).isEqualTo(expected);
 
         }
@@ -673,6 +683,22 @@ public final class iReceptorChainTest
                 assertThat(returned).isEqualTo(expected);
 
                 traceabilityData.registerYesVoteForValidity(new EntityID(getEntityID()));
+
+            }
+        }
+
+        private void downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(String expected, Long confirmationsJustBelowNecessaryForRejection, TraceabilityData traceabilityData)
+        {
+            String returned;
+            for (long i = 0; i < confirmationsJustBelowNecessaryForRejection; i++)
+            {
+                setEntityReputation(reputationStakeNecessaryForDownVote, 0);
+                putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
+
+                returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+                assertThat(returned).isEqualTo(expected);
+
+                traceabilityData.registerNoVoteForValidity(new EntityID(getEntityID()));
 
             }
         }
