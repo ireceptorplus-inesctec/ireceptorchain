@@ -671,16 +671,31 @@ public final class iReceptorChainTest
             returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
             //assertThat(returned).isEqualTo(expected);
 
-            //reset and test with up votes and down votes
+
+            //reset and test with up votes and down votes, final decision should be approval
             traceabilityData = new MockTraceabilityData("creator").traceabilityData;
             expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
             upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, ratioNecessaryForApproval, traceabilityData);
 
-
+            //ensure that a no vote makes the traceability data remain in awaiting validation state
             setEntityReputation(reputationStakeNecessaryForDownVote, 0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
             returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+            traceabilityData.registerNoVoteForValidity(new EntityID(getEntityID()));
             assertThat(returned).isEqualTo(expected);
+
+            //make the traceability data be just below approval
+            upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, ratioNecessaryForApproval, traceabilityData);
+            setEntityReputation(reputationStakeNecessaryForDownVote, 0);
+            putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
+            returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+            assertThat(returned).isEqualTo(expected);
+
+
+
+
+
+            downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, rejectsJustBelowNecessaryForRejection, ratioNecessaryForRejection, traceabilityData);
 
 
 
@@ -692,7 +707,7 @@ public final class iReceptorChainTest
             Long approvals = traceabilityData.getNumberOfApprovers();
             Long rejections = traceabilityData.getNumberOfRejecters();
             double nextRatio =  (double) (approvals + 1) / (approvals + rejections);
-            for (long i = 0; i < confirmationsJustBelowNecessaryForApproval || nextRatio < ratioNecessaryForApproval; i++)
+            while (approvals < confirmationsJustBelowNecessaryForApproval || nextRatio < ratioNecessaryForApproval)
             {
 
                 setEntityReputation(reputationStakeNecessaryForUpVote, 0);
@@ -715,7 +730,7 @@ public final class iReceptorChainTest
             Long approvals = traceabilityData.getNumberOfApprovers();
             Long rejections = traceabilityData.getNumberOfRejecters();
             double nextRatio =  (double) (approvals + 1) / (approvals + rejections);
-            for (long i = 0; i < confirmationsJustBelowNecessaryForRejection || nextRatio < ratioNecessaryForRejection; i++)
+            while (approvals < confirmationsJustBelowNecessaryForRejection || nextRatio < ratioNecessaryForRejection)
             {
                 setEntityReputation(reputationStakeNecessaryForDownVote, 0);
                 putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
