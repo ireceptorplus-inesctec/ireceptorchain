@@ -641,9 +641,10 @@ public final class iReceptorChainTest
 
             //test with up votes only
             Long confirmationsJustBelowNecessaryForApproval = ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid.get() - 1;
+            Double ratioNecessaryForApproval = ChaincodeConfigs.ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeValid.get();
 
             TraceabilityData traceabilityData = new MockTraceabilityData("creator").traceabilityData;
-            upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, traceabilityData);
+            upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, ratioNecessaryForApproval, traceabilityData);
 
             setEntityReputation(reputationStakeNecessaryForUpVote, 0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
@@ -653,11 +654,12 @@ public final class iReceptorChainTest
             assertThat(returned).isEqualTo(expected);
 
             //reset and test with down votes only
-            Long confirmationsJustBelowNecessaryForRejection = ChaincodeConfigs.numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid.get() - 1;
+            Long rejectsJustBelowNecessaryForRejection = ChaincodeConfigs.numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid.get() - 1;
+            Double ratioNecessaryForRejection = ChaincodeConfigs.ratioBetweenRejectionsAndApprovesNecessaryForTraceabilityInfoToBeInvalid.get();
 
             traceabilityData = new MockTraceabilityData("creator").traceabilityData;
             expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
-            downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForRejection, traceabilityData);
+            downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, rejectsJustBelowNecessaryForRejection, ratioNecessaryForRejection, traceabilityData);
 
             setEntityReputation(reputationStakeNecessaryForDownVote, 0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
@@ -669,13 +671,30 @@ public final class iReceptorChainTest
             returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
             //assertThat(returned).isEqualTo(expected);
 
+            //reset and test with up votes and down votes
+            traceabilityData = new MockTraceabilityData("creator").traceabilityData;
+            expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
+            upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, ratioNecessaryForApproval, traceabilityData);
+
+
+            setEntityReputation(reputationStakeNecessaryForDownVote, 0);
+            putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
+            returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
+            assertThat(returned).isEqualTo(expected);
+
+
+
         }
 
-        private void upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(String expected, Long confirmationsJustBelowNecessaryForApproval, TraceabilityData traceabilityData)
+        private void upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(String expected, Long confirmationsJustBelowNecessaryForApproval, double ratioNecessaryForApproval, TraceabilityData traceabilityData)
         {
             String returned;
-            for (long i = 0; i < confirmationsJustBelowNecessaryForApproval; i++)
+            Long approvals = traceabilityData.getNumberOfApprovers();
+            Long rejections = traceabilityData.getNumberOfRejecters();
+            double nextRatio =  (double) (approvals + 1) / (approvals + rejections);
+            for (long i = 0; i < confirmationsJustBelowNecessaryForApproval || nextRatio < ratioNecessaryForApproval; i++)
             {
+
                 setEntityReputation(reputationStakeNecessaryForUpVote, 0);
                 putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
 
@@ -684,13 +703,19 @@ public final class iReceptorChainTest
 
                 traceabilityData.registerYesVoteForValidity(new EntityID(getEntityID()));
 
+                approvals = traceabilityData.getNumberOfApprovers();
+                rejections = traceabilityData.getNumberOfRejecters();
+                nextRatio =  (double) (approvals + 1) / (approvals + rejections);
             }
         }
 
-        private void downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(String expected, Long confirmationsJustBelowNecessaryForRejection, TraceabilityData traceabilityData)
+        private void downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(String expected, Long confirmationsJustBelowNecessaryForRejection, double ratioNecessaryForRejection,TraceabilityData traceabilityData)
         {
             String returned;
-            for (long i = 0; i < confirmationsJustBelowNecessaryForRejection; i++)
+            Long approvals = traceabilityData.getNumberOfApprovers();
+            Long rejections = traceabilityData.getNumberOfRejecters();
+            double nextRatio =  (double) (approvals + 1) / (approvals + rejections);
+            for (long i = 0; i < confirmationsJustBelowNecessaryForRejection || nextRatio < ratioNecessaryForRejection; i++)
             {
                 setEntityReputation(reputationStakeNecessaryForDownVote, 0);
                 putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
@@ -699,6 +724,10 @@ public final class iReceptorChainTest
                 assertThat(returned).isEqualTo(expected);
 
                 traceabilityData.registerNoVoteForValidity(new EntityID(getEntityID()));
+
+                approvals = traceabilityData.getNumberOfApprovers();
+                rejections = traceabilityData.getNumberOfRejecters();
+                nextRatio =  (double) (approvals + 1) / (approvals + rejections);
 
             }
         }
