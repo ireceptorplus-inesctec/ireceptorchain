@@ -730,7 +730,7 @@ public final class iReceptorChainTest
             Long approvals = traceabilityData.getNumberOfApprovers();
             Long rejections = traceabilityData.getNumberOfRejecters();
             double nextRatio =  (double) (approvals + 1) / (approvals + rejections);
-            while (approvals < confirmationsJustBelowNecessaryForRejection || nextRatio < ratioNecessaryForRejection)
+            while (rejections < confirmationsJustBelowNecessaryForRejection || nextRatio < ratioNecessaryForRejection)
             {
                 setEntityReputation(reputationStakeNecessaryForDownVote, 0);
                 putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
