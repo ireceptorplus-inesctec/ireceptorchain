@@ -20,6 +20,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwatingValidationReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.EntityDataInfo;
+import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeException;
@@ -783,28 +784,34 @@ public final class iReceptorChainTest
     @Nested
     class GetTraceabilityData
     {
-        private ArrayList<TraceabilityDataAwatingValidation> getMockTraceabilityDataAwatingValidation()
+        private ArrayList<TraceabilityDataInfo> getMockTraceabilityDataAwatingValidation()
         {
-            ArrayList<TraceabilityDataAwatingValidation> traceabilityDataArrayList = new ArrayList<>();
+            ArrayList<TraceabilityDataInfo> traceabilityDataArrayList = new ArrayList<>();
 
-            TraceabilityDataAwatingValidation data = new MockTraceabilityDataAwaitingValidation("creator1").traceabilityData;
+            TraceabilityDataAwatingValidation data;
+            TraceabilityDataInfo dataInfo;
+
+            data = new MockTraceabilityDataAwaitingValidation("creator1").traceabilityData;
             data.registerYesVoteForValidity(new EntityID("entity1"));
-            putTraceabilityDataToDB("data1", data);
-            traceabilityDataArrayList.add(data);
+            dataInfo = new TraceabilityDataInfo("data1", data);
+            traceabilityDataArrayList.add(dataInfo);
+
             data = new MockTraceabilityDataAwaitingValidation("creator2").traceabilityData;
             data.registerNoVoteForValidity(new EntityID("entity2"));
-            putTraceabilityDataToDB("data2", data);
-            traceabilityDataArrayList.add(data);
+            dataInfo = new TraceabilityDataInfo("data2", data);
+            traceabilityDataArrayList.add(dataInfo);
+
             data = new MockTraceabilityDataAwaitingValidation("creator3").traceabilityData;
             data.registerYesVoteForValidity(new EntityID("entity24"));
             data.registerNoVoteForValidity(new EntityID("entity22"));
-            putTraceabilityDataToDB("data3", data);
-            traceabilityDataArrayList.add(data);
+            dataInfo = new TraceabilityDataInfo("data3", data);
+            traceabilityDataArrayList.add(dataInfo);
+
             data = new MockTraceabilityDataAwaitingValidation("creator4").traceabilityData;
             data.registerYesVoteForValidity(new EntityID("entity24"));
             data.registerNoVoteForValidity(new EntityID("entity22"));
-            putTraceabilityDataToDB("data4", data);
-            traceabilityDataArrayList.add(data);
+            dataInfo = new TraceabilityDataInfo("data4", data);
+            traceabilityDataArrayList.add(dataInfo);
 
             return traceabilityDataArrayList;
         }
