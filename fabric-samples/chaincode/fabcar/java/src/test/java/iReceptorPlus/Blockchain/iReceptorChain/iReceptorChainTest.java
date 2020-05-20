@@ -11,16 +11,22 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import com.owlike.genson.Genson;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwatingValidationReturnType;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.EntityDataInfo;
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
+import org.hyperledger.fabric.shim.ledger.KeyValue;
+import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -81,7 +87,8 @@ public final class iReceptorChainTest
     {
         String traceabilityDataAsJson = genson.serialize(traceabilityData);
 
-        putEntryToDB(getCtx(), getKeyFromPrefixAndUUID(ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix(), id), traceabilityDataAsJson);
+        String keyFromPrefixAndUUID = getKeyFromPrefixAndUUID(ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix(), id);
+        putEntryToDB(getCtx(), keyFromPrefixAndUUID, traceabilityDataAsJson);
     }
 
     public void putEntryToDB(Context context, String key, String value)
@@ -638,7 +645,7 @@ public final class iReceptorChainTest
         Long reputationStakeNecessaryForDownVote = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
 
         @Test
-        public void testRoundFinishLogic() throws CertificateException, IOException
+        public void testRoundFinishLogic() throws CertificateException, IOException, ObjectWithGivenKeyNotFoundOnBlockchainDB
         {
             RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
 
@@ -773,6 +780,126 @@ public final class iReceptorChainTest
 
     }
 
+    @Nested
+    class GetTraceabilityData
+    {
+        private final class MockKeyValue implements KeyValue {
+
+            private final String key;
+            private final String value;
+
+            MockKeyValue(final String key, final String value) {
+                super();
+                this.key = key;
+                this.value = value;
+            }
+
+            @Override
+            public String getKey() {
+                return this.key;
+            }
+
+            @Override
+            public String getStringValue() {
+                return this.value;
+            }
+
+            @Override
+            public byte[] getValue() {
+                return this.value.getBytes();
+            }
+
+        }
+
+        private final class MockTraceabilityDataAwaitingValidationResultsIterator implements QueryResultsIterator<KeyValue>
+        {
+
+            private final List<KeyValue> traceabilityDataArrayList;
+
+            MockTraceabilityDataAwaitingValidationResultsIterator() {
+                super();
+                traceabilityDataArrayList = new ArrayList<>();
+
+                TraceabilityData data = new MockTraceabilityDataAwaitingValidation("creator1").traceabilityData;
+                data.registerYesVoteForValidity(new EntityID("entity1"));
+                traceabilityDataArrayList.add(getTraceabilityDataKeyValue("data1", data));
+
+                data = new MockTraceabilityDataAwaitingValidation("creator2").traceabilityData;
+                data.registerNoVoteForValidity(new EntityID("entity2"));
+                traceabilityDataArrayList.add(getTraceabilityDataKeyValue("data2", data));
+
+                data = new MockTraceabilityDataAwaitingValidation("creator3").traceabilityData;
+                data.registerYesVoteForValidity(new EntityID("entity24"));
+                data.registerNoVoteForValidity(new EntityID("entity22"));
+                traceabilityDataArrayList.add(getTraceabilityDataKeyValue("data3", data));
+
+                data = new MockTraceabilityDataAwaitingValidation("creator4").traceabilityData;
+                data.registerYesVoteForValidity(new EntityID("entity24"));
+                data.registerNoVoteForValidity(new EntityID("entity22"));
+                traceabilityDataArrayList.add(getTraceabilityDataKeyValue("data4", data));
+
+            }
+
+            private KeyValue getTraceabilityDataKeyValue(String uuid, TraceabilityData traceabilityData)
+            {
+                String key = getKeyFromPrefixAndUUID(ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix(), uuid);
+                String traceabilityDataAsJson = genson.serialize(traceabilityData);
+                return new MockKeyValue(key, traceabilityDataAsJson);
+            }
+
+            @Override
+            public Iterator<KeyValue> iterator() {
+                return traceabilityDataArrayList.iterator();
+            }
+
+            @Override
+            public void close() throws Exception {
+                // do nothing
+            }
+
+        }
+
+
+        @Test
+        public void testGetTraceabilityDataAwaitingValidation() throws CertificateException, IOException
+        {
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
+            MockTraceabilityDataAwaitingValidationResultsIterator iterator = new MockTraceabilityDataAwaitingValidationResultsIterator();
+            String traceabilityAwaitingValidationKeyPrefix = ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix();
+            when(getCtx().getStub().getStateByPartialCompositeKey(new CompositeKey(traceabilityAwaitingValidationKeyPrefix).toString())).thenReturn(iterator);
+
+            ArrayList<TraceabilityData> traceabilityDataArrayList = new ArrayList<>();
+
+            TraceabilityData data = new MockTraceabilityDataAwaitingValidation("creator1").traceabilityData;
+            data.registerYesVoteForValidity(new EntityID("entity1"));
+            putTraceabilityDataToDB("data1", data);
+            traceabilityDataArrayList.add(data);
+            data = new MockTraceabilityDataAwaitingValidation("creator2").traceabilityData;
+            data.registerNoVoteForValidity(new EntityID("entity2"));
+            putTraceabilityDataToDB("data2", data);
+            traceabilityDataArrayList.add(data);
+            data = new MockTraceabilityDataAwaitingValidation("creator3").traceabilityData;
+            data.registerYesVoteForValidity(new EntityID("entity24"));
+            data.registerNoVoteForValidity(new EntityID("entity22"));
+            putTraceabilityDataToDB("data3", data);
+            traceabilityDataArrayList.add(data);
+            data = new MockTraceabilityDataAwaitingValidation("creator4").traceabilityData;
+            data.registerYesVoteForValidity(new EntityID("entity24"));
+            data.registerNoVoteForValidity(new EntityID("entity22"));
+            putTraceabilityDataToDB("data4", data);
+            traceabilityDataArrayList.add(data);
+
+
+            TraceabilityDataAwatingValidationReturnType[] results = contract.getAllAwaitingValidationTraceabilityDataEntries(ctx);
+            for (int i = 0; i < traceabilityDataArrayList.size(); i++)
+            {
+                TraceabilityData expected = traceabilityDataArrayList.get(i);
+                TraceabilityData returned = results[i].getTraceabilityDataAwatingValidationData();
+                assertThat(returned).isEqualTo(expected);
+            }
+        }
+    }
 
 }
 
