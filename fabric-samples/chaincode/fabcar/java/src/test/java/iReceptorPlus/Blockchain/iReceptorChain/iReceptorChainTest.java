@@ -816,6 +816,38 @@ public final class iReceptorChainTest
             return traceabilityDataArrayList;
         }
 
+        private ArrayList<TraceabilityDataInfo> getMockTraceabilityDataValidated()
+        {
+            ArrayList<TraceabilityDataInfo> traceabilityDataArrayList = new ArrayList<>();
+
+            TraceabilityDataValidated data;
+            TraceabilityDataInfo dataInfo;
+
+            data = new MockTraceabilityDataValidated("creator1").traceabilityData;
+            data.registerYesVoteForValidity(new EntityID("entity1"));
+            dataInfo = new TraceabilityDataInfo("data1", data);
+            traceabilityDataArrayList.add(dataInfo);
+
+            data = new MockTraceabilityDataValidated("creator2").traceabilityData;
+            data.registerNoVoteForValidity(new EntityID("entity2"));
+            dataInfo = new TraceabilityDataInfo("data2", data);
+            traceabilityDataArrayList.add(dataInfo);
+
+            data = new MockTraceabilityDataValidated("creator3").traceabilityData;
+            data.registerYesVoteForValidity(new EntityID("entity24"));
+            data.registerNoVoteForValidity(new EntityID("entity22"));
+            dataInfo = new TraceabilityDataInfo("data3", data);
+            traceabilityDataArrayList.add(dataInfo);
+
+            data = new MockTraceabilityDataValidated("creator4").traceabilityData;
+            data.registerYesVoteForValidity(new EntityID("entity24"));
+            data.registerNoVoteForValidity(new EntityID("entity22"));
+            dataInfo = new TraceabilityDataInfo("data4", data);
+            traceabilityDataArrayList.add(dataInfo);
+
+            return traceabilityDataArrayList;
+        }
+
         private final class MockKeyValue implements KeyValue {
 
             private final String key;
