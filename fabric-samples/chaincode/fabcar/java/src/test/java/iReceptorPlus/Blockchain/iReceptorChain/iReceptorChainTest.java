@@ -20,6 +20,7 @@ import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
+import org.hyperledger.fabric.shim.ledger.CompositeKey;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -55,12 +56,17 @@ public final class iReceptorChainTest
         setMockTraceabilityDataAwaitingValidation(new MockTraceabilityDataAwaitingValidation());
     }
 
+    private String getKeyFromPrefixAndUUID(String prefix, String uuid)
+    {
+        return new CompositeKey(prefix, uuid).toString();
+    }
+
     private void putMockEntityToDB(String entityID, long reputation, long reputationAtStake)
     {
         EntityData entityData = new EntityData(entityID, reputation, reputationAtStake);
         String entityDataAsJson = genson.serialize(entityData);
 
-        putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + entityID, entityDataAsJson);
+        putEntryToDB(getCtx(), getKeyFromPrefixAndUUID(ChaincodeConfigs.getEntityDataKeyPrefix(), entityID), entityDataAsJson);
     }
 
     private void putMockTraceabilityDataToDB(String id, String creatorID)
@@ -68,14 +74,14 @@ public final class iReceptorChainTest
         MockTraceabilityDataAwaitingValidation mockTraceabilityDataAwaitingValidation = new MockTraceabilityDataAwaitingValidation(creatorID);
         String traceabilityDataAsJson = genson.serialize(mockTraceabilityDataAwaitingValidation.traceabilityData);
 
-        putEntryToDB(getCtx(), ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + "-" + id, traceabilityDataAsJson);
+        putEntryToDB(getCtx(), getKeyFromPrefixAndUUID(ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix(), id), traceabilityDataAsJson);
     }
 
     private void putTraceabilityDataToDB(String id, TraceabilityData traceabilityData)
     {
         String traceabilityDataAsJson = genson.serialize(traceabilityData);
 
-        putEntryToDB(getCtx(), ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + "-" + id, traceabilityDataAsJson);
+        putEntryToDB(getCtx(), getKeyFromPrefixAndUUID(ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix(), id), traceabilityDataAsJson);
     }
 
     public void putEntryToDB(Context context, String key, String value)
@@ -89,7 +95,7 @@ public final class iReceptorChainTest
         EntityData entityData = new EntityData(getEntityID(), reputation, reputationAtStake);
         String entityDataAsJson = genson.serialize(entityData);
 
-        putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID(), entityDataAsJson);
+        putEntryToDB(getCtx(), getKeyFromPrefixAndUUID(ChaincodeConfigs.getEntityDataKeyPrefix(), getEntityID()), entityDataAsJson);
     }
 
     public Genson getGenson()
@@ -154,7 +160,7 @@ public final class iReceptorChainTest
 
     public String getEntityKeyOnDB()
     {
-        return ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID();
+        return getKeyFromPrefixAndUUID(ChaincodeConfigs.getEntityDataKeyPrefix(), getEntityID());
     }
 
     public ProcessingDetails getProcessingDetails()
@@ -208,7 +214,7 @@ public final class iReceptorChainTest
         @Test
         public void whenEntityExists() throws CertificateException, IOException
         {
-            String entityKeyOnDB = ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID();
+            String entityKeyOnDB = getKeyFromPrefixAndUUID(ChaincodeConfigs.getEntityDataKeyPrefix(), getEntityID());
 
             when(getCtx().getStub()).thenReturn(getStub());
             when(getStub().getStringState(entityKeyOnDB)).thenReturn(getEntityDataAsJson());
@@ -251,7 +257,7 @@ public final class iReceptorChainTest
             String serializedTraceabilityData = genson.serialize(getTraceabilityData());
 
             String uuid = "uuid";
-            putEntryToDB(getCtx(), ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + "-" + uuid, serializedTraceabilityData);
+            putEntryToDB(getCtx(), getKeyFromPrefixAndUUID(ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix(), uuid), serializedTraceabilityData);
 
             Throwable thrown = catchThrowable(() ->
             {
@@ -270,7 +276,7 @@ public final class iReceptorChainTest
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
             //ensure no entity is returned upon querying the DB
-            putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID(), "");
+            putEntryToDB(getCtx(), getKeyFromPrefixAndUUID(ChaincodeConfigs.getEntityDataKeyPrefix(), getEntityID()), "");
 
 
             Throwable thrown = catchThrowable(() ->
@@ -395,7 +401,7 @@ public final class iReceptorChainTest
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
             //ensure no entity is returned upon querying the DB
-            putEntryToDB(getCtx(), ChaincodeConfigs.getEntityDataKeyPrefix() + "-" + getEntityID(), "");
+            putEntryToDB(getCtx(), getKeyFromPrefixAndUUID(ChaincodeConfigs.getEntityDataKeyPrefix(), getEntityID()), "");
 
             putMockTraceabilityDataToDB(traceabilityDataUUID, "creator");
         }

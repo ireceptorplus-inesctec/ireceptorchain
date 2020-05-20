@@ -6,6 +6,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exc
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import org.hyperledger.fabric.contract.Context;
+import org.hyperledger.fabric.shim.ledger.CompositeKey;
 import org.hyperledger.fabric.shim.ledger.KeyValue;
 import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
 
@@ -58,7 +59,8 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
 
     protected String uuidToKey(String uuid)
     {
-        return objectTypeIdentifier + "-" + uuid;
+        CompositeKey compositeKey = new CompositeKey(objectTypeIdentifier, uuid);
+        return compositeKey.toString();
     }
 
     /**
