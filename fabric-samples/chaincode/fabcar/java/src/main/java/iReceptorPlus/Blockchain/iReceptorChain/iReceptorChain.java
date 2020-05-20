@@ -63,9 +63,35 @@ public final class iReceptorChain implements ContractInterface {
 
     private final Genson genson = new Genson();
 
+    /**
+     * Creates some initial Cars on the ledger.
+     *
+     * @param ctx the transaction context
+     */
     @Transaction()
     public void initLedger(final Context ctx) {
-        //createEntity(ctx, "x509::CN=org2admin, OU=admin, O=Hyperledger, ST=North Carolina, C=US::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US");
+        ChaincodeStub stub = ctx.getStub();
+
+        String[] carData = {
+                "{ \"make\": \"Toyota\", \"model\": \"Prius\", \"color\": \"blue\", \"owner\": \"Tomoko\" }",
+                "{ \"make\": \"Ford\", \"model\": \"Mustang\", \"color\": \"red\", \"owner\": \"Brad\" }",
+                "{ \"make\": \"Hyundai\", \"model\": \"Tucson\", \"color\": \"green\", \"owner\": \"Jin Soo\" }",
+                "{ \"make\": \"Volkswagen\", \"model\": \"Passat\", \"color\": \"yellow\", \"owner\": \"Max\" }",
+                "{ \"make\": \"Tesla\", \"model\": \"S\", \"color\": \"black\", \"owner\": \"Adrian\" }",
+                "{ \"make\": \"Peugeot\", \"model\": \"205\", \"color\": \"purple\", \"owner\": \"Michel\" }",
+                "{ \"make\": \"Chery\", \"model\": \"S22L\", \"color\": \"white\", \"owner\": \"Aarav\" }",
+                "{ \"make\": \"Fiat\", \"model\": \"Punto\", \"color\": \"violet\", \"owner\": \"Pari\" }",
+                "{ \"make\": \"Tata\", \"model\": \"nano\", \"color\": \"indigo\", \"owner\": \"Valeria\" }",
+                "{ \"make\": \"Holden\", \"model\": \"Barina\", \"color\": \"brown\", \"owner\": \"Shotaro\" }"
+        };
+
+        for (int i = 0; i < carData.length; i++) {
+            String key = String.format("CAR%d", i);
+
+            Car car = genson.deserialize(carData[i], Car.class);
+            String carState = genson.serialize(car);
+            //stub.putStringState(key, carState);
+        }
 /*
         createTraceabilityDataEntry(ctx,
                 "uuid",
@@ -75,7 +101,7 @@ public final class iReceptorChain implements ContractInterface {
                 "softwareVersion",
                 "softwareBinaryExecutableHashValue",
                 "softwareConfigParams"
-        );*/
+                );*/
     }
 
     /**
