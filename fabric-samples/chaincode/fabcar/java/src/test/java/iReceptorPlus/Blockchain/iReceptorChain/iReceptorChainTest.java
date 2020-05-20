@@ -846,7 +846,6 @@ public final class iReceptorChainTest
 
         private final class MockTraceabilityDataAwaitingValidationResultsIterator implements QueryResultsIterator<KeyValue>
         {
-
             private final List<KeyValue> traceabilityDataArrayList;
 
             MockTraceabilityDataAwaitingValidationResultsIterator() {
