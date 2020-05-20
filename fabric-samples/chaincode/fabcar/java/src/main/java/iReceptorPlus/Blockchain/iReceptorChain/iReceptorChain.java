@@ -65,8 +65,8 @@ public final class iReceptorChain implements ContractInterface {
 
     @Transaction()
     public void initLedger(final Context ctx) {
-        createEntity(ctx, "x509::CN=org2admin, OU=admin, O=Hyperledger, ST=North Carolina, C=US::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US");
-
+        //createEntity(ctx, "x509::CN=org2admin, OU=admin, O=Hyperledger, ST=North Carolina, C=US::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US");
+/*
         createTraceabilityDataEntry(ctx,
                 "uuid",
                 "inputDatasetHashValue",
@@ -75,7 +75,7 @@ public final class iReceptorChain implements ContractInterface {
                 "softwareVersion",
                 "softwareBinaryExecutableHashValue",
                 "softwareConfigParams"
-        );
+        );*/
     }
 
     /**
