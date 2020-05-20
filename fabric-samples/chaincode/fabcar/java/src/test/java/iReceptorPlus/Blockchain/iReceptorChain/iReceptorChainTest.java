@@ -34,7 +34,7 @@ public final class iReceptorChainTest
     private MockClientIdentity mockClientIdentity;
     private ClientIdentity clientIdentity;
     private EntityData entityData;
-    private MockTraceabilityData mockTraceabilityData;
+    private MockTraceabilityAwaitingData mockTraceabilityAwaitingData;
 
 
     public iReceptorChainTest() throws CertificateException, IOException
@@ -52,7 +52,7 @@ public final class iReceptorChainTest
         setClientIdentity(getMockClientIdentity().clientIdentity);
         setEntityData(new EntityData(clientIdentity.getId()));
 
-        setMockTraceabilityData(new MockTraceabilityData());
+        setMockTraceabilityAwaitingData(new MockTraceabilityAwaitingData());
     }
 
     private void putMockEntityToDB(String entityID, long reputation, long reputationAtStake)
@@ -65,8 +65,8 @@ public final class iReceptorChainTest
 
     private void putMockTraceabilityDataToDB(String id, String creatorID)
     {
-        MockTraceabilityData mockTraceabilityData = new MockTraceabilityData(creatorID);
-        String traceabilityDataAsJson = genson.serialize(mockTraceabilityData.traceabilityData);
+        MockTraceabilityAwaitingData mockTraceabilityAwaitingData = new MockTraceabilityAwaitingData(creatorID);
+        String traceabilityDataAsJson = genson.serialize(mockTraceabilityAwaitingData.traceabilityData);
 
         putEntryToDB(getCtx(), ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix() + "-" + id, traceabilityDataAsJson);
     }
@@ -142,14 +142,14 @@ public final class iReceptorChainTest
         return genson.serialize(entityData);
     }
 
-    public MockTraceabilityData getMockTraceabilityData()
+    public MockTraceabilityAwaitingData getMockTraceabilityAwaitingData()
     {
-        return mockTraceabilityData;
+        return mockTraceabilityAwaitingData;
     }
 
     public TraceabilityDataAwatingValidation getTraceabilityData()
     {
-        return mockTraceabilityData.traceabilityData;
+        return mockTraceabilityAwaitingData.traceabilityData;
     }
 
     public String getEntityKeyOnDB()
@@ -197,9 +197,9 @@ public final class iReceptorChainTest
         this.entityData = entityData;
     }
 
-    public void setMockTraceabilityData(MockTraceabilityData mockTraceabilityData)
+    public void setMockTraceabilityAwaitingData(MockTraceabilityAwaitingData mockTraceabilityAwaitingData)
     {
-        this.mockTraceabilityData = mockTraceabilityData;
+        this.mockTraceabilityAwaitingData = mockTraceabilityAwaitingData;
     }
 
     @Nested
@@ -643,7 +643,7 @@ public final class iReceptorChainTest
             Long confirmationsJustBelowNecessaryForApproval = ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid.get() - 1;
             Double ratioNecessaryForApproval = ChaincodeConfigs.ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeValid.get();
 
-            TraceabilityData traceabilityData = new MockTraceabilityData("creator").traceabilityData;
+            TraceabilityData traceabilityData = new MockTraceabilityAwaitingData("creator").traceabilityData;
             upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, ratioNecessaryForApproval, traceabilityData);
 
             setEntityReputation(reputationStakeNecessaryForUpVote, 0);
@@ -657,7 +657,7 @@ public final class iReceptorChainTest
             Long rejectsJustBelowNecessaryForRejection = ChaincodeConfigs.numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid.get() - 1;
             Double ratioNecessaryForRejection = ChaincodeConfigs.ratioBetweenRejectionsAndApprovesNecessaryForTraceabilityInfoToBeInvalid.get();
 
-            traceabilityData = new MockTraceabilityData("creator").traceabilityData;
+            traceabilityData = new MockTraceabilityAwaitingData("creator").traceabilityData;
             expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
             downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, rejectsJustBelowNecessaryForRejection, ratioNecessaryForRejection, traceabilityData);
 
@@ -673,7 +673,7 @@ public final class iReceptorChainTest
 
 
             //reset and test with up votes and down votes, final decision should be approval
-            traceabilityData = new MockTraceabilityData("creator").traceabilityData;
+            traceabilityData = new MockTraceabilityAwaitingData("creator").traceabilityData;
             expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
             upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, ratioNecessaryForApproval, traceabilityData);
 
@@ -697,7 +697,7 @@ public final class iReceptorChainTest
 
 
             //reset and test with down votes and up votes, final decision should be rejection
-            traceabilityData = new MockTraceabilityData("creator").traceabilityData;
+            traceabilityData = new MockTraceabilityAwaitingData("creator").traceabilityData;
             expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
             downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, rejectsJustBelowNecessaryForRejection, ratioNecessaryForRejection, traceabilityData);
 
