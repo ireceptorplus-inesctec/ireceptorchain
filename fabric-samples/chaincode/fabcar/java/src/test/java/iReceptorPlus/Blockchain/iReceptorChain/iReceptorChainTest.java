@@ -853,24 +853,11 @@ public final class iReceptorChainTest
                 super();
                 traceabilityDataArrayList = new ArrayList<>();
 
-                TraceabilityData data = new MockTraceabilityDataAwaitingValidation("creator1").traceabilityData;
-                data.registerYesVoteForValidity(new EntityID("entity1"));
-                traceabilityDataArrayList.add(getTraceabilityDataKeyValue("data1", data));
-
-                data = new MockTraceabilityDataAwaitingValidation("creator2").traceabilityData;
-                data.registerNoVoteForValidity(new EntityID("entity2"));
-                traceabilityDataArrayList.add(getTraceabilityDataKeyValue("data2", data));
-
-                data = new MockTraceabilityDataAwaitingValidation("creator3").traceabilityData;
-                data.registerYesVoteForValidity(new EntityID("entity24"));
-                data.registerNoVoteForValidity(new EntityID("entity22"));
-                traceabilityDataArrayList.add(getTraceabilityDataKeyValue("data3", data));
-
-                data = new MockTraceabilityDataAwaitingValidation("creator4").traceabilityData;
-                data.registerYesVoteForValidity(new EntityID("entity24"));
-                data.registerNoVoteForValidity(new EntityID("entity22"));
-                traceabilityDataArrayList.add(getTraceabilityDataKeyValue("data4", data));
-
+                ArrayList<TraceabilityDataInfo> mockData = getMockTraceabilityDataAwatingValidation();
+                for (TraceabilityDataInfo dataInfo : mockData)
+                {
+                    traceabilityDataArrayList.add(getTraceabilityDataKeyValue(dataInfo.getUUID(), dataInfo.getTraceabilityData()));
+                }
             }
 
             private KeyValue getTraceabilityDataKeyValue(String uuid, TraceabilityData traceabilityData)
