@@ -13,4 +13,9 @@ public class EntityDataReturnType extends ChaincodeReturnDataType
         super(uuid);
         this.entityData = entityData;
     }
+
+    public EntityData getEntityData()
+    {
+        return entityData;
+    }
 }
