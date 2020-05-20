@@ -10,22 +10,12 @@ import java.util.Objects;
 @DataType()
 public class TraceabilityDataAwatingValidationReturnType extends TraceabilityDataReturnType
 {
-    /**
-     * The uuid used to reference the traceability data.
-     */
-    @Property()
-    String uuid;
 
     /**
      * The traceability data just as it is stored on the blockchain.
      */
     @Property()
     TraceabilityDataAwatingValidation traceabilityDataAwatingValidationData;
-
-    public String getUuid()
-    {
-        return uuid;
-    }
 
     public TraceabilityDataAwatingValidation getTraceabilityDataAwatingValidationData()
     {
@@ -35,7 +25,7 @@ public class TraceabilityDataAwatingValidationReturnType extends TraceabilityDat
     public TraceabilityDataAwatingValidationReturnType(@JsonProperty("uuid") final String uuid,
                                                        @JsonProperty("traceabilityDataAwatingValidationData") final TraceabilityDataAwatingValidation traceabilityDataAwatingValidationData)
     {
-        this.uuid = uuid;
+        super(uuid);
         this.traceabilityDataAwatingValidationData = traceabilityDataAwatingValidationData;
     }
 
@@ -54,4 +44,5 @@ public class TraceabilityDataAwatingValidationReturnType extends TraceabilityDat
     {
         return Objects.hash(uuid, traceabilityDataAwatingValidationData);
     }
+
 }
