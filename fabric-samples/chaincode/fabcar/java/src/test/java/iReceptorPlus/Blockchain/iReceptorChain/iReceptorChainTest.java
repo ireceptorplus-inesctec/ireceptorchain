@@ -902,12 +902,13 @@ public final class iReceptorChainTest
             String traceabilityAwaitingValidationKeyPrefix = ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix();
             when(getCtx().getStub().getStateByPartialCompositeKey(new CompositeKey(traceabilityAwaitingValidationKeyPrefix).toString())).thenReturn(iterator);
 
-            ArrayList<TraceabilityDataAwatingValidation> traceabilityDataArrayList = getMockTraceabilityDataAwatingValidation();
+            ArrayList<TraceabilityDataInfo> traceabilityDataArrayList = getMockTraceabilityDataAwatingValidation();
 
             TraceabilityDataAwatingValidationReturnType[] results = contract.getAllAwaitingValidationTraceabilityDataEntries(ctx);
             for (int i = 0; i < traceabilityDataArrayList.size(); i++)
             {
-                TraceabilityData expected = traceabilityDataArrayList.get(i);
+                TraceabilityDataInfo dataInfo = traceabilityDataArrayList.get(i);
+                TraceabilityData expected = dataInfo.getTraceabilityData();
                 TraceabilityData returned = results[i].getTraceabilityDataAwatingValidationData();
                 assertThat(returned).isEqualTo(expected);
             }
