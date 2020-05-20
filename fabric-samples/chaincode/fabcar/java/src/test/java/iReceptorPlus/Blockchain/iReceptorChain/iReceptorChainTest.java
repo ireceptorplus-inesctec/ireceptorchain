@@ -919,6 +919,21 @@ public final class iReceptorChainTest
 
         }
 
+        private final class MockTraceabilityValidatedResultsIterator extends MockTraceabilityDataResultsIterator
+        {
+
+            MockTraceabilityValidatedResultsIterator() {
+                super();
+
+                ArrayList<TraceabilityDataInfo> mockData = getMockTraceabilityDataValidated();
+                for (TraceabilityDataInfo dataInfo : mockData)
+                {
+                    traceabilityDataArrayList.add(getTraceabilityDataKeyValue(dataInfo.getUUID(), dataInfo.getTraceabilityData()));
+                }
+            }
+
+        }
+
 
         @Test
         public void testGetTraceabilityDataAwaitingValidation() throws CertificateException, IOException
