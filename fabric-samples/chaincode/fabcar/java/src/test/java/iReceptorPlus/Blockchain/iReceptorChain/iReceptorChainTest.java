@@ -783,6 +783,32 @@ public final class iReceptorChainTest
     @Nested
     class GetTraceabilityData
     {
+        private ArrayList<TraceabilityDataAwatingValidation> getMockTraceabilityDataAwatingValidation()
+        {
+            ArrayList<TraceabilityDataAwatingValidation> traceabilityDataArrayList = new ArrayList<>();
+
+            TraceabilityDataAwatingValidation data = new MockTraceabilityDataAwaitingValidation("creator1").traceabilityData;
+            data.registerYesVoteForValidity(new EntityID("entity1"));
+            putTraceabilityDataToDB("data1", data);
+            traceabilityDataArrayList.add(data);
+            data = new MockTraceabilityDataAwaitingValidation("creator2").traceabilityData;
+            data.registerNoVoteForValidity(new EntityID("entity2"));
+            putTraceabilityDataToDB("data2", data);
+            traceabilityDataArrayList.add(data);
+            data = new MockTraceabilityDataAwaitingValidation("creator3").traceabilityData;
+            data.registerYesVoteForValidity(new EntityID("entity24"));
+            data.registerNoVoteForValidity(new EntityID("entity22"));
+            putTraceabilityDataToDB("data3", data);
+            traceabilityDataArrayList.add(data);
+            data = new MockTraceabilityDataAwaitingValidation("creator4").traceabilityData;
+            data.registerYesVoteForValidity(new EntityID("entity24"));
+            data.registerNoVoteForValidity(new EntityID("entity22"));
+            putTraceabilityDataToDB("data4", data);
+            traceabilityDataArrayList.add(data);
+
+            return traceabilityDataArrayList;
+        }
+
         private final class MockKeyValue implements KeyValue {
 
             private final String key;
@@ -869,27 +895,7 @@ public final class iReceptorChainTest
             String traceabilityAwaitingValidationKeyPrefix = ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix();
             when(getCtx().getStub().getStateByPartialCompositeKey(new CompositeKey(traceabilityAwaitingValidationKeyPrefix).toString())).thenReturn(iterator);
 
-            ArrayList<TraceabilityData> traceabilityDataArrayList = new ArrayList<>();
-
-            TraceabilityData data = new MockTraceabilityDataAwaitingValidation("creator1").traceabilityData;
-            data.registerYesVoteForValidity(new EntityID("entity1"));
-            putTraceabilityDataToDB("data1", data);
-            traceabilityDataArrayList.add(data);
-            data = new MockTraceabilityDataAwaitingValidation("creator2").traceabilityData;
-            data.registerNoVoteForValidity(new EntityID("entity2"));
-            putTraceabilityDataToDB("data2", data);
-            traceabilityDataArrayList.add(data);
-            data = new MockTraceabilityDataAwaitingValidation("creator3").traceabilityData;
-            data.registerYesVoteForValidity(new EntityID("entity24"));
-            data.registerNoVoteForValidity(new EntityID("entity22"));
-            putTraceabilityDataToDB("data3", data);
-            traceabilityDataArrayList.add(data);
-            data = new MockTraceabilityDataAwaitingValidation("creator4").traceabilityData;
-            data.registerYesVoteForValidity(new EntityID("entity24"));
-            data.registerNoVoteForValidity(new EntityID("entity22"));
-            putTraceabilityDataToDB("data4", data);
-            traceabilityDataArrayList.add(data);
-
+            ArrayList<TraceabilityDataAwatingValidation> traceabilityDataArrayList = getMockTraceabilityDataAwatingValidation();
 
             TraceabilityDataAwatingValidationReturnType[] results = contract.getAllAwaitingValidationTraceabilityDataEntries(ctx);
             for (int i = 0; i < traceabilityDataArrayList.size(); i++)
