@@ -18,6 +18,7 @@ import java.util.List;
 import com.owlike.genson.Genson;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwatingValidationReturnType;
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataValidatedReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.EntityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
@@ -952,6 +953,28 @@ public final class iReceptorChainTest
                 TraceabilityDataInfo dataInfo = traceabilityDataArrayList.get(i);
                 TraceabilityData expected = dataInfo.getTraceabilityData();
                 TraceabilityData returned = results[i].getTraceabilityDataAwatingValidationData();
+                assertThat(returned).isEqualTo(expected);
+            }
+        }
+
+
+        @Test
+        public void testGetTraceabilityDataValidated() throws CertificateException, IOException
+        {
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
+            MockTraceabilityValidatedResultsIterator iterator = new MockTraceabilityValidatedResultsIterator();
+            String traceabilityValidatedKeyPrefix = ChaincodeConfigs.getTraceabilityValidatedKeyPrefix();
+            when(getCtx().getStub().getStateByPartialCompositeKey(new CompositeKey(traceabilityValidatedKeyPrefix).toString())).thenReturn(iterator);
+
+            ArrayList<TraceabilityDataInfo> traceabilityDataArrayList = getMockTraceabilityDataValidated();
+
+            TraceabilityDataValidatedReturnType[] results = contract.getAllValidatedTraceabilityDataEntries(ctx);
+            for (int i = 0; i < traceabilityDataArrayList.size(); i++)
+            {
+                TraceabilityDataInfo dataInfo = traceabilityDataArrayList.get(i);
+                TraceabilityData expected = dataInfo.getTraceabilityData();
+                TraceabilityData returned = results[i].getTraceabilityDataValidatedData();
                 assertThat(returned).isEqualTo(expected);
             }
         }
