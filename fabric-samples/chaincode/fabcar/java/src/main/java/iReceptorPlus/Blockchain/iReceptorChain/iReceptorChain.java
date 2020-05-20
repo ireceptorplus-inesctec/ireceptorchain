@@ -9,6 +9,7 @@ import java.util.Base64;
 import java.util.List;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.EntityDataReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwatingValidationReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataValidatedReturnType;
@@ -305,6 +306,33 @@ public final class iReceptorChain implements ContractInterface {
         logDebugMsg("getTraceabilityDataFromDBAndBuildVotingStateMachine END");
 
         return traceabilityInfoStateMachine;
+    }
+
+    /**
+     * Retrieves all traceability data that is in state awating validation.
+     *
+     * @param ctx the transaction context
+     * @return array of traceability data that is in state awaiting validation.
+     */
+    @Transaction()
+    public EntityDataReturnType[] getAllEntities(final Context ctx) {
+        ChaincodeStub stub = ctx.getStub();
+
+        HyperledgerFabricBlockhainRepositoryAPI api = new EntityDataRepositoryAPI(ctx);
+        ArrayList<iReceptorChainDataTypeInfo> results = api.getAllEntries();
+
+        ArrayList<EntityDataReturnType> resultsToReturn = new ArrayList<>();
+
+        for (iReceptorChainDataTypeInfo result: results)
+        {
+            EntityDataInfo entityDataInfo = (EntityDataInfo) result;
+            EntityDataReturnType dataReturnType = new EntityDataReturnType(entityDataInfo.getUUID(), (EntityData) entityDataInfo.getData());
+            resultsToReturn.add(dataReturnType);
+        }
+
+        EntityDataReturnType[] response = resultsToReturn.toArray(new EntityDataReturnType[resultsToReturn.size()]);
+
+        return response;
     }
 
     /**
