@@ -876,26 +876,21 @@ public final class iReceptorChainTest
 
         }
 
-        private final class MockTraceabilityDataAwaitingValidationResultsIterator implements QueryResultsIterator<KeyValue>
+        public abstract class MockTraceabilityDataResultsIterator implements QueryResultsIterator<KeyValue>
         {
-            private final List<KeyValue> traceabilityDataArrayList;
+            protected final List<KeyValue> traceabilityDataArrayList;
 
-            MockTraceabilityDataAwaitingValidationResultsIterator() {
+            public MockTraceabilityDataResultsIterator()
+            {
                 super();
                 traceabilityDataArrayList = new ArrayList<>();
-
-                ArrayList<TraceabilityDataInfo> mockData = getMockTraceabilityDataAwatingValidation();
-                for (TraceabilityDataInfo dataInfo : mockData)
-                {
-                    traceabilityDataArrayList.add(getTraceabilityDataKeyValue(dataInfo.getUUID(), dataInfo.getTraceabilityData()));
-                }
             }
 
-            private KeyValue getTraceabilityDataKeyValue(String uuid, TraceabilityData traceabilityData)
+            protected KeyValue getTraceabilityDataKeyValue(String uuid, TraceabilityData traceabilityData)
             {
                 String key = getKeyFromPrefixAndUUID(ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix(), uuid);
                 String traceabilityDataAsJson = genson.serialize(traceabilityData);
-                return new MockKeyValue(key, traceabilityDataAsJson);
+                return new iReceptorChainTest.GetTraceabilityData.MockKeyValue(key, traceabilityDataAsJson);
             }
 
             @Override
@@ -906,6 +901,20 @@ public final class iReceptorChainTest
             @Override
             public void close() throws Exception {
                 // do nothing
+            }
+        }
+
+        private final class MockTraceabilityDataAwaitingValidationResultsIterator extends MockTraceabilityDataResultsIterator
+        {
+
+            MockTraceabilityDataAwaitingValidationResultsIterator() {
+                super();
+
+                ArrayList<TraceabilityDataInfo> mockData = getMockTraceabilityDataAwatingValidation();
+                for (TraceabilityDataInfo dataInfo : mockData)
+                {
+                    traceabilityDataArrayList.add(getTraceabilityDataKeyValue(dataInfo.getUUID(), dataInfo.getTraceabilityData()));
+                }
             }
 
         }
