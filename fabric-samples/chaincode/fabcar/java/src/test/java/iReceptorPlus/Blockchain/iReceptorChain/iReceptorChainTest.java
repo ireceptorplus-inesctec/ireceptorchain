@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.owlike.genson.Genson;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.EntityDataReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwatingValidationReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataValidatedReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
@@ -849,6 +850,24 @@ public final class iReceptorChainTest
             return traceabilityDataArrayList;
         }
 
+        private ArrayList<EntityData> getMockEntityData()
+        {
+            ArrayList<EntityData> entities = new ArrayList<>();
+
+            EntityData entity;
+
+            entity = new EntityData("entity1", new Long(100), new Long(100));
+            entities.add(entity);
+            entity = new EntityData("entity2", new Long(100), new Long(100));
+            entities.add(entity);
+            entity = new EntityData("entity3", new Long(100), new Long(100));
+            entities.add(entity);
+            entity = new EntityData("entity4", new Long(100), new Long(100));
+            entities.add(entity);
+
+            return entities;
+        }
+
         private final class MockKeyValue implements KeyValue {
 
             private final String key;
@@ -936,6 +955,41 @@ public final class iReceptorChainTest
         }
 
 
+        public class MockEntityDataResultsIterator implements QueryResultsIterator<KeyValue>
+        {
+            protected final List<KeyValue> entityData;
+
+            public MockEntityDataResultsIterator()
+            {
+                super();
+                entityData = new ArrayList<>();
+
+                entityData.add(getEntityDataKeyValue(new EntityData("entity1", new Long(100), new Long(100))));
+                entityData.add(getEntityDataKeyValue(new EntityData("entity2", new Long(100), new Long(100))));
+                entityData.add(getEntityDataKeyValue(new EntityData("entity3", new Long(100), new Long(100))));
+                entityData.add(getEntityDataKeyValue(new EntityData("entity4", new Long(100), new Long(100))));
+
+            }
+
+            protected KeyValue getEntityDataKeyValue(EntityData entityData)
+            {
+                String key = getKeyFromPrefixAndUUID(ChaincodeConfigs.getEntityDataKeyPrefix(), entityData.getId());
+                String traceabilityDataAsJson = genson.serialize(entityData);
+                return new iReceptorChainTest.GetTraceabilityData.MockKeyValue(key, traceabilityDataAsJson);
+            }
+
+            @Override
+            public Iterator<KeyValue> iterator() {
+                return entityData.iterator();
+            }
+
+            @Override
+            public void close() throws Exception {
+                // do nothing
+            }
+        }
+
+
         @Test
         public void testGetTraceabilityDataAwaitingValidation() throws CertificateException, IOException
         {
@@ -975,6 +1029,27 @@ public final class iReceptorChainTest
                 TraceabilityDataInfo dataInfo = traceabilityDataArrayList.get(i);
                 TraceabilityData expected = dataInfo.getTraceabilityData();
                 TraceabilityData returned = results[i].getTraceabilityDataValidatedData();
+                assertThat(returned).isEqualTo(expected);
+            }
+        }
+
+
+        @Test
+        public void testGetAllEntities() throws CertificateException, IOException
+        {
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
+            MockEntityDataResultsIterator iterator = new MockEntityDataResultsIterator();
+            String entityDataKeyPrefix = ChaincodeConfigs.getEntityDataKeyPrefix();
+            when(getCtx().getStub().getStateByPartialCompositeKey(new CompositeKey(entityDataKeyPrefix).toString())).thenReturn(iterator);
+
+            ArrayList<EntityData> traceabilityDataArrayList = getMockEntityData();
+
+            EntityDataReturnType[] results = contract.getAllEntities(ctx);
+            for (int i = 0; i < traceabilityDataArrayList.size(); i++)
+            {
+                EntityData expected = traceabilityDataArrayList.get(i);
+                EntityData returned = results[i].getEntityData();
                 assertThat(returned).isEqualTo(expected);
             }
         }
