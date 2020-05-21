@@ -157,22 +157,6 @@ public final class iReceptorChain implements ContractInterface {
     /**
      * Creates a new traceability data entry on the ledger.
      * The entry is placed on the pool of traceability data's waiting to be validated by peers.
-     * @param ctx the transaction context
-     * @param newUUID the new UUID of the object to be created. This is generated at client-side in order to avoid different blockchain nodes reaching different ids for the same transaction for a creation of an object.
-     * @param traceabilityData An instance of class TraceabilityDataAwatingValidation containing the traceability data to be inserted in the blockchain.
-     */
-    @Transaction()
-    public TraceabilityDataAwatingValidationReturnType createTraceabilityDataEntry(final Context ctx, final String newUUID, final TraceabilityDataAwatingValidation traceabilityData)
-    {
-        ProcessingDetails processingDetails = traceabilityData.getProcessingDetails();
-        return createTraceabilityDataEntry(ctx, newUUID, traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
-                processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
-                processingDetails.getSoftwareConfigParams());
-    }
-
-    /**
-     * Creates a new traceability data entry on the ledger.
-     * The entry is placed on the pool of traceability data's waiting to be validated by peers.
      *
      * @param ctx the transaction context
      * @param newUUID the new UUID of the object to be created. This is generated at client-side in order to avoid different blockchain nodes reaching different ids for the same transaction for a creation of an object.
