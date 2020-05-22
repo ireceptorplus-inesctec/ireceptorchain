@@ -92,7 +92,10 @@ public final class iReceptorChain implements ContractInterface {
             String carState = genson.serialize(car);
             //stub.putStringState(key, carState);
         }
-/*
+
+        createEntity(ctx, "entity");
+
+        /*
         createTraceabilityDataEntry(ctx,
                 "uuid",
                 "inputDatasetHashValue",
