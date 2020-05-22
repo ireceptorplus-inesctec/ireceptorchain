@@ -25,7 +25,7 @@ services:
       - CORE_PEER_PROFILE_ENABLED=true
       - CORE_PEER_ADDRESSAUTODETECT=true
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
-    command: peer node start
+    command: peer node start --logging-level DEBUG
     volumes:
     - /var/run/:/host/var/run/
 
