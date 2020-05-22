@@ -41,9 +41,52 @@ async function main() {
         // Evaluate the specified transaction.
         // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
         // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
-        const result = await contract.evaluateTransaction('queryAllCars');
-        console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
+        //const result = await contract.evaluateTransaction('createCar', 'CARRRR', 'make', 'model', 'color', 'owner');
+        //const result = await contract.evaluateTransaction('test');
+        /*const createTraceabilityEntryResult = await contract.evaluateTransaction('createTraceabilityDataEntry',
+        'uuid',
+        'inputDatasetHashValue',
+        'outputDatasetHashValue',
+        'softwareId',
+        'softwareVersion',
+        'softwareBinaryExecutableHashValue',
+        'softwareConfigParams',
+        );*/
+        const registerYesVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
+        'uuid',
+        );
+        const registerYesVoteForTraceabilityEntryInVotingRoundResult2 = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
+        'uuid',
+        );
+        const registerYesVoteForTraceabilityEntryInVotingRoundResult3 = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
+        'uuid',
+        );
+        const registerYesVoteForTraceabilityEntryInVotingRoundResult4 = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
+        'uuid',
+        );
+        const registerNoVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerNoVoteForTraceabilityEntryInVotingRound',
+        'uuid',
+        );
+        const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
+        'uuid',
+        );
+        const getAllValidatedTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllValidatedTraceabilityDataEntries',
+        'uuid',
+        );
+        const testNotFinalAttribsResult = await contract.evaluateTransaction('testNotFinalAttribs',
+        'uuid',
+        );
 
+
+        //console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
+        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult: ${registerYesVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
+        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult2: ${registerYesVoteForTraceabilityEntryInVotingRoundResult2.toString()}`);
+        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult3: ${registerYesVoteForTraceabilityEntryInVotingRoundResult3.toString()}`);
+        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult4: ${registerYesVoteForTraceabilityEntryInVotingRoundResult4.toString()}`);
+        console.log(`registerNoVoteForTraceabilityEntryInVotingRoundResult: ${registerNoVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
+        console.log(`getAllAwaitingValidationTraceabilityDataEntriesResult: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
+        console.log(`getAllValidatedTraceabilityDataEntriesResult: ${getAllValidatedTraceabilityDataEntriesResult.toString()}`);
+        console.log(`testNotFinalAttribsResult: ${testNotFinalAttribsResult.toString()}`);
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);
         process.exit(1);

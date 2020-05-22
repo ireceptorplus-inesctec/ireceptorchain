@@ -49,31 +49,4 @@ public final class Car {
         this.color = color;
         this.owner = owner;
     }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-
-        if ((obj == null) || (getClass() != obj.getClass())) {
-            return false;
-        }
-
-        Car other = (Car) obj;
-
-        return Objects.deepEquals(new String[] {getMake(), getModel(), getColor(), getOwner()},
-                new String[] {other.getMake(), other.getModel(), other.getColor(), other.getOwner()});
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getMake(), getModel(), getColor(), getOwner());
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()) + " [make=" + make + ", model="
-                + model + ", color=" + color + ", owner=" + owner + "]";
-    }
 }
