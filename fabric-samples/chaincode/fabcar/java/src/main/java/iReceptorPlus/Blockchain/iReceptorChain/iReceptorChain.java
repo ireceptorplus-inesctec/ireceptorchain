@@ -409,6 +409,8 @@ public final class iReceptorChain implements ContractInterface {
                                                             final String softwareConfigParams) {
         logDebugMsg("createTraceabilityDataEntry");
 
+        System.err.println("************** entity that is creating the entry id: " + ctx.getClientIdentity().getId());
+
         ChaincodeStub stub = ctx.getStub();
 
         TraceabilityDataAwatingValidation traceabilityData = new TraceabilityDataAwatingValidation(inputDatasetHashValue, outputDatasetHashValue,
