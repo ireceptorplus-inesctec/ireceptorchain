@@ -121,17 +121,6 @@ public final class iReceptorChain implements ContractInterface {
             //stub.putStringState(key, carState);
         }
 
-        createEntityById(ctx, "x509::CN=org2admin, OU=admin, O=Hyperledger, ST=North Carolina, C=US::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US");
-
-        createTraceabilityDataEntry(ctx,
-                "uuid",
-                "inputDatasetHashValue",
-                "outputDatasetHashValue",
-                "softwareId",
-                "softwareVersion",
-                "softwareBinaryExecutableHashValue",
-                "softwareConfigParams"
-        );
 
   
     }
