@@ -231,7 +231,7 @@ public final class iReceptorChainTest
 
             Throwable thrown = catchThrowable(() ->
             {
-                getContract().createEntity(getCtx(), getClientIdentity());
+                getContract().createEntityByClientIdentity(getCtx(), getClientIdentity());
             });
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasNoCause()
@@ -245,7 +245,7 @@ public final class iReceptorChainTest
             when(getCtx().getStub()).thenReturn(getStub());
             when(getStub().getStringState(getEntityKeyOnDB())).thenReturn("");
 
-            EntityDataInfo entityCreated = getContract().createEntity(getCtx(), getClientIdentity());
+            EntityDataInfo entityCreated = getContract().createEntityByClientIdentity(getCtx(), getClientIdentity());
             EntityDataInfo entityDataInfo = new EntityDataInfo(getEntityID(), getEntityData());
             assertThat(entityCreated).isEqualTo(entityDataInfo);
 
