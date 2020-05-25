@@ -121,6 +121,18 @@ public final class iReceptorChain implements ContractInterface {
             //stub.putStringState(key, carState);
         }
 
+        createEntityById(ctx, "creator");
+
+        createTraceabilityDataEntry(ctx,
+                "uuid",
+                "inputDatasetHashValue",
+                "outputDatasetHashValue",
+                "softwareId",
+                "softwareVersion",
+                "softwareBinaryExecutableHashValue",
+                "softwareConfigParams"
+        );
+
   
     }
 
