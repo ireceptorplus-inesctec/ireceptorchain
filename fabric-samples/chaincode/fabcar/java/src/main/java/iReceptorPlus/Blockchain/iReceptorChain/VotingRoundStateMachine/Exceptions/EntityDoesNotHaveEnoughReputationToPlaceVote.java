@@ -1,4 +1,4 @@
-package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions;
+package iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions;
 
 public class EntityDoesNotHaveEnoughReputationToPlaceVote extends EntityDoesNotHaveEnoughReputationToPerformAction
 {

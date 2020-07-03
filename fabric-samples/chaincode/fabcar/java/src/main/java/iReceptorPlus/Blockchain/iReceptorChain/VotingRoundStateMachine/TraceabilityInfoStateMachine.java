@@ -1,15 +1,15 @@
-package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine;
+package iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.*;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Returns.VotingStateMachineReturn;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.AwaitingValidation;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.State;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States.Validated;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions.*;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Returns.VotingStateMachineReturn;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.States.AwaitingValidation;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.States.State;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.States.Validated;
 
 /**
  * This class implements a state machine for the traceability information.
@@ -31,7 +31,7 @@ public class TraceabilityInfoStateMachine
 
     /**
      * An instance of class HyperledgerFabricBlockhainRepositoryAPI created using the current blockchain context.
-     * The class implements all calls to the Hyperledger API in order to abstract that logic from this class (VotingStateMachine).
+     * The class implements all calls to the Hyperledger API in order to abstract that logic from this class (VotingRoundStateMachine).
      */
     HyperledgerFabricBlockhainRepositoryAPI api;
 

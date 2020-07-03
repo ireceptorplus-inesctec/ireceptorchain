@@ -1,4 +1,4 @@
-package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.States;
+package iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.States;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
@@ -10,10 +10,10 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Hy
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.TraceabilityDataAwatingValidationRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.TraceabilityDataValidatedRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.EntityReputationManager;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPerformAction;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.IncosistentInfoFoundOnDB;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions.ReferenceToNonexistentEntity;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.EntityReputationManager;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPerformAction;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions.IncosistentInfoFoundOnDB;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions.ReferenceToNonexistentEntity;
 
 /**
  * This is a delegate class used to finish the voting round.
@@ -29,7 +29,7 @@ public class RoundFinisher
 
     /**
      * An instance of class HyperledgerFabricBlockhainRepositoryAPI created using the current blockchain context.
-     * The class implements all calls to the Hyperledger API in order to abstract that logic from this class (VotingStateMachine).
+     * The class implements all calls to the Hyperledger API in order to abstract that logic from this class (VotingRoundStateMachine).
      */
     HyperledgerFabricBlockhainRepositoryAPI api;
 

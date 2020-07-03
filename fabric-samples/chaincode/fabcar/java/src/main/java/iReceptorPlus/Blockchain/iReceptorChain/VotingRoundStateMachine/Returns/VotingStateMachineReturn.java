@@ -1,4 +1,4 @@
-package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Returns;
+package iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Returns;
 
 /**
  * This class represents the return of the voting state machine.

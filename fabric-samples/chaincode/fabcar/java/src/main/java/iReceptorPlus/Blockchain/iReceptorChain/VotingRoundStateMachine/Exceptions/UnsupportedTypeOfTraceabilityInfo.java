@@ -1,6 +1,6 @@
-package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions;
+package iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions;
 
-public class InternalError extends TraceabilityInfoStateMachineException
+public class UnsupportedTypeOfTraceabilityInfo extends TraceabilityInfoStateMachineException
 {
     /**
      * Constructor for this class that receives the message as parameter.
@@ -8,7 +8,7 @@ public class InternalError extends TraceabilityInfoStateMachineException
      *
      * @param message The string message that will be set as the message for the exception that occurred.
      */
-    public InternalError(String message)
+    public UnsupportedTypeOfTraceabilityInfo(String message)
     {
         super(message);
     }

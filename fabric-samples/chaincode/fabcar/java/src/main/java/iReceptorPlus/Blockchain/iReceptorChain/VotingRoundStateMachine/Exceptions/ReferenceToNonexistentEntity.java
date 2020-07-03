@@ -1,4 +1,4 @@
-package iReceptorPlus.Blockchain.iReceptorChain.VotingStateMachine.Exceptions;
+package iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions;
 
 /**
  * This is a subclass that represents a specific type of exception upon processing by the state machine:
