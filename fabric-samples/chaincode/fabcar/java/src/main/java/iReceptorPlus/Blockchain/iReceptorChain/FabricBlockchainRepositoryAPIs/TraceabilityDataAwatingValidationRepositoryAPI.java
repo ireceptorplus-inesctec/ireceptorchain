@@ -1,23 +1,23 @@
-package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI;
+package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import org.hyperledger.fabric.contract.Context;
 
-public class TraceabilityDataValidatedRepositoryAPI extends TraceabilityDataRepositoryAPI
+public class TraceabilityDataAwatingValidationRepositoryAPI extends TraceabilityDataRepositoryAPI
 {
+
     /**
      * Constructor for this class.
      *
      * @param ctx The blockchain context in which this class will perform the required tasks.
      */
-    public TraceabilityDataValidatedRepositoryAPI(Context ctx)
+    public TraceabilityDataAwatingValidationRepositoryAPI(Context ctx)
     {
-        super(ctx, ChaincodeConfigs.getTraceabilityValidatedKeyPrefix());
+        super(ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix());
     }
 
     /**
@@ -25,15 +25,15 @@ public class TraceabilityDataValidatedRepositoryAPI extends TraceabilityDataRepo
      * Uses the same blockchain context but not the same objectTypeIdentifier. Is is used when another repository is meant to be created when another repository is needed and the same context should be used.
      * @param api The instance of HyperledgerFabricBlockhainRepositoryAPI from which to copy the context from.
      */
-    public TraceabilityDataValidatedRepositoryAPI(HyperledgerFabricBlockhainRepositoryAPI api)
+    public TraceabilityDataAwatingValidationRepositoryAPI(HyperledgerFabricBlockhainRepositoryAPI api)
     {
-        super(api.ctx, ChaincodeConfigs.getTraceabilityValidatedKeyPrefix());
+        super(api.ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix());
     }
 
     @Override
     protected iReceptorChainDataType deserializeData(String serializedData)
     {
-        return genson.deserialize(serializedData, TraceabilityDataValidated.class);
+        return genson.deserialize(serializedData, TraceabilityDataAwatingValidation.class);
     }
 
     @Override

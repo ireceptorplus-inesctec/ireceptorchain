@@ -1,4 +1,4 @@
-package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions;
+package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions;
 
 public abstract class ReferenceToIdException extends HyperledgerFabricBlockhainRepositoryAPIException
 {

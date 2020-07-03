@@ -1,24 +1,22 @@
-package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI;
+package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs;
 
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataValidated;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import org.hyperledger.fabric.contract.Context;
 
-public class TraceabilityDataAwatingValidationRepositoryAPI extends TraceabilityDataRepositoryAPI
+public class TraceabilityDataValidatedRepositoryAPI extends TraceabilityDataRepositoryAPI
 {
-
     /**
      * Constructor for this class.
      *
      * @param ctx The blockchain context in which this class will perform the required tasks.
      */
-    public TraceabilityDataAwatingValidationRepositoryAPI(Context ctx)
+    public TraceabilityDataValidatedRepositoryAPI(Context ctx)
     {
-        super(ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix());
+        super(ctx, ChaincodeConfigs.getTraceabilityValidatedKeyPrefix());
     }
 
     /**
@@ -26,15 +24,15 @@ public class TraceabilityDataAwatingValidationRepositoryAPI extends Traceability
      * Uses the same blockchain context but not the same objectTypeIdentifier. Is is used when another repository is meant to be created when another repository is needed and the same context should be used.
      * @param api The instance of HyperledgerFabricBlockhainRepositoryAPI from which to copy the context from.
      */
-    public TraceabilityDataAwatingValidationRepositoryAPI(HyperledgerFabricBlockhainRepositoryAPI api)
+    public TraceabilityDataValidatedRepositoryAPI(HyperledgerFabricBlockhainRepositoryAPI api)
     {
-        super(api.ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix());
+        super(api.ctx, ChaincodeConfigs.getTraceabilityValidatedKeyPrefix());
     }
 
     @Override
     protected iReceptorChainDataType deserializeData(String serializedData)
     {
-        return genson.deserialize(serializedData, TraceabilityDataAwatingValidation.class);
+        return genson.deserialize(serializedData, TraceabilityDataValidated.class);
     }
 
     @Override

@@ -1,7 +1,5 @@
-package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI;
+package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs;
 
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityData;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 import org.hyperledger.fabric.contract.Context;
 
 /**

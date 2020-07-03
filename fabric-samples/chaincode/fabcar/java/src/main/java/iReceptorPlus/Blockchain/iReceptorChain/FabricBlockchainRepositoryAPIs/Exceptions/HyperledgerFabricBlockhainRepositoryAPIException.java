@@ -1,4 +1,4 @@
-package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPI.Exceptions;
+package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions;
 
 /**
  * This is the base class for representing exceptions that occur upon CRUD database operations by the HyperledgerFabricBlockhainRepositoryAPI and its derived classes.
