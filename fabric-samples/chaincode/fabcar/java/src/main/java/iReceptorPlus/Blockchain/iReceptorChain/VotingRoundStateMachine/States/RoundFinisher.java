@@ -78,7 +78,7 @@ public class RoundFinisher
     private void unStakeCreatorAndVotersReputation(TraceabilityData traceabilityData, EntityReputationManager entityReputationManager) throws ReferenceToNonexistentEntity
     {
         Long unStakeForCreating = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
-        Long unStakeForApprovers = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
+        Long unStakeForApprovers = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
         Long unStakeForRejecters = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
         try
         {
