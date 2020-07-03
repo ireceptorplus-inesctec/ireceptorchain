@@ -24,7 +24,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataIn
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions.*;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Returns.VotingStateMachineReturn;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.TraceabilityInfoStateMachine;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.TraceabilityDataStateMachine;
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
@@ -434,7 +434,7 @@ public final class iReceptorChain implements ContractInterface {
 
         try
         {
-            TraceabilityInfoStateMachine stateMachine = new TraceabilityInfoStateMachine(dataInfo, api);
+            TraceabilityDataStateMachine stateMachine = new TraceabilityDataStateMachine(dataInfo, api);
             stateMachine.initVotingRound(new EntityID(ctx.getClientIdentity().getId()));
         } catch (UnsupportedTypeOfTraceabilityInfo unsupportedTypeOfTraceabilityInfo)
         {
@@ -469,11 +469,11 @@ public final class iReceptorChain implements ContractInterface {
 
         logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound");
 
-        TraceabilityInfoStateMachine traceabilityInfoStateMachine = getTraceabilityDataFromDBAndBuildVotingStateMachine(ctx, uuid);
+        TraceabilityDataStateMachine traceabilityDataStateMachine = getTraceabilityDataFromDBAndBuildVotingStateMachine(ctx, uuid);
         VotingStateMachineReturn votingStateMachineReturn;
         try
         {
-            votingStateMachineReturn = traceabilityInfoStateMachine.voteYesForTheVeracityOfTraceabilityInfo(getEntityIdFromContext(ctx));
+            votingStateMachineReturn = traceabilityDataStateMachine.voteYesForTheVeracityOfTraceabilityInfo(getEntityIdFromContext(ctx));
         } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
         {
             throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
@@ -501,11 +501,11 @@ public final class iReceptorChain implements ContractInterface {
     public String registerNoVoteForTraceabilityEntryInVotingRound(final Context ctx, final String uuid) {
         logDebugMsg("registerNoVoteForTraceabilityEntryInVotingRound");
 
-        TraceabilityInfoStateMachine traceabilityInfoStateMachine = getTraceabilityDataFromDBAndBuildVotingStateMachine(ctx, uuid);
+        TraceabilityDataStateMachine traceabilityDataStateMachine = getTraceabilityDataFromDBAndBuildVotingStateMachine(ctx, uuid);
         VotingStateMachineReturn votingStateMachineReturn;
         try
         {
-            votingStateMachineReturn = traceabilityInfoStateMachine.voteNoForTheVeracityOfTraceabilityInfo(getEntityIdFromContext(ctx));
+            votingStateMachineReturn = traceabilityDataStateMachine.voteNoForTheVeracityOfTraceabilityInfo(getEntityIdFromContext(ctx));
         } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
         {
             throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
@@ -530,7 +530,7 @@ public final class iReceptorChain implements ContractInterface {
      * @param uuid the UUID of the traceability data entry to support voting for.
      * @return a string identifying the success of the operation.
      */
-    private TraceabilityInfoStateMachine getTraceabilityDataFromDBAndBuildVotingStateMachine(Context ctx, String uuid)
+    private TraceabilityDataStateMachine getTraceabilityDataFromDBAndBuildVotingStateMachine(Context ctx, String uuid)
     {
         logDebugMsg("getTraceabilityDataFromDBAndBuildVotingStateMachine");
 
@@ -553,17 +553,17 @@ public final class iReceptorChain implements ContractInterface {
             throw new ChaincodeException("Creator of traceability data cannot vote for it.");
 
         TraceabilityDataInfo traceabilityDataInfo = new TraceabilityDataInfo(uuid, traceabilityData);
-        TraceabilityInfoStateMachine traceabilityInfoStateMachine;
+        TraceabilityDataStateMachine traceabilityDataStateMachine;
         try
         {
-            traceabilityInfoStateMachine = new TraceabilityInfoStateMachine(traceabilityDataInfo, api);
+            traceabilityDataStateMachine = new TraceabilityDataStateMachine(traceabilityDataInfo, api);
         } catch (UnsupportedTypeOfTraceabilityInfo unsupportedTypeOfTraceabilityInfo)
         {
             throw new ChaincodeException("Voting on information with this type is not supported");
         }
         logDebugMsg("getTraceabilityDataFromDBAndBuildVotingStateMachine END");
 
-        return traceabilityInfoStateMachine;
+        return traceabilityDataStateMachine;
     }
 
     /**
