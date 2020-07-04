@@ -786,7 +786,7 @@ public final class iReceptorChainTest
     @Nested
     class GetTraceabilityData
     {
-        private ArrayList<TraceabilityDataInfo> getMockTraceabilityDataAwatingValidation()
+        private ArrayList<TraceabilityDataInfo> getMockTraceabilityDataAwaitingValidation()
         {
             ArrayList<TraceabilityDataInfo> traceabilityDataArrayList = new ArrayList<>();
 
@@ -930,7 +930,7 @@ public final class iReceptorChainTest
             MockTraceabilityDataAwaitingValidationResultsIterator() {
                 super();
 
-                ArrayList<TraceabilityDataInfo> mockData = getMockTraceabilityDataAwatingValidation();
+                ArrayList<TraceabilityDataInfo> mockData = getMockTraceabilityDataAwaitingValidation();
                 for (TraceabilityDataInfo dataInfo : mockData)
                 {
                     traceabilityDataArrayList.add(getTraceabilityDataKeyValue(dataInfo.getUUID(), dataInfo.getTraceabilityData()));
@@ -999,14 +999,14 @@ public final class iReceptorChainTest
             String traceabilityAwaitingValidationKeyPrefix = ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix();
             when(getCtx().getStub().getStateByPartialCompositeKey(new CompositeKey(traceabilityAwaitingValidationKeyPrefix).toString())).thenReturn(iterator);
 
-            ArrayList<TraceabilityDataInfo> traceabilityDataArrayList = getMockTraceabilityDataAwatingValidation();
+            ArrayList<TraceabilityDataInfo> traceabilityDataArrayList = getMockTraceabilityDataAwaitingValidation();
 
             TraceabilityDataAwaitingValidationReturnType[] results = contract.getAllAwaitingValidationTraceabilityDataEntries(ctx);
             for (int i = 0; i < traceabilityDataArrayList.size(); i++)
             {
                 TraceabilityDataInfo dataInfo = traceabilityDataArrayList.get(i);
                 TraceabilityData expected = dataInfo.getTraceabilityData();
-                TraceabilityData returned = results[i].getTraceabilityDataAwatingValidationData();
+                TraceabilityData returned = results[i].getTraceabilityDataAwaitingValidationData();
                 assertThat(returned).isEqualTo(expected);
             }
         }

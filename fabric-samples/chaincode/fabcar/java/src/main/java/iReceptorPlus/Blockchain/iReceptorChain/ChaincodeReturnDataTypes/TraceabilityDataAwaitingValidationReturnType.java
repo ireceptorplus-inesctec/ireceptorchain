@@ -15,18 +15,18 @@ public class TraceabilityDataAwaitingValidationReturnType extends TraceabilityDa
      * The traceability data just as it is stored on the blockchain.
      */
     @Property()
-    TraceabilityDataAwaitingValidation traceabilityDataAwatingValidationData;
+    TraceabilityDataAwaitingValidation traceabilityDataAwaitingValidationData;
 
-    public TraceabilityDataAwaitingValidation getTraceabilityDataAwatingValidationData()
+    public TraceabilityDataAwaitingValidation getTraceabilityDataAwaitingValidationData()
     {
-        return traceabilityDataAwatingValidationData;
+        return traceabilityDataAwaitingValidationData;
     }
 
     public TraceabilityDataAwaitingValidationReturnType(@JsonProperty("uuid") final String uuid,
-                                                        @JsonProperty("traceabilityDataAwatingValidationData") final TraceabilityDataAwaitingValidation traceabilityDataAwatingValidationData)
+                                                        @JsonProperty("traceabilityDataAwaitingValidationData") final TraceabilityDataAwaitingValidation traceabilityDataAwaitingValidationData)
     {
         super(uuid);
-        this.traceabilityDataAwatingValidationData = traceabilityDataAwatingValidationData;
+        this.traceabilityDataAwaitingValidationData = traceabilityDataAwaitingValidationData;
     }
 
     @Override
@@ -36,13 +36,13 @@ public class TraceabilityDataAwaitingValidationReturnType extends TraceabilityDa
         if (o == null || getClass() != o.getClass()) return false;
         TraceabilityDataAwaitingValidationReturnType that = (TraceabilityDataAwaitingValidationReturnType) o;
         return uuid.equals(that.uuid) &&
-                traceabilityDataAwatingValidationData.equals(that.traceabilityDataAwatingValidationData);
+                traceabilityDataAwaitingValidationData.equals(that.traceabilityDataAwaitingValidationData);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(uuid, traceabilityDataAwatingValidationData);
+        return Objects.hash(uuid, traceabilityDataAwaitingValidationData);
     }
 
 }

@@ -221,14 +221,14 @@ public final class iReceptorChain implements ContractInterface {
 
         List<TraceabilityData> queryResults = new ArrayList<TraceabilityData>();
 
-        String traceabilityInfoAwatingValidation = stub.getStringState("traceabilityInfoAwatingValidation5");
-        System.err.println("*******traceabilityInfoAwatingValidation******");
-        System.err.println(traceabilityInfoAwatingValidation);
-        if (traceabilityInfoAwatingValidation.isEmpty())
+        String traceabilityInfoAwaitingValidation = stub.getStringState("traceabilityInfoAwaitingValidation5");
+        System.err.println("*******traceabilityInfoAwaitingValidation******");
+        System.err.println(traceabilityInfoAwaitingValidation);
+        if (traceabilityInfoAwaitingValidation.isEmpty())
             System.err.println("does not exist1");
         else
             System.err.println("exists1");
-        TraceabilityData resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityDataAwaitingValidation.class);
+        TraceabilityData resultsAwaitingValidation = genson.deserialize(traceabilityInfoAwaitingValidation, TraceabilityDataAwaitingValidation.class);
         String traceabilityInfoValidated = stub.getStringState("traceabilityInfoValidated5");
         System.err.println("******traceabilityInfoValidated********");
         System.err.println(traceabilityInfoValidated);
@@ -237,7 +237,7 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityData resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityDataValidated.class);
 
 
-        resultsAwatingValidation.registerYesVoteForValidity(getEntityIdFromContext(ctx));
+        resultsAwaitingValidation.registerYesVoteForValidity(getEntityIdFromContext(ctx));
         resultsValidated.registerYesVoteForValidity(getEntityIdFromContext(ctx));
         System.err.println("stuff4");
 
@@ -290,14 +290,14 @@ public final class iReceptorChain implements ContractInterface {
         else
             System.err.println("exists0 and result is: " + carStateQueryResult);
 
-        String traceabilityInfoAwatingValidation = stub.getStringState("traceabilityInfoAwatingValidation5");
-        System.err.println("traceabilityInfoAwatingValidation");
-        System.err.println(traceabilityInfoAwatingValidation);
-        if (traceabilityInfoAwatingValidation.isEmpty())
+        String traceabilityInfoAwaitingValidation = stub.getStringState("traceabilityInfoAwaitingValidation5");
+        System.err.println("traceabilityInfoAwaitingValidation");
+        System.err.println(traceabilityInfoAwaitingValidation);
+        if (traceabilityInfoAwaitingValidation.isEmpty())
             System.err.println("does not exist1");
         else
             System.err.println("exists1");
-        iReceptorChainDataType resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityDataAwaitingValidation.class);
+        iReceptorChainDataType resultsAwaitingValidation = genson.deserialize(traceabilityInfoAwaitingValidation, TraceabilityDataAwaitingValidation.class);
         String traceabilityInfoValidated = stub.getStringState("traceabilityInfoValidated5");
         System.err.println("traceabilityInfoValidated");
         System.err.println(traceabilityInfoValidated);
@@ -307,7 +307,7 @@ public final class iReceptorChain implements ContractInterface {
 
         return (TraceabilityData) resultsValidated;
 /*
-        resultsAwatingValidation.registerYesVoteForValidity(getEntityIdFromContext(ctx));
+        resultsAwaitingValidation.registerYesVoteForValidity(getEntityIdFromContext(ctx));
         resultsValidated.registerYesVoteForValidity(getEntityIdFromContext(ctx));
         System.err.println("stuff4");
 */
