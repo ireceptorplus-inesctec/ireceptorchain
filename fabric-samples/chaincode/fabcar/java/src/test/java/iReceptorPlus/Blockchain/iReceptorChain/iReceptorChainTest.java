@@ -18,7 +18,7 @@ import java.util.List;
 import com.owlike.genson.Genson;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.EntityDataReturnType;
-import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwatingValidationReturnType;
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwaitingValidationReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataValidatedReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.EntityDataInfo;
@@ -355,8 +355,8 @@ public final class iReceptorChainTest
             String uuid = "uuid";
             long reputationStakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
 
-            TraceabilityDataAwatingValidationReturnType returned;
-            TraceabilityDataAwatingValidationReturnType expected = new TraceabilityDataAwatingValidationReturnType(uuid, getTraceabilityData());
+            TraceabilityDataAwaitingValidationReturnType returned;
+            TraceabilityDataAwaitingValidationReturnType expected = new TraceabilityDataAwaitingValidationReturnType(uuid, getTraceabilityData());
 
             setEntityReputation(reputationStakeNecessary, 0);
             returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
@@ -1001,7 +1001,7 @@ public final class iReceptorChainTest
 
             ArrayList<TraceabilityDataInfo> traceabilityDataArrayList = getMockTraceabilityDataAwatingValidation();
 
-            TraceabilityDataAwatingValidationReturnType[] results = contract.getAllAwaitingValidationTraceabilityDataEntries(ctx);
+            TraceabilityDataAwaitingValidationReturnType[] results = contract.getAllAwaitingValidationTraceabilityDataEntries(ctx);
             for (int i = 0; i < traceabilityDataArrayList.size(); i++)
             {
                 TraceabilityDataInfo dataInfo = traceabilityDataArrayList.get(i);

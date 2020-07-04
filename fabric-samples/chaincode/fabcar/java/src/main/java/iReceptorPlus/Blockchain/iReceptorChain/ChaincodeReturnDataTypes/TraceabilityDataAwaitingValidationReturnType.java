@@ -8,7 +8,7 @@ import org.hyperledger.fabric.contract.annotation.Property;
 import java.util.Objects;
 
 @DataType()
-public class TraceabilityDataAwatingValidationReturnType extends TraceabilityDataReturnType
+public class TraceabilityDataAwaitingValidationReturnType extends TraceabilityDataReturnType
 {
 
     /**
@@ -22,8 +22,8 @@ public class TraceabilityDataAwatingValidationReturnType extends TraceabilityDat
         return traceabilityDataAwatingValidationData;
     }
 
-    public TraceabilityDataAwatingValidationReturnType(@JsonProperty("uuid") final String uuid,
-                                                       @JsonProperty("traceabilityDataAwatingValidationData") final TraceabilityDataAwaitingValidation traceabilityDataAwatingValidationData)
+    public TraceabilityDataAwaitingValidationReturnType(@JsonProperty("uuid") final String uuid,
+                                                        @JsonProperty("traceabilityDataAwatingValidationData") final TraceabilityDataAwaitingValidation traceabilityDataAwatingValidationData)
     {
         super(uuid);
         this.traceabilityDataAwatingValidationData = traceabilityDataAwatingValidationData;
@@ -34,7 +34,7 @@ public class TraceabilityDataAwatingValidationReturnType extends TraceabilityDat
     {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TraceabilityDataAwatingValidationReturnType that = (TraceabilityDataAwatingValidationReturnType) o;
+        TraceabilityDataAwaitingValidationReturnType that = (TraceabilityDataAwaitingValidationReturnType) o;
         return uuid.equals(that.uuid) &&
                 traceabilityDataAwatingValidationData.equals(that.traceabilityDataAwatingValidationData);
     }
