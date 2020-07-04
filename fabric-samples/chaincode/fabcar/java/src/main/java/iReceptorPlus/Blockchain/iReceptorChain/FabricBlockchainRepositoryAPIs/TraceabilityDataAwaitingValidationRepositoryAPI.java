@@ -7,7 +7,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataIn
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainDataTypeInfo;
 import org.hyperledger.fabric.contract.Context;
 
-public class TraceabilityDataAwatingValidationRepositoryAPI extends TraceabilityDataRepositoryAPI
+public class TraceabilityDataAwaitingValidationRepositoryAPI extends TraceabilityDataRepositoryAPI
 {
 
     /**
@@ -15,7 +15,7 @@ public class TraceabilityDataAwatingValidationRepositoryAPI extends Traceability
      *
      * @param ctx The blockchain context in which this class will perform the required tasks.
      */
-    public TraceabilityDataAwatingValidationRepositoryAPI(Context ctx)
+    public TraceabilityDataAwaitingValidationRepositoryAPI(Context ctx)
     {
         super(ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix());
     }
@@ -25,7 +25,7 @@ public class TraceabilityDataAwatingValidationRepositoryAPI extends Traceability
      * Uses the same blockchain context but not the same objectTypeIdentifier. Is is used when another repository is meant to be created when another repository is needed and the same context should be used.
      * @param api The instance of HyperledgerFabricBlockhainRepositoryAPI from which to copy the context from.
      */
-    public TraceabilityDataAwatingValidationRepositoryAPI(HyperledgerFabricBlockhainRepositoryAPI api)
+    public TraceabilityDataAwaitingValidationRepositoryAPI(HyperledgerFabricBlockhainRepositoryAPI api)
     {
         super(api.ctx, ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix());
     }

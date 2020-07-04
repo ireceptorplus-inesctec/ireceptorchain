@@ -7,7 +7,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.En
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.HyperledgerFabricBlockhainRepositoryAPI;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.TraceabilityDataAwatingValidationRepositoryAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.TraceabilityDataAwaitingValidationRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.TraceabilityDataValidatedRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.EntityReputationManager;
@@ -119,7 +119,7 @@ public class RoundFinisher
 
     private void removeTraceabilityDataFromDB() throws IncosistentInfoFoundOnDB
     {
-        api = new TraceabilityDataAwatingValidationRepositoryAPI(api);
+        api = new TraceabilityDataAwaitingValidationRepositoryAPI(api);
         try
         {
             api.remove(traceabilityDataInfo);

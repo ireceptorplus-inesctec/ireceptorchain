@@ -17,7 +17,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.En
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.HyperledgerFabricBlockhainRepositoryAPI;
-import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.TraceabilityDataAwatingValidationRepositoryAPI;
+import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.TraceabilityDataAwaitingValidationRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.TraceabilityDataValidatedRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.EntityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
@@ -430,7 +430,7 @@ public final class iReceptorChain implements ContractInterface {
 
         TraceabilityDataInfo dataInfo = new TraceabilityDataInfo(newUUID, traceabilityData);
 
-        HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
+        HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
 
         try
         {
@@ -538,7 +538,7 @@ public final class iReceptorChain implements ContractInterface {
 
         TraceabilityData traceabilityData;
 
-        TraceabilityDataAwatingValidationRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
+        TraceabilityDataAwaitingValidationRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
         try
         {
             traceabilityData = (TraceabilityData) api.read(uuid);
@@ -604,7 +604,7 @@ public final class iReceptorChain implements ContractInterface {
         logDebugMsg("getAllAwaitingValidationTraceabilityDataEntries");
         ChaincodeStub stub = ctx.getStub();
 
-        HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwatingValidationRepositoryAPI(ctx);
+        HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
         ArrayList<iReceptorChainDataTypeInfo> results = api.getAllEntries();
 
         ArrayList<TraceabilityDataAwatingValidationReturnType> resultsToReturn = new ArrayList<>();
