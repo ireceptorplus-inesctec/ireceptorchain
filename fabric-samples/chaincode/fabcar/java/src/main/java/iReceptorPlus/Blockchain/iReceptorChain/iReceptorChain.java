@@ -201,7 +201,7 @@ public final class iReceptorChain implements ContractInterface {
 
     @Transaction()
     public TraceabilityData createTraceabilityEntries(final Context ctx) {
-        iReceptorChainDataType traceabilityDataAwatingValidation = new TraceabilityDataAwatingValidation("a","b", new ProcessingDetails("", "", "", ""), new EntityID("a"));
+        iReceptorChainDataType traceabilityDataAwatingValidation = new TraceabilityDataAwaitingValidation("a","b", new ProcessingDetails("", "", "", ""), new EntityID("a"));
         iReceptorChainDataType traceabilityDataValidated = new TraceabilityDataValidated("c","d", new ProcessingDetails("", "", "", ""), new EntityID("a"), new ArrayList<>(), new ArrayList<>());
 
         ChaincodeStub stub = ctx.getStub();
@@ -228,7 +228,7 @@ public final class iReceptorChain implements ContractInterface {
             System.err.println("does not exist1");
         else
             System.err.println("exists1");
-        TraceabilityData resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityDataAwatingValidation.class);
+        TraceabilityData resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityDataAwaitingValidation.class);
         String traceabilityInfoValidated = stub.getStringState("traceabilityInfoValidated5");
         System.err.println("******traceabilityInfoValidated********");
         System.err.println(traceabilityInfoValidated);
@@ -297,13 +297,13 @@ public final class iReceptorChain implements ContractInterface {
             System.err.println("does not exist1");
         else
             System.err.println("exists1");
-        iReceptorChainDataType resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityDataAwatingValidation.class);
+        iReceptorChainDataType resultsAwatingValidation = genson.deserialize(traceabilityInfoAwatingValidation, TraceabilityDataAwaitingValidation.class);
         String traceabilityInfoValidated = stub.getStringState("traceabilityInfoValidated5");
         System.err.println("traceabilityInfoValidated");
         System.err.println(traceabilityInfoValidated);
         if (traceabilityInfoValidated.isEmpty())
             System.err.println("does not exist2");
-        iReceptorChainDataType resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityDataAwatingValidation.class);
+        iReceptorChainDataType resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityDataAwaitingValidation.class);
 
         return (TraceabilityData) resultsValidated;
 /*
@@ -389,10 +389,10 @@ public final class iReceptorChain implements ContractInterface {
      * The entry is placed on the pool of traceability data's waiting to be validated by peers.
      * @param ctx the transaction context
      * @param newUUID the new UUID of the object to be created. This is generated at client-side in order to avoid different blockchain nodes reaching different ids for the same transaction for a creation of an object.
-     * @param traceabilityData An instance of class TraceabilityDataAwatingValidation containing the traceability data to be inserted in the blockchain.
+     * @param traceabilityData An instance of class TraceabilityDataAwaitingValidation containing the traceability data to be inserted in the blockchain.
      */
     @Transaction()
-    public TraceabilityDataAwatingValidationReturnType createTraceabilityDataEntryByObject(final Context ctx, final String newUUID, final TraceabilityDataAwatingValidation traceabilityData)
+    public TraceabilityDataAwatingValidationReturnType createTraceabilityDataEntryByObject(final Context ctx, final String newUUID, final TraceabilityDataAwaitingValidation traceabilityData)
     {
         ProcessingDetails processingDetails = traceabilityData.getProcessingDetails();
         return createTraceabilityDataEntry(ctx, newUUID, traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
@@ -425,7 +425,7 @@ public final class iReceptorChain implements ContractInterface {
 
         ChaincodeStub stub = ctx.getStub();
 
-        TraceabilityDataAwatingValidation traceabilityData = new TraceabilityDataAwatingValidation(inputDatasetHashValue, outputDatasetHashValue,
+        TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(inputDatasetHashValue, outputDatasetHashValue,
                 new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams), new EntityID(ctx.getClientIdentity().getId()));
 
         TraceabilityDataInfo dataInfo = new TraceabilityDataInfo(newUUID, traceabilityData);
@@ -613,7 +613,7 @@ public final class iReceptorChain implements ContractInterface {
         {
             TraceabilityDataInfo traceabilityDataInfo = (TraceabilityDataInfo) result;
             logDebugMsg("uuid: " + traceabilityDataInfo.getUUID());
-            TraceabilityDataAwatingValidationReturnType dataReturnType = new TraceabilityDataAwatingValidationReturnType(traceabilityDataInfo.getUUID(), (TraceabilityDataAwatingValidation) traceabilityDataInfo.getTraceabilityData());
+            TraceabilityDataAwatingValidationReturnType dataReturnType = new TraceabilityDataAwatingValidationReturnType(traceabilityDataInfo.getUUID(), (TraceabilityDataAwaitingValidation) traceabilityDataInfo.getTraceabilityData());
             resultsToReturn.add(dataReturnType);
         }
 

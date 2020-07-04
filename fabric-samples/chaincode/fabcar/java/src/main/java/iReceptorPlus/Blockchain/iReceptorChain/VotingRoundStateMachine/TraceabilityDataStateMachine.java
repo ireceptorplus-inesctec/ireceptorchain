@@ -41,7 +41,7 @@ public class TraceabilityDataStateMachine
         this.api = api;
         TraceabilityData traceabilityData = traceabilityDataInfo.getTraceabilityData();
 
-        if (traceabilityData instanceof TraceabilityDataAwatingValidation)
+        if (traceabilityData instanceof TraceabilityDataAwaitingValidation)
             state = new AwaitingValidation(traceabilityDataInfo, api);
         else if (traceabilityData instanceof TraceabilityDataValidated)
             state = new Validated(traceabilityDataInfo, api);

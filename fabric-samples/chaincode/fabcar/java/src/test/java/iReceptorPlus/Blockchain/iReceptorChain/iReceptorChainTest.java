@@ -163,7 +163,7 @@ public final class iReceptorChainTest
         return mockTraceabilityDataAwaitingValidation;
     }
 
-    public TraceabilityDataAwatingValidation getTraceabilityData()
+    public TraceabilityDataAwaitingValidation getTraceabilityData()
     {
         return mockTraceabilityDataAwaitingValidation.traceabilityData;
     }
@@ -790,7 +790,7 @@ public final class iReceptorChainTest
         {
             ArrayList<TraceabilityDataInfo> traceabilityDataArrayList = new ArrayList<>();
 
-            TraceabilityDataAwatingValidation data;
+            TraceabilityDataAwaitingValidation data;
             TraceabilityDataInfo dataInfo;
 
             data = new MockTraceabilityDataAwaitingValidation("creator1").traceabilityData;

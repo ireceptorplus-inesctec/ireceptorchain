@@ -10,26 +10,26 @@ import java.util.ArrayList;
  * This is a subclass of TraceabilityData, representing traceability information in a specific state: after the entry was first created and submitted to the blockchain.
  */
 @DataType()
-public class TraceabilityDataAwatingValidation extends TraceabilityData
+public class TraceabilityDataAwaitingValidation extends TraceabilityData
 {
 
 
-    public TraceabilityDataAwatingValidation(String inputDatasetHashValue,
-                                             String outputDatasetHashValue,
-                                             ProcessingDetails processingDetails,
-                                             EntityID creatorID)
+    public TraceabilityDataAwaitingValidation(String inputDatasetHashValue,
+                                              String outputDatasetHashValue,
+                                              ProcessingDetails processingDetails,
+                                              EntityID creatorID)
     {
         super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID);
         approvers = new ArrayList<>();
         rejecters = new ArrayList<>();
     }
 
-    public TraceabilityDataAwatingValidation(@JsonProperty("inputDatasetHashValue") String inputDatasetHashValue,
-                                             @JsonProperty("outputDatasetHashValue") String outputDatasetHashValue,
-                                             @JsonProperty("processingDetails") ProcessingDetails processingDetails,
-                                             @JsonProperty("creatorID") EntityID creatorID,
-                                             @JsonProperty("approvers") ArrayList<EntityID> approvers,
-                                             @JsonProperty("rejecters") ArrayList<EntityID> rejecters)
+    public TraceabilityDataAwaitingValidation(@JsonProperty("inputDatasetHashValue") String inputDatasetHashValue,
+                                              @JsonProperty("outputDatasetHashValue") String outputDatasetHashValue,
+                                              @JsonProperty("processingDetails") ProcessingDetails processingDetails,
+                                              @JsonProperty("creatorID") EntityID creatorID,
+                                              @JsonProperty("approvers") ArrayList<EntityID> approvers,
+                                              @JsonProperty("rejecters") ArrayList<EntityID> rejecters)
     {
         super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, approvers, rejecters);
     }

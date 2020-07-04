@@ -1,6 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs;
 
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwaitingValidation;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.iReceptorChainDataType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeConfigs;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
@@ -33,7 +33,7 @@ public class TraceabilityDataAwatingValidationRepositoryAPI extends Traceability
     @Override
     protected iReceptorChainDataType deserializeData(String serializedData)
     {
-        return genson.deserialize(serializedData, TraceabilityDataAwatingValidation.class);
+        return genson.deserialize(serializedData, TraceabilityDataAwaitingValidation.class);
     }
 
     @Override

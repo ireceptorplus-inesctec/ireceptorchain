@@ -1,7 +1,7 @@
 package iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes;
 
 import com.owlike.genson.annotation.JsonProperty;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwatingValidation;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwaitingValidation;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
@@ -15,15 +15,15 @@ public class TraceabilityDataAwatingValidationReturnType extends TraceabilityDat
      * The traceability data just as it is stored on the blockchain.
      */
     @Property()
-    TraceabilityDataAwatingValidation traceabilityDataAwatingValidationData;
+    TraceabilityDataAwaitingValidation traceabilityDataAwatingValidationData;
 
-    public TraceabilityDataAwatingValidation getTraceabilityDataAwatingValidationData()
+    public TraceabilityDataAwaitingValidation getTraceabilityDataAwatingValidationData()
     {
         return traceabilityDataAwatingValidationData;
     }
 
     public TraceabilityDataAwatingValidationReturnType(@JsonProperty("uuid") final String uuid,
-                                                       @JsonProperty("traceabilityDataAwatingValidationData") final TraceabilityDataAwatingValidation traceabilityDataAwatingValidationData)
+                                                       @JsonProperty("traceabilityDataAwatingValidationData") final TraceabilityDataAwaitingValidation traceabilityDataAwatingValidationData)
     {
         super(uuid);
         this.traceabilityDataAwatingValidationData = traceabilityDataAwatingValidationData;
