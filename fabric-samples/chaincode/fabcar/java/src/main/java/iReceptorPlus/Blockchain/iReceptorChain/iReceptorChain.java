@@ -201,14 +201,14 @@ public final class iReceptorChain implements ContractInterface {
 
     @Transaction()
     public TraceabilityData createTraceabilityEntries(final Context ctx) {
-        iReceptorChainDataType traceabilityDataAwatingValidation = new TraceabilityDataAwaitingValidation("a","b", new ProcessingDetails("", "", "", ""), new EntityID("a"));
+        iReceptorChainDataType traceabilityDataAwaitingValidation = new TraceabilityDataAwaitingValidation("a","b", new ProcessingDetails("", "", "", ""), new EntityID("a"));
         iReceptorChainDataType traceabilityDataValidated = new TraceabilityDataValidated("c","d", new ProcessingDetails("", "", "", ""), new EntityID("a"), new ArrayList<>(), new ArrayList<>());
 
         ChaincodeStub stub = ctx.getStub();
 
-        String traceabilityInfoAwatingValidationState = genson.serialize(traceabilityDataAwatingValidation);
+        String traceabilityInfoAwaitingValidationState = genson.serialize(traceabilityDataAwaitingValidation);
         String traceabilityInfoValidatedState = genson.serialize(traceabilityDataValidated);
-        stub.putStringState("traceabilityInfoAwatingValidation5", traceabilityInfoAwatingValidationState);
+        stub.putStringState("traceabilityInfoAwaitingValidation5", traceabilityInfoAwaitingValidationState);
         stub.putStringState("traceabilityInfoValidated5", traceabilityInfoValidatedState);
 
         return null;
