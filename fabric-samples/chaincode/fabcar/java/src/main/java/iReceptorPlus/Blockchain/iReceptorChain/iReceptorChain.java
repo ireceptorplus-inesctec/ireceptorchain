@@ -567,7 +567,7 @@ public final class iReceptorChain implements ContractInterface {
     }
 
     /**
-     * Retrieves all traceability data that is in state awating validation.
+     * Retrieves all traceability data that is in state awaiting validation.
      *
      * @param ctx the transaction context
      * @return array of traceability data that is in state awaiting validation.
@@ -594,7 +594,7 @@ public final class iReceptorChain implements ContractInterface {
     }
     
     /**
-     * Retrieves all traceability data that is in state awating validation.
+     * Retrieves all traceability data that is in state awaiting validation.
      *
      * @param ctx the transaction context
      * @return array of traceability data that is in state awaiting validation.

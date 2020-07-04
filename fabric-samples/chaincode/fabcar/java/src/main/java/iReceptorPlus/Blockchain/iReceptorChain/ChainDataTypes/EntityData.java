@@ -33,7 +33,7 @@ public class EntityData implements iReceptorChainDataType
 
     /**
      * This is a counter for the reputation of the entity that is currently at stake.
-     * Reputation is put at stake when the entity votes for a traceability data entry that is still awating validation.
+     * Reputation is put at stake when the entity votes for a traceability data entry that is still awaiting validation.
      * This reputation may be lost if the entity is decided to be lying (by majority consensus).
      */
     @Property()
