@@ -33,12 +33,23 @@ public class RoundFinisher
      */
     HyperledgerFabricBlockhainRepositoryAPI api;
 
+    /**
+     * Constructor for this class. Receives the traceability data of which to finish the voting round and the repository where that traceability data is stored.
+     * @param traceabilityDataInfo An instance of class TraceabilityDataInfo representing the traceability data of which to finish the voting round.
+     * @param api An instance of class HyperledgerFabricBlockhainRepositoryAPI that implements the database logic to access the "table" where that traceability data is stored.
+     */
     public RoundFinisher(TraceabilityDataInfo traceabilityDataInfo, HyperledgerFabricBlockhainRepositoryAPI api)
     {
         this.traceabilityDataInfo = traceabilityDataInfo;
         this.api = api;
     }
 
+    /**
+     * This method performs the procedures necessary for the termination of the voting round when the network decides by consensus to approve the traceability data.
+     * @param traceabilityData An instance of class TraceabilityData representing the traceability data of which the voting round will be terminated and that will be registered as valid in the blockchain.
+     * @throws IncosistentInfoFoundOnDB Exception thrown in case there is an error that shouldn't be possible in this method, due to early integrity checks. The error can only be thrown in case of lack of those verifications and, therefore, if inconsistent information is on the database.
+     * @throws ReferenceToNonexistentEntity Exception thrown in case there is a reference to an unexistant entity during the method execution (if either the creator or at least one of the voters of the traceability data doesn't exist). This also shouldn't happen because this information shouldn't be registered in the blockchain.
+     */
     void approveTraceabilityDataEntry(TraceabilityData traceabilityData) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
     {
         removeTraceabilityDataFromDB();
@@ -75,6 +86,12 @@ public class RoundFinisher
         }
     }
 
+    /**
+     * This auxiliary method performs the procedures for unstaking the creator and voters' reputation upon termination of the voting round. The procedures are common for both when the network decides by consensus to approve or reject the traceability data.
+     * @param traceabilityData An instance of class TraceabilityData representing the traceability data of which the voting round will be terminated and that will be registered as valid in the blockchain.
+     * @param entityReputationManager An instance of class EntityReputationManager responsible for managing the reputation of entities.
+     * @throws ReferenceToNonexistentEntity Exception thrown in case there is a reference to an unexistant entity during the method execution (if either the creator or at least one of the voters of the traceability data doesn't exist). This also shouldn't happen because this information shouldn't be registered in the blockchain.
+     */
     private void unStakeCreatorAndVotersReputation(TraceabilityData traceabilityData, EntityReputationManager entityReputationManager) throws ReferenceToNonexistentEntity
     {
         Long unStakeForCreating = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
@@ -92,6 +109,12 @@ public class RoundFinisher
         }
     }
 
+    /**
+     * This method performs the procedures necessary for the termination of the voting round when the network decides by consensus to reject the traceability data.
+     * @param traceabilityData An instance of class TraceabilityData representing the traceability data of which the voting round will be terminated and that will be registered as valid in the blockchain.
+     * @throws IncosistentInfoFoundOnDB Exception thrown in case there is an error that shouldn't be possible in this method, due to early integrity checks. The error can only be thrown in case of lack of those verifications and, therefore, if inconsistent information is on the database.
+     * @throws ReferenceToNonexistentEntity Exception thrown in case there is a reference to an unexistant entity during the method execution (if either the creator or at least one of the voters of the traceability data doesn't exist). This also shouldn't happen because this information shouldn't be registered in the blockchain.
+     */
     void rejectTraceabilityDataEntry(TraceabilityData traceabilityData) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity
     {
         removeTraceabilityDataFromDB();
@@ -117,6 +140,10 @@ public class RoundFinisher
         }
     }
 
+    /**
+     * This auxiliary method performs the procedures for removing the traceability data from the database upon termination of the voting round. The procedures are common for both when the network decides by consensus to approve or reject the traceability data.
+     * @throws IncosistentInfoFoundOnDB Exception thrown in case there is an error that shouldn't be possible in this method, due to early integrity checks. The error can only be thrown in case of lack of those verifications and, therefore, if inconsistent information is on the database.
+     */
     private void removeTraceabilityDataFromDB() throws IncosistentInfoFoundOnDB
     {
         api = new TraceabilityDataAwaitingValidationRepositoryAPI(api);
