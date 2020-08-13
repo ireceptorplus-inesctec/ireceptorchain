@@ -52,6 +52,7 @@ async function main() {
         'softwareBinaryExecutableHashValue',
         'softwareConfigParams',
         );
+        /*
         const registerYesVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
@@ -76,9 +77,10 @@ async function main() {
         const testNotFinalAttribsResult = await contract.evaluateTransaction('testNotFinalAttribs',
         'uuid',
         );
+        */
 
 
-        //console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
+        console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
         console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult: ${registerYesVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
         console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult2: ${registerYesVoteForTraceabilityEntryInVotingRoundResult2.toString()}`);
         console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult3: ${registerYesVoteForTraceabilityEntryInVotingRoundResult3.toString()}`);
