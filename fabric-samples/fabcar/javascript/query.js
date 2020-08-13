@@ -81,12 +81,12 @@ async function main() {
 
 
         console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
-        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult: ${registerYesVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
+        /*console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult: ${registerYesVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
         console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult2: ${registerYesVoteForTraceabilityEntryInVotingRoundResult2.toString()}`);
         console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult3: ${registerYesVoteForTraceabilityEntryInVotingRoundResult3.toString()}`);
         console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult4: ${registerYesVoteForTraceabilityEntryInVotingRoundResult4.toString()}`);
         console.log(`registerNoVoteForTraceabilityEntryInVotingRoundResult: ${registerNoVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
-        console.log(`getAllAwaitingValidationTraceabilityDataEntriesResult: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
+        */console.log(`getAllAwaitingValidationTraceabilityDataEntriesResult: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
         console.log(`getAllValidatedTraceabilityDataEntriesResult: ${getAllValidatedTraceabilityDataEntriesResult.toString()}`);
         console.log(`testNotFinalAttribsResult: ${testNotFinalAttribsResult.toString()}`);
     } catch (error) {
