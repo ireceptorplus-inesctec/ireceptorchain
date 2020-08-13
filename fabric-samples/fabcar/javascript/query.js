@@ -67,17 +67,14 @@ async function main() {
         );
         const registerNoVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerNoVoteForTraceabilityEntryInVotingRound',
         'uuid',
-        );
+        );*/
         const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
         'uuid',
         );
         const getAllValidatedTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllValidatedTraceabilityDataEntries',
         'uuid',
         );
-        const testNotFinalAttribsResult = await contract.evaluateTransaction('testNotFinalAttribs',
-        'uuid',
-        );
-        */
+        
 
 
         console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
