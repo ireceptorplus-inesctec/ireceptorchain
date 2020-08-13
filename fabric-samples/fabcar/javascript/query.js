@@ -30,7 +30,7 @@ async function main() {
 
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
-        await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
+        await gateway.connect(ccp, { wallet, identity: 'admin', discovery: { enabled: true, asLocalhost: true } });
 
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
@@ -85,7 +85,7 @@ async function main() {
         console.log(`registerNoVoteForTraceabilityEntryInVotingRoundResult: ${registerNoVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
         */console.log(`getAllAwaitingValidationTraceabilityDataEntriesResult: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
         console.log(`getAllValidatedTraceabilityDataEntriesResult: ${getAllValidatedTraceabilityDataEntriesResult.toString()}`);
-        console.log(`testNotFinalAttribsResult: ${testNotFinalAttribsResult.toString()}`);
+        //console.log(`testNotFinalAttribsResult: ${testNotFinalAttribsResult.toString()}`);
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);
         process.exit(1);
