@@ -52,28 +52,28 @@ async function main() {
         'softwareBinaryExecutableHashValue',
         'softwareConfigParams',
         );*/
-        const registerYesVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
+        const registerYesVoteForTraceabilityEntryInVotingRoundResult = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
-        const registerYesVoteForTraceabilityEntryInVotingRoundResult2 = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
+        const registerYesVoteForTraceabilityEntryInVotingRoundResult2 = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
-        const registerYesVoteForTraceabilityEntryInVotingRoundResult3 = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
+        const registerYesVoteForTraceabilityEntryInVotingRoundResult3 = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
-        const registerYesVoteForTraceabilityEntryInVotingRoundResult4 = await contract.evaluateTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
+        const registerYesVoteForTraceabilityEntryInVotingRoundResult4 = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
-        const registerNoVoteForTraceabilityEntryInVotingRoundResult = await contract.evaluateTransaction('registerNoVoteForTraceabilityEntryInVotingRound',
+        const registerNoVoteForTraceabilityEntryInVotingRoundResult = await contract.submitTransaction('registerNoVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
-        const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
+        const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.submitTransaction('getAllAwaitingValidationTraceabilityDataEntries',
         'uuid',
         );
-        const getAllValidatedTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllValidatedTraceabilityDataEntries',
+        const getAllValidatedTraceabilityDataEntriesResult = await contract.submitTransaction('getAllValidatedTraceabilityDataEntries',
         'uuid',
         );
-        const testNotFinalAttribsResult = await contract.evaluateTransaction('testNotFinalAttribs',
+        const testNotFinalAttribsResult = await contract.submitTransaction('testNotFinalAttribs',
         'uuid',
         );
 
