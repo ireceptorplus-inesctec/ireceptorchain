@@ -66,7 +66,8 @@ async function main() {
         'softwareVersion',
         'softwareBinaryExecutableHashValue',
         'softwareConfigParams',
-        );       const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
+        );       
+        const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
         'uuid',
         );
         console.log(`getAllAwaitingValidationTraceabilityDataEntriesResult: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
