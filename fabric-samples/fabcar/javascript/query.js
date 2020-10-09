@@ -58,7 +58,7 @@ async function main() {
         // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
         //const result = await contract.evaluateTransaction('createCar', 'CARRRR', 'make', 'model', 'color', 'owner');
         //const result = await contract.evaluateTransaction('test');
-        const createTraceabilityEntryResult = await contractAdmin.evaluateTransaction('createTraceabilityDataEntry',
+        const createTraceabilityEntryResult = await contractAdmin.submitTransaction('createTraceabilityDataEntry',
         'uuid',
         'inputDatasetHashValue',
         'outputDatasetHashValue',
