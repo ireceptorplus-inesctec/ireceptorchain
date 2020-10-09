@@ -70,7 +70,7 @@ async function main() {
         const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
         'uuid',
         );
-        console.log(`getAllAwaitingValidationTraceabilityDataEntriesResult: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
+        console.log(`getAllAwaitingValidationTraceabilityDataEntriesResultaaaaa: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
 
         const registerYesVoteForTraceabilityEntryInVotingRoundResult = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
