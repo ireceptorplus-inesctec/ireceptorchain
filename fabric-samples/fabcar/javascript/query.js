@@ -67,8 +67,9 @@ async function main() {
         'softwareBinaryExecutableHashValue',
         'softwareConfigParams',
         );
+        /*
         const registerYesVoteForTraceabilityEntryInVotingRoundResult = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
-        'uuidtovote',
+        'uuid',
         );
         const registerYesVoteForTraceabilityEntryInVotingRoundResult2 = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
@@ -81,14 +82,14 @@ async function main() {
         );
         const registerNoVoteForTraceabilityEntryInVotingRoundResult = await contract.submitTransaction('registerNoVoteForTraceabilityEntryInVotingRound',
         'uuid',
-        );
-        const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.submitTransaction('getAllAwaitingValidationTraceabilityDataEntries',
+        );*/
+        const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
         'uuid',
         );
-        const getAllValidatedTraceabilityDataEntriesResult = await contract.submitTransaction('getAllValidatedTraceabilityDataEntries',
+        const getAllValidatedTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllValidatedTraceabilityDataEntries',
         'uuid',
         );
-        const testNotFinalAttribsResult = await contract.submitTransaction('testNotFinalAttribs',
+        const testNotFinalAttribsResult = await contract.evaluateTransaction('testNotFinalAttribs',
         'uuid',
         );
 
