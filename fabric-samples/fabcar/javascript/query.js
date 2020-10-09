@@ -43,7 +43,7 @@ async function main() {
         // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
         //const result = await contract.evaluateTransaction('createCar', 'CARRRR', 'make', 'model', 'color', 'owner');
         //const result = await contract.evaluateTransaction('test');
-        /*const createTraceabilityEntryResult = await contract.evaluateTransaction('createTraceabilityDataEntry',
+        const createTraceabilityEntryResult = await contract.evaluateTransaction('createTraceabilityDataEntry',
         'uuid',
         'inputDatasetHashValue',
         'outputDatasetHashValue',
@@ -51,7 +51,7 @@ async function main() {
         'softwareVersion',
         'softwareBinaryExecutableHashValue',
         'softwareConfigParams',
-        );*/
+        );
         const registerYesVoteForTraceabilityEntryInVotingRoundResult = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
@@ -79,6 +79,7 @@ async function main() {
 
 
         //console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
+        console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
         console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult: ${registerYesVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
         console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult2: ${registerYesVoteForTraceabilityEntryInVotingRoundResult2.toString()}`);
         console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult3: ${registerYesVoteForTraceabilityEntryInVotingRoundResult3.toString()}`);
