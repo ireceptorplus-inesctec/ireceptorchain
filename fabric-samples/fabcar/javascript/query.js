@@ -43,7 +43,7 @@ async function main() {
         //Admin
         // Create a new gateway for connecting to our peer node.
         const gatewayAdmin = new Gateway();
-        await gatewayAdmin.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
+        await gatewayAdmin.connect(ccp, { wallet, identity: 'admin', discovery: { enabled: true, asLocalhost: true } });
 
         // Get the network (channel) our contract is deployed to.
         const networkAdmin = await gatewayAdmin.getNetwork('mychannel');
