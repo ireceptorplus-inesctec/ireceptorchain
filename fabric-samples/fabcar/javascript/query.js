@@ -28,6 +28,7 @@ async function main() {
             return;
         }
 
+        //app user
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
         await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
@@ -38,12 +39,26 @@ async function main() {
         // Get the contract from the network.
         const contract = network.getContract('fabcar');
 
+
+        //Admin
+        // Create a new gateway for connecting to our peer node.
+        const gatewayAdmin = new Gateway();
+        await gatewayAdmin.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
+
+        // Get the network (channel) our contract is deployed to.
+        const networkAdmin = await gatewayAdmin.getNetwork('mychannel');
+
+        // Get the contract from the network.
+        const contractAdmin = networkAdmin.getContract('fabcar');
+
+        
+
         // Evaluate the specified transaction.
         // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
         // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
         //const result = await contract.evaluateTransaction('createCar', 'CARRRR', 'make', 'model', 'color', 'owner');
         //const result = await contract.evaluateTransaction('test');
-        const createTraceabilityEntryResult = await contract.submitTransaction('createTraceabilityDataEntry',
+        const createTraceabilityEntryResult = await contractAdmin.submitTransaction('createTraceabilityDataEntry',
         'uuid',
         'inputDatasetHashValue',
         'outputDatasetHashValue',
