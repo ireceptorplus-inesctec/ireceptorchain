@@ -67,10 +67,10 @@ async function main() {
         'softwareBinaryExecutableHashValue',
         'softwareConfigParams',
         );       
-        const getAllEntititesResult = await contract.evaluateTransaction('getAllEntities',
+        const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
         'uuid',
         );
-        console.log(`getAllEntititesResult: ${getAllEntititesResult.toString()}`);
+        console.log(`getAllAwaitingValidationTraceabilityDataEntriesResult: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
 
         const registerYesVoteForTraceabilityEntryInVotingRoundResult = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
@@ -87,7 +87,7 @@ async function main() {
         const registerNoVoteForTraceabilityEntryInVotingRoundResult = await contract.submitTransaction('registerNoVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
-        const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
+         getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
         'uuid',
         );
         const getAllValidatedTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllValidatedTraceabilityDataEntries',
