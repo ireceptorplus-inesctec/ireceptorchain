@@ -115,7 +115,14 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     private iReceptorChainDataType getDataTypeFromDB(String uuid) throws ObjectWithGivenKeyNotFoundOnBlockchainDB
     {
         String key = uuidToKey(uuid);
-        String serializedData = ctx.getStub().getStringState(key);
+        QueryResultsIterator<KeyValue> resultsFromStub = ctx.getStub().getStateByPartialCompositeKey(key);
+        String serializedData = null;
+        for (KeyValue result: resultsFromStub)
+        {
+            serializedData = String.valueOf(result.getValue());
+            break;
+        }
+
         if (serializedData == null || serializedData.isEmpty())
             throw new ObjectWithGivenKeyNotFoundOnBlockchainDB("The object referenced does not exist on the blockchain database", uuid);
 
