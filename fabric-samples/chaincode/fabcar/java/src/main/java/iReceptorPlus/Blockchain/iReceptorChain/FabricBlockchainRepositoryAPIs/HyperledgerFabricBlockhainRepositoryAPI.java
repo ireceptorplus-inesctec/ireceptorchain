@@ -62,7 +62,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         CompositeKey compositeKey = new CompositeKey(objectTypeIdentifier, uuid);
         String compositeKeyString = compositeKey.toString();
         compositeKeyString.replace("\u0000", "");
-        return compositeKeyString;
+        return objectTypeIdentifier + uuid;
     }
 
     /**
@@ -118,7 +118,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         String key = uuidToKey(uuid);
         String serializedData = ctx.getStub().getStringState(key);
         if (serializedData == null || serializedData.isEmpty())
-            throw new ObjectWithGivenKeyNotFoundOnBlockchainDB("The object referenced does not exist on the blockchain database", key);
+            throw new ObjectWithGivenKeyNotFoundOnBlockchainDB("The object referenced does not exist on the blockchain database", uuid);
 
         return deserializeData(serializedData);
     }
