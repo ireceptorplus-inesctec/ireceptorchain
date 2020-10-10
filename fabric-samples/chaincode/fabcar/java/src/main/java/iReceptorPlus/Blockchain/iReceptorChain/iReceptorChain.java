@@ -432,7 +432,7 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataInfo dataInfo = new TraceabilityDataInfo(newUUID, traceabilityData);
 
         HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
-/*
+
         try
         {
             TraceabilityDataStateMachine stateMachine = new TraceabilityDataStateMachine(dataInfo, api);
@@ -450,7 +450,7 @@ public final class iReceptorChain implements ContractInterface {
         {
             throw new ChaincodeException(givenIdIsAlreadyAssignedToAnotherObject.getMessage());
         }
-*/
+
         TraceabilityDataAwaitingValidationReturnType traceabilityDataInfo = new TraceabilityDataAwaitingValidationReturnType(newUUID, traceabilityData);
 
         logDebugMsg("createTraceabilityDataEntry END");
