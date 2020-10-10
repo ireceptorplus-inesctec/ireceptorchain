@@ -263,7 +263,7 @@ public final class iReceptorChain implements ContractInterface {
     }
 
     @Transaction()
-    public String test(final Context ctx) {
+    public String test1(final Context ctx) {
         ChaincodeStub stub = ctx.getStub();
 
 /*
@@ -316,6 +316,23 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataAwaitingValidationRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
         try
         {
+            api.create("uuid", new TraceabilityDataAwaitingValidation("", "", new ProcessingDetails("", "", "", ""), new EntityID("entity")));
+        } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
+        {
+            throw new ChaincodeException("not able to create");
+        }
+
+        return "success";
+    }
+
+    @Transaction()
+    public String test2(final Context ctx)
+    {
+        ChaincodeStub stub = ctx.getStub();
+
+        TraceabilityDataAwaitingValidationRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
+        try
+        {
             api.read("uuid");
         } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
         {
@@ -323,8 +340,8 @@ public final class iReceptorChain implements ContractInterface {
         }
 
         return "success";
-    }
 
+    }
 
     /**
      * Changes the owner of a car on the ledger.
