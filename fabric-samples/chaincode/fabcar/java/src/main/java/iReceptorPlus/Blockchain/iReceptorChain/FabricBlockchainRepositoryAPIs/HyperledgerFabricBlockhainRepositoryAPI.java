@@ -61,8 +61,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     {
         CompositeKey compositeKey = new CompositeKey(objectTypeIdentifier, uuid);
         String compositeKeyString = compositeKey.toString();
-        compositeKeyString.replace("\u0000", "");
-        return objectTypeIdentifier + uuid;
+        return compositeKeyString;
     }
 
     /**
