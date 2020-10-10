@@ -180,7 +180,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         ArrayList<iReceptorChainDataTypeInfo> results = new ArrayList<>();
         for (KeyValue result: resultsFromStub)
         {
-            String uuid = result.getKey().substring((objectTypeIdentifier + "-").length());
+            String uuid = result.getKey();//.substring((objectTypeIdentifier + "-").length());
             iReceptorChainDataTypeInfo dataInfo = deserializeData(uuid, result.getStringValue());
 
             results.add(dataInfo);
