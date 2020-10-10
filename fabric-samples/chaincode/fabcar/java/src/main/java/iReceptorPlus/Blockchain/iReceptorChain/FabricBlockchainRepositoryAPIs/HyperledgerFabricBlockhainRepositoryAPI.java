@@ -116,7 +116,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         String key = uuidToKey(uuid);
         String serializedData = ctx.getStub().getStringState(key);
         if (serializedData == null || serializedData.isEmpty())
-            throw new ObjectWithGivenKeyNotFoundOnBlockchainDB("The object referenced does not exist on the blockchain database", uuid);
+            throw new ObjectWithGivenKeyNotFoundOnBlockchainDB("The object referenced does not exist on the blockchain database", "uuid is" + uuid + ". key is " + key);
 
         return deserializeData(serializedData);
     }
