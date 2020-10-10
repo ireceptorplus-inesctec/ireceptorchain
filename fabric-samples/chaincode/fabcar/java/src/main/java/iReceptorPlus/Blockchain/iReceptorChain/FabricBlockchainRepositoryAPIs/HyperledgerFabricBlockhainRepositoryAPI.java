@@ -116,7 +116,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         String key = uuidToKey(uuid);
         String serializedData = ctx.getStub().getStringState(key);
         if (serializedData == null || serializedData.isEmpty())
-            throw new ObjectWithGivenKeyNotFoundOnBlockchainDB("The object referenced does not exist on the blockchain database", "uuid is" + uuid + ". key is " + key);
+            throw new ObjectWithGivenKeyNotFoundOnBlockchainDB("The object referenced does not exist on the blockchain database", uuid);
 
         return deserializeData(serializedData);
     }
@@ -180,7 +180,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
         ArrayList<iReceptorChainDataTypeInfo> results = new ArrayList<>();
         for (KeyValue result: resultsFromStub)
         {
-            String uuid = result.getKey();//.substring((objectTypeIdentifier + "-").length());
+            String uuid = result.getKey().substring((objectTypeIdentifier + "-").length());
             iReceptorChainDataTypeInfo dataInfo = deserializeData(uuid, result.getStringValue());
 
             results.add(dataInfo);
