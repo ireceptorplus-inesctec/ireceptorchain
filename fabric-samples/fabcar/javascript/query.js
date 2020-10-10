@@ -88,7 +88,7 @@ async function main() {
         const registerNoVoteForTraceabilityEntryInVotingRoundResult = await contract.submitTransaction('registerNoVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
-        const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
+        getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
         'uuid',
         );
         const getAllValidatedTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllValidatedTraceabilityDataEntries',
