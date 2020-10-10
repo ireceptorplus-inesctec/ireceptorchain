@@ -263,7 +263,7 @@ public final class iReceptorChain implements ContractInterface {
     }
 
     @Transaction()
-    public TraceabilityData test(final Context ctx) {
+    public String test(final Context ctx) {
         ChaincodeStub stub = ctx.getStub();
 
 /*
@@ -282,7 +282,7 @@ public final class iReceptorChain implements ContractInterface {
         System.err.println("carState end");
         stub.putStringState("carr1", car);
 */
-
+/*
         stub.putStringState("carr1", "stuffffff");
 
         String carStateQueryResult = stub.getStringState("carr1");
@@ -307,12 +307,22 @@ public final class iReceptorChain implements ContractInterface {
         iReceptorChainDataType resultsValidated = genson.deserialize(traceabilityInfoValidated, TraceabilityDataAwaitingValidation.class);
 
         return (TraceabilityData) resultsValidated;
+        */
 /*
         resultsAwaitingValidation.registerYesVoteForValidity(getEntityIdFromContext(ctx));
         resultsValidated.registerYesVoteForValidity(getEntityIdFromContext(ctx));
         System.err.println("stuff4");
 */
+        TraceabilityDataAwaitingValidationRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
+        try
+        {
+            api.read("uuid");
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            throw new ChaincodeException("not found");
+        }
 
+        return "success";
     }
 
 
@@ -588,7 +598,6 @@ public final class iReceptorChain implements ContractInterface {
             EntityDataReturnType dataReturnType = new EntityDataReturnType(entityDataInfo.getUUID(), (EntityData) entityDataInfo.getData());
             resultsToReturn.add(dataReturnType);
         }
-
         EntityDataReturnType[] response = resultsToReturn.toArray(new EntityDataReturnType[resultsToReturn.size()]);
 
         return response;
