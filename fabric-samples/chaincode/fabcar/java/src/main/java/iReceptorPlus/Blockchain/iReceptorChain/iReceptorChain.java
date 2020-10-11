@@ -326,7 +326,7 @@ public final class iReceptorChain implements ContractInterface {
     }
 
     @Transaction()
-    public byte[] createMockTraceabilityData(final Context ctx, final String str)
+    public byte[] testString(final Context ctx, final String str)
     {
         ChaincodeStub stub = ctx.getStub();
 
