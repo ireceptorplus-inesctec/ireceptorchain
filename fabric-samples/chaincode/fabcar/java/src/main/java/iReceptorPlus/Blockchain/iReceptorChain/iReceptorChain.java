@@ -437,6 +437,7 @@ public final class iReceptorChain implements ContractInterface {
                                                                                     final String outputDatasetHashValue, final String softwareId,
                                                                                     final String softwareVersion, final String softwareBinaryExecutableHashValue,
                                                                                     final String softwareConfigParams) {
+        return newUUID.getBytes();/*
         logDebugMsg("createTraceabilityDataEntry");
 
         System.err.println("************** entity that is creating the entry id: |" + ctx.getClientIdentity().getId() + "|");
@@ -470,9 +471,8 @@ public final class iReceptorChain implements ContractInterface {
 
         TraceabilityDataAwaitingValidationReturnType traceabilityDataInfo = new TraceabilityDataAwaitingValidationReturnType(newUUID, traceabilityData);
 
-        logDebugMsg("createTraceabilityDataEntry END");
+        logDebugMsg("createTraceabilityDataEntry END");*/
 
-        return newUUID.getBytes();
     }
 
     /**
