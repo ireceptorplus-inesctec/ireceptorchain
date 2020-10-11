@@ -346,6 +346,8 @@ public final class iReceptorChain implements ContractInterface {
     @Transaction()
     public String testVote(final Context ctx)
     {
+        logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound");
+
         TraceabilityDataStateMachine traceabilityDataStateMachine = getTraceabilityDataFromDBAndBuildVotingStateMachine(ctx, "uuid");
         VotingStateMachineReturn votingStateMachineReturn;
         try
@@ -362,7 +364,9 @@ public final class iReceptorChain implements ContractInterface {
             throw new ChaincodeException(referenceToNonexistentEntity.getMessage());
         }
 
-        return "success";
+        logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound END");
+
+        return votingStateMachineReturn.getMessage();
     }
 
     /**
