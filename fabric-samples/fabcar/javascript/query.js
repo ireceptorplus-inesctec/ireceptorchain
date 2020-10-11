@@ -70,6 +70,7 @@ async function main() {
         'softwareBinaryExecutableHashValue',
         'softwareConfigParams',
         );       
+        console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
         console.log("stuff3");
         //const result2 = await contract.submitTransaction('testVote');
         //console.log(result2.toString());
