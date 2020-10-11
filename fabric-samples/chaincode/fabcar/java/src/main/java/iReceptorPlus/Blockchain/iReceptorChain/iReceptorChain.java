@@ -410,7 +410,7 @@ public final class iReceptorChain implements ContractInterface {
      * @param traceabilityData An instance of class TraceabilityDataAwaitingValidation containing the traceability data to be inserted in the blockchain.
      */
     @Transaction()
-    public TraceabilityDataAwaitingValidationReturnType createTraceabilityDataEntryByObject(final Context ctx, final String newUUID, final TraceabilityDataAwaitingValidation traceabilityData)
+    public byte[] createTraceabilityDataEntryByObject(final Context ctx, final String newUUID, final TraceabilityDataAwaitingValidation traceabilityData)
     {
         ProcessingDetails processingDetails = traceabilityData.getProcessingDetails();
         return createTraceabilityDataEntry(ctx, newUUID, traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
@@ -433,7 +433,7 @@ public final class iReceptorChain implements ContractInterface {
      * @return the traceability entry and the UUID used to reference the traceability information.
      */
     @Transaction()
-    public TraceabilityDataAwaitingValidationReturnType createTraceabilityDataEntry(final Context ctx, final String newUUID, final String inputDatasetHashValue,
+    public byte[] createTraceabilityDataEntry(final Context ctx, final String newUUID, final String inputDatasetHashValue,
                                                                                     final String outputDatasetHashValue, final String softwareId,
                                                                                     final String softwareVersion, final String softwareBinaryExecutableHashValue,
                                                                                     final String softwareConfigParams) {
@@ -472,7 +472,7 @@ public final class iReceptorChain implements ContractInterface {
 
         logDebugMsg("createTraceabilityDataEntry END");
 
-        return traceabilityDataInfo;
+        return newUUID.getBytes();
     }
 
     /**
