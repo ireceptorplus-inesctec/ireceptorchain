@@ -325,6 +325,14 @@ public final class iReceptorChain implements ContractInterface {
         return "success";
     }
 
+    @Transaction()
+    public byte[] createMockTraceabilityData(final Context ctx, final String str)
+    {
+        ChaincodeStub stub = ctx.getStub();
+
+        return str.getBytes();
+    }
+
     /**
      * Changes the owner of a car on the ledger.
      *

@@ -75,7 +75,7 @@ async function main() {
         //console.log(result2.toString());
         console.log("stuff4");
         const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
-        'uuid',
+        "uuid",
         );
         console.log(`getAllAwaitingValidationTraceabilityDataEntriesResult: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
 
