@@ -346,27 +346,7 @@ public final class iReceptorChain implements ContractInterface {
     @Transaction()
     public String testVote(final Context ctx)
     {
-        logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound");
-
-        TraceabilityDataStateMachine traceabilityDataStateMachine = getTraceabilityDataFromDBAndBuildVotingStateMachine(ctx, "uuid");
-        VotingStateMachineReturn votingStateMachineReturn;
-        try
-        {
-            votingStateMachineReturn = traceabilityDataStateMachine.voteYesForTheVeracityOfTraceabilityInfo(getEntityIdFromContext(ctx));
-        } catch (IncosistentInfoFoundOnDB incosistentInfoFoundOnDB)
-        {
-            throw new ChaincodeException(incosistentInfoFoundOnDB.getMessage());
-        } catch (EntityDoesNotHaveEnoughReputationToPlaceVote entityDoesNotHaveEnoughReputationToPlaceVote)
-        {
-            throw new ChaincodeException(entityDoesNotHaveEnoughReputationToPlaceVote.getMessage());
-        } catch (ReferenceToNonexistentEntity referenceToNonexistentEntity)
-        {
-            throw new ChaincodeException(referenceToNonexistentEntity.getMessage());
-        }
-
-        logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound END");
-
-        return votingStateMachineReturn.getMessage();
+        return registerYesVoteForTraceabilityEntryInVotingRound(ctx, "uuid");
     }
 
     /**
