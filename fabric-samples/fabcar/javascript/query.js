@@ -58,12 +58,9 @@ async function main() {
         // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
         //const result = await contract.evaluateTransaction('createCar', 'CARRRR', 'make', 'model', 'color', 'owner');
         console.log("stuff1");
-        const result1 = await contract.evaluateTransaction('test1');
-        console.log(result1);
+        //const result1 = await contract.submitTransaction('createMockTraceabilityData');
+        //console.log(result1);
         console.log("stuff2");
-        const result2 = await contract.evaluateTransaction('test2');
-        console.log(result2);
-        console.log("stuff3");
         const createTraceabilityEntryResult = await contractAdmin.submitTransaction('createTraceabilityDataEntry',
         'uuid',
         'inputDatasetHashValue',
@@ -73,6 +70,10 @@ async function main() {
         'softwareBinaryExecutableHashValue',
         'softwareConfigParams',
         );       
+        console.log("stuff3");
+        const result2 = await contract.submitTransaction('test2');
+        console.log(result2);
+        console.log("stuff4");
         const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
         'uuid',
         );
