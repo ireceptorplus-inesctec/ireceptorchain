@@ -71,7 +71,7 @@ async function main() {
         'softwareConfigParams',
         );       
         console.log("stuff3");
-        const result2 = await contract.submitTransaction('test2');
+        const result2 = await contract.submitTransaction('testVote');
         console.log(result2);
         console.log("stuff4");
         const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
