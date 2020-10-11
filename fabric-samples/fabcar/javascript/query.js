@@ -62,7 +62,7 @@ async function main() {
         //console.log(result1);
         console.log("stuff2");
         const createTraceabilityEntryResult = await contractAdmin.submitTransaction('createTraceabilityDataEntry',
-        'uuid',
+        "uuid",
         'inputDatasetHashValue',
         'outputDatasetHashValue',
         'softwareId',
