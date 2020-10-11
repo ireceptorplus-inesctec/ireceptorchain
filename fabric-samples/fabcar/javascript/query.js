@@ -74,11 +74,11 @@ async function main() {
         console.log("stuff3");
         //const result2 = await contract.submitTransaction('testVote');
         //console.log(result2.toString());
-        console.log("stuff4");
+        console.log("stuff4");/*
         const createMockTraceabilityDataResult = await contract.evaluateTransaction('createMockTraceabilityData',
         'uuid',
         );
-        console.log(`createMockTraceabilityDataResult: ${createMockTraceabilityDataResult.toString()}`);
+        console.log(`createMockTraceabilityDataResult: ${createMockTraceabilityDataResult.toString()}`);*/
         const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
         'uuid',
         );
