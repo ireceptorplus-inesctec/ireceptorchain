@@ -325,30 +325,6 @@ public final class iReceptorChain implements ContractInterface {
         return "success";
     }
 
-    @Transaction()
-    public String readMockTraceabilityData(final Context ctx)
-    {
-        ChaincodeStub stub = ctx.getStub();
-
-        TraceabilityDataAwaitingValidationRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
-        try
-        {
-            api.read("uuid");
-        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
-        {
-            throw new ChaincodeException("not found");
-        }
-
-        return "success";
-
-    }
-
-    @Transaction()
-    public String testVote(final Context ctx)
-    {
-        return registerYesVoteForTraceabilityEntryInVotingRound(ctx, "uuid");
-    }
-
     /**
      * Changes the owner of a car on the ledger.
      *
