@@ -84,6 +84,10 @@ async function main() {
         );
         console.log(`readMockTraceabilityData: ${readMockTraceabilityData.toString()}`);
 
+        const testVote = await contract.evaluateTransaction('testVote',
+        'uuid',
+        );
+        console.log(`testVote: ${testVote.toString()}`);
 
 
         console.log("stuff5");
