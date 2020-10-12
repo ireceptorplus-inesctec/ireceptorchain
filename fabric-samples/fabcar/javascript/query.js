@@ -78,11 +78,12 @@ async function main() {
         'uuid',
         );
         console.log(`createMockTraceabilityDataResult: ${createMockTraceabilityDataResult.toString()}`);
-*/
+        */
         const readMockTraceabilityData = await contract.evaluateTransaction('readMockTraceabilityData',
         'uuid',
         );
         console.log(`readMockTraceabilityData: ${readMockTraceabilityData.toString()}`);
+
 
 
         console.log("stuff5");
