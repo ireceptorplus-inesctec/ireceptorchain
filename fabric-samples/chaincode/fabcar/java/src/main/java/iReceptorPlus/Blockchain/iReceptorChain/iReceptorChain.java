@@ -326,11 +326,18 @@ public final class iReceptorChain implements ContractInterface {
     }
 
     @Transaction()
-    public byte[] testString(final Context ctx, final String str)
+    public String readMockTraceabilityData(final Context ctx)
     {
-        ChaincodeStub stub = ctx.getStub();
+        TraceabilityDataAwaitingValidationRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
+        try
+        {
+            api.read("uuid");
+        } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
+        {
+            objectWithGivenKeyNotFoundOnBlockchainDB.printStackTrace();
+        }
 
-        return str.getBytes();
+        return "success";
     }
 
     /**
