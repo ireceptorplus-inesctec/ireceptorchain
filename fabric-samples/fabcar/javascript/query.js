@@ -70,19 +70,14 @@ async function main() {
         'softwareBinaryExecutableHashValue',
         'softwareConfigParams',
         );       
-        console.log(`createTraceabilityEntryResult: ${createTraceabilityEntryResult.toString()}`);
         console.log("stuff3");
         //const result2 = await contract.submitTransaction('testVote');
         //console.log(result2.toString());
-        console.log("stuff4");/*
-        const createMockTraceabilityDataResult = await contract.evaluateTransaction('createMockTraceabilityData',
+        console.log("stuff4");
+        const createMockTraceabilityDataResult = await contract.evaluateTransaction('testString',
         'uuid',
         );
-        console.log(`createMockTraceabilityDataResult: ${createMockTraceabilityDataResult.toString()}`);*/
-        const getAllAwaitingValidationTraceabilityDataEntriesResult = await contract.evaluateTransaction('getAllAwaitingValidationTraceabilityDataEntries',
-        'uuid',
-        );
-        console.log(`getAllAwaitingValidationTraceabilityDataEntriesResult: ${getAllAwaitingValidationTraceabilityDataEntriesResult.toString()}`);
+        console.log(`createMockTraceabilityData: ${testStringResult.toString()}`);
 
         const registerYesVoteForTraceabilityEntryInVotingRoundResult = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
