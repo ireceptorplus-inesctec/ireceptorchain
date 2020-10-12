@@ -101,6 +101,7 @@ async function main() {
         const registerYesVoteForTraceabilityEntryInVotingRoundResult = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
+        console.log(`registerYesVoteForTraceabilityEntryInVotingRoundResult: ${registerYesVoteForTraceabilityEntryInVotingRoundResult.toString()}`);
         const registerYesVoteForTraceabilityEntryInVotingRoundResult2 = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
