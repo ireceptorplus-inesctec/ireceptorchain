@@ -334,7 +334,7 @@ public final class iReceptorChain implements ContractInterface {
             api.read(uuid);
         } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
         {
-            objectWithGivenKeyNotFoundOnBlockchainDB.printStackTrace();
+            throw new ChaincodeException("read failed");
         }
 
         return "success";
