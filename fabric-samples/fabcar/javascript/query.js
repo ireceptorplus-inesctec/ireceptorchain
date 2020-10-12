@@ -75,7 +75,7 @@ async function main() {
         //console.log(result2.toString());
         console.log("stuff4");
         const createMockTraceabilityDataResult = await contract.submitTransaction('createMockTraceabilityData',
-        'uuid',
+        'a',
         );
         console.log(`createMockTraceabilityDataResult: ${createMockTraceabilityDataResult.toString()}`);
 
