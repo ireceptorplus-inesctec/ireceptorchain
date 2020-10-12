@@ -61,7 +61,7 @@ async function main() {
         //const result1 = await contract.submitTransaction('createMockTraceabilityData');
         //console.log(result1);
         console.log("stuff2");
-        /*const createTraceabilityEntryResult = await contractAdmin.submitTransaction('createTraceabilityDataEntry',
+        const createTraceabilityEntryResult = await contractAdmin.submitTransaction('createTraceabilityDataEntry',
         "uuid",
         'inputDatasetHashValue',
         'outputDatasetHashValue',
@@ -69,16 +69,16 @@ async function main() {
         'softwareVersion',
         'softwareBinaryExecutableHashValue',
         'softwareConfigParams',
-        );       */
+        );       
         console.log("stuff3");
         //const result2 = await contract.submitTransaction('testVote');
         //console.log(result2.toString());
         console.log("stuff4");
-        const createMockTraceabilityDataResult = await contract.submitTransaction('createMockTraceabilityData',
+        /*const createMockTraceabilityDataResult = await contract.submitTransaction('createMockTraceabilityData',
         'uuid',
         );
         console.log(`createMockTraceabilityDataResult: ${createMockTraceabilityDataResult.toString()}`);
-
+*/
         const readMockTraceabilityData = await contract.evaluateTransaction('readMockTraceabilityData',
         'uuid',
         );
