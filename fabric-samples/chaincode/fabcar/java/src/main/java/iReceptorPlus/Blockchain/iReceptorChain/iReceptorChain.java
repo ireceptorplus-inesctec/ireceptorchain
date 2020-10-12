@@ -263,7 +263,7 @@ public final class iReceptorChain implements ContractInterface {
     }
 
     @Transaction()
-    public String createMockTraceabilityData(final Context ctx) {
+    public String createMockTraceabilityData(final Context ctx, final String uuid) {
         ChaincodeStub stub = ctx.getStub();
 
 /*
@@ -316,7 +316,7 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataAwaitingValidationRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
         try
         {
-            api.create("uuid", new TraceabilityDataAwaitingValidation("", "", new ProcessingDetails("", "", "", ""), new EntityID("entity")));
+            api.create(uuid, new TraceabilityDataAwaitingValidation("", "", new ProcessingDetails("", "", "", ""), new EntityID("entity")));
         } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
         {
             throw new ChaincodeException("not able to create");
