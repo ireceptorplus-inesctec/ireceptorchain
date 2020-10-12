@@ -84,7 +84,7 @@ async function main() {
         );
         console.log(`readMockTraceabilityData: ${readMockTraceabilityData.toString()}`);
 
-        const testVote = await contract.submitTransaction('testVote',
+        const testVote = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
         console.log(`testVote: ${testVote.toString()}`);
