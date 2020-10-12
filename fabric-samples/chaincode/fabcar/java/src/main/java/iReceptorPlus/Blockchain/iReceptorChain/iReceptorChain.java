@@ -331,7 +331,7 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataAwaitingValidationRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
         try
         {
-            api.read(uuid + "a");
+            api.read(uuid);
         } catch (ObjectWithGivenKeyNotFoundOnBlockchainDB objectWithGivenKeyNotFoundOnBlockchainDB)
         {
             throw new ChaincodeException("read failed");
