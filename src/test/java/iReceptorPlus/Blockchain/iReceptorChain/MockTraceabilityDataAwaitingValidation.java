@@ -3,6 +3,7 @@ package iReceptorPlus.Blockchain.iReceptorChain;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityID;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ProcessingDetails;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwaitingValidation;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.nio.channels.Channel;
@@ -12,8 +13,7 @@ public class MockTraceabilityDataAwaitingValidation
 {
     TraceabilityDataAwaitingValidation traceabilityData;
 
-    public MockTraceabilityDataAwaitingValidation() throws CertificateException, IOException
-    {
+    public MockTraceabilityDataAwaitingValidation() throws CertificateException, IOException, JSONException {
         MockClientIdentity mockClientIdentity = new MockClientIdentity();
         traceabilityData = new TraceabilityDataAwaitingValidation("inputDatasetHashValue", "outputDatasetHashValue",
                 new ProcessingDetails("softwareId", "softwareVersion", "softwareBinaryExecutableHashValue", "softwareConfigParams"), new EntityID(mockClientIdentity.id), ChaincodeConfigs.baseValueOfTraceabilityDataEntry);

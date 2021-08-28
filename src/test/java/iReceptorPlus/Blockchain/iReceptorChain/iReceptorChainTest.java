@@ -30,6 +30,7 @@ import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
 import org.hyperledger.fabric.shim.ledger.KeyValue;
 import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
+import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -52,8 +53,7 @@ public final class iReceptorChainTest
     }
 
     @BeforeEach
-    private void initVariables() throws CertificateException, IOException
-    {
+    private void initVariables() throws CertificateException, IOException, JSONException {
         setContract(new iReceptorChain());
         setCtx(mock(Context.class));
         setStub(mock(ChaincodeStub.class));

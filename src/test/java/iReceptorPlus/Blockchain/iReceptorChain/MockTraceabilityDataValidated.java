@@ -1,6 +1,7 @@
 package iReceptorPlus.Blockchain.iReceptorChain;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.security.cert.CertificateException;
@@ -10,8 +11,7 @@ public class MockTraceabilityDataValidated
 {
     TraceabilityDataValidated traceabilityData;
 
-    public MockTraceabilityDataValidated() throws CertificateException, IOException
-    {
+    public MockTraceabilityDataValidated() throws CertificateException, IOException, JSONException {
         MockClientIdentity mockClientIdentity = new MockClientIdentity();
         traceabilityData = new TraceabilityDataValidated("inputDatasetHashValue", "outputDatasetHashValue",
                 new ProcessingDetails("softwareId", "softwareVersion", "softwareBinaryExecutableHashValue",
