@@ -108,9 +108,6 @@ async function main() {
         const registerYesVoteForTraceabilityEntryInVotingRoundResult3 = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );
-        const registerYesVoteForTraceabilityEntryInVotingRoundResult4 = await contract.submitTransaction('registerYesVoteForTraceabilityEntryInVotingRound',
-        'uuid',
-        );
         const registerNoVoteForTraceabilityEntryInVotingRoundResult = await contract.submitTransaction('registerNoVoteForTraceabilityEntryInVotingRound',
         'uuid',
         );

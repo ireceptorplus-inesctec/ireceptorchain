@@ -29,7 +29,7 @@ public class EntityData implements iReceptorChainDataType
      * If an entity creates fake traceability entries or makes false votes for other traceability data entries, it is highly penalized.
      */
     @Property()
-    private Long reputation;
+    private Double reputation;
 
     /**
      * This is a counter for the reputation of the entity that is currently at stake.
@@ -37,19 +37,19 @@ public class EntityData implements iReceptorChainDataType
      * This reputation may be lost if the entity is decided to be lying (by majority consensus).
      */
     @Property()
-    private final Long reputationAtStake;
+    private final Double reputationAtStake;
 
     public String getId()
     {
         return id;
     }
 
-    public Long getReputation()
+    public Double getReputation()
     {
         return reputation;
     }
 
-    public Long getReputationAtStake()
+    public Double getReputationAtStake()
     {
         return reputationAtStake;
     }
@@ -62,8 +62,8 @@ public class EntityData implements iReceptorChainDataType
     public EntityData(String id)
     {
         this.id = id;
-        this.reputation = new Long(ChaincodeConfigs.initialReputationForEntities.get());
-        this.reputationAtStake = new Long(0);
+        this.reputation = new Double(ChaincodeConfigs.initialReputationForEntities.get());
+        this.reputationAtStake = new Double(0);
     }
 
     /**
@@ -74,8 +74,8 @@ public class EntityData implements iReceptorChainDataType
      * @param reputationAtStake The current amount of reputation of the entity that is at stake.
      */
     public EntityData(@JsonProperty("id") final String id,
-                      @JsonProperty("reputation") final Long reputation,
-                      @JsonProperty("reputationAtStake") final Long reputationAtStake)
+                      @JsonProperty("reputation") final Double reputation,
+                      @JsonProperty("reputationAtStake") final Double reputationAtStake)
     {
         this.id = id;
         this.reputation = reputation;

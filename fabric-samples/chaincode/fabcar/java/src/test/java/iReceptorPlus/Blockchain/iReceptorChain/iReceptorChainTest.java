@@ -70,7 +70,7 @@ public final class iReceptorChainTest
         return new CompositeKey(prefix, uuid).toString();
     }
 
-    private void putMockEntityToDB(String entityID, long reputation, long reputationAtStake)
+    private void putMockEntityToDB(String entityID, Double reputation, Double reputationAtStake)
     {
         EntityData entityData = new EntityData(entityID, reputation, reputationAtStake);
         String entityDataAsJson = genson.serialize(entityData);
@@ -99,7 +99,7 @@ public final class iReceptorChainTest
         when(context.getStub().getStringState(key)).thenReturn(value);
     }
 
-    private void setEntityReputation(long reputation, long reputationAtStake)
+    private void setEntityReputation(Double reputation, Double reputationAtStake)
     {
         //override setup entity data and make entity not have enough reputation for this test
         EntityData entityData = new EntityData(getEntityID(), reputation, reputationAtStake);
@@ -215,6 +215,7 @@ public final class iReceptorChainTest
 
     public void setMockTraceabilityDataAwaitingValidation(MockTraceabilityDataAwaitingValidation mockTraceabilityDataAwaitingValidation)
     {
+        System.out.println("setting mock traceability data");
         this.mockTraceabilityDataAwaitingValidation = mockTraceabilityDataAwaitingValidation;
     }
 
@@ -255,6 +256,8 @@ public final class iReceptorChainTest
     @Nested
     class CreateTraceabilityDataEntry
     {
+        private Double reputationStakeNecessary = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForUpVotingTraceabilityData(ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
+
 
         @Test
         public void whenUuidIsAlreadyAssignedToAnotherTraceabilityData() throws CertificateException, IOException
@@ -263,7 +266,7 @@ public final class iReceptorChainTest
             when(getCtx().getStub()).thenReturn(getStub());
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
-            setEntityReputation(100, 0);
+            setEntityReputation(100.0, 0.0);
             String serializedTraceabilityData = genson.serialize(getTraceabilityData());
 
             String uuid = "uuid";
@@ -273,7 +276,7 @@ public final class iReceptorChainTest
             {
                 getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                         getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams());
+                        getProcessingDetails().getSoftwareConfigParams(), getTraceabilityData().getValue());
             });
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("The id you have provided is not unique: it is already assigned to another object of the same type. Please try with a different id.Id used was: " + uuid);
@@ -293,7 +296,7 @@ public final class iReceptorChainTest
             {
                 getContract().createTraceabilityDataEntry(getCtx(), "uuid", getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                         getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams());
+                        getProcessingDetails().getSoftwareConfigParams(), getTraceabilityData().getValue());
             });
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class);
@@ -306,44 +309,44 @@ public final class iReceptorChainTest
             when(getCtx().getStub()).thenReturn(getStub());
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
-            setEntityReputation(0, 0);
+            setEntityReputation(0.0, 0.0);
             String traceabilityDataUUID = "traceabilityDataUUID";
             Throwable thrown = catchThrowable(() ->
             {
                 getContract().createTraceabilityDataEntry(getCtx(), traceabilityDataUUID, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                         getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams());
+                        getProcessingDetails().getSoftwareConfigParams(), 0.0);
             });
 
-            setEntityReputation(0, 100);
+            setEntityReputation(0.0, 100.0);
             Throwable thrown2 = catchThrowable(() ->
             {
                 getContract().createTraceabilityDataEntry(getCtx(), traceabilityDataUUID, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                         getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams());
+                        getProcessingDetails().getSoftwareConfigParams(), 0.0);
             });
 
-            setEntityReputation(1, 0);
+            setEntityReputation(1.0, 0.0);
             Throwable thrown3 = catchThrowable(() ->
             {
                 getContract().createTraceabilityDataEntry(getCtx(), traceabilityDataUUID, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                         getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams());
+                        getProcessingDetails().getSoftwareConfigParams(), 0.0);
             });
 
-            long reputationJustBelowLimit = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get() - 1;
-            setEntityReputation(reputationJustBelowLimit, 0);
+            Double reputationJustBelowLimit = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForCreatingTraceabilityData(getTraceabilityData().getValue()) - 1;
+            setEntityReputation(reputationJustBelowLimit, 0.0);
             Throwable thrown4 = catchThrowable(() ->
             {
                 getContract().createTraceabilityDataEntry(getCtx(), traceabilityDataUUID, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                         getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams());
+                        getProcessingDetails().getSoftwareConfigParams(), 0.0);
             });
 
-            assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to create traceability data entry. Reputation of entity is 0 and necessary reputation is 30");
-            assertThat(thrown2).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to create traceability data entry. Reputation of entity is 0 and necessary reputation is 30");
-            assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to create traceability data entry. Reputation of entity is 1 and necessary reputation is 30");
-            assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to create traceability data entry. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is 30");
+            assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to create traceability data entry. Reputation of entity is 0.0 and necessary reputation is " + reputationStakeNecessary);
+            assertThat(thrown2).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to create traceability data entry. Reputation of entity is 0.0 and necessary reputation is " + reputationStakeNecessary);
+            assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to create traceability data entry. Reputation of entity is 1.0 and necessary reputation is " + reputationStakeNecessary);
+            assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to create traceability data entry. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is " + reputationStakeNecessary);
         }
 
         @Test
@@ -353,45 +356,45 @@ public final class iReceptorChainTest
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
             String uuid = "uuid";
-            long reputationStakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
+            Double reputationStakeNecessary = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForCreatingTraceabilityData(getTraceabilityData().getValue());
 
             TraceabilityDataAwaitingValidationReturnType returned;
             TraceabilityDataAwaitingValidationReturnType expected = new TraceabilityDataAwaitingValidationReturnType(uuid, getTraceabilityData());
 
-            setEntityReputation(reputationStakeNecessary, 0);
+            setEntityReputation(reputationStakeNecessary, 0.0);
             returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                     getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                    getProcessingDetails().getSoftwareConfigParams());
+                    getProcessingDetails().getSoftwareConfigParams(), 0.0);
             assertThat(returned).isEqualTo(expected);
 
             setEntityReputation(reputationStakeNecessary, reputationStakeNecessary);
             returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                     getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                    getProcessingDetails().getSoftwareConfigParams());
+                    getProcessingDetails().getSoftwareConfigParams(), 0.0);
             assertThat(returned).isEqualTo(expected);
 
-            setEntityReputation(reputationStakeNecessary, 0);
+            setEntityReputation(reputationStakeNecessary, 0.0);
             returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                     getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                    getProcessingDetails().getSoftwareConfigParams());
+                    getProcessingDetails().getSoftwareConfigParams(), 0.0);
             assertThat(returned).isEqualTo(expected);
 
             setEntityReputation(reputationStakeNecessary + 1, reputationStakeNecessary + 1);
             returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                     getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                    getProcessingDetails().getSoftwareConfigParams());
+                    getProcessingDetails().getSoftwareConfigParams(), 0.0);
             assertThat(returned).isEqualTo(expected);
 
-            setEntityReputation(reputationStakeNecessary, 0);
+            setEntityReputation(reputationStakeNecessary, 0.0);
             returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                     getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                    getProcessingDetails().getSoftwareConfigParams());
+                    getProcessingDetails().getSoftwareConfigParams(), 0.0);
             assertThat(returned).isEqualTo(expected);
 
             setEntityReputation(reputationStakeNecessary * 5, reputationStakeNecessary * 5);
             returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
                     getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                    getProcessingDetails().getSoftwareConfigParams());
+                    getProcessingDetails().getSoftwareConfigParams(), 0.0);
             assertThat(returned).isEqualTo(expected);
 
         }
@@ -422,7 +425,7 @@ public final class iReceptorChainTest
             when(getCtx().getStub()).thenReturn(getStub());
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
 
-            putMockEntityToDB(getEntityID(), 100, 0);
+            putMockEntityToDB(getEntityID(), 100.0, 0.0);
             putMockTraceabilityDataToDB(traceabilityDataUUID, getEntityID());
         }
 
@@ -431,7 +434,7 @@ public final class iReceptorChainTest
             traceabilityData = getTraceabilityData();
             when(getCtx().getStub()).thenReturn(getStub());
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
-            putMockEntityToDB("creator", 100, 100);
+            putMockEntityToDB("creator", 100.0, 100.0);
 
 
             putMockTraceabilityDataToDB(traceabilityDataUUID, "creator");
@@ -441,7 +444,7 @@ public final class iReceptorChainTest
         class RegisterYesVoteForTraceabilityData
         {
 
-            private long reputationStakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
+            private Double reputationStakeNecessary = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForUpVotingTraceabilityData(ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
 
             @Test
             public void whenVoterDoesNotExist() throws CertificateException, IOException
@@ -475,34 +478,34 @@ public final class iReceptorChainTest
             {
                 RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
 
-                setEntityReputation(0, 0);
+                setEntityReputation(0.0, 0.0);
                 Throwable thrown = catchThrowable(() ->
                 {
                     getContract().registerYesVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
                 });
 
-                setEntityReputation(0, 100);
+                setEntityReputation(0.0, 100.0);
                 Throwable thrown2 = catchThrowable(() ->
                 {
                     getContract().registerYesVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
                 });
 
-                setEntityReputation(1, 0);
+                setEntityReputation(1.0, 0.0);
                 Throwable thrown3 = catchThrowable(() ->
                 {
                     getContract().registerYesVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
                 });
 
-                long reputationJustBelowLimit = reputationStakeNecessary - 1;
-                setEntityReputation(reputationJustBelowLimit, 0);
+                Double reputationJustBelowLimit = reputationStakeNecessary - 1;
+                setEntityReputation(reputationJustBelowLimit, 0.0);
                 Throwable thrown4 = catchThrowable(() ->
                 {
                     getContract().registerYesVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
                 });
 
-                assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is " + reputationStakeNecessary);
-                assertThat(thrown2).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is " + reputationStakeNecessary);
-                assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 1 and necessary reputation is " + reputationStakeNecessary);
+                assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0.0 and necessary reputation is " + reputationStakeNecessary);
+                assertThat(thrown2).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0.0 and necessary reputation is " + reputationStakeNecessary);
+                assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 1.0 and necessary reputation is " + reputationStakeNecessary);
                 assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is " + reputationStakeNecessary);
             }
 
@@ -514,7 +517,7 @@ public final class iReceptorChainTest
                 String expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
                 String returned;
 
-                setEntityReputation(reputationStakeNecessary, 0);
+                setEntityReputation(reputationStakeNecessary, 0.0);
                 returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
                 assertThat(returned).isEqualTo(expected);
 
@@ -522,7 +525,7 @@ public final class iReceptorChainTest
                 returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
                 assertThat(returned).isEqualTo(expected);
 
-                setEntityReputation(reputationStakeNecessary + 1, 0);
+                setEntityReputation(reputationStakeNecessary + 1, 0.0);
                 returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
                 assertThat(returned).isEqualTo(expected);
 
@@ -530,7 +533,7 @@ public final class iReceptorChainTest
                 returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
                 assertThat(returned).isEqualTo(expected);
 
-                setEntityReputation(reputationStakeNecessary * 5, 0);
+                setEntityReputation(reputationStakeNecessary * 5, 0.0);
                 returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
                 assertThat(returned).isEqualTo(expected);
 
@@ -545,7 +548,7 @@ public final class iReceptorChainTest
         class RegisterNoVoteForTraceabilityData
         {
 
-            private long reputationStakeNecessary = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
+            private Double reputationStakeNecessary = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForDownVotingTraceabilityData(ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
 
             @Test
             public void whenVoterDoesNotExist() throws CertificateException, IOException
@@ -579,34 +582,34 @@ public final class iReceptorChainTest
             {
                 RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
 
-                setEntityReputation(0, 0);
+                setEntityReputation(0.0, 0.0);
                 Throwable thrown = catchThrowable(() ->
                 {
                     getContract().registerNoVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
                 });
 
-                setEntityReputation(0, 100);
+                setEntityReputation(0.0, 100.0);
                 Throwable thrown2 = catchThrowable(() ->
                 {
                     getContract().registerNoVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
                 });
 
-                setEntityReputation(1, 0);
+                setEntityReputation(1.0, 0.0);
                 Throwable thrown3 = catchThrowable(() ->
                 {
                     getContract().registerNoVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
                 });
 
-                long reputationJustBelowLimit = reputationStakeNecessary - 1;
-                setEntityReputation(reputationJustBelowLimit, 0);
+                Double reputationJustBelowLimit = reputationStakeNecessary - 1;
+                setEntityReputation(reputationJustBelowLimit, 0.0);
                 Throwable thrown4 = catchThrowable(() ->
                 {
                     getContract().registerNoVoteForTraceabilityEntryInVotingRound(ctx, traceabilityDataUUID);
                 });
 
-                assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is " + reputationStakeNecessary);
-                assertThat(thrown2).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0 and necessary reputation is " + reputationStakeNecessary);
-                assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 1 and necessary reputation is " + reputationStakeNecessary);
+                assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0.0 and necessary reputation is " + reputationStakeNecessary);
+                assertThat(thrown2).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 0.0 and necessary reputation is " + reputationStakeNecessary);
+                assertThat(thrown3).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is 1.0 and necessary reputation is " + reputationStakeNecessary);
                 assertThat(thrown4).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to place vote. Reputation of entity is " + reputationJustBelowLimit + " and necessary reputation is " + reputationStakeNecessary);
             }
 
@@ -618,7 +621,7 @@ public final class iReceptorChainTest
                 String expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
                 String returned;
 
-                setEntityReputation(reputationStakeNecessary, 0);
+                setEntityReputation(reputationStakeNecessary, 0.0);
                 returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
                 assertThat(returned).isEqualTo(expected);
 
@@ -626,7 +629,7 @@ public final class iReceptorChainTest
                 returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
                 assertThat(returned).isEqualTo(expected);
 
-                setEntityReputation(reputationStakeNecessary + 1, 0);
+                setEntityReputation(reputationStakeNecessary + 1, 0.0);
                 returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
                 assertThat(returned).isEqualTo(expected);
 
@@ -634,7 +637,7 @@ public final class iReceptorChainTest
                 returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
                 assertThat(returned).isEqualTo(expected);
 
-                setEntityReputation(reputationStakeNecessary * 5, 0);
+                setEntityReputation(reputationStakeNecessary * 5, 0.0);
                 returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
                 assertThat(returned).isEqualTo(expected);
 
@@ -644,9 +647,8 @@ public final class iReceptorChainTest
             }
         }
 
-        Long reputationStakeNecessaryForUpVote = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
-        Long reputationStakeNecessaryForDownVote = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
-
+        Double reputationStakeNecessaryForUpVote = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForUpVotingTraceabilityData(ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
+        Double reputationStakeNecessaryForDownVote = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForDownVotingTraceabilityData(ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
         @Test
         public void testRoundFinishLogic() throws CertificateException, IOException, ObjectWithGivenKeyNotFoundOnBlockchainDB
         {
@@ -656,13 +658,13 @@ public final class iReceptorChainTest
             String returned;
 
             //test with up votes only
-            Long confirmationsJustBelowNecessaryForApproval = ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid.get() - 1;
+            Double confirmationsJustBelowNecessaryForApproval = ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid.get() - 1;
             Double ratioNecessaryForApproval = ChaincodeConfigs.ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeValid.get();
 
             TraceabilityData traceabilityData = new MockTraceabilityDataAwaitingValidation("creator").traceabilityData;
             upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, ratioNecessaryForApproval, traceabilityData);
 
-            setEntityReputation(reputationStakeNecessaryForUpVote, 0);
+            setEntityReputation(reputationStakeNecessaryForUpVote, 0.0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
 
             expected = "Vote submitted successfully. Traceability data was approved.";
@@ -670,14 +672,14 @@ public final class iReceptorChainTest
             assertThat(returned).isEqualTo(expected);
 
             //reset and test with down votes only
-            Long rejectsJustBelowNecessaryForRejection = ChaincodeConfigs.numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid.get() - 1;
+            Double rejectsJustBelowNecessaryForRejection = ChaincodeConfigs.numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid.get() - 1;
             Double ratioNecessaryForRejection = ChaincodeConfigs.ratioBetweenRejectionsAndApprovesNecessaryForTraceabilityInfoToBeInvalid.get();
 
             traceabilityData = new MockTraceabilityDataAwaitingValidation("creator").traceabilityData;
             expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
             downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, rejectsJustBelowNecessaryForRejection, ratioNecessaryForRejection, traceabilityData);
 
-            setEntityReputation(reputationStakeNecessaryForDownVote, 0);
+            setEntityReputation(reputationStakeNecessaryForDownVote, 0.0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
 
             expected = "Vote submitted successfully. Traceability data was rejected.";
@@ -694,7 +696,7 @@ public final class iReceptorChainTest
             upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, ratioNecessaryForApproval, traceabilityData);
 
             //ensure that a no vote makes the traceability data remain in awaiting validation state
-            setEntityReputation(reputationStakeNecessaryForDownVote, 0);
+            setEntityReputation(reputationStakeNecessaryForDownVote, 0.0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
             returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
             traceabilityData.registerNoVoteForValidity(new EntityID(getEntityID()));
@@ -705,7 +707,7 @@ public final class iReceptorChainTest
 
             //make the last (decisive) yes vote and check if it is approved, with also having rejections (to test the ratio logic)
             expected = "Vote submitted successfully. Traceability data was approved.";
-            setEntityReputation(reputationStakeNecessaryForDownVote, 0);
+            setEntityReputation(reputationStakeNecessaryForDownVote, 0.0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
             returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
             assertThat(returned).isEqualTo(expected);
@@ -718,7 +720,7 @@ public final class iReceptorChainTest
             downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, rejectsJustBelowNecessaryForRejection, ratioNecessaryForRejection, traceabilityData);
 
             //ensure that a yes vote makes the traceability data remain in awaiting validation state
-            setEntityReputation(reputationStakeNecessaryForDownVote, 0);
+            setEntityReputation(reputationStakeNecessaryForDownVote, 0.0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
             returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
             traceabilityData.registerYesVoteForValidity(new EntityID(getEntityID()));
@@ -729,13 +731,13 @@ public final class iReceptorChainTest
 
             //make the last (decisive) yes vote and check if it is rejected, with also having approvals (to test the ratio logic)
             expected = "Vote submitted successfully. Traceability data was rejected.";
-            setEntityReputation(reputationStakeNecessaryForDownVote, 0);
+            setEntityReputation(reputationStakeNecessaryForDownVote, 0.0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
             returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
             assertThat(returned).isEqualTo(expected);
         }
 
-        private void upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(String expected, Long confirmationsJustBelowNecessaryForApproval, double ratioNecessaryForApproval, TraceabilityData traceabilityData)
+        private void upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(String expected, Double confirmationsJustBelowNecessaryForApproval, Double ratioNecessaryForApproval, TraceabilityData traceabilityData)
         {
             String returned;
             Long approvals = traceabilityData.getNumberOfApprovers();
@@ -744,7 +746,7 @@ public final class iReceptorChainTest
             while (approvals < confirmationsJustBelowNecessaryForApproval || nextRatio < ratioNecessaryForApproval)
             {
 
-                setEntityReputation(reputationStakeNecessaryForUpVote, 0);
+                setEntityReputation(reputationStakeNecessaryForUpVote, 0.0);
                 putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
 
                 returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
@@ -758,7 +760,7 @@ public final class iReceptorChainTest
             }
         }
 
-        private void downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(String expected, Long confirmationsJustBelowNecessaryForRejection, double ratioNecessaryForRejection,TraceabilityData traceabilityData)
+        private void downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(String expected, Double confirmationsJustBelowNecessaryForRejection, double ratioNecessaryForRejection,TraceabilityData traceabilityData)
         {
             String returned;
             Long approvals = traceabilityData.getNumberOfApprovers();
@@ -766,7 +768,7 @@ public final class iReceptorChainTest
             double nextRatio =  (double) (rejections + 1) / (approvals + rejections);
             while (rejections < confirmationsJustBelowNecessaryForRejection || nextRatio < ratioNecessaryForRejection)
             {
-                setEntityReputation(reputationStakeNecessaryForDownVote, 0);
+                setEntityReputation(reputationStakeNecessaryForDownVote, 0.0);
                 putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
 
                 returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
@@ -856,13 +858,13 @@ public final class iReceptorChainTest
 
             EntityData entity;
 
-            entity = new EntityData("entity1", new Long(100), new Long(100));
+            entity = new EntityData("entity1", new Double(100), new Double(100));
             entities.add(entity);
-            entity = new EntityData("entity2", new Long(100), new Long(100));
+            entity = new EntityData("entity2", new Double(100), new Double(100));
             entities.add(entity);
-            entity = new EntityData("entity3", new Long(100), new Long(100));
+            entity = new EntityData("entity3", new Double(100), new Double(100));
             entities.add(entity);
-            entity = new EntityData("entity4", new Long(100), new Long(100));
+            entity = new EntityData("entity4", new Double(100), new Double(100));
             entities.add(entity);
 
             return entities;
@@ -964,10 +966,10 @@ public final class iReceptorChainTest
                 super();
                 entityData = new ArrayList<>();
 
-                entityData.add(getEntityDataKeyValue(new EntityData("entity1", new Long(100), new Long(100))));
-                entityData.add(getEntityDataKeyValue(new EntityData("entity2", new Long(100), new Long(100))));
-                entityData.add(getEntityDataKeyValue(new EntityData("entity3", new Long(100), new Long(100))));
-                entityData.add(getEntityDataKeyValue(new EntityData("entity4", new Long(100), new Long(100))));
+                entityData.add(getEntityDataKeyValue(new EntityData("entity1", new Double(100), new Double(100))));
+                entityData.add(getEntityDataKeyValue(new EntityData("entity2", new Double(100), new Double(100))));
+                entityData.add(getEntityDataKeyValue(new EntityData("entity3", new Double(100), new Double(100))));
+                entityData.add(getEntityDataKeyValue(new EntityData("entity4", new Double(100), new Double(100))));
 
             }
 

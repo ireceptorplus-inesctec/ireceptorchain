@@ -59,7 +59,7 @@ public class TraceabilityDataStateMachine
      */
     public void initVotingRound(EntityID creatorID) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToCreateTraceabilityDataEntry, GivenIdIsAlreadyAssignedToAnotherObject
     {
-        long stakeNecessaryForCreating = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
+        Double stakeNecessaryForCreating = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForCreatingTraceabilityData(traceabilityDataInfo.getTraceabilityData().getValue());
         EntityReputationManager entityReputationManager = new EntityReputationManager(api);
         try
         {

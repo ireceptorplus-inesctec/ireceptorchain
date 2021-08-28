@@ -202,8 +202,8 @@ public final class iReceptorChain implements ContractInterface {
 
     @Transaction()
     public TraceabilityData createTraceabilityEntries(final Context ctx) {
-        iReceptorChainDataType traceabilityDataAwaitingValidation = new TraceabilityDataAwaitingValidation("a","b", new ProcessingDetails("", "", "", ""), new EntityID("a"));
-        iReceptorChainDataType traceabilityDataValidated = new TraceabilityDataValidated("c","d", new ProcessingDetails("", "", "", ""), new EntityID("a"), new ArrayList<>(), new ArrayList<>());
+        iReceptorChainDataType traceabilityDataAwaitingValidation = new TraceabilityDataAwaitingValidation("a","b", new ProcessingDetails("", "", "", ""), new EntityID("a"), ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
+        iReceptorChainDataType traceabilityDataValidated = new TraceabilityDataValidated("c","d", new ProcessingDetails("", "", "", ""), new EntityID("a"), new ArrayList<>(), new ArrayList<>(), ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
 
         ChaincodeStub stub = ctx.getStub();
 
@@ -316,7 +316,7 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataAwaitingValidationRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
         try
         {
-            api.create(uuid, new TraceabilityDataAwaitingValidation("", "", new ProcessingDetails("", "", "", ""), new EntityID("entity")));
+            api.create(uuid, new TraceabilityDataAwaitingValidation("", "", new ProcessingDetails("", "", "", ""), new EntityID("entity"), ChaincodeConfigs.baseValueOfTraceabilityDataEntry));
         } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
         {
             throw new ChaincodeException("not able to create");
@@ -448,7 +448,7 @@ public final class iReceptorChain implements ContractInterface {
         ProcessingDetails processingDetails = traceabilityData.getProcessingDetails();
         return createTraceabilityDataEntry(ctx, newUUID, traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
                 processingDetails.getSoftwareId(), processingDetails.getSoftwareVersion(), processingDetails.getSoftwareBinaryExecutableHashValue(),
-                processingDetails.getSoftwareConfigParams());
+                processingDetails.getSoftwareConfigParams(), traceabilityData.getValue());
     }
 
     /**
@@ -469,7 +469,7 @@ public final class iReceptorChain implements ContractInterface {
     public TraceabilityDataAwaitingValidationReturnType createTraceabilityDataEntry(final Context ctx, final String newUUID, final String inputDatasetHashValue,
                                                                                     final String outputDatasetHashValue, final String softwareId,
                                                                                     final String softwareVersion, final String softwareBinaryExecutableHashValue,
-                                                                                    final String softwareConfigParams) {
+                                                                                    final String softwareConfigParams, final Double additionalValue) {
         logDebugMsg("createTraceabilityDataEntry");
 
         System.err.println("************** entity that is creating the entry id: |" + ctx.getClientIdentity().getId() + "|");
@@ -477,7 +477,7 @@ public final class iReceptorChain implements ContractInterface {
         ChaincodeStub stub = ctx.getStub();
 
         TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(inputDatasetHashValue, outputDatasetHashValue,
-                new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams), new EntityID(ctx.getClientIdentity().getId()));
+                new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams), new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + additionalValue);
 
         TraceabilityDataInfo dataInfo = new TraceabilityDataInfo(newUUID, traceabilityData);
 
