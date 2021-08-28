@@ -2,7 +2,6 @@ package iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes;
 
 import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.contract.annotation.DataType;
-import org.hyperledger.fabric.contract.annotation.Property;
 
 import java.util.ArrayList;
 
@@ -13,15 +12,16 @@ import java.util.ArrayList;
 public class TraceabilityDataAwaitingValidation extends TraceabilityData
 {
 
-
     public TraceabilityDataAwaitingValidation(String inputDatasetHashValue,
                                               String outputDatasetHashValue,
                                               ProcessingDetails processingDetails,
-                                              EntityID creatorID)
+                                              EntityID creatorID,
+                                              Double value)
     {
-        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID);
+        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, value);
         approvers = new ArrayList<>();
         rejecters = new ArrayList<>();
+        this.value = value;
     }
 
     public TraceabilityDataAwaitingValidation(@JsonProperty("inputDatasetHashValue") String inputDatasetHashValue,
@@ -29,9 +29,10 @@ public class TraceabilityDataAwaitingValidation extends TraceabilityData
                                               @JsonProperty("processingDetails") ProcessingDetails processingDetails,
                                               @JsonProperty("creatorID") EntityID creatorID,
                                               @JsonProperty("approvers") ArrayList<EntityID> approvers,
-                                              @JsonProperty("rejecters") ArrayList<EntityID> rejecters)
+                                              @JsonProperty("rejecters") ArrayList<EntityID> rejecters,
+                                              @JsonProperty("value") Double value)
     {
-        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, approvers, rejecters);
+        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, approvers, rejecters, value);
     }
 
     /**

@@ -15,6 +15,8 @@ import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exception
 import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions.IncosistentInfoFoundOnDB;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions.ReferenceToNonexistentEntity;
 
+import java.util.ArrayList;
+
 /**
  * This is a delegate class used to finish the voting round.
  * This means to perform the necessary changes to approve of reject a traceability data entry, based on the method called.
@@ -57,7 +59,7 @@ public class RoundFinisher
         api = new TraceabilityDataValidatedRepositoryAPI(api);
         TraceabilityData newTraceabilityData = new TraceabilityDataValidated(traceabilityData.getInputDatasetHashValue(),
                 traceabilityData.getOutputDatasetHashValue(), traceabilityData.getProcessingDetails(), traceabilityData.getCreatorID(),
-                traceabilityData.getApprovers(), traceabilityData.getRejecters());
+                traceabilityData.getApprovers(), traceabilityData.getRejecters(), 0.0);
         TraceabilityDataInfo newTraceabilityDataInfo = new TraceabilityDataInfo(traceabilityDataInfo.getUUID(), newTraceabilityData);
         try
         {
@@ -71,15 +73,19 @@ public class RoundFinisher
         EntityReputationManager entityReputationManager = new EntityReputationManager(api);
 
         unStakeCreatorAndVotersReputation(traceabilityData, entityReputationManager);
+        Double value = traceabilityData.getValue();
 
-        Long rewardForCreating = ChaincodeConfigs.reputationRewardForCreatingTruthfulTraceabilityDataEntry.get();
-        Long rewardForApprovers = ChaincodeConfigs.reputationRewardForUpVotingTruthfulTraceabilityDataEntry.get();
-        Long penaltyForRejecters = ChaincodeConfigs.reputationPenaltyForDownVotingTruthfulTraceabilityDataEntry.get();
+        Double rewardForCreating = ChaincodeConfigs.reputationChangeCalculator.calculateRewardRatioForCreatingCorrectTraceabilityData(value);
+        Double totalRewardForApprovers = ChaincodeConfigs.reputationChangeCalculator.calculateRewardRatioForUpVotingCorrectTraceabilityData(value);
+        Double totalPenaltyForRejecters = ChaincodeConfigs.reputationChangeCalculator.calculatePenaltyRatioForDownVotingCorrectTraceabilityData(value);
+        ArrayList<Double> rewardForEachApprover = ChaincodeConfigs.rewardDistributor.distributeReputation(totalRewardForApprovers, traceabilityData.getApprovers());
+        ArrayList<Double> penaltyForEachRejecter = ChaincodeConfigs.rewardDistributor.distributeReputation(totalPenaltyForRejecters, traceabilityData.getRejecters());
+
         try
         {
             entityReputationManager.rewardEntity(traceabilityData.getCreatorID(), rewardForCreating);
-            entityReputationManager.rewardEntities(traceabilityData.getApprovers(), rewardForApprovers);
-            entityReputationManager.penalizeEntities(traceabilityData.getRejecters(), penaltyForRejecters);
+            entityReputationManager.rewardEntities(traceabilityData.getApprovers(), rewardForEachApprover);
+            entityReputationManager.penalizeEntities(traceabilityData.getRejecters(), penaltyForEachRejecter);
         } catch (EntityDoesNotHaveEnoughReputationToPerformAction entityDoesNotHaveEnoughReputationToPerformAction)
         {
             throw new InternalError("Internal error occurred on processing by the state machine: got not enough reputation error on closing voting round: rewarding and penalizing creator and voters");
@@ -94,9 +100,10 @@ public class RoundFinisher
      */
     private void unStakeCreatorAndVotersReputation(TraceabilityData traceabilityData, EntityReputationManager entityReputationManager) throws ReferenceToNonexistentEntity
     {
-        Long unStakeForCreating = ChaincodeConfigs.reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry.get();
-        Long unStakeForApprovers = ChaincodeConfigs.reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry.get();
-        Long unStakeForRejecters = ChaincodeConfigs.reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry.get();
+        Double value = traceabilityData.getValue();
+        Double unStakeForCreating = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForCreatingTraceabilityData(value);
+        Double unStakeForApprovers = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForUpVotingTraceabilityData(value);
+        Double unStakeForRejecters = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForDownVotingTraceabilityData(value);
         try
         {
             entityReputationManager.unstakeEntityReputation(traceabilityData.getCreatorID(), unStakeForCreating);
@@ -122,9 +129,10 @@ public class RoundFinisher
         EntityReputationManager entityReputationManager = new EntityReputationManager(api);
         unStakeCreatorAndVotersReputation(traceabilityData, entityReputationManager);
 
-        Long penaltyForCreating = ChaincodeConfigs.reputationPenaltyForCreatingFakeTraceabilityDataEntry.get();
-        Long penaltyForApprovers = ChaincodeConfigs.reputationPenaltyForUpVotingFakeTraceabilityDataEntry.get();
-        Long rewardForRejecters = ChaincodeConfigs.reputationRewardForDownVotingFakeTraceabilityDataEntry.get();
+        Double value = traceabilityData.getValue();
+        Double penaltyForCreating = ChaincodeConfigs.reputationChangeCalculator.calculatePenaltyRatioForCreatingIncorrectTraceabilityData(value);
+        Double penaltyForApprovers = ChaincodeConfigs.reputationChangeCalculator.calculatePenaltyRatioForUpVotingIncorrectTraceabilityData(value);
+        Double rewardForRejecters = ChaincodeConfigs.reputationChangeCalculator.calculateRewardRatioForDownVotingIncorrectTraceabilityData(value);
         try
         {
             entityReputationManager.rewardEntity(traceabilityData.getCreatorID(), penaltyForCreating);

@@ -5,6 +5,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ProcessingDetails;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwaitingValidation;
 
 import java.io.IOException;
+import java.nio.channels.Channel;
 import java.security.cert.CertificateException;
 
 public class MockTraceabilityDataAwaitingValidation
@@ -15,12 +16,12 @@ public class MockTraceabilityDataAwaitingValidation
     {
         MockClientIdentity mockClientIdentity = new MockClientIdentity();
         traceabilityData = new TraceabilityDataAwaitingValidation("inputDatasetHashValue", "outputDatasetHashValue",
-                new ProcessingDetails("softwareId", "softwareVersion", "softwareBinaryExecutableHashValue", "softwareConfigParams"), new EntityID(mockClientIdentity.id));
+                new ProcessingDetails("softwareId", "softwareVersion", "softwareBinaryExecutableHashValue", "softwareConfigParams"), new EntityID(mockClientIdentity.id), ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
     }
 
     public MockTraceabilityDataAwaitingValidation(String creatorID)
     {
         traceabilityData = new TraceabilityDataAwaitingValidation("inputDatasetHashValue", "outputDatasetHashValue",
-                new ProcessingDetails("softwareId", "softwareVersion", "softwareBinaryExecutableHashValue", "softwareConfigParams"), new EntityID(creatorID));
+                new ProcessingDetails("softwareId", "softwareVersion", "softwareBinaryExecutableHashValue", "softwareConfigParams"), new EntityID(creatorID), ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
     }
 }

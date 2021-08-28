@@ -39,17 +39,17 @@ public class EntityReputationManager
         this.allowNegativeReputation = allowNegativeReputation;
     }
 
-    public void stakeEntityReputation(EntityID entityID, Long stakeNecessary) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void stakeEntityReputation(EntityID entityID, Double stakeNecessary) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         updateEntityReputation(entityID, -stakeNecessary, stakeNecessary);
     }
 
-    public void unstakeEntityReputation(EntityID entityID, Long unstakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void unstakeEntityReputation(EntityID entityID, Double unstakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         updateEntityReputation(entityID, +unstakeAmount, -unstakeAmount);
     }
 
-    public void unstakeEntitiesReputation(ArrayList<EntityID> entityIDS, Long unstakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void unstakeEntitiesReputation(ArrayList<EntityID> entityIDS, Double unstakeAmount) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         for (EntityID currVoterID : entityIDS)
         {
@@ -57,12 +57,12 @@ public class EntityReputationManager
         }
     }
 
-    public void rewardEntity(EntityID entityID, Long reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void rewardEntity(EntityID entityID, Double reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        updateEntityReputation(entityID, reward, new Long(0));
+        updateEntityReputation(entityID, reward, new Double(0));
     }
 
-    public void rewardEntities(ArrayList<EntityID> entityIDS, Long reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void rewardEntities(ArrayList<EntityID> entityIDS, Double reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         for (EntityID currVoterID : entityIDS)
         {
@@ -70,12 +70,29 @@ public class EntityReputationManager
         }
     }
 
-    public void penalizeEntity(EntityID entityID, Long penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void rewardEntities(ArrayList<EntityID> entityIDS, ArrayList<Double> rewards) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
-        updateEntityReputation(entityID, -penalty, new Long(0));
+        for (int i = 0; i < entityIDS.size(); i++)
+        {
+            rewardEntity(entityIDS.get(i), rewards.get(i));
+        }
     }
 
-    public void penalizeEntities(ArrayList<EntityID> entityIDS, Long penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void splitRewardBetweenEntities(ArrayList<EntityID> entityIDS, Double reward) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    {
+        Double rewardForEachEntity = reward / entityIDS.size();
+        for (EntityID currEntityID : entityIDS)
+        {
+            rewardEntity(currEntityID, rewardForEachEntity);
+        }
+    }
+
+    public void penalizeEntity(EntityID entityID, Double penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    {
+        updateEntityReputation(entityID, -penalty, new Double(0));
+    }
+
+    public void penalizeEntities(ArrayList<EntityID> entityIDS, Double penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         for (EntityID currVoterID : entityIDS)
         {
@@ -83,7 +100,24 @@ public class EntityReputationManager
         }
     }
 
-    private void updateEntityReputation(EntityID entityID, Long addToCurrentReputation, Long addToReputationAtStake) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    public void penalizeEntities(ArrayList<EntityID> entityIDS, ArrayList<Double> penalties) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    {
+        for (int i = 0; i < entityIDS.size(); i++)
+        {
+            penalizeEntity(entityIDS.get(i), penalties.get(i));
+        }
+    }
+
+    public void splitPenaltyBetweenEntities(ArrayList<EntityID> entityIDS, Double penalty) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
+    {
+        Double penaltyForEachEntity = penalty / entityIDS.size();
+        for (EntityID currEntityID : entityIDS)
+        {
+            penalizeEntity(currEntityID, penaltyForEachEntity);
+        }
+    }
+
+    private void updateEntityReputation(EntityID entityID, Double addToCurrentReputation, Double addToReputationAtStake) throws ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPerformAction
     {
         EntityDataRepositoryAPI entityRepository = new EntityDataRepositoryAPI(api);
         EntityData entityData;
@@ -94,8 +128,8 @@ public class EntityReputationManager
         {
             throw new ReferenceToNonexistentEntity(entityID.getId());
         }
-        Long currentReputation = entityData.getReputation();
-        Long reputationAtStake = entityData.getReputationAtStake();
+        Double currentReputation = entityData.getReputation();
+        Double reputationAtStake = entityData.getReputationAtStake();
         if (currentReputation < -addToCurrentReputation && !allowNegativeReputation)
         {
             throw new EntityDoesNotHaveEnoughReputationToPerformAction("Entity does not have enough reputation", currentReputation, addToReputationAtStake);

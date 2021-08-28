@@ -1,38 +1,54 @@
 package iReceptorPlus.Blockchain.iReceptorChain;
 
 import com.google.common.util.concurrent.AtomicDouble;
-
-import java.util.concurrent.atomic.AtomicLong;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.ReputationChangeCalculator.ReputationChangeCalculator;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.ReputationChangeCalculator.ReputationChangeCalculatorWithMorePenaltyThanReward;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.ReputationDistributer.ReputationDistributor;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.ReputationDistributer.ReputationDistributorWithUniformSplit;
 
 public class ChaincodeConfigs
 {
-    public static AtomicLong numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid = new AtomicLong(3);
+    public static AtomicDouble numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid = new AtomicDouble(3);
 
     public static AtomicDouble ratioBetweenApprovesAndRejectionsNecessaryForTraceabilityInfoToBeValid = new AtomicDouble(0.7);
 
-    public static AtomicLong numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid = new AtomicLong(4);
+    public static AtomicDouble numberOfRejectsNecessaryForTraceabilityInfoToBeInvalid = new AtomicDouble(4);
 
     public static AtomicDouble ratioBetweenRejectionsAndApprovesNecessaryForTraceabilityInfoToBeInvalid = new AtomicDouble(0.3);
 
-    public static AtomicLong initialReputationForEntities = new AtomicLong(100);
+    public static AtomicDouble initialReputationForEntities = new AtomicDouble(30);
 
-    public static AtomicLong reputationStakeAmountNecessaryForCreatingTraceabilityDataEntry = new AtomicLong(30);
+    public static Double baseValueOfTraceabilityDataEntry = 100.0;
 
-    public static AtomicLong reputationStakeAmountNecessaryForUpVotingTraceabilityDataEntry = new AtomicLong(30);
+    /**
+     * Defines the strategy for calculating the changes in reputation (stake, reward and penalty amounts).
+     */
+    public static ReputationChangeCalculator reputationChangeCalculator = new ReputationChangeCalculatorWithMorePenaltyThanReward();
 
-    public static AtomicLong reputationStakeAmountNecessaryForDownVotingTraceabilityDataEntry = new AtomicLong(50);
+    /**
+     * Defines the strategy for distributing the reputation rewards among the entities.
+     */
+    public static ReputationDistributor rewardDistributor = new ReputationDistributorWithUniformSplit();
 
-    public static AtomicLong reputationRewardForCreatingTruthfulTraceabilityDataEntry = new AtomicLong(0);
+    /**
+     * Defines the strategy for distributing the reputation rewards among the entities.
+     */
+    public static ReputationDistributor penaltyDistributor = new ReputationDistributorWithUniformSplit();
 
-    public static AtomicLong reputationRewardForUpVotingTruthfulTraceabilityDataEntry = new AtomicLong(30);
 
-    public static AtomicLong reputationRewardForDownVotingFakeTraceabilityDataEntry = new AtomicLong(50);
 
-    public static AtomicLong reputationPenaltyForCreatingFakeTraceabilityDataEntry = new AtomicLong(70);
+    /**
+     * A number between 0 and 1 representing the factor amount of the additional value that will be converted in reward for validators who perform correct behavior.
+     * The reward came from the additional value is this number multiplied by the additional value.
+     */
+    public static AtomicDouble rewardFactorFromAdditionalValue = new AtomicDouble(20);
 
-    public static AtomicLong reputationPenaltyForUpVotingFakeTraceabilityDataEntry = new AtomicLong(30);
+    /**
+     * A number between 0 and 1 representing the factor amount of the additional value that will be converted in penalty for validators who perform incorrect behavior.
+     * The penalty came from the additional value is this number multiplied by the additional value.
+     */
+    public static AtomicDouble penaltyFactorFromAdditionalValue = new AtomicDouble(70);
 
-    public static AtomicLong reputationPenaltyForDownVotingTruthfulTraceabilityDataEntry = new AtomicLong(50);
 
 
     private static String traceabilityAwaitingValidationKeyPrefix = "TraceabilityInfoAwaitingValidation";

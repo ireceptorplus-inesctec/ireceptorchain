@@ -57,6 +57,14 @@ public abstract class TraceabilityData implements iReceptorChainDataType
     @Property()
     protected ArrayList<EntityID> rejecters;
 
+    /**
+     * The value of this traceability data that will be used to calculate rewards and penalties for the voters.
+     * Optionally, the creator may decide to include an additional reward that will be split among the traceability data validators.
+     * The double representing the reward will be available to be consulted even after the traceability data is registered as validated.
+     */
+    @Property
+    protected Double value;
+
     public TraceabilityData(String inputDatasetHashValue,
                             String outputDatasetHashValue,
                             ProcessingDetails processingDetails,
@@ -68,12 +76,26 @@ public abstract class TraceabilityData implements iReceptorChainDataType
         this.creatorID = creatorID;
     }
 
+    public TraceabilityData(String inputDatasetHashValue,
+                            String outputDatasetHashValue,
+                            ProcessingDetails processingDetails,
+                            EntityID creatorID,
+                            Double value)
+    {
+        this.inputDatasetHashValue = inputDatasetHashValue;
+        this.outputDatasetHashValue = outputDatasetHashValue;
+        this.processingDetails = processingDetails;
+        this.creatorID = creatorID;
+        this.value = value;
+    }
+
     public TraceabilityData(@JsonProperty("inputDatasetHashValue") String inputDatasetHashValue,
                             @JsonProperty("outputDatasetHashValue") String outputDatasetHashValue,
                             @JsonProperty("processingDetails") ProcessingDetails processingDetails,
                             @JsonProperty("creatorID") EntityID creatorID,
                             @JsonProperty("approvers") ArrayList<EntityID> approvers,
-                            @JsonProperty("rejecters") ArrayList<EntityID> rejecters)
+                            @JsonProperty("rejecters") ArrayList<EntityID> rejecters,
+                            @JsonProperty("value") Double value)
     {
         this.inputDatasetHashValue = inputDatasetHashValue;
         this.outputDatasetHashValue = outputDatasetHashValue;
@@ -81,6 +103,7 @@ public abstract class TraceabilityData implements iReceptorChainDataType
         this.creatorID = creatorID;
         this.approvers = approvers;
         this.rejecters = rejecters;
+        this.value = value;
     }
 
     public String getInputDatasetHashValue()
@@ -111,6 +134,11 @@ public abstract class TraceabilityData implements iReceptorChainDataType
     public ArrayList<EntityID> getRejecters()
     {
         return rejecters;
+    }
+
+    public Double getValue()
+    {
+        return value;
     }
 
     /**

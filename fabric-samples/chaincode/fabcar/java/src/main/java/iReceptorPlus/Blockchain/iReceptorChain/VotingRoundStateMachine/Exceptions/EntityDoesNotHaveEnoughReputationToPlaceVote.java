@@ -2,7 +2,7 @@ package iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptio
 
 public class EntityDoesNotHaveEnoughReputationToPlaceVote extends EntityDoesNotHaveEnoughReputationToPerformAction
 {
-    public EntityDoesNotHaveEnoughReputationToPlaceVote(Long reputationOfEntity, Long necessaryReputationForVoting)
+    public EntityDoesNotHaveEnoughReputationToPlaceVote(Double reputationOfEntity, Double necessaryReputationForVoting)
     {
         super("Entity does not have enough reputation to place vote.", reputationOfEntity, necessaryReputationForVoting);
     }

@@ -15,13 +15,13 @@ public class MockTraceabilityDataValidated
         MockClientIdentity mockClientIdentity = new MockClientIdentity();
         traceabilityData = new TraceabilityDataValidated("inputDatasetHashValue", "outputDatasetHashValue",
                 new ProcessingDetails("softwareId", "softwareVersion", "softwareBinaryExecutableHashValue",
-                        "softwareConfigParams"), new EntityID(mockClientIdentity.id), new ArrayList<>(), new ArrayList<>());
+                        "softwareConfigParams"), new EntityID(mockClientIdentity.id), new ArrayList<>(), new ArrayList<>(), 0.0);
     }
 
     public MockTraceabilityDataValidated(String creatorID)
     {
         traceabilityData = new TraceabilityDataValidated("inputDatasetHashValue", "outputDatasetHashValue",
                 new ProcessingDetails("softwareId", "softwareVersion", "softwareBinaryExecutableHashValue",
-                        "softwareConfigParams"), new EntityID(creatorID), new ArrayList<>(), new ArrayList<>());
+                        "softwareConfigParams"), new EntityID(creatorID), new ArrayList<>(), new ArrayList<>(), 0.0);
     }
 }

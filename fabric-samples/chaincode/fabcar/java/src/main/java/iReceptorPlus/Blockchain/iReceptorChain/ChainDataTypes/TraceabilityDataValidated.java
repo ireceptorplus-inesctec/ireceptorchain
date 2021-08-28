@@ -26,9 +26,10 @@ public class TraceabilityDataValidated extends TraceabilityData
                                      @JsonProperty("processingDetails") final ProcessingDetails processingDetails,
                                      @JsonProperty("creatorID") final EntityID creatorID,
                                      @JsonProperty("approvers") final ArrayList<EntityID> approvers,
-                                     @JsonProperty("rejecters") final ArrayList<EntityID> rejecters)
+                                     @JsonProperty("rejecters") final ArrayList<EntityID> rejecters,
+                                     @JsonProperty("value") Double value)
     {
-        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, approvers, rejecters);
+        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, approvers, rejecters, value);
         corroborators = new ArrayList<>();
     }
 
