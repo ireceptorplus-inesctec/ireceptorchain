@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="636cfade-d943-43d4-a516-9b545a4a5b60" name="Changes" comment="added missing code files">
+    <list default="true" id="636cfade-d943-43d4-a516-9b545a4a5b60" name="Changes" comment="continued classes for reproducibility">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/ChainDataTypes/ReproducibilityData/ReproducibleScript.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/iReceptorPlus/Blockchain/iReceptorChain/MockClientIdentity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/iReceptorPlus/Blockchain/iReceptorChain/MockClientIdentity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/iReceptorPlus/Blockchain/iReceptorChain/MockTraceabilityDataAwaitingValidation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/iReceptorPlus/Blockchain/iReceptorChain/MockTraceabilityDataAwaitingValidation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/iReceptorPlus/Blockchain/iReceptorChain/iReceptorChainTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/iReceptorPlus/Blockchain/iReceptorChain/iReceptorChainTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/ChainDataTypes/ReproducibilityData/ReproducibilityData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/ChainDataTypes/ReproducibilityData/ReproducibilityData.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +40,13 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -55,6 +61,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
   </component>
   <component name="RunManager" selected="Gradle.iReceptorChainTest">
     <configuration name="iReceptorChainTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -116,7 +123,8 @@
       <option name="presentableId" value="Default" />
       <updated>1630107633259</updated>
       <workItem from="1630107635580" duration="1256000" />
-      <workItem from="1630109764947" duration="3691000" />
+      <workItem from="1630109764947" duration="5156000" />
+      <workItem from="1630423214130" duration="9117000" />
     </task>
     <task id="LOCAL-00001" summary="added missing code files">
       <created>1630112344796</created>
@@ -125,7 +133,28 @@
       <option name="project" value="LOCAL" />
       <updated>1630112344796</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fixed all compile errors due to hyperledger fabric change regarding new JSONException throwing&#10;also added missing dependencies on build.gradle">
+      <created>1630113821526</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1630113821526</updated>
+    </task>
+    <task id="LOCAL-00003" summary="begun implementing structure that will enable reproducibility">
+      <created>1630428800932</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1630428800932</updated>
+    </task>
+    <task id="LOCAL-00004" summary="continued classes for reproducibility">
+      <created>1630449556658</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1630449556658</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -133,6 +162,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added missing code files" />
-    <option name="LAST_COMMIT_MESSAGE" value="added missing code files" />
+    <MESSAGE value="fixed all compile errors due to hyperledger fabric change regarding new JSONException throwing" />
+    <MESSAGE value="fixed all compile errors due to hyperledger fabric change regarding new JSONException throwing&#10;also added missing dependencies on build.gradle" />
+    <MESSAGE value="begun implementing structure that will enable reproducibility" />
+    <MESSAGE value="continued classes for reproducibility" />
+    <option name="LAST_COMMIT_MESSAGE" value="continued classes for reproducibility" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
