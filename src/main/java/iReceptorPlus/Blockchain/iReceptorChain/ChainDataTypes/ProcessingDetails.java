@@ -2,6 +2,7 @@ package iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes;
 
 import com.owlike.genson.annotation.JsonProperty;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.ReproducibilityData;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.ReproducibilityDataUnvailable;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.ReproducibleScript;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
@@ -77,6 +78,7 @@ public class ProcessingDetails implements iReceptorChainDataType
         this.softwareVersion = softwareVersion;
         this.softwareBinaryExecutableHashValue = softwareBinaryExecutableHashValue;
         this.softwareConfigParams = softwareConfigParams;
+        this.reproducibilityData = new ReproducibilityDataUnvailable();
     }
 
     @Override
