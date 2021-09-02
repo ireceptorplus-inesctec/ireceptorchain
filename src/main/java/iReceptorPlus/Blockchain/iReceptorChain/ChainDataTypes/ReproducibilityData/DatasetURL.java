@@ -8,10 +8,15 @@ public class DatasetURL implements DatasetSource
      * A string representing the URL from which the script can be fetched.
      */
     @Property()
-    String url;
+    private final String url;
 
     public String getUrl()
     {
         return url;
+    }
+
+    public DatasetURL(String url)
+    {
+        this.url = url;
     }
 }

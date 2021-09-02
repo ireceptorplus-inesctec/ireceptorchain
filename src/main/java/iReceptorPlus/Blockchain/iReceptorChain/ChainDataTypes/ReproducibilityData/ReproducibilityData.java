@@ -11,19 +11,19 @@ public class ReproducibilityData
      * The source from which the input dataset(s) can be fetched so that the processing may be performed.
      */
     @Property()
-    ArrayList<DatasetSource> inputDatasets;
+    private final ArrayList<DatasetSource> inputDatasets;
 
     /**
      * An executable script that allows to reproduce the processing made to the data.
      */
     @Property()
-    ReproducibleScript script;
+    private final ReproducibleScript script;
 
     /**
      * The source from which the output dataset(s) can be fetched to validate the output of the processing.
      */
     @Property()
-    ArrayList<DatasetSource> outputDatasets;
+    private final ArrayList<DatasetSource> outputDatasets;
 
     public ReproducibilityData(ArrayList<DatasetSource> inputDatasets, ReproducibleScript script, ArrayList<DatasetSource> outputDatasets)
     {

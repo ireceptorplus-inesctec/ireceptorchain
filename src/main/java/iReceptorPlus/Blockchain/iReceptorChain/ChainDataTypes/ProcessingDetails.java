@@ -1,6 +1,8 @@
 package iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes;
 
 import com.owlike.genson.annotation.JsonProperty;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.ReproducibilityData;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.ReproducibleScript;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
@@ -39,6 +41,12 @@ public class ProcessingDetails implements iReceptorChainDataType
      */
     @Property()
     private final String softwareConfigParams;
+
+    /**
+     * An instance of class ReproducibilityData containing the necessary data to reproduce the processing.
+     */
+    @Property()
+    private final ReproducibilityData reproducibilityData;
 
     public String getSoftwareId()
     {

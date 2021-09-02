@@ -8,5 +8,10 @@ public abstract class ReproducibleScript
      * The URL from which the script can be fetched.
      */
     @Property()
-    DatasetURL url;
+    private final DatasetURL url;
+
+    public ReproducibleScript(DatasetURL url)
+    {
+        this.url = url;
+    }
 }
