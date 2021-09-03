@@ -5,10 +5,12 @@
 package iReceptorPlus.Blockchain.iReceptorChain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.EntityDataReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwaitingValidationReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
@@ -479,6 +481,49 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(inputDatasetHashValue, outputDatasetHashValue,
                 new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams), new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + additionalValue);
 
+        return createTraceabilityDataEntry(ctx, newUUID, traceabilityData);
+    }
+
+    /**
+     * Creates a new traceability data entry on the ledger.
+     * The entry is placed on the pool of traceability data's waiting to be validated by peers.
+     *
+     * @param ctx the transaction context
+     * @param newUUID the new UUID of the object to be created. This is generated at client-side in order to avoid different blockchain nodes reaching different ids for the same transaction for a creation of an object.
+     * @param inputDatasetHashValue the hash value of the input dataset used to perform the data transformation.
+     * @param outputDatasetHashValue the hash value of the output dataset used to perform the data transformation.
+     * @param softwareId an unique identifier of the software used to perform the data transformation.
+     * @param softwareVersion the version of the software used to perform the data transformation.
+     * @param softwareBinaryExecutableHashValue the hash value of the binary executable used to perform the data transformation.
+     * @param softwareConfigParams the configuration parameters of the software used to perform the data transformation.
+     * @return the traceability entry and the UUID used to reference the traceability information.
+     */
+    @Transaction()
+    public TraceabilityDataAwaitingValidationReturnType createTraceabilityDataEntryWithReproducibilityDataUsingNextFlow(final Context ctx, final String newUUID, final String inputDatasetHashValue,
+                                                                                                                        final String outputDatasetHashValue, final String softwareId,
+                                                                                                                        final String softwareVersion, final String softwareBinaryExecutableHashValue,
+                                                                                                                        final String softwareConfigParams, final Double additionalValue,
+                                                                                                                        final String inputDatasetsURLsStr, final String outputDatasetsURLsStr,
+                                                                                                                        final String nextFlowScriptURL)
+    {
+        logDebugMsg("createTraceabilityDataEntry");
+
+        System.err.println("************** entity that is creating the entry id: |" + ctx.getClientIdentity().getId() + "|");
+
+        ChaincodeStub stub = ctx.getStub();
+
+
+        ArrayList<DatasetURL> inputDatasetURLs = parseDatasetURLs(inputDatasetsURLsStr);
+        ArrayList<DatasetURL> outputDatasetURLs = parseDatasetURLs(outputDatasetsURLsStr);
+        NextFlowScript nextFlowScript = new NextFlowScript(new ScriptURL(nextFlowScriptURL));
+        TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(inputDatasetHashValue, outputDatasetHashValue,
+                new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams, new ReproducibilityData(inputDatasetURLs, nextFlowScript, outputDatasetURLs)), new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + additionalValue);
+
+        return createTraceabilityDataEntry(ctx, newUUID, traceabilityData);
+    }
+
+    private TraceabilityDataAwaitingValidationReturnType createTraceabilityDataEntry(Context ctx, String newUUID, TraceabilityDataAwaitingValidation traceabilityData)
+    {
         TraceabilityDataInfo dataInfo = new TraceabilityDataInfo(newUUID, traceabilityData);
 
         HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
@@ -506,6 +551,19 @@ public final class iReceptorChain implements ContractInterface {
         logDebugMsg("createTraceabilityDataEntry END");
 
         return traceabilityDataInfo;
+    }
+
+    private ArrayList<DatasetURL> parseDatasetURLs(String datasetURLsStr)
+    {
+        ArrayList<String> datasetsURLsStrArr = new ArrayList<>(Arrays.asList(datasetURLsStr.split(",")));
+        ArrayList<DatasetURL> datasetURLS = new ArrayList<>();
+        for (String urlStr : datasetsURLsStrArr)
+        {
+            DatasetURL datasetURL = new DatasetURL(urlStr);
+            datasetURLS.add(datasetURL);
+        }
+
+        return datasetURLS;
     }
 
     /**
