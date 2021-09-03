@@ -481,7 +481,7 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(inputDatasetHashValue, outputDatasetHashValue,
                 new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams), new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + additionalValue);
 
-        return createTraceabilityDataEntry(ctx, newUUID, traceabilityData);
+        return createTraceabilityDataOnDb(ctx, newUUID, traceabilityData);
     }
 
     /**
@@ -519,10 +519,10 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(inputDatasetHashValue, outputDatasetHashValue,
                 new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams, new ReproducibilityData(inputDatasetURLs, nextFlowScript, outputDatasetURLs)), new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + additionalValue);
 
-        return createTraceabilityDataEntry(ctx, newUUID, traceabilityData);
+        return createTraceabilityDataOnDb(ctx, newUUID, traceabilityData);
     }
 
-    private TraceabilityDataAwaitingValidationReturnType createTraceabilityDataEntry(Context ctx, String newUUID, TraceabilityDataAwaitingValidation traceabilityData)
+    private TraceabilityDataAwaitingValidationReturnType createTraceabilityDataOnDb(Context ctx, String newUUID, TraceabilityDataAwaitingValidation traceabilityData)
     {
         TraceabilityDataInfo dataInfo = new TraceabilityDataInfo(newUUID, traceabilityData);
 
