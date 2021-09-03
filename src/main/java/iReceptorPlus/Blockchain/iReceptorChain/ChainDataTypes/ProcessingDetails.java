@@ -81,6 +81,19 @@ public class ProcessingDetails implements iReceptorChainDataType
         this.reproducibilityData = new ReproducibilityDataUnvailable();
     }
 
+    public ProcessingDetails(@JsonProperty("softwareId") final String softwareId,
+                             @JsonProperty("softwareVersion") final String softwareVersion,
+                             @JsonProperty("softwareBinaryExecutableHashValue") final String softwareBinaryExecutableHashValue,
+                             @JsonProperty("softwareConfigParams") final String softwareConfigParams,
+                             @JsonProperty("reproducibilityData") final ReproducibilityData reproducibilityData)
+    {
+        this.softwareId = softwareId;
+        this.softwareVersion = softwareVersion;
+        this.softwareBinaryExecutableHashValue = softwareBinaryExecutableHashValue;
+        this.softwareConfigParams = softwareConfigParams;
+        this.reproducibilityData = reproducibilityData;
+    }
+
     @Override
     public boolean equals(Object o)
     {
