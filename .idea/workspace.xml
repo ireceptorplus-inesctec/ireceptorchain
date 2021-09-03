@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="636cfade-d943-43d4-a516-9b545a4a5b60" name="Changes" comment="added constructor on class ProcessingDetails that allows to create ProcessingDetails with reproducibility data">
-      <change afterPath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/ChainDataTypes/ReproducibilityData/ScriptSource.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/ChainDataTypes/ReproducibilityData/ScriptURL.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/ChainDataTypes/ReproducibilityData/NextFlowScript.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/ChainDataTypes/ReproducibilityData/NextFlowScript.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/ChainDataTypes/ReproducibilityData/ReproducibilityData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/ChainDataTypes/ReproducibilityData/ReproducibilityData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/ChainDataTypes/ReproducibilityData/ReproducibleScript.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/ChainDataTypes/ReproducibilityData/ReproducibleScript.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/ChainDataTypes/ReproducibilityData/ReproducibleScriptUnavailable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/ChainDataTypes/ReproducibilityData/ReproducibleScriptUnavailable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/iReceptorChain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iReceptorPlus/Blockchain/iReceptorChain/iReceptorChain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -228,7 +230,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630627897432</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="added classes to represent script sources">
+      <created>1630684123421</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1630684123422</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -247,7 +256,8 @@
     <MESSAGE value="fixed constructor on ReproducibilityDataUnvailable" />
     <MESSAGE value="fixed compile errors from changes" />
     <MESSAGE value="added constructor on class ProcessingDetails that allows to create ProcessingDetails with reproducibility data" />
-    <option name="LAST_COMMIT_MESSAGE" value="added constructor on class ProcessingDetails that allows to create ProcessingDetails with reproducibility data" />
+    <MESSAGE value="added classes to represent script sources" />
+    <option name="LAST_COMMIT_MESSAGE" value="added classes to represent script sources" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
