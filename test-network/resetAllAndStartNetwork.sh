@@ -1,11 +1,11 @@
 ./network.sh down
 docker system prune -a --force
 docker volume prune --force
+git reset --hard
 cd ..
 cd ..
 sudo chmod 777 ireceptorchain -R
 cd ireceptorchain
-git reset --hard
 curl -sSL https://bit.ly/2ysbOFE | bash -s
 ./gradlew installDist
 cd test-network
