@@ -1,6 +1,10 @@
 docker system prune -a --force
 docker volume prune --force
 cd ..
+cd ..
+chmod 777 ireceptorchain -R
+cd ireceptorchain
+curl -sSL https://bit.ly/2ysbOFE | bash -s
 ./gradlew installDist
 cd test-network
 export PATH=${PWD}/../bin:$PATH
