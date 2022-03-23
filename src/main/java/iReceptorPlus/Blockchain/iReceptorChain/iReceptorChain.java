@@ -419,7 +419,7 @@ public final class iReceptorChain implements ContractInterface {
      */
     @Transaction()
     public EntityDataInfo createEntityById(final Context ctx, final String entityID) {
-        logDebugMsg("createTraceabilityDataEntry");
+        logDebugMsg("createEntityById");
 
         ChaincodeStub stub = ctx.getStub();
 
