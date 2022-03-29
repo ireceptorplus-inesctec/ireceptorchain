@@ -693,7 +693,8 @@ public final class iReceptorChain implements ContractInterface {
         for (iReceptorChainDataTypeInfo result: results)
         {
             EntityDataInfo entityDataInfo = (EntityDataInfo) result;
-            EntityDataReturnType dataReturnType = new EntityDataReturnType(entityDataInfo.getUUID(), (EntityData) entityDataInfo.getData());
+            EntityData data = (EntityData) entityDataInfo.getData();
+            EntityDataReturnType dataReturnType = new EntityDataReturnType(entityDataInfo.getUUID(), data.getReputation(), data.getReputationAtStake());
             resultsToReturn.add(dataReturnType);
         }
         EntityDataReturnType[] response = resultsToReturn.toArray(new EntityDataReturnType[resultsToReturn.size()]);
