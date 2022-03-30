@@ -4,6 +4,7 @@ import org.hyperledger.fabric.contract.annotation.Property;
 
 import javax.xml.crypto.Data;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ReproducibilityData
 {
@@ -45,5 +46,20 @@ public class ReproducibilityData
     public ArrayList<DatasetURL> getOutputDatasets()
     {
         return outputDatasets;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReproducibilityData that = (ReproducibilityData) o;
+        return inputDatasets.equals(that.inputDatasets) && script.equals(that.script) && outputDatasets.equals(that.outputDatasets);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(inputDatasets, script, outputDatasets);
     }
 }

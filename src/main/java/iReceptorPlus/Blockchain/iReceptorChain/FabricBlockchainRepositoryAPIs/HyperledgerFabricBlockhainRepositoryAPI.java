@@ -174,7 +174,7 @@ public abstract class HyperledgerFabricBlockhainRepositoryAPI
     {
         QueryResultsIterator<KeyValue> resultsFromStub = ctx.getStub().getStateByPartialCompositeKey(new CompositeKey(objectTypeIdentifier).toString());
 
-        ArrayList<iReceptorChainDataTypeInfo> results = new ArrayList<>();
+            ArrayList<iReceptorChainDataTypeInfo> results = new ArrayList<>();
         for (KeyValue result: resultsFromStub)
         {
             String uuid = result.getKey().substring((objectTypeIdentifier + "-").length());
