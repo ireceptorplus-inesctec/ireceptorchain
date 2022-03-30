@@ -18,8 +18,8 @@ import java.util.List;
 import com.owlike.genson.Genson;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.EntityDataReturnType;
-import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwaitingValidationReturnType;
-import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataValidatedReturnType;
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
+import iReceptorPlus.Blockchain.iReceptorChain.DataMappers.TraceabilityDataMapper;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.EntityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
@@ -358,8 +358,8 @@ public final class iReceptorChainTest
             String uuid = "uuid";
             Double reputationStakeNecessary = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForCreatingTraceabilityData(getTraceabilityData().getValue());
 
-            TraceabilityDataAwaitingValidationReturnType returned;
-            TraceabilityDataAwaitingValidationReturnType expected = new TraceabilityDataAwaitingValidationReturnType(uuid, getTraceabilityData());
+            TraceabilityDataReturnType returned;
+            TraceabilityDataReturnType expected = new TraceabilityDataReturnType(uuid, getTraceabilityData());
 
             setEntityReputation(reputationStakeNecessary, 0.0);
             returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
@@ -1003,13 +1003,15 @@ public final class iReceptorChainTest
 
             ArrayList<TraceabilityDataInfo> traceabilityDataArrayList = getMockTraceabilityDataAwaitingValidation();
 
-            TraceabilityDataAwaitingValidationReturnType[] results = contract.getAllAwaitingValidationTraceabilityDataEntries(ctx);
+            TraceabilityDataReturnType[] results = contract.getAllAwaitingValidationTraceabilityDataEntries(ctx);
             for (int i = 0; i < traceabilityDataArrayList.size(); i++)
             {
                 TraceabilityDataInfo dataInfo = traceabilityDataArrayList.get(i);
-                TraceabilityData expected = dataInfo.getTraceabilityData();
-                TraceabilityData returned = results[i].getTraceabilityDataAwaitingValidationData();
-                assertThat(returned).isEqualTo(expected);
+                TraceabilityDataMapper mapper = new TraceabilityDataMapper();
+                TraceabilityDataReturnType expectedReturnType = mapper.getReturnTypeForTraceabilityData(dataInfo.getUUID(),
+                        dataInfo.getTraceabilityData());
+                TraceabilityDataReturnType returned = results[i];
+                assertThat(returned).isEqualTo(expectedReturnType);
             }
         }
 
@@ -1025,13 +1027,15 @@ public final class iReceptorChainTest
 
             ArrayList<TraceabilityDataInfo> traceabilityDataArrayList = getMockTraceabilityDataValidated();
 
-            TraceabilityDataValidatedReturnType[] results = contract.getAllValidatedTraceabilityDataEntries(ctx);
+            TraceabilityDataReturnType[] results = contract.getAllAwaitingValidationTraceabilityDataEntries(ctx);
             for (int i = 0; i < traceabilityDataArrayList.size(); i++)
             {
                 TraceabilityDataInfo dataInfo = traceabilityDataArrayList.get(i);
-                TraceabilityData expected = dataInfo.getTraceabilityData();
-                TraceabilityData returned = results[i].getTraceabilityDataValidatedData();
-                assertThat(returned).isEqualTo(expected);
+                TraceabilityDataMapper mapper = new TraceabilityDataMapper();
+                TraceabilityDataReturnType expectedReturnType = mapper.getReturnTypeForTraceabilityData(dataInfo.getUUID(),
+                        dataInfo.getTraceabilityData());
+                TraceabilityDataReturnType returned = results[i];
+                assertThat(returned).isEqualTo(expectedReturnType);
             }
         }
 
