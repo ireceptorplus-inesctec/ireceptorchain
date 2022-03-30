@@ -6,6 +6,7 @@ import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TraceabilityDataReturnType extends ChaincodeReturnDataType
 {
@@ -67,5 +68,20 @@ public class TraceabilityDataReturnType extends ChaincodeReturnDataType
         this.approvers = approvers;
         this.rejecters = rejecters;
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TraceabilityDataReturnType that = (TraceabilityDataReturnType) o;
+        return uuid.equals(that.uuid) && inputDatasetHashValue.equals(that.inputDatasetHashValue) && outputDatasetHashValue.equals(that.outputDatasetHashValue) && processingDetails.equals(that.processingDetails) && creatorID.equals(that.creatorID) && approvers.equals(that.approvers) && rejecters.equals(that.rejecters) && value.equals(that.value);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(uuid, inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, approvers, rejecters, value);
     }
 }

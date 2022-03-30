@@ -4,6 +4,8 @@ import com.owlike.genson.annotation.JsonProperty;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityData;
 import org.hyperledger.fabric.contract.annotation.Property;
 
+import java.util.Objects;
+
 public class EntityDataReturnType extends ChaincodeReturnDataType
 {
     /**
@@ -42,5 +44,20 @@ public class EntityDataReturnType extends ChaincodeReturnDataType
         this.id = id;
         this.reputation = reputation;
         this.reputationAtStake = reputationAtStake;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EntityDataReturnType that = (EntityDataReturnType) o;
+        return uuid.equals(that.uuid) && id.equals(that.id) && reputation.equals(that.reputation) && reputationAtStake.equals(that.reputationAtStake);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(uuid, id, reputation, reputationAtStake);
     }
 }
