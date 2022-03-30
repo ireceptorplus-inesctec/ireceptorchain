@@ -13,6 +13,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.EntityDataReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
+import iReceptorPlus.Blockchain.iReceptorChain.DataMappers.EntityDataMapper;
 import iReceptorPlus.Blockchain.iReceptorChain.DataMappers.TraceabilityDataMapper;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.EntityDataRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
@@ -695,7 +696,8 @@ public final class iReceptorChain implements ContractInterface {
         {
             EntityDataInfo entityDataInfo = (EntityDataInfo) result;
             EntityData data = (EntityData) entityDataInfo.getData();
-            EntityDataReturnType dataReturnType = new EntityDataReturnType(entityDataInfo.getUUID(), data.getReputation(), data.getReputationAtStake());
+            EntityDataMapper mapper = new EntityDataMapper();
+            EntityDataReturnType dataReturnType = mapper.getEntityDataReturnTypeFromEntityData((EntityData) entityDataInfo.getData());
             resultsToReturn.add(dataReturnType);
         }
         EntityDataReturnType[] response = resultsToReturn.toArray(new EntityDataReturnType[resultsToReturn.size()]);
