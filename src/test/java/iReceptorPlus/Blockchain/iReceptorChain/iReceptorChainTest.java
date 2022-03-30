@@ -1029,7 +1029,7 @@ public final class iReceptorChainTest
 
             ArrayList<TraceabilityDataInfo> traceabilityDataArrayList = getMockTraceabilityDataValidated();
 
-            TraceabilityDataReturnType[] results = contract.getAllAwaitingValidationTraceabilityDataEntries(ctx);
+            TraceabilityDataReturnType[] results = contract.getAllValidatedTraceabilityDataEntries(ctx);
             for (int i = 0; i < traceabilityDataArrayList.size(); i++)
             {
                 TraceabilityDataInfo dataInfo = traceabilityDataArrayList.get(i);
@@ -1049,7 +1049,7 @@ public final class iReceptorChainTest
             when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
             MockEntityDataResultsIterator iterator = new MockEntityDataResultsIterator();
             String entityDataKeyPrefix = ChaincodeConfigs.getEntityDataKeyPrefix();
-            when(getCtx().getStub().getStateByPartialCompositeKey(new CompositeKey(entityDataKeyPrefix).toString())).thenReturn(iterator);
+           when(getCtx().getStub().getStateByPartialCompositeKey(new CompositeKey(entityDataKeyPrefix).toString())).thenReturn(iterator);
 
             ArrayList<EntityData> traceabilityDataArrayList = getMockEntityData();
 
