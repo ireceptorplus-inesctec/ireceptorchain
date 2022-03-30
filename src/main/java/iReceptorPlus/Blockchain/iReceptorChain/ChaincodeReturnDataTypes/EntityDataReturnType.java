@@ -36,12 +36,11 @@ public class EntityDataReturnType extends ChaincodeReturnDataType
     @Property()
     private final Double reputationAtStake;
 
-    public EntityDataReturnType(String id, Double reputation, Double reputationAtStake)
+    public EntityDataReturnType(String uuid, String id, Double reputation, Double reputationAtStake)
     {
+        this.uuid = uuid;
         this.id = id;
         this.reputation = reputation;
         this.reputationAtStake = reputationAtStake;
     }
-
-
 }

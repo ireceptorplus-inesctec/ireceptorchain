@@ -19,6 +19,7 @@ import com.owlike.genson.Genson;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.EntityDataReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
+import iReceptorPlus.Blockchain.iReceptorChain.DataMappers.EntityDataMapper;
 import iReceptorPlus.Blockchain.iReceptorChain.DataMappers.TraceabilityDataMapper;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.EntityDataInfo;
@@ -1055,9 +1056,11 @@ public final class iReceptorChainTest
             EntityDataReturnType[] results = contract.getAllEntities(ctx);
             for (int i = 0; i < traceabilityDataArrayList.size(); i++)
             {
-                EntityData expected = traceabilityDataArrayList.get(i);
-                EntityData returned = results[i].getEntityData();
-                assertThat(returned).isEqualTo(expected);
+                EntityData expectedData = traceabilityDataArrayList.get(i);
+                EntityDataMapper mapper = new EntityDataMapper();
+                EntityDataReturnType expectedReturnType = mapper.getEntityDataReturnTypeFromEntityData(expectedData);
+                EntityDataReturnType returned = results[i];
+                assertThat(returned).isEqualTo(expectedReturnType);
             }
         }
     }
