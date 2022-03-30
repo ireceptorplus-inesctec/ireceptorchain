@@ -12,9 +12,8 @@ import java.util.List;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.EntityDataReturnType;
-import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataAwaitingValidationReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
-import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataValidatedReturnType;
+import iReceptorPlus.Blockchain.iReceptorChain.DataMappers.TraceabilityDataMapper;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.EntityDataRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions.GivenIdIsAlreadyAssignedToAnotherObject;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
@@ -445,7 +444,7 @@ public final class iReceptorChain implements ContractInterface {
      * @param traceabilityData An instance of class TraceabilityDataAwaitingValidation containing the traceability data to be inserted in the blockchain.
      */
     @Transaction()
-    public TraceabilityDataAwaitingValidationReturnType createTraceabilityDataEntryByObject(final Context ctx, final String newUUID, final TraceabilityDataAwaitingValidation traceabilityData)
+    public TraceabilityDataReturnType createTraceabilityDataEntryByObject(final Context ctx, final String newUUID, final TraceabilityDataAwaitingValidation traceabilityData)
     {
         ProcessingDetails processingDetails = traceabilityData.getProcessingDetails();
         return createTraceabilityDataEntry(ctx, newUUID, traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
@@ -468,7 +467,7 @@ public final class iReceptorChain implements ContractInterface {
      * @return the traceability entry and the UUID used to reference the traceability information.
      */
     @Transaction()
-    public TraceabilityDataAwaitingValidationReturnType createTraceabilityDataEntry(final Context ctx, final String newUUID, final String inputDatasetHashValue,
+    public TraceabilityDataReturnType createTraceabilityDataEntry(final Context ctx, final String newUUID, final String inputDatasetHashValue,
                                                                                     final String outputDatasetHashValue, final String softwareId,
                                                                                     final String softwareVersion, final String softwareBinaryExecutableHashValue,
                                                                                     final String softwareConfigParams, final Double additionalValue) {
@@ -499,7 +498,7 @@ public final class iReceptorChain implements ContractInterface {
      * @return the traceability entry and the UUID used to reference the traceability information.
      */
     @Transaction()
-    public TraceabilityDataAwaitingValidationReturnType createTraceabilityDataEntryWithReproducibilityDataUsingNextFlow(final Context ctx, final String newUUID, final String inputDatasetHashValue,
+    public TraceabilityDataReturnType createTraceabilityDataEntryWithReproducibilityDataUsingNextFlow(final Context ctx, final String newUUID, final String inputDatasetHashValue,
                                                                                                                         final String outputDatasetHashValue, final String softwareId,
                                                                                                                         final String softwareVersion, final String softwareBinaryExecutableHashValue,
                                                                                                                         final String softwareConfigParams, final Double additionalValue,
@@ -522,7 +521,7 @@ public final class iReceptorChain implements ContractInterface {
         return createTraceabilityDataOnDb(ctx, newUUID, traceabilityData);
     }
 
-    private TraceabilityDataAwaitingValidationReturnType createTraceabilityDataOnDb(Context ctx, String newUUID, TraceabilityDataAwaitingValidation traceabilityData)
+    private TraceabilityDataReturnType createTraceabilityDataOnDb(Context ctx, String newUUID, TraceabilityDataAwaitingValidation traceabilityData)
     {
         TraceabilityDataInfo dataInfo = new TraceabilityDataInfo(newUUID, traceabilityData);
 
@@ -546,11 +545,13 @@ public final class iReceptorChain implements ContractInterface {
             throw new ChaincodeException(givenIdIsAlreadyAssignedToAnotherObject.getMessage());
         }
 
-        TraceabilityDataAwaitingValidationReturnType traceabilityDataInfo = new TraceabilityDataAwaitingValidationReturnType(newUUID, traceabilityData);
+        TraceabilityDataMapper mapper = new TraceabilityDataMapper();
+        TraceabilityDataReturnType dataReturnType = mapper.getReturnTypeForTraceabilityData(dataInfo.getUUID(),
+                dataInfo.getTraceabilityData());
 
         logDebugMsg("createTraceabilityDataEntry END");
 
-        return traceabilityDataInfo;
+        return dataReturnType;
     }
 
     private ArrayList<DatasetURL> parseDatasetURLs(String datasetURLsStr)
@@ -709,24 +710,26 @@ public final class iReceptorChain implements ContractInterface {
      * @return array of traceability data that is in state awaiting validation.
      */
     @Transaction()
-    public TraceabilityDataAwaitingValidationReturnType[] getAllAwaitingValidationTraceabilityDataEntries(final Context ctx) {
+    public TraceabilityDataReturnType[] getAllAwaitingValidationTraceabilityDataEntries(final Context ctx) {
         logDebugMsg("getAllAwaitingValidationTraceabilityDataEntries");
         ChaincodeStub stub = ctx.getStub();
 
         HyperledgerFabricBlockhainRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
         ArrayList<iReceptorChainDataTypeInfo> results = api.getAllEntries();
 
-        ArrayList<TraceabilityDataAwaitingValidationReturnType> resultsToReturn = new ArrayList<>();
+        ArrayList<TraceabilityDataReturnType> resultsToReturn = new ArrayList<>();
 
         for (iReceptorChainDataTypeInfo result: results)
         {
             TraceabilityDataInfo traceabilityDataInfo = (TraceabilityDataInfo) result;
             logDebugMsg("uuid: " + traceabilityDataInfo.getUUID());
-            TraceabilityDataAwaitingValidationReturnType dataReturnType = new TraceabilityDataAwaitingValidationReturnType(traceabilityDataInfo.getUUID(), (TraceabilityDataAwaitingValidation) traceabilityDataInfo.getTraceabilityData());
+            TraceabilityDataMapper mapper = new TraceabilityDataMapper();
+            TraceabilityDataReturnType dataReturnType = mapper.getReturnTypeForTraceabilityData(traceabilityDataInfo.getUUID(),
+                    traceabilityDataInfo.getTraceabilityData());
             resultsToReturn.add(dataReturnType);
         }
 
-        TraceabilityDataAwaitingValidationReturnType[] response = resultsToReturn.toArray(new TraceabilityDataAwaitingValidationReturnType[resultsToReturn.size()]);
+        TraceabilityDataReturnType[] response = resultsToReturn.toArray(new TraceabilityDataReturnType[resultsToReturn.size()]);
         System.err.println("*************** response: " + genson.serialize(response));
 
         logDebugMsg("getAllAwaitingValidationTraceabilityDataEntries END");
@@ -741,7 +744,7 @@ public final class iReceptorChain implements ContractInterface {
      * @return array of traceability data that is in state awaiting validation.
      */
     @Transaction()
-    public TraceabilityDataValidatedReturnType[] getAllValidatedTraceabilityDataEntries(final Context ctx) {
+    public TraceabilityDataReturnType[] getAllValidatedTraceabilityDataEntries(final Context ctx) {
         logDebugMsg("getAllValidatedTraceabilityDataEntries");
 
         ChaincodeStub stub = ctx.getStub();
@@ -754,11 +757,13 @@ public final class iReceptorChain implements ContractInterface {
         for (iReceptorChainDataTypeInfo result: results)
         {
             TraceabilityDataInfo traceabilityDataInfo = (TraceabilityDataInfo) result;
-            TraceabilityDataValidatedReturnType dataReturnType = new TraceabilityDataValidatedReturnType(traceabilityDataInfo.getUUID(), (TraceabilityDataValidated) traceabilityDataInfo.getTraceabilityData());
+            TraceabilityDataMapper mapper = new TraceabilityDataMapper();
+            TraceabilityDataReturnType dataReturnType = mapper.getReturnTypeForTraceabilityData(traceabilityDataInfo.getUUID(),
+                    traceabilityDataInfo.getTraceabilityData());
             resultsToReturn.add(dataReturnType);
     }
 
-        TraceabilityDataValidatedReturnType[] response = resultsToReturn.toArray(new TraceabilityDataValidatedReturnType[resultsToReturn.size()]);
+        TraceabilityDataReturnType[] response = resultsToReturn.toArray(new TraceabilityDataReturnType[resultsToReturn.size()]);
         logDebugMsg("getAllValidatedTraceabilityDataEntries END");
 
         return response;
