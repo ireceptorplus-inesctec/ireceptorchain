@@ -910,9 +910,23 @@ public final class iReceptorChainTest
                 traceabilityDataArrayList = new ArrayList<>();
             }
 
-            protected KeyValue getTraceabilityDataKeyValue(String uuid, TraceabilityData traceabilityData)
+            protected KeyValue getTraceabilityDataKeyValue(String uuid, String keyPrefix, TraceabilityData traceabilityData)
+            {
+                String key = getKeyFromPrefixAndUUID(keyPrefix, uuid);
+                String traceabilityDataAsJson = genson.serialize(traceabilityData);
+                return new iReceptorChainTest.GetTraceabilityData.MockKeyValue(key, traceabilityDataAsJson);
+            }
+
+            protected KeyValue getTraceabilityDataAwaitingValidationKeyValue(String uuid, TraceabilityData traceabilityData)
             {
                 String key = getKeyFromPrefixAndUUID(ChaincodeConfigs.getTraceabilityAwaitingValidationKeyPrefix(), uuid);
+                String traceabilityDataAsJson = genson.serialize(traceabilityData);
+                return new iReceptorChainTest.GetTraceabilityData.MockKeyValue(key, traceabilityDataAsJson);
+            }
+
+            protected KeyValue getTraceabilityDataValidatedKeyValue(String uuid, TraceabilityData traceabilityData)
+            {
+                String key = getKeyFromPrefixAndUUID(ChaincodeConfigs.getTraceabilityValidatedKeyPrefix(), uuid);
                 String traceabilityDataAsJson = genson.serialize(traceabilityData);
                 return new iReceptorChainTest.GetTraceabilityData.MockKeyValue(key, traceabilityDataAsJson);
             }
@@ -937,7 +951,7 @@ public final class iReceptorChainTest
                 ArrayList<TraceabilityDataInfo> mockData = getMockTraceabilityDataAwaitingValidation();
                 for (TraceabilityDataInfo dataInfo : mockData)
                 {
-                    traceabilityDataArrayList.add(getTraceabilityDataKeyValue(dataInfo.getUUID(), dataInfo.getTraceabilityData()));
+                    traceabilityDataArrayList.add(getTraceabilityDataAwaitingValidationKeyValue(dataInfo.getUUID(), dataInfo.getTraceabilityData()));
                 }
             }
 
@@ -952,7 +966,7 @@ public final class iReceptorChainTest
                 ArrayList<TraceabilityDataInfo> mockData = getMockTraceabilityDataValidated();
                 for (TraceabilityDataInfo dataInfo : mockData)
                 {
-                    traceabilityDataArrayList.add(getTraceabilityDataKeyValue(dataInfo.getUUID(), dataInfo.getTraceabilityData()));
+                    traceabilityDataArrayList.add(getTraceabilityDataValidatedKeyValue(dataInfo.getUUID(), dataInfo.getTraceabilityData()));
                 }
             }
 
