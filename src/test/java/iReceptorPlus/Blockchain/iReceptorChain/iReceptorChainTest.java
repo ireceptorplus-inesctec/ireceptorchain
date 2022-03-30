@@ -359,7 +359,8 @@ public final class iReceptorChainTest
             Double reputationStakeNecessary = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForCreatingTraceabilityData(getTraceabilityData().getValue());
 
             TraceabilityDataReturnType returned;
-            TraceabilityDataReturnType expected = new TraceabilityDataReturnType(uuid, getTraceabilityData());
+            TraceabilityDataMapper mapper = new TraceabilityDataMapper();
+            TraceabilityDataReturnType expected = mapper.getReturnTypeForTraceabilityData(uuid, getTraceabilityData());
 
             setEntityReputation(reputationStakeNecessary, 0.0);
             returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
