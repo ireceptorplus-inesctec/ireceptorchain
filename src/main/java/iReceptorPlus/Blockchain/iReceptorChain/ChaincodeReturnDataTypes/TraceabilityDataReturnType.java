@@ -13,7 +13,6 @@ public class TraceabilityDataReturnType extends ChaincodeReturnDataType
     /**
      * The uuid used to reference the traceability data entry.
      */
-    @Property()
     protected String uuid;
 
     /**
