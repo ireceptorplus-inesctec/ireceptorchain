@@ -11,6 +11,7 @@ import java.util.List;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.*;
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeInputDataTypes.TraceabilityDataToBeSubmitted;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.EntityDataReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.DataMappers.EntityDataMapper;
@@ -445,7 +446,7 @@ public final class iReceptorChain implements ContractInterface {
      * @param traceabilityData An instance of class TraceabilityDataAwaitingValidation containing the traceability data to be inserted in the blockchain.
      */
     @Transaction()
-    public TraceabilityDataReturnType createTraceabilityDataEntryByObject(final Context ctx, final String newUUID, final TraceabilityDataAwaitingValidation traceabilityData)
+    public TraceabilityDataReturnType createTraceabilityDataEntryByObject(final Context ctx, final String newUUID, final TraceabilityDataToBeSubmitted traceabilityData)
     {
         ProcessingDetails processingDetails = traceabilityData.getProcessingDetails();
         return createTraceabilityDataEntry(ctx, newUUID, traceabilityData.getInputDatasetHashValue(), traceabilityData.getOutputDatasetHashValue(),
