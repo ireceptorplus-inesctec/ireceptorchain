@@ -1,9 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.ChaincodeInputDataTypes;
 
-
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ProcessingDetails;
-
-import java.util.ArrayList;
 
 public class TraceabilityDataToBeSubmitted
 {
@@ -30,7 +27,7 @@ public class TraceabilityDataToBeSubmitted
      * Optionally, the creator may decide to include an additional reward that will be split among the traceability data validators.
      * The double representing the reward will be available to be consulted even after the traceability data is registered as validated.
      */
-    protected Double value;
+    protected Double additionalValue;
 
     public TraceabilityDataToBeSubmitted(String inputDatasetHashValue, String outputDatasetHashValue, ProcessingDetails processingDetails)
     {
@@ -39,12 +36,12 @@ public class TraceabilityDataToBeSubmitted
         this.processingDetails = processingDetails;
     }
 
-    public TraceabilityDataToBeSubmitted(String inputDatasetHashValue, String outputDatasetHashValue, ProcessingDetails processingDetails, Double value)
+    public TraceabilityDataToBeSubmitted(String inputDatasetHashValue, String outputDatasetHashValue, ProcessingDetails processingDetails, Double additionalValue)
     {
         this.inputDatasetHashValue = inputDatasetHashValue;
         this.outputDatasetHashValue = outputDatasetHashValue;
         this.processingDetails = processingDetails;
-        this.value = value;
+        this.additionalValue = additionalValue;
     }
 
     public String getInputDatasetHashValue()
@@ -64,6 +61,6 @@ public class TraceabilityDataToBeSubmitted
 
     public Double getValue()
     {
-        return value;
+        return additionalValue;
     }
 }
