@@ -99,4 +99,44 @@ public class TraceabilityDataReturnType extends ChaincodeReturnDataType
     {
         return Objects.hash(uuid, inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, approvers, rejecters, value);
     }
+
+    public String getUuid()
+    {
+        return uuid;
+    }
+
+    public String getInputDatasetHashValue()
+    {
+        return inputDatasetHashValue;
+    }
+
+    public String getOutputDatasetHashValue()
+    {
+        return outputDatasetHashValue;
+    }
+
+    public ProcessingDetails getProcessingDetails()
+    {
+        return processingDetails;
+    }
+
+    public EntityID getCreatorID()
+    {
+        return creatorID;
+    }
+
+    public ArrayList<EntityID> getApprovers()
+    {
+        return approvers;
+    }
+
+    public ArrayList<EntityID> getRejecters()
+    {
+        return rejecters;
+    }
+
+    public Double getValue()
+    {
+        return value;
+    }
 }
