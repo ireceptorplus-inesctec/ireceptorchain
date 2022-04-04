@@ -1,5 +1,6 @@
 package iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes;
 
+import com.owlike.genson.annotation.JsonProperty;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityID;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ProcessingDetails;
 import org.hyperledger.fabric.contract.annotation.DataType;
@@ -65,7 +66,14 @@ public class TraceabilityDataReturnType extends ChaincodeReturnDataType
     @Property()
     protected Double value;
 
-    public TraceabilityDataReturnType(String uuid, String inputDatasetHashValue, String outputDatasetHashValue, ProcessingDetails processingDetails, EntityID creatorID, ArrayList<EntityID> approvers, ArrayList<EntityID> rejecters, Double value)
+    public TraceabilityDataReturnType(@JsonProperty("uuid") String uuid,
+                                      @JsonProperty("inputDatasetHashValue") String inputDatasetHashValue,
+                                      @JsonProperty("outputDatasetHashValue") String outputDatasetHashValue,
+                                      @JsonProperty("processingDetails") ProcessingDetails processingDetails,
+                                      @JsonProperty("creatorID") EntityID creatorID,
+                                      @JsonProperty("approvers") ArrayList<EntityID> approvers,
+                                      @JsonProperty("rejecters") ArrayList<EntityID> rejecters,
+                                      @JsonProperty("value") Double value)
     {
         this.uuid = uuid;
         this.inputDatasetHashValue = inputDatasetHashValue;
