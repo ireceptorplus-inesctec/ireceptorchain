@@ -13,41 +13,48 @@ public class TraceabilityDataReturnType extends ChaincodeReturnDataType
     /**
      * The uuid used to reference the traceability data entry.
      */
+    @Property()
     protected String uuid;
 
     /**
      * The hash value of the input dataset used to perform the data transformation.
      * This is used to validate the integrity of the input dataset, in order to be able to verify the traceability information.
      */
+    @Property()
     protected final String inputDatasetHashValue;
 
     /**
      * The hash value of the output dataset used to perform the data transformation.
      * This is used to validate the integrity of the input dataset, in order to be able to verify the traceability information.
      */
+    @Property()
     protected final String outputDatasetHashValue;
 
     /**
      * This is an instance of the class ProcessingDetails which contains information regarding the steps taken to perform the data transformation.
      * These steps are necessary in order to check the veracity of the traceability information.
      */
+    @Property()
     protected final ProcessingDetails processingDetails;
 
     /**
      * An instance of class EntityID containing information about the id of the entity that created the traceability data entry.
      */
+    @Property()
     protected final EntityID creatorID;
 
     /**
      * An array of entities who have submitted a YES vote for the validity of the traceability information.
      * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
      */
+    @Property()
     protected ArrayList<EntityID> approvers;
 
     /**
      * An array of entities who have submitted a NO vote for the validity of the traceability information.
      * Each entry contains information about each entity that voted for the traceability information that corresponds to this class.
      */
+    @Property()
     protected ArrayList<EntityID> rejecters;
 
     /**
@@ -55,6 +62,7 @@ public class TraceabilityDataReturnType extends ChaincodeReturnDataType
      * Optionally, the creator may decide to include an additional reward that will be split among the traceability data validators.
      * The double representing the reward will be available to be consulted even after the traceability data is registered as validated.
      */
+    @Property()
     protected Double value;
 
     public TraceabilityDataReturnType(String uuid, String inputDatasetHashValue, String outputDatasetHashValue, ProcessingDetails processingDetails, EntityID creatorID, ArrayList<EntityID> approvers, ArrayList<EntityID> rejecters, Double value)
