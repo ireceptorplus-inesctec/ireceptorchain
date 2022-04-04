@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.logging.Logger;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.*;
@@ -28,6 +29,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.iReceptorChainData
 import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions.*;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Returns.VotingStateMachineReturn;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.TraceabilityDataStateMachine;
+import org.apache.commons.logging.LogFactory;
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
@@ -138,6 +140,7 @@ public final class iReceptorChain implements ContractInterface {
                 "softwareConfigParams"
         );
 */
+        LogFactory.getLog(iReceptorChain.class).debug("Init ledger executed");
   
     }
 
