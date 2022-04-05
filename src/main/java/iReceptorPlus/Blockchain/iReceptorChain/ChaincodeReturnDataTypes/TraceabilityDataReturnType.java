@@ -9,6 +9,7 @@ import org.hyperledger.fabric.contract.annotation.Property;
 import java.util.ArrayList;
 import java.util.Objects;
 
+@DataType()
 public class TraceabilityDataReturnType extends ChaincodeReturnDataType
 {
     /**
