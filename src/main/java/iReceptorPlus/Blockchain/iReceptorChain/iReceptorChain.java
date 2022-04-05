@@ -520,7 +520,7 @@ public final class iReceptorChain implements ContractInterface {
 
         ArrayList<DatasetURL> inputDatasetURLs = parseDatasetURLs(inputDatasetsURLsStr);
         ArrayList<DatasetURL> outputDatasetURLs = parseDatasetURLs(outputDatasetsURLsStr);
-        NextFlowScript nextFlowScript = new NextFlowScript(new ScriptURL(nextFlowScriptURL));
+        ReproducibleScript nextFlowScript = new ReproducibleScript(nextFlowScriptURL);
         TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(inputDatasetHashValue, outputDatasetHashValue,
                 new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams, new ReproducibilityData(inputDatasetURLs, nextFlowScript, outputDatasetURLs)), new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + additionalValue);
 

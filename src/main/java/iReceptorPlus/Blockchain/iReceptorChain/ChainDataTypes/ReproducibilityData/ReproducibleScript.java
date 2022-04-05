@@ -4,15 +4,15 @@ import org.hyperledger.fabric.contract.annotation.Property;
 
 import java.util.Objects;
 
-public abstract class ReproducibleScript
+public class ReproducibleScript
 {
     /**
      * The URL from which the script can be fetched.
      */
     @Property()
-    private final ScriptURL url;
+    private final String url;
 
-    public ReproducibleScript(ScriptURL url)
+    public ReproducibleScript(String url)
     {
         this.url = url;
     }
