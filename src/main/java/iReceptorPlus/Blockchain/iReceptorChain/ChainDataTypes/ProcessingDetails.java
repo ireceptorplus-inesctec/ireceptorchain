@@ -69,6 +69,11 @@ public class ProcessingDetails implements iReceptorChainDataType
         return softwareConfigParams;
     }
 
+    public ReproducibilityData getReproducibilityData()
+    {
+        return reproducibilityData;
+    }
+
     public ProcessingDetails(@JsonProperty("softwareId") final String softwareId,
                              @JsonProperty("softwareVersion") final String softwareVersion,
                              @JsonProperty("softwareBinaryExecutableHashValue") final String softwareBinaryExecutableHashValue,
