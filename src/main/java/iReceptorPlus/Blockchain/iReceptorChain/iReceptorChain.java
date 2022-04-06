@@ -129,6 +129,8 @@ public final class iReceptorChain implements ContractInterface {
         createEntityById(ctx, "x509::CN=appUser, OU=client + OU=org1 + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US");
         createEntityById(ctx, "x509::CN=admin, OU=client::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US");
         createEntityById(ctx, "x509::CN=appUser, OU=org1 + OU=client + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US");
+        createEntityById(ctx, "x509::CN=creator, OU=org1 + OU=client + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US");
+        createEntityById(ctx, "x509::CN=voter, OU=org1 + OU=client + OU=department1::CN=fabric-ca-server, OU=Fabric, O=Hyperledger, ST=North Carolina, C=US");
 /*
         createTraceabilityDataEntry(ctx,
                 "uuid",
