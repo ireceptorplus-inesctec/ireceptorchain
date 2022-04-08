@@ -15,6 +15,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityDat
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeInputDataTypes.TraceabilityDataToBeSubmitted;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.EntityDataReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.VoteResultReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.DataMappers.EntityDataMapper;
 import iReceptorPlus.Blockchain.iReceptorChain.DataMappers.TraceabilityDataMapper;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.EntityDataRepositoryAPI;
@@ -585,7 +586,7 @@ public final class iReceptorChain implements ContractInterface {
      * @return a string identifying the success of the operation.
      */
     @Transaction()
-    public String registerYesVoteForTraceabilityEntryInVotingRound(final Context ctx, final String uuid) {
+    public VoteResultReturnType registerYesVoteForTraceabilityEntryInVotingRound(final Context ctx, final String uuid) {
 
         logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound");
 
@@ -607,7 +608,7 @@ public final class iReceptorChain implements ContractInterface {
 
         logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound END");
 
-        return votingStateMachineReturn.getMessage();
+        return new VoteResultReturnType(votingStateMachineReturn.getMessage(), votingStateMachineReturn.isStateChange());
     }
 
     /**
@@ -618,7 +619,7 @@ public final class iReceptorChain implements ContractInterface {
      * @return a string identifying the success of the operation.
      */
     @Transaction()
-    public String registerNoVoteForTraceabilityEntryInVotingRound(final Context ctx, final String uuid) {
+    public VoteResultReturnType registerNoVoteForTraceabilityEntryInVotingRound(final Context ctx, final String uuid) {
         logDebugMsg("registerNoVoteForTraceabilityEntryInVotingRound");
 
         TraceabilityDataStateMachine traceabilityDataStateMachine = getTraceabilityDataFromDBAndBuildVotingStateMachine(ctx, uuid);
@@ -640,7 +641,7 @@ public final class iReceptorChain implements ContractInterface {
 
         logDebugMsg("registerNoVoteForTraceabilityEntryInVotingRound END");
 
-        return votingStateMachineReturn.getMessage();
+        return new VoteResultReturnType(votingStateMachineReturn.getMessage(), votingStateMachineReturn.isStateChange());
     }
 
     /**

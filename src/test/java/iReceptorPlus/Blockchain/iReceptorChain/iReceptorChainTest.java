@@ -19,6 +19,7 @@ import com.owlike.genson.Genson;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.*;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.EntityDataReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.TraceabilityDataReturnType;
+import iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes.VoteResultReturnType;
 import iReceptorPlus.Blockchain.iReceptorChain.DataMappers.EntityDataMapper;
 import iReceptorPlus.Blockchain.iReceptorChain.DataMappers.TraceabilityDataMapper;
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Exceptions.ObjectWithGivenKeyNotFoundOnBlockchainDB;
@@ -516,8 +517,10 @@ public final class iReceptorChainTest
             {
                 RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
 
-                String expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
-                String returned;
+                String expectedMessage = "Vote submitted successfully. Traceability data remains waiting for validation.";
+                boolean expectedStateChange = false;
+                VoteResultReturnType expected = new VoteResultReturnType(expectedMessage, expectedStateChange);
+                VoteResultReturnType returned;
 
                 setEntityReputation(reputationStakeNecessary, 0.0);
                 returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
@@ -620,8 +623,10 @@ public final class iReceptorChainTest
             {
                 RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
 
-                String expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
-                String returned;
+                String expectedMessage = "Vote submitted successfully. Traceability data remains waiting for validation.";
+                boolean expectedStateChange = false;
+                VoteResultReturnType expected = new VoteResultReturnType(expectedMessage, expectedStateChange);
+                VoteResultReturnType returned;
 
                 setEntityReputation(reputationStakeNecessary, 0.0);
                 returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
@@ -656,8 +661,10 @@ public final class iReceptorChainTest
         {
             RegisterVoteForTraceabilityData.this.setupVoterExistsAndIsNotTheSameAsCreator();
 
-            String expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
-            String returned;
+            String expectedMessage = "Vote submitted successfully. Traceability data remains waiting for validation.";
+            boolean expectedStateChange = false;
+            VoteResultReturnType expected = new VoteResultReturnType(expectedMessage, expectedStateChange);
+            VoteResultReturnType returned;
 
             //test with up votes only
             Double confirmationsJustBelowNecessaryForApproval = ChaincodeConfigs.numberOfConfirmationsNecessaryForTraceabilityInfoToBeValid.get() - 1;
@@ -669,7 +676,10 @@ public final class iReceptorChainTest
             setEntityReputation(reputationStakeNecessaryForUpVote, 0.0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
 
-            expected = "Vote submitted successfully. Traceability data was approved.";
+            expectedMessage = "Vote submitted successfully. Traceability data was approved.";
+            expectedStateChange = true;
+            expected = new VoteResultReturnType(expectedMessage, expectedStateChange);
+
             returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
             assertThat(returned).isEqualTo(expected);
 
@@ -678,13 +688,17 @@ public final class iReceptorChainTest
             Double ratioNecessaryForRejection = ChaincodeConfigs.ratioBetweenRejectionsAndApprovesNecessaryForTraceabilityInfoToBeInvalid.get();
 
             traceabilityData = new MockTraceabilityDataAwaitingValidation("creator").traceabilityData;
-            expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
+            expectedMessage = "Vote submitted successfully. Traceability data remains waiting for validation.";
+            expectedStateChange = false;
+            expected = new VoteResultReturnType(expectedMessage, expectedStateChange);
             downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, rejectsJustBelowNecessaryForRejection, ratioNecessaryForRejection, traceabilityData);
 
             setEntityReputation(reputationStakeNecessaryForDownVote, 0.0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
 
-            expected = "Vote submitted successfully. Traceability data was rejected.";
+            expectedMessage = "Vote submitted successfully. Traceability data was rejected.";
+            expectedStateChange = true;
+            expected = new VoteResultReturnType(expectedMessage, expectedStateChange);
             returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
             assertThat(returned).isEqualTo(expected);
 
@@ -694,7 +708,9 @@ public final class iReceptorChainTest
 
             //reset and test with up votes and down votes, final decision should be approval
             traceabilityData = new MockTraceabilityDataAwaitingValidation("creator").traceabilityData;
-            expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
+            expectedMessage = "Vote submitted successfully. Traceability data remains waiting for validation.";
+            expectedStateChange = false;
+            expected = new VoteResultReturnType(expectedMessage, expectedStateChange);
             upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, ratioNecessaryForApproval, traceabilityData);
 
             //ensure that a no vote makes the traceability data remain in awaiting validation state
@@ -708,7 +724,9 @@ public final class iReceptorChainTest
             upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, confirmationsJustBelowNecessaryForApproval, ratioNecessaryForApproval, traceabilityData);
 
             //make the last (decisive) yes vote and check if it is approved, with also having rejections (to test the ratio logic)
-            expected = "Vote submitted successfully. Traceability data was approved.";
+            expectedMessage = "Vote submitted successfully. Traceability data was approved.";
+            expectedStateChange = true;
+            expected = new VoteResultReturnType(expectedMessage, expectedStateChange);
             setEntityReputation(reputationStakeNecessaryForDownVote, 0.0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
             returned = getContract().registerYesVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
@@ -718,7 +736,9 @@ public final class iReceptorChainTest
 
             //reset and test with down votes and up votes, final decision should be rejection
             traceabilityData = new MockTraceabilityDataAwaitingValidation("creator").traceabilityData;
-            expected = "Vote submitted successfully. Traceability data remains waiting for validation.";
+            expectedMessage = "Vote submitted successfully. Traceability data remains waiting for validation.";
+            expectedStateChange = false;
+            expected = new VoteResultReturnType(expectedMessage, expectedStateChange);
             downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, rejectsJustBelowNecessaryForRejection, ratioNecessaryForRejection, traceabilityData);
 
             //ensure that a yes vote makes the traceability data remain in awaiting validation state
@@ -732,16 +752,18 @@ public final class iReceptorChainTest
             downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(expected, rejectsJustBelowNecessaryForRejection, ratioNecessaryForRejection, traceabilityData);
 
             //make the last (decisive) yes vote and check if it is rejected, with also having approvals (to test the ratio logic)
-            expected = "Vote submitted successfully. Traceability data was rejected.";
+            expectedMessage = "Vote submitted successfully. Traceability data was rejected.";
+            expectedStateChange = true;
+            expected = new VoteResultReturnType(expectedMessage, expectedStateChange);
             setEntityReputation(reputationStakeNecessaryForDownVote, 0.0);
             putTraceabilityDataToDB(traceabilityDataUUID, traceabilityData);
             returned = getContract().registerNoVoteForTraceabilityEntryInVotingRound(getCtx(), traceabilityDataUUID);
             assertThat(returned).isEqualTo(expected);
         }
 
-        private void upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(String expected, Double confirmationsJustBelowNecessaryForApproval, Double ratioNecessaryForApproval, TraceabilityData traceabilityData)
+        private void upVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(VoteResultReturnType expected, Double confirmationsJustBelowNecessaryForApproval, Double ratioNecessaryForApproval, TraceabilityData traceabilityData)
         {
-            String returned;
+            VoteResultReturnType returned;
             Long approvals = traceabilityData.getNumberOfApprovers();
             Long rejections = traceabilityData.getNumberOfRejecters();
             double nextRatio =  (double) (approvals + 1) / (approvals + rejections);
@@ -762,9 +784,9 @@ public final class iReceptorChainTest
             }
         }
 
-        private void downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(String expected, Double confirmationsJustBelowNecessaryForRejection, double ratioNecessaryForRejection,TraceabilityData traceabilityData)
+        private void downVoteTraceabilityDataUntilJustBelowApprovalAndVerifyReturns(VoteResultReturnType expected, Double confirmationsJustBelowNecessaryForRejection, double ratioNecessaryForRejection,TraceabilityData traceabilityData)
         {
-            String returned;
+            VoteResultReturnType returned;
             Long approvals = traceabilityData.getNumberOfApprovers();
             Long rejections = traceabilityData.getNumberOfRejecters();
             double nextRatio =  (double) (rejections + 1) / (approvals + rejections);
