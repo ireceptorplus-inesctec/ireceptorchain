@@ -1,5 +1,7 @@
 package iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes;
 
+import java.util.Objects;
+
 public class VoteResultReturnType extends ChaincodeReturnDataType
 {
     /**
@@ -26,5 +28,20 @@ public class VoteResultReturnType extends ChaincodeReturnDataType
     public boolean isStateChange()
     {
         return stateChange;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VoteResultReturnType that = (VoteResultReturnType) o;
+        return stateChange == that.stateChange && message.equals(that.message);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(message, stateChange);
     }
 }
