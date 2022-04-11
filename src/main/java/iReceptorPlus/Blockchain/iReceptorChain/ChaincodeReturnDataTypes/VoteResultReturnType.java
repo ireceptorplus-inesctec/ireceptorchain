@@ -21,6 +21,10 @@ public class VoteResultReturnType extends ChaincodeReturnDataType
     @Property()
     boolean stateChange;
 
+    public VoteResultReturnType()
+    {
+    }
+
     public VoteResultReturnType(@JsonProperty("message") String message, @JsonProperty("stateChange") boolean stateChange)
     {
         this.message = message;
@@ -50,5 +54,15 @@ public class VoteResultReturnType extends ChaincodeReturnDataType
     public int hashCode()
     {
         return Objects.hash(message, stateChange);
+    }
+
+    public void setMessage(String message)
+    {
+        this.message = message;
+    }
+
+    public void setStateChange(boolean stateChange)
+    {
+        this.stateChange = stateChange;
     }
 }
