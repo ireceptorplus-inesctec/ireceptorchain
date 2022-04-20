@@ -6,15 +6,24 @@ import java.util.Objects;
 
 public class ReproducibleScript
 {
+    public enum ScriptType {NEXTFLOW, BASH}
+
     /**
      * The URL from which the script can be fetched.
      */
     @Property()
     private final String url;
 
-    public ReproducibleScript(String url)
+    /**
+     * An enum type that describes the type of script. Can be either NEXTFLOW or BASH.
+     */
+    @Property()
+    private final ScriptType scriptType;
+
+    public ReproducibleScript(String url, ScriptType scriptType)
     {
         this.url = url;
+        this.scriptType = scriptType;
     }
 
     @Override

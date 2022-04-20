@@ -514,7 +514,7 @@ public final class iReceptorChain implements ContractInterface {
                                                                                                                         final String softwareVersion, final String softwareBinaryExecutableHashValue,
                                                                                                                         final String softwareConfigParams, final Double additionalValue,
                                                                                                                         final String inputDatasetsURLsStr, final String outputDatasetsURLsStr,
-                                                                                                                        final String nextFlowScriptURL)
+                                                                                                                        final String nextFlowScriptURL, final ReproducibleScript.ScriptType scriptType)
     {
         logDebugMsg("createTraceabilityDataEntry");
 
@@ -522,10 +522,9 @@ public final class iReceptorChain implements ContractInterface {
 
         ChaincodeStub stub = ctx.getStub();
 
-
         ArrayList<DatasetURL> inputDatasetURLs = parseDatasetURLs(inputDatasetsURLsStr);
         ArrayList<DatasetURL> outputDatasetURLs = parseDatasetURLs(outputDatasetsURLsStr);
-        ReproducibleScript nextFlowScript = new ReproducibleScript(nextFlowScriptURL);
+        ReproducibleScript nextFlowScript = new ReproducibleScript(nextFlowScriptURL, scriptType);
         TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(inputDatasetHashValue, outputDatasetHashValue,
                 new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams, new ReproducibilityData(inputDatasetURLs, nextFlowScript, outputDatasetURLs)), new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + additionalValue);
 
