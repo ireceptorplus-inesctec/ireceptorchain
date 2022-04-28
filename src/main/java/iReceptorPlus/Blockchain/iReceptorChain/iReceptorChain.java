@@ -513,6 +513,7 @@ public final class iReceptorChain implements ContractInterface {
                                                                                                                         final String outputDatasetHashValue, final String softwareId,
                                                                                                                         final String softwareVersion, final String softwareBinaryExecutableHashValue,
                                                                                                                         final String softwareConfigParams, final Double additionalValue,
+                                                                                                                        final String inputDatasetUuidsStr, final String outputDatasetUuidsStr,
                                                                                                                         final String inputDatasetsURLsStr, final String outputDatasetsURLsStr,
                                                                                                                         final String nextFlowScriptURL, final ReproducibleScript.ScriptType scriptType)
     {
@@ -522,8 +523,8 @@ public final class iReceptorChain implements ContractInterface {
 
         ChaincodeStub stub = ctx.getStub();
 
-        ArrayList<DatasetURL> inputDatasetURLs = parseDatasetURLs(inputDatasetsURLsStr);
-        ArrayList<DatasetURL> outputDatasetURLs = parseDatasetURLs(outputDatasetsURLsStr);
+        ArrayList<DownloadbleFile> inputDatasetURLs = parseDatasetURLs(inputDatasetUuidsStr, inputDatasetsURLsStr);
+        ArrayList<DownloadbleFile> outputDatasetURLs = parseDatasetURLs(outputDatasetUuidsStr, outputDatasetsURLsStr);
         ReproducibleScript nextFlowScript = new ReproducibleScript(nextFlowScriptURL, scriptType);
         TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(inputDatasetHashValue, outputDatasetHashValue,
                 new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams, new ReproducibilityData(inputDatasetURLs, nextFlowScript, outputDatasetURLs)), new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + additionalValue);
@@ -564,17 +565,17 @@ public final class iReceptorChain implements ContractInterface {
         return dataReturnType;
     }
 
-    private ArrayList<DatasetURL> parseDatasetURLs(String datasetURLsStr)
+    private ArrayList<DownloadbleFile> parseDatasetURLs(String datasetUuidsStr, String datasetURLsStr)
     {
-        ArrayList<String> datasetsURLsStrArr = new ArrayList<>(Arrays.asList(datasetURLsStr.split(",")));
-        ArrayList<DatasetURL> datasetURLS = new ArrayList<>();
-        for (String urlStr : datasetsURLsStrArr)
+        ArrayList<DownloadbleFile> downloadbleFiles = new ArrayList<>();
+        ArrayList<String> datasetUUids = new ArrayList<>(Arrays.asList(datasetUuidsStr.split(",")));
+        ArrayList<String> datasetURLs = new ArrayList<>(Arrays.asList(datasetURLsStr.split(",")));
+        for (int i = 0; i < datasetUUids.size(); i++)
         {
-            DatasetURL datasetURL = new DatasetURL(urlStr);
-            datasetURLS.add(datasetURL);
+            DownloadbleFile downloadbleFile = new DownloadbleFile(datasetUUids.get(i), datasetURLs.get(i));
         }
 
-        return datasetURLS;
+        return downloadbleFiles;
     }
 
     /**

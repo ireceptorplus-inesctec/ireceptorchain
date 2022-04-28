@@ -12,7 +12,7 @@ public class ReproducibilityData
      * The source from which the input dataset(s) can be fetched so that the processing may be performed.
      */
     @Property()
-    private final ArrayList<DatasetURL> inputDatasets;
+    private final ArrayList<DownloadbleFile> inputDatasets;
 
     /**
      * An executable script that allows to reproduce the processing made to the data.
@@ -24,16 +24,16 @@ public class ReproducibilityData
      * The source from which the output dataset(s) can be fetched to validate the output of the processing.
      */
     @Property()
-    private final ArrayList<DatasetURL> outputDatasets;
+    private final ArrayList<DownloadbleFile> outputDatasets;
 
-    public ReproducibilityData(ArrayList<DatasetURL> inputDatasets, ReproducibleScript script, ArrayList<DatasetURL> outputDatasets)
+    public ReproducibilityData(ArrayList<DownloadbleFile> inputDatasets, ReproducibleScript script, ArrayList<DownloadbleFile> outputDatasets)
     {
         this.inputDatasets = inputDatasets;
         this.script = script;
         this.outputDatasets = outputDatasets;
     }
 
-    public ArrayList<DatasetURL> getInputDatasets()
+    public ArrayList<DownloadbleFile> getInputDatasets()
     {
         return inputDatasets;
     }
@@ -43,7 +43,7 @@ public class ReproducibilityData
         return script;
     }
 
-    public ArrayList<DatasetURL> getOutputDatasets()
+    public ArrayList<DownloadbleFile> getOutputDatasets()
     {
         return outputDatasets;
     }
