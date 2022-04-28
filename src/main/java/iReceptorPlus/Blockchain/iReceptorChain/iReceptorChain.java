@@ -513,8 +513,8 @@ public final class iReceptorChain implements ContractInterface {
                                                                                                                         final String outputDatasetHashValue, final String softwareId,
                                                                                                                         final String softwareVersion, final String softwareBinaryExecutableHashValue,
                                                                                                                         final String softwareConfigParams, final Double additionalValue,
-                                                                                                                        final String inputDatasetUuidsStr, final String outputDatasetUuidsStr,
-                                                                                                                        final String inputDatasetsURLsStr, final String outputDatasetsURLsStr,
+                                                                                                                        final String inputDatasetHashValuesStr, final String inputDatasetsURLsStr,
+                                                                                                                        final String outputDatasetHashValuesStr, final String outputDatasetsURLsStr,
                                                                                                                         final String nextFlowScriptUuid, final String nextFlowScriptURL,
                                                                                                                         final ReproducibleScript.ScriptType scriptType)
     {
@@ -524,11 +524,11 @@ public final class iReceptorChain implements ContractInterface {
 
         ChaincodeStub stub = ctx.getStub();
 
-        ArrayList<DownloadbleFile> inputDatasetURLs = parseDatasetURLs(inputDatasetUuidsStr, inputDatasetsURLsStr);
-        ArrayList<DownloadbleFile> outputDatasetURLs = parseDatasetURLs(outputDatasetUuidsStr, outputDatasetsURLsStr);
+        ArrayList<DownloadbleFile> inputDatasets = parseDatasetURLs(inputDatasetHashValuesStr, inputDatasetsURLsStr);
+        ArrayList<DownloadbleFile> outputDatasets = parseDatasetURLs(outputDatasetHashValuesStr, outputDatasetsURLsStr);
         ReproducibleScript nextFlowScript = new ReproducibleScript(nextFlowScriptUuid, nextFlowScriptURL, scriptType);
         TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(inputDatasetHashValue, outputDatasetHashValue,
-                new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams, new ReproducibilityData(inputDatasetURLs, nextFlowScript, outputDatasetURLs)), new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + additionalValue);
+                new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams, new ReproducibilityData(inputDatasets, nextFlowScript, outputDatasets)), new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + additionalValue);
 
         return createTraceabilityDataOnDb(ctx, newUUID, traceabilityData);
     }
@@ -566,10 +566,10 @@ public final class iReceptorChain implements ContractInterface {
         return dataReturnType;
     }
 
-    private ArrayList<DownloadbleFile> parseDatasetURLs(String datasetUuidsStr, String datasetURLsStr)
+    private ArrayList<DownloadbleFile> parseDatasetURLs(String datasetHashValuesStr, String datasetURLsStr)
     {
         ArrayList<DownloadbleFile> downloadbleFiles = new ArrayList<>();
-        ArrayList<String> datasetUUids = new ArrayList<>(Arrays.asList(datasetUuidsStr.split(",")));
+        ArrayList<String> datasetUUids = new ArrayList<>(Arrays.asList(datasetHashValuesStr.split(",")));
         ArrayList<String> datasetURLs = new ArrayList<>(Arrays.asList(datasetURLsStr.split(",")));
         for (int i = 0; i < datasetUUids.size(); i++)
         {
