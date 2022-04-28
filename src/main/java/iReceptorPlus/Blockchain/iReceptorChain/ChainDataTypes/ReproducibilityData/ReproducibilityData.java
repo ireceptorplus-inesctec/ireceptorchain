@@ -18,7 +18,7 @@ public class ReproducibilityData
      * An executable script that allows to reproduce the processing made to the data.
      */
     @Property()
-    private final ReproducibleScript script;
+    private final DownloadbleFile script;
 
     /**
      * The source from which the output dataset(s) can be fetched to validate the output of the processing.
@@ -26,7 +26,7 @@ public class ReproducibilityData
     @Property()
     private final ArrayList<DownloadbleFile> outputDatasets;
 
-    public ReproducibilityData(ArrayList<DownloadbleFile> inputDatasets, ReproducibleScript script, ArrayList<DownloadbleFile> outputDatasets)
+    public ReproducibilityData(ArrayList<DownloadbleFile> inputDatasets, DownloadbleFile script, ArrayList<DownloadbleFile> outputDatasets)
     {
         this.inputDatasets = inputDatasets;
         this.script = script;
@@ -38,7 +38,7 @@ public class ReproducibilityData
         return inputDatasets;
     }
 
-    public ReproducibleScript getScript()
+    public DownloadbleFile getScript()
     {
         return script;
     }

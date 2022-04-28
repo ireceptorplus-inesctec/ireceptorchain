@@ -515,7 +515,8 @@ public final class iReceptorChain implements ContractInterface {
                                                                                                                         final String softwareConfigParams, final Double additionalValue,
                                                                                                                         final String inputDatasetUuidsStr, final String outputDatasetUuidsStr,
                                                                                                                         final String inputDatasetsURLsStr, final String outputDatasetsURLsStr,
-                                                                                                                        final String nextFlowScriptURL, final ReproducibleScript.ScriptType scriptType)
+                                                                                                                        final String nextFlowScriptUuid, final String nextFlowScriptURL,
+                                                                                                                        final ReproducibleScript.ScriptType scriptType)
     {
         logDebugMsg("createTraceabilityDataEntry");
 
@@ -525,7 +526,7 @@ public final class iReceptorChain implements ContractInterface {
 
         ArrayList<DownloadbleFile> inputDatasetURLs = parseDatasetURLs(inputDatasetUuidsStr, inputDatasetsURLsStr);
         ArrayList<DownloadbleFile> outputDatasetURLs = parseDatasetURLs(outputDatasetUuidsStr, outputDatasetsURLsStr);
-        ReproducibleScript nextFlowScript = new ReproducibleScript(nextFlowScriptURL, scriptType);
+        ReproducibleScript nextFlowScript = new ReproducibleScript(nextFlowScriptUuid, nextFlowScriptURL, scriptType);
         TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(inputDatasetHashValue, outputDatasetHashValue,
                 new ProcessingDetails(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams, new ReproducibilityData(inputDatasetURLs, nextFlowScript, outputDatasetURLs)), new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + additionalValue);
 

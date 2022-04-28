@@ -4,15 +4,9 @@ import org.hyperledger.fabric.contract.annotation.Property;
 
 import java.util.Objects;
 
-public class ReproducibleScript
+public class ReproducibleScript extends DownloadbleFile
 {
     public enum ScriptType {NEXTFLOW, BASH}
-
-    /**
-     * The URL from which the script can be fetched.
-     */
-    @Property()
-    private final String url;
 
     /**
      * An enum type that describes the type of script. Can be either NEXTFLOW or BASH.
@@ -20,10 +14,16 @@ public class ReproducibleScript
     @Property()
     private final ScriptType scriptType;
 
-    public ReproducibleScript(String url, ScriptType scriptType)
+    public ReproducibleScript(String uuid, String url, ScriptType scriptType)
     {
-        this.url = url;
+        super(uuid, url);
         this.scriptType = scriptType;
+    }
+
+    public ReproducibleScript()
+    {
+        super("", "");
+        this.scriptType = null;
     }
 
     @Override

@@ -5,8 +5,8 @@ package iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityDa
  */
 public class DownloadbleFile
 {
-    private String uuid;
-    private String url;
+    protected String uuid;
+    protected String url;
 
     public DownloadbleFile(String uuid, String url)
     {
