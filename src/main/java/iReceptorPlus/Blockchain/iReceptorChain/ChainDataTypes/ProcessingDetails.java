@@ -1,12 +1,11 @@
 package iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes;
 
 import com.owlike.genson.annotation.JsonProperty;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.ReproducibilityData;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.ReproducibilityDataUnvailable;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.ReproducibleScript;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.*;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -16,87 +15,45 @@ import java.util.Objects;
 public class ProcessingDetails implements iReceptorChainDataType
 {
     /**
-     * An unique identifier of the software used to perform the data transformation.
-     * For the nodes to be able to validate the traceability information, a corresponding and valid entry in the software list config file must exist.
+     * The source from which the input dataset(s) can be fetched so that the processing may be performed.
      */
     @Property()
-    private final String softwareId;
+    private final ArrayList<DownloadbleFile> inputDatasets;
 
     /**
-     * The version of the software used to perform the data transformation.
+     * The command that should be run on the processing tool to execute the desired data processing.
      */
     @Property()
-    private final String softwareVersion;
+    private final Command command;
 
     /**
-     * The hash value of the binary executable used to perform the data transformation.
-     * This is used to validate the integrity of the binary used, in case a verification of the information is desired.
-     * Only by trusting the executable can the traceability information be trusted.
+     * The source from which the output dataset(s) can be fetched to validate the output of the processing.
      */
     @Property()
-    private final String softwareBinaryExecutableHashValue;
+    private final ArrayList<DownloadbleFile> outputDatasets;
 
-    /**
-     * The configuration parameters of the software used to perform the data transformation.
-     * This should be a string containing the command line arguments, ready to be passed to the executable binary file.
-     */
-    @Property()
-    private final String softwareConfigParams;
-
-    /**
-     * An instance of class ReproducibilityData containing the necessary data to reproduce the processing.
-     */
-    @Property()
-    private final ReproducibilityData reproducibilityData;
-
-    public String getSoftwareId()
+    public ProcessingDetails(@JsonProperty("inputDatasets") final ArrayList<DownloadbleFile> inputDatasets,
+                             @JsonProperty("command") final Command command,
+                             @JsonProperty("outputDatasets") final ArrayList<DownloadbleFile> outputDatasets)
     {
-        return softwareId;
+        this.inputDatasets = inputDatasets;
+        this.command = command;
+        this.outputDatasets = outputDatasets;
     }
 
-    public String getSoftwareVersion()
+    public ArrayList<DownloadbleFile> getInputDatasets()
     {
-        return softwareVersion;
+        return inputDatasets;
     }
 
-    public String getSoftwareBinaryExecutableHashValue()
+    public Command getCommand()
     {
-        return softwareBinaryExecutableHashValue;
+        return command;
     }
 
-    public String getSoftwareConfigParams()
+    public ArrayList<DownloadbleFile> getOutputDatasets()
     {
-        return softwareConfigParams;
-    }
-
-    public ReproducibilityData getReproducibilityData()
-    {
-        return reproducibilityData;
-    }
-
-    public ProcessingDetails(@JsonProperty("softwareId") final String softwareId,
-                             @JsonProperty("softwareVersion") final String softwareVersion,
-                             @JsonProperty("softwareBinaryExecutableHashValue") final String softwareBinaryExecutableHashValue,
-                             @JsonProperty("softwareConfigParams") final String softwareConfigParams)
-    {
-        this.softwareId = softwareId;
-        this.softwareVersion = softwareVersion;
-        this.softwareBinaryExecutableHashValue = softwareBinaryExecutableHashValue;
-        this.softwareConfigParams = softwareConfigParams;
-        this.reproducibilityData = new ReproducibilityDataUnvailable();
-    }
-
-    public ProcessingDetails(@JsonProperty("softwareId") final String softwareId,
-                             @JsonProperty("softwareVersion") final String softwareVersion,
-                             @JsonProperty("softwareBinaryExecutableHashValue") final String softwareBinaryExecutableHashValue,
-                             @JsonProperty("softwareConfigParams") final String softwareConfigParams,
-                             @JsonProperty("reproducibilityData") final ReproducibilityData reproducibilityData)
-    {
-        this.softwareId = softwareId;
-        this.softwareVersion = softwareVersion;
-        this.softwareBinaryExecutableHashValue = softwareBinaryExecutableHashValue;
-        this.softwareConfigParams = softwareConfigParams;
-        this.reproducibilityData = reproducibilityData;
+        return outputDatasets;
     }
 
     @Override
@@ -105,15 +62,12 @@ public class ProcessingDetails implements iReceptorChainDataType
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProcessingDetails that = (ProcessingDetails) o;
-        return softwareId.equals(that.softwareId) &&
-                softwareVersion.equals(that.softwareVersion) &&
-                softwareBinaryExecutableHashValue.equals(that.softwareBinaryExecutableHashValue) &&
-                softwareConfigParams.equals(that.softwareConfigParams);
+        return inputDatasets.equals(that.inputDatasets) && command.equals(that.command) && outputDatasets.equals(that.outputDatasets);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(softwareId, softwareVersion, softwareBinaryExecutableHashValue, softwareConfigParams);
+        return Objects.hash(inputDatasets, command, outputDatasets);
     }
 }

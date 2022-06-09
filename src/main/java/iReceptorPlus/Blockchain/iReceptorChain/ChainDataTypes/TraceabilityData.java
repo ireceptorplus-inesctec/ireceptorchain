@@ -17,20 +17,6 @@ import java.util.Objects;
 public abstract class TraceabilityData implements iReceptorChainDataType
 {
     /**
-     * The hash value of the input dataset used to perform the data transformation.
-     * This is used to validate the integrity of the input dataset, in order to be able to verify the traceability information.
-     */
-    @Property()
-    protected final String inputDatasetHashValue;
-
-    /**
-     * The hash value of the output dataset used to perform the data transformation.
-     * This is used to validate the integrity of the input dataset, in order to be able to verify the traceability information.
-     */
-    @Property()
-    protected final String outputDatasetHashValue;
-
-    /**
      * This is an instance of the class ProcessingDetails which contains information regarding the steps taken to perform the data transformation.
      * These steps are necessary in order to check the veracity of the traceability information.
      */
@@ -65,13 +51,9 @@ public abstract class TraceabilityData implements iReceptorChainDataType
     @Property
     protected Double value;
 
-    public TraceabilityData(String inputDatasetHashValue,
-                            String outputDatasetHashValue,
-                            ProcessingDetails processingDetails,
+    public TraceabilityData(ProcessingDetails processingDetails,
                             EntityID creatorID)
     {
-        this.inputDatasetHashValue = inputDatasetHashValue;
-        this.outputDatasetHashValue = outputDatasetHashValue;
         this.processingDetails = processingDetails;
         this.creatorID = creatorID;
     }
@@ -82,38 +64,22 @@ public abstract class TraceabilityData implements iReceptorChainDataType
                             EntityID creatorID,
                             Double value)
     {
-        this.inputDatasetHashValue = inputDatasetHashValue;
-        this.outputDatasetHashValue = outputDatasetHashValue;
         this.processingDetails = processingDetails;
         this.creatorID = creatorID;
         this.value = value;
     }
 
-    public TraceabilityData(@JsonProperty("inputDatasetHashValue") String inputDatasetHashValue,
-                            @JsonProperty("outputDatasetHashValue") String outputDatasetHashValue,
-                            @JsonProperty("processingDetails") ProcessingDetails processingDetails,
+    public TraceabilityData(@JsonProperty("processingDetails") ProcessingDetails processingDetails,
                             @JsonProperty("creatorID") EntityID creatorID,
                             @JsonProperty("approvers") ArrayList<EntityID> approvers,
                             @JsonProperty("rejecters") ArrayList<EntityID> rejecters,
                             @JsonProperty("value") Double value)
     {
-        this.inputDatasetHashValue = inputDatasetHashValue;
-        this.outputDatasetHashValue = outputDatasetHashValue;
         this.processingDetails = processingDetails;
         this.creatorID = creatorID;
         this.approvers = approvers;
         this.rejecters = rejecters;
         this.value = value;
-    }
-
-    public String getInputDatasetHashValue()
-    {
-        return inputDatasetHashValue;
-    }
-
-    public String getOutputDatasetHashValue()
-    {
-        return outputDatasetHashValue;
     }
 
     public ProcessingDetails getProcessingDetails()
@@ -179,9 +145,7 @@ public abstract class TraceabilityData implements iReceptorChainDataType
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TraceabilityData that = (TraceabilityData) o;
-        return inputDatasetHashValue.equals(that.inputDatasetHashValue) &&
-                outputDatasetHashValue.equals(that.outputDatasetHashValue) &&
-                processingDetails.equals(that.processingDetails) &&
+        return  processingDetails.equals(that.processingDetails) &&
                 creatorID.equals(that.creatorID) &&
                 approvers.equals(that.approvers) &&
                 rejecters.equals(that.rejecters);
@@ -190,6 +154,6 @@ public abstract class TraceabilityData implements iReceptorChainDataType
     @Override
     public int hashCode()
     {
-        return Objects.hash(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, approvers, rejecters);
+        return Objects.hash(processingDetails, creatorID, approvers, rejecters);
     }
 }
