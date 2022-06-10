@@ -58,9 +58,7 @@ public abstract class TraceabilityData implements iReceptorChainDataType
         this.creatorID = creatorID;
     }
 
-    public TraceabilityData(String inputDatasetHashValue,
-                            String outputDatasetHashValue,
-                            ProcessingDetails processingDetails,
+    public TraceabilityData(ProcessingDetails processingDetails,
                             EntityID creatorID,
                             Double value)
     {

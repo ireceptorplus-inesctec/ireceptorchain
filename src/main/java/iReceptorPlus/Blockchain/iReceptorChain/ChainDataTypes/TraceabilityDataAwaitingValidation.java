@@ -12,27 +12,23 @@ import java.util.ArrayList;
 public class TraceabilityDataAwaitingValidation extends TraceabilityData
 {
 
-    public TraceabilityDataAwaitingValidation(String inputDatasetHashValue,
-                                              String outputDatasetHashValue,
-                                              ProcessingDetails processingDetails,
+    public TraceabilityDataAwaitingValidation(ProcessingDetails processingDetails,
                                               EntityID creatorID,
                                               Double value)
     {
-        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, value);
+        super(processingDetails, creatorID, value);
         approvers = new ArrayList<>();
         rejecters = new ArrayList<>();
         this.value = value;
     }
 
-    public TraceabilityDataAwaitingValidation(@JsonProperty("inputDatasetHashValue") String inputDatasetHashValue,
-                                              @JsonProperty("outputDatasetHashValue") String outputDatasetHashValue,
-                                              @JsonProperty("processingDetails") ProcessingDetails processingDetails,
+    public TraceabilityDataAwaitingValidation(@JsonProperty("processingDetails") ProcessingDetails processingDetails,
                                               @JsonProperty("creatorID") EntityID creatorID,
                                               @JsonProperty("approvers") ArrayList<EntityID> approvers,
                                               @JsonProperty("rejecters") ArrayList<EntityID> rejecters,
                                               @JsonProperty("value") Double value)
     {
-        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, approvers, rejecters, value);
+        super(processingDetails, creatorID, approvers, rejecters, value);
     }
 
     /**

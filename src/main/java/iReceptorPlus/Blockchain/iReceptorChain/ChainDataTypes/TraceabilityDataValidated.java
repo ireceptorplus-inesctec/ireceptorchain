@@ -21,15 +21,13 @@ public class TraceabilityDataValidated extends TraceabilityData
     @Property()
     private final ArrayList<EntityID> corroborators;
 
-    public TraceabilityDataValidated(@JsonProperty("inputDatasetHashValue") final String inputDatasetHashValue,
-                                     @JsonProperty("outputDatasetHashValue") final String outputDatasetHashValue,
-                                     @JsonProperty("processingDetails") final ProcessingDetails processingDetails,
+    public TraceabilityDataValidated(@JsonProperty("processingDetails") final ProcessingDetails processingDetails,
                                      @JsonProperty("creatorID") final EntityID creatorID,
                                      @JsonProperty("approvers") final ArrayList<EntityID> approvers,
                                      @JsonProperty("rejecters") final ArrayList<EntityID> rejecters,
                                      @JsonProperty("value") Double value)
     {
-        super(inputDatasetHashValue, outputDatasetHashValue, processingDetails, creatorID, approvers, rejecters, value);
+        super(processingDetails, creatorID, approvers, rejecters, value);
         corroborators = new ArrayList<>();
     }
 
