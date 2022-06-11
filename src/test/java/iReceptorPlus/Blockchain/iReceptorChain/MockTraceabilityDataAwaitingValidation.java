@@ -31,8 +31,9 @@ public class MockTraceabilityDataAwaitingValidation
                 "d9359bb2-e91b-11ec-8fea-0242ac120002", "https://213.544.435.34/dataset/d9359bb2-e91b-11ec-8fea-0242ac120002");
         ArrayList<DownloadbleFile> outputDatasets = new ArrayList<DownloadbleFile>();
         outputDatasets.add(outputDataset);
-        traceabilityData = new TraceabilityDataAwaitingValidation(new ProcessingDetails(inputDatasets,
-                new Command("MiXCR", "align"), outputDatasets), new EntityID(creatorID),
+        ProcessingDetails processingDetails = new ProcessingDetails(inputDatasets,
+                new Command("MiXCR", "align"), outputDatasets);
+        traceabilityData = new TraceabilityDataAwaitingValidation(processingDetails, new EntityID(creatorID),
                 ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
     }
 }
