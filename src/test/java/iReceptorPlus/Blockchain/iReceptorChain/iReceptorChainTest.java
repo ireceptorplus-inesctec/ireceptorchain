@@ -276,12 +276,24 @@ public final class iReceptorChainTest
 
             Throwable thrown = catchThrowable(() ->
             {
-                getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams(), getTraceabilityData().getValue());
+                callChaincodeSmartContract(uuid);
             });
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("The id you have provided is not unique: it is already assigned to another object of the same type. Please try with a different id.Id used was: " + uuid);
+        }
+
+        private TraceabilityDataReturnType callChaincodeSmartContract(String uuid)
+        {
+            String serializedProcessingDetails = genson.serialize(getTraceabilityData().getProcessingDetails());
+            return getContract().createTraceabilityDataEntry(getCtx(), uuid, serializedProcessingDetails,
+                    getTraceabilityData().getValue());
+        }
+
+        private TraceabilityDataReturnType callChaincodeSmartContract(String uuid, Double additionalValue)
+        {
+            String serializedProcessingDetails = genson.serialize(getTraceabilityData().getProcessingDetails());
+            return getContract().createTraceabilityDataEntry(getCtx(), uuid, serializedProcessingDetails,
+                    additionalValue);
         }
 
         @Test
@@ -296,9 +308,8 @@ public final class iReceptorChainTest
 
             Throwable thrown = catchThrowable(() ->
             {
-                getContract().createTraceabilityDataEntry(getCtx(), "uuid", getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams(), getTraceabilityData().getValue());
+                String uuid = "uuid";
+                callChaincodeSmartContract(uuid);
             });
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class);
@@ -315,34 +326,26 @@ public final class iReceptorChainTest
             String traceabilityDataUUID = "traceabilityDataUUID";
             Throwable thrown = catchThrowable(() ->
             {
-                getContract().createTraceabilityDataEntry(getCtx(), traceabilityDataUUID, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams(), 0.0);
+                callChaincodeSmartContract(traceabilityDataUUID, 0.0);
             });
 
             setEntityReputation(0.0, 100.0);
             Throwable thrown2 = catchThrowable(() ->
             {
-                getContract().createTraceabilityDataEntry(getCtx(), traceabilityDataUUID, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams(), 0.0);
+                callChaincodeSmartContract(traceabilityDataUUID, 0.0);
             });
 
             setEntityReputation(1.0, 0.0);
             Throwable thrown3 = catchThrowable(() ->
             {
-                getContract().createTraceabilityDataEntry(getCtx(), traceabilityDataUUID, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams(), 0.0);
+                callChaincodeSmartContract(traceabilityDataUUID, 0.0);
             });
 
             Double reputationJustBelowLimit = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForCreatingTraceabilityData(getTraceabilityData().getValue()) - 1;
             setEntityReputation(reputationJustBelowLimit, 0.0);
             Throwable thrown4 = catchThrowable(() ->
             {
-                getContract().createTraceabilityDataEntry(getCtx(), traceabilityDataUUID, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                        getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                        getProcessingDetails().getSoftwareConfigParams(), 0.0);
+                callChaincodeSmartContract(traceabilityDataUUID, 0.0);
             });
 
             assertThat(thrown).isInstanceOf(ChaincodeException.class).hasMessage("Entity does not have enough reputation to create traceability data entry. Reputation of entity is 0.0 and necessary reputation is " + reputationStakeNecessary);
@@ -365,39 +368,27 @@ public final class iReceptorChainTest
             TraceabilityDataReturnType expected = mapper.getReturnTypeForTraceabilityData(uuid, getTraceabilityData());
 
             setEntityReputation(reputationStakeNecessary, 0.0);
-            returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                    getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                    getProcessingDetails().getSoftwareConfigParams(), 0.0);
+            returned = callChaincodeSmartContract(uuid, 0.0);
             assertThat(returned).isEqualTo(expected);
 
             setEntityReputation(reputationStakeNecessary, reputationStakeNecessary);
-            returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                    getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                    getProcessingDetails().getSoftwareConfigParams(), 0.0);
+            returned = callChaincodeSmartContract(uuid, 0.0);
             assertThat(returned).isEqualTo(expected);
 
             setEntityReputation(reputationStakeNecessary, 0.0);
-            returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                    getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                    getProcessingDetails().getSoftwareConfigParams(), 0.0);
+            returned = callChaincodeSmartContract(uuid, 0.0);
             assertThat(returned).isEqualTo(expected);
 
             setEntityReputation(reputationStakeNecessary + 1, reputationStakeNecessary + 1);
-            returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                    getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                    getProcessingDetails().getSoftwareConfigParams(), 0.0);
+            returned = callChaincodeSmartContract(uuid, 0.0);
             assertThat(returned).isEqualTo(expected);
 
             setEntityReputation(reputationStakeNecessary, 0.0);
-            returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                    getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                    getProcessingDetails().getSoftwareConfigParams(), 0.0);
+            returned = callChaincodeSmartContract(uuid, 0.0);
             assertThat(returned).isEqualTo(expected);
 
             setEntityReputation(reputationStakeNecessary * 5, reputationStakeNecessary * 5);
-            returned = getContract().createTraceabilityDataEntry(getCtx(), uuid, getTraceabilityData().getInputDatasetHashValue(), getTraceabilityData().getOutputDatasetHashValue(),
-                    getProcessingDetails().getSoftwareId(), getProcessingDetails().getSoftwareVersion(), getProcessingDetails().getSoftwareBinaryExecutableHashValue(),
-                    getProcessingDetails().getSoftwareConfigParams(), 0.0);
+            returned = callChaincodeSmartContract(uuid, 0.0);
             assertThat(returned).isEqualTo(expected);
 
         }
