@@ -1,5 +1,7 @@
 package iReceptorPlus.Blockchain.iReceptorChain.ChaincodeInputDataTypes;
 
+import com.owlike.genson.annotation.JsonProperty;
+
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ProcessingDetails;
 
 public class TraceabilityDataToBeSubmitted
@@ -17,13 +19,14 @@ public class TraceabilityDataToBeSubmitted
      */
     protected Double additionalValue;
 
-    public TraceabilityDataToBeSubmitted(ProcessingDetails processingDetails)
+    public TraceabilityDataToBeSubmitted(@JsonProperty("processingDetails") final ProcessingDetails processingDetails)
     {
         this.processingDetails = processingDetails;
         this.additionalValue = 0.0;
     }
 
-    public TraceabilityDataToBeSubmitted(ProcessingDetails processingDetails, Double additionalValue)
+    public TraceabilityDataToBeSubmitted(@JsonProperty("processingDetails") final ProcessingDetails processingDetails,
+                                         @JsonProperty("additionalValue") final Double additionalValue)
     {
         this.processingDetails = processingDetails;
         this.additionalValue = additionalValue;

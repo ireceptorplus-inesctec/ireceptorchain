@@ -16,8 +16,8 @@ public class Command
     @Property()
     private final String commandString;
 
-    public Command(@JsonProperty("toolId") String toolId,
-                   @JsonProperty("toolId") String commandString)
+    public Command(@JsonProperty("toolId") final String toolId,
+                   @JsonProperty("toolId") final String commandString)
     {
         this.toolId = toolId;
         this.commandString = commandString;
