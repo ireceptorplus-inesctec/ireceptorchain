@@ -60,6 +60,7 @@ public class TraceabilityDataReturnType extends ChaincodeReturnDataType
                                       @JsonProperty("rejecters") ArrayList<EntityID> rejecters,
                                       @JsonProperty("value") Double value)
     {
+        this.uuid = uuid;
         this.processingDetails = processingDetails;
         this.creatorID = creatorID;
         this.approvers = approvers;
