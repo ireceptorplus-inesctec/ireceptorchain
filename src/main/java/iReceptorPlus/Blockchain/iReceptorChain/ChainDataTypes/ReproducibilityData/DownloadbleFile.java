@@ -9,21 +9,26 @@ import org.hyperledger.fabric.contract.annotation.Property;
 public class DownloadbleFile
 {
     @Property()
-    protected String hashValue;
+    protected String uuid;
 
     @Property()
-    protected String uuid;
+    protected String extension;
 
     @Property()
     protected String url;
 
-    public DownloadbleFile(@JsonProperty("hashValue") String hashValue,
-                           @JsonProperty("uuid") String uuid,
-                           @JsonProperty("url") String url)
+    @Property()
+    protected String hashValue;
+
+    public DownloadbleFile(@JsonProperty("uuid") String uuid,
+                           @JsonProperty("extension") String extension,
+                           @JsonProperty("url") String url,
+                           @JsonProperty("hashValue") String hashValue)
     {
-        this.hashValue = hashValue;
         this.uuid = uuid;
+        this.extension = extension;
         this.url = url;
+        this.hashValue = hashValue;
     }
 
     public String getHashValue()
