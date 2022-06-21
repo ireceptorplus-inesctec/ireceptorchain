@@ -1,6 +1,8 @@
 package iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes;
 
 import com.owlike.genson.annotation.JsonProperty;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.Command;
+import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.DownloadbleFile;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
@@ -21,13 +23,15 @@ public class TraceabilityDataValidated extends TraceabilityData
     @Property()
     private final ArrayList<EntityID> corroborators;
 
-    public TraceabilityDataValidated(@JsonProperty("processingDetails") final ProcessingDetails processingDetails,
+    public TraceabilityDataValidated(@JsonProperty("inputDatasets") final ArrayList<DownloadbleFile> inputDatasets,
+                                     @JsonProperty("command") final Command command,
+                                     @JsonProperty("outputDatasets") final ArrayList<DownloadbleFile> outputDatasets,
                                      @JsonProperty("creatorID") final EntityID creatorID,
                                      @JsonProperty("approvers") final ArrayList<EntityID> approvers,
                                      @JsonProperty("rejecters") final ArrayList<EntityID> rejecters,
                                      @JsonProperty("value") Double value)
     {
-        super(processingDetails, creatorID, approvers, rejecters, value);
+        super(inputDatasets, command, outputDatasets, creatorID, approvers, rejecters, value);
         corroborators = new ArrayList<>();
     }
 

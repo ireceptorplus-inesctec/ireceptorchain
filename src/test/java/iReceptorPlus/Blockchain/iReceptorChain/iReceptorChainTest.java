@@ -175,11 +175,6 @@ public final class iReceptorChainTest
         return getKeyFromPrefixAndUUID(ChaincodeConfigs.getEntityDataKeyPrefix(), getEntityID());
     }
 
-    public ProcessingDetails getProcessingDetails()
-    {
-        return getTraceabilityData().getProcessingDetails();
-    }
-
     public void setGenson(Genson genson)
     {
         this.genson = genson;
@@ -284,16 +279,14 @@ public final class iReceptorChainTest
 
         private TraceabilityDataReturnType callChaincodeSmartContract(String uuid)
         {
-            String serializedProcessingDetails = genson.serialize(getTraceabilityData().getProcessingDetails());
-            return getContract().createTraceabilityDataEntry(getCtx(), uuid, serializedProcessingDetails,
-                    getTraceabilityData().getValue());
+            String serializedTraceabilityData = genson.serialize(getTraceabilityData());
+            return getContract().createTraceabilityDataEntry(getCtx(), uuid, serializedTraceabilityData);
         }
 
         private TraceabilityDataReturnType callChaincodeSmartContract(String uuid, Double additionalValue)
         {
-            String serializedProcessingDetails = genson.serialize(getTraceabilityData().getProcessingDetails());
-            return getContract().createTraceabilityDataEntry(getCtx(), uuid, serializedProcessingDetails,
-                    additionalValue);
+            String serializedTraceabilityData = genson.serialize(getTraceabilityData());
+            return getContract().createTraceabilityDataEntry(getCtx(), uuid, serializedTraceabilityData);
         }
 
         @Test

@@ -215,8 +215,8 @@ public final class iReceptorChain implements ContractInterface {
 
     @Transaction()
     public TraceabilityData createTraceabilityEntries(final Context ctx) {
-        iReceptorChainDataType traceabilityDataAwaitingValidation = new TraceabilityDataAwaitingValidation(new ProcessingDetails(new ArrayList<>(), new Command("MiXCR", "align"), new ArrayList<>()), new EntityID("a"), ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
-        iReceptorChainDataType traceabilityDataValidated = new TraceabilityDataValidated(new ProcessingDetails(new ArrayList<>(), new Command("MiXCR", "align"), new ArrayList<>()), new EntityID("a"), new ArrayList<>(), new ArrayList<>(), ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
+        iReceptorChainDataType traceabilityDataAwaitingValidation = new TraceabilityDataAwaitingValidation(new ArrayList<>(), new Command("MiXCR", "align"), new ArrayList<>(), new EntityID("a"), ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
+        iReceptorChainDataType traceabilityDataValidated = new TraceabilityDataValidated(new ArrayList<>(), new Command("MiXCR", "align"), new ArrayList<>(), new EntityID("a"), new ArrayList<>(), new ArrayList<>(), ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
 
         ChaincodeStub stub = ctx.getStub();
 
@@ -329,7 +329,7 @@ public final class iReceptorChain implements ContractInterface {
         TraceabilityDataAwaitingValidationRepositoryAPI api = new TraceabilityDataAwaitingValidationRepositoryAPI(ctx);
         try
         {
-            api.create(uuid, new TraceabilityDataAwaitingValidation(new ProcessingDetails(new ArrayList<>(), new Command("MiXCR", "align"), new ArrayList<>()), new EntityID("entity"), ChaincodeConfigs.baseValueOfTraceabilityDataEntry));
+            api.create(uuid, new TraceabilityDataAwaitingValidation(new ArrayList<>(), new Command("MiXCR", "align"), new ArrayList<>(), new EntityID("entity"), ChaincodeConfigs.baseValueOfTraceabilityDataEntry));
         } catch (GivenIdIsAlreadyAssignedToAnotherObject givenIdIsAlreadyAssignedToAnotherObject)
         {
             throw new ChaincodeException("not able to create");
@@ -465,8 +465,9 @@ public final class iReceptorChain implements ContractInterface {
         ChaincodeStub stub = ctx.getStub();
         Genson genson = new Genson();
         TraceabilityDataToBeSubmitted traceabilityDataToBeSubmitted = genson.deserialize(traceabilityDataString, TraceabilityDataToBeSubmitted.class);
-        TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(traceabilityDataToBeSubmitted.getProcessingDetails(),
-                new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + traceabilityDataToBeSubmitted.getValue());
+        TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(traceabilityDataToBeSubmitted.getInputDatasets(),
+                traceabilityDataToBeSubmitted.getCommand(), traceabilityDataToBeSubmitted.getOutputDatasets(),
+                new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + traceabilityDataToBeSubmitted.getAdditionalValue());
 
         return createTraceabilityDataOnDb(ctx, newUUID, traceabilityData);
     }
@@ -477,21 +478,21 @@ public final class iReceptorChain implements ContractInterface {
      *
      * @param ctx the transaction context
      * @param newUUID the new UUID of the object to be created. This is generated at client-side in order to avoid different blockchain nodes reaching different ids for the same transaction for a creation of an object.
-     * @param processingDetailsString A String containing the JSON representation of the ProcessingDetails class.
+     * @param dataString A String containing the JSON representation of the TraceabilityDataToBeSubmitted class.
      * @return the traceability entry and the UUID used to reference the traceability information.
      */
     @Transaction()
-    public TraceabilityDataReturnType createTraceabilityDataEntry(final Context ctx, final String newUUID, final String processingDetailsString,
-                                                                                    final Double additionalValue) {
+    public TraceabilityDataReturnType createTraceabilityDataEntry(final Context ctx, final String newUUID, final String dataString) {
         logDebugMsg("createTraceabilityDataEntry");
 
         System.err.println("************** entity that is creating the entry id: |" + ctx.getClientIdentity().getId() + "|");
 
         ChaincodeStub stub = ctx.getStub();
         Genson genson = new Genson();
-        ProcessingDetails processingDetails = genson.deserialize(processingDetailsString, ProcessingDetails.class);
-        TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(processingDetails,
-                new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + additionalValue);
+        TraceabilityDataToBeSubmitted traceabilityDataToBeSubmitted = genson.deserialize(dataString, TraceabilityDataToBeSubmitted.class);
+        TraceabilityDataAwaitingValidation traceabilityData = new TraceabilityDataAwaitingValidation(traceabilityDataToBeSubmitted.getInputDatasets(),
+                traceabilityDataToBeSubmitted.getCommand(), traceabilityDataToBeSubmitted.getOutputDatasets(),
+                new EntityID(ctx.getClientIdentity().getId()), ChaincodeConfigs.baseValueOfTraceabilityDataEntry + traceabilityDataToBeSubmitted.getAdditionalValue());
 
         return createTraceabilityDataOnDb(ctx, newUUID, traceabilityData);
     }

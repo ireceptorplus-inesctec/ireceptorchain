@@ -1,14 +1,12 @@
 package iReceptorPlus.Blockchain.iReceptorChain;
 
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityID;
-import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ProcessingDetails;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.Command;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.ReproducibilityData.DownloadbleFile;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.TraceabilityDataAwaitingValidation;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.nio.channels.Channel;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 
@@ -33,9 +31,9 @@ public class MockTraceabilityDataAwaitingValidation
                 "7dbcd8ac1dbc8d09b57ed18f7f8229f16a1f8c46b5eaa87899c33216b21ec650");
         ArrayList<DownloadbleFile> outputDatasets = new ArrayList<DownloadbleFile>();
         outputDatasets.add(outputDataset);
-        ProcessingDetails processingDetails = new ProcessingDetails(inputDatasets,
-                new Command("MiXCR", "align"), outputDatasets);
-        traceabilityData = new TraceabilityDataAwaitingValidation(processingDetails, new EntityID(creatorID),
+        Command command = new Command("MiXCR", "align");
+        traceabilityData = new TraceabilityDataAwaitingValidation(inputDatasets,
+                command, outputDatasets, new EntityID(creatorID),
                 ChaincodeConfigs.baseValueOfTraceabilityDataEntry);
     }
 }

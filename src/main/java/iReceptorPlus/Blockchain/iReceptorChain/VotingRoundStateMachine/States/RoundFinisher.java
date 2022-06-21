@@ -57,8 +57,10 @@ public class RoundFinisher
         removeTraceabilityDataFromDB();
 
         api = new TraceabilityDataValidatedRepositoryAPI(api);
-        TraceabilityData newTraceabilityData = new TraceabilityDataValidated(traceabilityData.getProcessingDetails(), traceabilityData.getCreatorID(),
-                traceabilityData.getApprovers(), traceabilityData.getRejecters(), 0.0);
+        TraceabilityData newTraceabilityData = new TraceabilityDataValidated(traceabilityData.getInputDatasets(),
+                traceabilityData.getCommand(), traceabilityData.getOutputDatasets(),
+                traceabilityData.getCreatorID(), traceabilityData.getApprovers(),
+                traceabilityData.getRejecters(), 0.0);
         TraceabilityDataInfo newTraceabilityDataInfo = new TraceabilityDataInfo(traceabilityDataInfo.getUUID(), newTraceabilityData);
         try
         {

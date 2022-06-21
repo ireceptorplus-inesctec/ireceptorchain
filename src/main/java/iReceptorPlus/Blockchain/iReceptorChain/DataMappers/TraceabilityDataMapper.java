@@ -10,7 +10,8 @@ public class TraceabilityDataMapper
     public TraceabilityDataReturnType getReturnTypeForTraceabilityData(String uuid, TraceabilityData data)
     {
         TraceabilityDataReturnType traceabilityDataReturnType = new TraceabilityDataReturnType(uuid.toString(),
-                data.getProcessingDetails(), data.getCreatorID(), data.getApprovers(),
+                data.getInputDatasets(), data.getCommand(), data.getOutputDatasets(),
+                data.getCreatorID(), data.getApprovers(),
                 data.getRejecters(), data.getValue());
 
         return traceabilityDataReturnType;

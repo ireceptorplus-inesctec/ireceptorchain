@@ -29,9 +29,9 @@ public class MockTraceabilityDataValidated
                 "7dbcd8ac1dbc8d09b57ed18f7f8229f16a1f8c46b5eaa87899c33216b21ec650");
         ArrayList<DownloadbleFile> outputDatasets = new ArrayList<DownloadbleFile>();
         outputDatasets.add(outputDataset);
-        ProcessingDetails processingDetails = new ProcessingDetails(inputDatasets,
-                new Command("MiXCR", "align"), outputDatasets);
-        traceabilityData = new TraceabilityDataValidated(processingDetails, new EntityID(creatorID),
+        Command command = new Command("MiXCR", "align");
+        traceabilityData = new TraceabilityDataValidated(inputDatasets,
+                command, outputDatasets, new EntityID(creatorID),
                 new ArrayList<>(), new ArrayList<>(), 0.0);
     }
 }
