@@ -95,7 +95,7 @@ Change on makefile (if nedded):
 make install
 ````
 
-It creates a bin folder on the ```blockchain``` directory
+It creates a bin folder on the root of the project.
 
 ### Step 2: Start the network
 - Machine 1
