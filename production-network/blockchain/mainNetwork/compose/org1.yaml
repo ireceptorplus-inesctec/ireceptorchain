@@ -1,0 +1,151 @@
+version: "3.7"
+
+networks:
+  hyperledger_network:
+    name: ${SWARM_NETWORK}
+    external: true
+    driver: overlay
+
+services:
+  orderer.org1.example.com:
+    container_name: orderer.org1.example.com
+    image: hyperledger/fabric-orderer:latest
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${SWARM_NETWORK}
+
+      # this is to the chaincode can be accessible outside this machine
+      - ORDERER_HOST=${IP1}
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/localMsp/
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/cert.pem
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/key.pem
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/tls-ca-cert.pem]
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
+      - ORDERER_GENERAL_LOGLEVEL=debug
+      - ORDERER_DEBUG_BROADCASTTRACEDIR=/var/hyperledger/orderer/data/logs
+      - ORDERER_FILELEDGER_LOCATION=/var/hyperledger/orderer/ledgers # ?!
+      - ORDERER_CHANNELPARTICIPATION_ENABLED=true
+      - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:7051
+      - ORDERER_ADMIN_TLS_ENABLED=true
+      - ORDERER_ADMIN_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/cert.pem
+      - ORDERER_ADMIN_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/key.pem
+      - ORDERER_ADMIN_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/tls-ca-cert.pem]
+      - ORDERER_ADMIN_TLS_CLIENTAUTHREQUIRED=true
+      - ORDERER_ADMIN_TLS_CLIENTROOTCAS=[/var/hyperledger/orderer/tls/tls-ca-cert.pem] # [/var/hyperledger/orderer/tls/tls-ca-cert.pem]
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - IP1=${IP1}
+      - IP2=${IP2}
+    working_dir: /root
+    command: orderer
+    volumes:
+      - ../organizations/certs/org1.example.com/orderer:/var/hyperledger/orderer/
+    ports:
+      - 7050:7050
+      - 7051:7051
+    networks:
+      - hyperledger_network
+
+  peer0.org1.example.com:
+    container_name: peer0.org1.example.com
+    image: hyperledger/fabric-peer:2.3
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - CORE_PEER_ID=peer0.org1.example.com
+      - FABRIC_LOGGING_SPEC=DEBUG
+      # The address that other peers in the organization use to connect
+      # to this peer.
+      - CORE_PEER_ADDRESS=peer0.org1.example.com:8054
+
+      # This name must match the name of the organization in a channel
+      # configuration file in order for this peer to join that channel
+      # succesfully.
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8054
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8055
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/localMsp
+
+      # Endpoint of the vm management system. This value should be set
+      # correctly to succesfully install and run chaincodes.
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+
+      # Starts chaincode containers on the same bridge network as this
+      # peer.
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${SWARM_NETWORK}
+
+      - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
+      - FABRIC_LOGGING_SPEC=info
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/cert.pem
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/key.pem
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/tls-ca-cert.pem
+      - CORE_PEER_GOSSIP_USELEADERELECTION=false
+      - CORE_PEER_GOSSIP_ORGLEADER=true
+      # this is to the chaincode can be accessible outside this machine
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=${IP1}:8054
+      - CORE_PEER_GOSSIP_BOOTSTRAP=${IP1}:8054
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=${DB_USER}
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=${DB_PASSWORD}
+    working_dir: /root
+    command: peer node start
+    volumes:
+      - /var/run:/host/var/run
+      - ../organizations/certs/org1.example.com/peers/peer0.org1.example.com:/etc/hyperledger/fabric
+      - ../configtx:/etc/hyperledger/peercfg
+    ports:
+      - 8054:8054
+      - 8055:8055
+      - 9443:9443
+    depends_on:
+      - couchdb0
+    networks:
+      - hyperledger_network
+
+  couchdb0:
+    container_name: couchdb0
+    image: couchdb:3.1.1
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - COUCHDB_USER=${DB_USER}
+      - COUCHDB_PASSWORD=${DB_PASSWORD}
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${SWARM_NETWORK}
+    ports:
+      - "5984:5984"
+    networks:
+      - hyperledger_network
+    # volumes:
+    #   - ../organizations/certs/org1.example.com/peers/peer0.org1.example.com/couchdb:/opt/couchdb/data
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:latest
+    labels:
+      service: hyperledger-fabric
+    tty: true
+    environment:
+      - CORE_PEER_LOCALMSPID=Org1MSP # ?!
+      - CORE_PEER_ID=cli
+      - CORE_PEER_ADDRESS=peer0.org1.example.com:8054 # ?!
+      - FABRIC_CFG_PATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/configtx/
+      - ORDERER_TLS_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/certs/org1.example.com/client/tls-ca-cert.pem
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/certs/org1.example.com/client/tls-ca-cert.pem
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/certs/org1.example.com/client/org-ca/orgadmin/msp/
+      - CORE_PEER_TLS_ENABLED=true
+      - ORDERER_ADDRESS=orderer.org1.example.com:7050
+      - IP1=${IP1}
+      - IP2=${IP2}
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    networks:
+      - hyperledger_network
+    volumes:
+      - ../organizations:/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations
+      - ../scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ../configtx:/opt/gopath/src/github.com/hyperledger/fabric/peer/configtx/
+      - ../../chaincode:/opt/gopath/src/github.com/hyperledger/fabric/peer/chaincode

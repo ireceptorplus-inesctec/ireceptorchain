@@ -1,12 +1,38 @@
-BASEPATH=.
+BASEPATH=blockchain
 NETWORK_PATH=${BASEPATH}/mainNetwork
 
-CHANNEL_NAME=#(CHANNEL_NAME)
-CHAINCODE_NAME=#(CHAINCODE_NAME)
-CHAINCODE_VERSION=7
-CHAINCODE_SEQUENCE=4
+CHANNEL_NAME=docublock
+CHAINCODE_NAME=col4indlog
+CHAINCODE_VERSION=1
+CHAINCODE_SEQUENCE=1
 # go || java
 LANGUAGE=javascript
+
+export SWARM_NETWORK=ireceptorchain
+export CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${SWARM_NETWORK}
+export PEER0_USER=peer0_user
+
+
+export TLS_CA_ADMIN=admin
+export TLS_CA_ADMIN_PASSWORD=adminpw
+export ORG_CA_ADMIN=org_ca_admin
+export ORG_CA_ADMIN_PASSWORD=org_ca_admin_pw
+export ORDERER_USER=ordered_user
+export ORDERER_USER_PASSWORD=ordered_user_pw
+export OSN_ADMIN=osn_admin
+export OSN_ADMIN_PASSWORD=osn_admin_pw
+export PEER0_USER=peer0_user
+export PEER0_USER_PASSWORD=peer0_user_pw
+export ORG_ADMIN=org_admin
+export ORG_ADMIN_PASSWORD=org_admin_pw
+
+export DOCKER_PROJECT_NAME=docublock
+
+export IP1=192.168.1.186
+export IP2=192.168.1.56
+
+export DB_USER=db_user
+export DB_PASSWORD=db_password
 
 # give access to all
 fullAccess:
