@@ -115,7 +115,7 @@ fi
 
 packageChaincode() {
   set -x
-  peer lifecycle chaincode package ${CC_NAME}.tar.gz --path ../chaincode/${CC_NAME}/javascript/ --lang ${CC_RUNTIME_LANGUAGE} --label ${CC_NAME}_${CC_VERSION} >&log.txt
+  peer lifecycle chaincode package ${CC_NAME}.tar.gz --path ${CHAINCODE_DIR} --lang ${CC_RUNTIME_LANGUAGE} --label ${CC_NAME}_${CC_VERSION} >&log.txt
   res=$?
   { set +x; } 2>/dev/null
   cat log.txt
