@@ -8,7 +8,7 @@ CHAINCODE_SEQUENCE=1
 # go || java
 LANGUAGE=javascript
 
-export CHAINCODE_DIR=../../src/main/java/iReceptorPlus/Blockchain/iReceptorChain
+export CHAINCODE_DIR=../../
 export SWARM_NETWORK=ireceptorchain
 export CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${SWARM_NETWORK}
 export PEER0_USER=peer0_user
