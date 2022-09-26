@@ -70,6 +70,18 @@ elif [ "$CC_SRC_LANGUAGE" = "typescript" ]; then
   npm run build
   popd
   successln "Finished compiling TypeScript code into JavaScript"
+  
+elif [ "$CC_SRC_LANGUAGE" = "java" ]; then
+  CC_RUNTIME_LANGUAGE=java
+
+  rm -rf $CC_SRC_PATH/build/install/
+  infoln "Compiling Java code..."
+  pushd $CC_SRC_PATH
+  ./gradlew installDist
+  popd
+  successln "Finished compiling Java code"
+  info $CC_SRC_PATH
+  CC_SRC_PATH=$CC_SRC_PATH/build/install/$CC_NAME
 
 else
   fatalln "The chaincode language ${CC_SRC_LANGUAGE} is not supported by this script. Supported chaincode languages are: go, java, javascript, and typescript"
@@ -115,7 +127,7 @@ fi
 
 packageChaincode() {
   set -x
-  peer lifecycle chaincode package ${CC_NAME}.tar.gz --path ${CHAINCODE_DIR} --lang ${CC_RUNTIME_LANGUAGE} --label ${CC_NAME}_${CC_VERSION} >&log.txt
+  peer lifecycle chaincode package ${CC_NAME}.tar.gz --path ${CC_SRC_PATH} --lang ${CC_RUNTIME_LANGUAGE} --label ${CC_NAME}_${CC_VERSION} >&log.txt
   res=$?
   { set +x; } 2>/dev/null
   cat log.txt
