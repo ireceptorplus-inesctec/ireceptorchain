@@ -1,0 +1,5 @@
+blockchain/mainNetwork/organizations/certs
+production-network/blockchain/mainNetwork/channel-artifacts/docublock_org1.block
+production-network/blockchain/mainNetwork/channel-artifacts/docublock_org2.block
+production-network/blockchain/mainNetwork/channel-artifacts/docublock.block
+production-network/blockchain/mainNetwork/log.txt
