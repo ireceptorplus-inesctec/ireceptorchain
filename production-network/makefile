@@ -2,13 +2,13 @@ BASEPATH=blockchain
 NETWORK_PATH=${BASEPATH}/mainNetwork
 
 CHANNEL_NAME=docublock
-CHAINCODE_NAME=col4indlog
+CHAINCODE_NAME=ireceptorchain
 CHAINCODE_VERSION=1
 CHAINCODE_SEQUENCE=1
 # go || java
-LANGUAGE=javascript
+LANGUAGE=java
 
-export CHAINCODE_DIR=../../
+export CHAINCODE_DIR=../../../chaincode/
 export SWARM_NETWORK=ireceptorchain
 export CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${SWARM_NETWORK}
 export PEER0_USER=peer0_user
