@@ -37,7 +37,7 @@ function ccpOrg1() {
     P0PORT=8054
     POADDRESS=$IP1
     CAPORT=7053
-    CAADDRESS=$IP2
+    CAADDRESS=$IP1
     PEERPEM=organizations/certs/org1.example.com/peers/peer0.org1.example.com/tls/tls-ca-cert.pem
     CAPEM=organizations/certs/org1.example.com/client/tls-ca-cert.pem
 
