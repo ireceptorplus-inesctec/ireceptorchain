@@ -415,8 +415,12 @@ public final class iReceptorChain implements ContractInterface {
      * @return the EntityData entry just created on the blockchain.
      */
     @Transaction()
-    public EntityDataInfo enrollMyself(final Context ctx) {
-        return createEntityByClientIdentity(ctx, ctx.getClientIdentity());
+    public EntityDataReturnType enrollMyself(final Context ctx) {
+        EntityDataInfo entityDataInfo = createEntityByClientIdentity(ctx, ctx.getClientIdentity());
+        EntityData data = (EntityData) entityDataInfo.getData();
+        EntityDataReturnType returnType = new EntityDataReturnType(entityDataInfo.getUUID(), data.getId(), data.getReputation(), data.getReputationAtStake());
+
+        return returnType;
     }
 
     /**
