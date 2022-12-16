@@ -1,7 +1,7 @@
 BASEPATH=blockchain
 NETWORK_PATH=${BASEPATH}/mainNetwork
 
-CHANNEL_NAME=docublock
+CHANNEL_NAME=ireceptorchain
 CHAINCODE_NAME=ireceptorchain
 CHAINCODE_VERSION=1
 CHAINCODE_SEQUENCE=1

@@ -16,9 +16,9 @@ public class ChaincodeConfigs
 
     public static AtomicDouble ratioBetweenRejectionsAndApprovesNecessaryForTraceabilityInfoToBeInvalid = new AtomicDouble(0.3);
 
-    public static AtomicDouble initialReputationForEntities = new AtomicDouble(30);
+    public static AtomicDouble initialReputationForEntities = new AtomicDouble(100);
 
-    public static Double baseValueOfTraceabilityDataEntry = 100.0;
+    public static Double baseValueOfTraceabilityDataEntry = 30.0;
 
     /**
      * Defines the strategy for calculating the changes in reputation (stake, reward and penalty amounts).
