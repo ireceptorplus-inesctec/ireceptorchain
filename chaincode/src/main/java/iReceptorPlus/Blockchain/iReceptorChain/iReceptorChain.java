@@ -409,6 +409,17 @@ public final class iReceptorChain implements ContractInterface {
     }
 
     /**
+     * Enrolls the entity requesting on the list of entities of the traceability data entities.
+     *
+     * @param ctx the transaction context
+     * @return the EntityData entry just created on the blockchain.
+     */
+    @Transaction()
+    public EntityDataInfo enrollMyself(final Context ctx) {
+        return createEntityByClientIdentity(ctx, ctx.getClientIdentity());
+    }
+
+    /**
      * Creates a new entity on the ledger.
      *
      * @param ctx the transaction context
