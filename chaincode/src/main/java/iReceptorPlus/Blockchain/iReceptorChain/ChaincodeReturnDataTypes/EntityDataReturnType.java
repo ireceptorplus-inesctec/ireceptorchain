@@ -11,12 +11,14 @@ public class EntityDataReturnType extends ChaincodeReturnDataType
     /**
      * The uuid used to reference the Entity's data.
      */
+    @Property()
     protected String uuid;
 
     /**
      * An instance of class ClientIdentity that hyperledger fabric uses to represent the identity of a client (peer).
      * This contains the its certificate, an id, an msp id (id of the organization it belongs to) and may contain additional attributes created upon creation of the peers' certificate.
      */
+    @Property()
     private String id;
 
     /**
@@ -25,6 +27,7 @@ public class EntityDataReturnType extends ChaincodeReturnDataType
      * Each time an entity submits a vote decided as valid for a traceability data entry, it earns reputation.
      * If an entity creates fake traceability entries or makes false votes for other traceability data entries, it is highly penalized.
      */
+    @Property()
     private Double reputation;
 
     /**
@@ -32,9 +35,13 @@ public class EntityDataReturnType extends ChaincodeReturnDataType
      * Reputation is put at stake when the entity votes for a traceability data entry that is still awaiting validation.
      * This reputation may be lost if the entity is decided to be lying (by majority consensus).
      */
+    @Property()
     private final Double reputationAtStake;
 
-    public EntityDataReturnType(String uuid, String id, Double reputation, Double reputationAtStake)
+    public EntityDataReturnType(@JsonProperty("uuid") String uuid,
+                                @JsonProperty("id") String id,
+                                @JsonProperty("reputation") Double reputation,
+                                @JsonProperty("reputationAtStake") Double reputationAtStake)
     {
         this.uuid = uuid;
         this.id = id;
