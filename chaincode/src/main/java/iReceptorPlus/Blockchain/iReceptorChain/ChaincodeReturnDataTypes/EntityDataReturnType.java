@@ -2,10 +2,12 @@ package iReceptorPlus.Blockchain.iReceptorChain.ChaincodeReturnDataTypes;
 
 import com.owlike.genson.annotation.JsonProperty;
 import iReceptorPlus.Blockchain.iReceptorChain.ChainDataTypes.EntityData;
+import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
 import java.util.Objects;
 
+@DataType()
 public class EntityDataReturnType extends ChaincodeReturnDataType
 {
     /**
