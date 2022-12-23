@@ -248,6 +248,19 @@ public final class iReceptorChainTest
             assertThat(entityCreated).isEqualTo(entityDataInfo);
 
         }
+
+        @Test
+        public void enrollMySelfTest() throws CertificateException, IOException
+        {
+            when(getCtx().getStub()).thenReturn(getStub());
+            when(getCtx().getClientIdentity()).thenReturn(getMockClientIdentity().clientIdentity);
+            when(getStub().getStringState(getEntityKeyOnDB())).thenReturn("");
+
+            EntityDataReturnType entityCreated = getContract().enrollMyself(getCtx());
+            EntityDataReturnType expected = new EntityDataReturnType(getEntityID(), getEntityData().getId(),
+                    getEntityData().getReputation(), getEntityData().getReputationAtStake());
+            assertThat(entityCreated).isEqualTo(expected);
+        }
     }
 
     @Nested
