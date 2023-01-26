@@ -27,6 +27,8 @@ export PEER0_USER_PASSWORD=peer0_user_pw
 export ORG_ADMIN=org_admin
 export ORG_ADMIN_PASSWORD=org_admin_pw
 
+export ALLOWED_HOSTS=${IP1},${IP2},0.0.0.0,tlsca.org2.example.com,orgca.org2.example.com,tlsca.org1.example.com,orgca.org1.example.com,orderer.org1.example.com,peer0.org1.example.com,peer0.org2.example.com,org1.example.com,localhost
+
 export DOCKER_PROJECT_NAME=docublock
 
 export IP1=192.168.1.186
@@ -51,23 +53,32 @@ clean:
 
 # install fabric images and binaries
 install:
+	@echo -n "Install Docker? [y/N] " && read ans && if [ $${ans:-'N'} = 'y' ]; then cd ${BASEPATH} && ./installation.sh; fi
 	cd ${BASEPATH} && ./fabric_configuration.sh
 
 # start Org1 peers and orderes
-startOrg1:
+resetAndStartOrg1:
 	cd ${NETWORK_PATH} && ./network.sh up -o 1
 
 # start Org2 peers and orderes
-startOrg2:
+resetAndStartOrg2:
 	cd ${NETWORK_PATH} && ./network.sh up -o 2
 
 fullStartOrg1:
 	$(MAKE) clean
-	$(MAKE) startOrg1
+	$(MAKE) resetAndStartOrg1
 
 fullStartOrg2:
 	$(MAKE) clean
-	$(MAKE) startOrg2
+	$(MAKE) resetAndStartOrg2
+
+startOrg1:
+	docker-compose -p ${DOCKER_PROJECT_NAME} -f blockchain/mainNetwork/compose/org1_ca.yaml up -d
+	docker-compose -f blockchain/mainNetwork/compose/org1.yaml up -d
+
+startOrg2:
+	docker-compose -p ${DOCKER_PROJECT_NAME} -f blockchain/mainNetwork/compose/org2_ca.yaml up -d
+	docker-compose -f blockchain/mainNetwork/compose/org2.yaml up -d
 
 # create network
 createNetwork:
@@ -88,7 +99,7 @@ createWalletUsers:
 	cd server/${CHAINCODE_NAME}/ && rm -rf wallet && node certificateAuthorityActions.js admin && node certificateAuthorityActions.js user
 
 serverUp:
-	cd server && npm run prod
+	cd server && npm run start:prod
 
 serverDown:
 	cd server && npm run prod:stop
