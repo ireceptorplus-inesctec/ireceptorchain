@@ -372,6 +372,9 @@ public final class iReceptorChain implements ContractInterface {
         } catch (ReferenceToNonexistentEntity referenceToNonexistentEntity)
         {
             throw new ChaincodeException(referenceToNonexistentEntity.getMessage());
+        } catch (EntityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry entityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry)
+        {
+            throw new ChaincodeException(entityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry.getMessage());
         }
 
         logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound END");
@@ -571,6 +574,9 @@ public final class iReceptorChain implements ContractInterface {
         } catch (ReferenceToNonexistentEntity referenceToNonexistentEntity)
         {
             throw new ChaincodeException(referenceToNonexistentEntity.getMessage());
+        } catch (EntityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry entityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry)
+        {
+            throw new ChaincodeException(entityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry.getMessage());
         }
 
         logDebugMsg("registerYesVoteForTraceabilityEntryInVotingRound END");
@@ -603,6 +609,9 @@ public final class iReceptorChain implements ContractInterface {
         } catch (ReferenceToNonexistentEntity referenceToNonexistentEntity)
         {
             throw new ChaincodeException(referenceToNonexistentEntity.getMessage());
+        } catch (EntityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry entityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry)
+        {
+            throw new ChaincodeException(entityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry.getMessage());
         }
 
 

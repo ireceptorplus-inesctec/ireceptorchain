@@ -6,10 +6,7 @@ import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.Ex
 import iReceptorPlus.Blockchain.iReceptorChain.FabricBlockchainRepositoryAPIs.HyperledgerFabricBlockhainRepositoryAPI;
 import iReceptorPlus.Blockchain.iReceptorChain.LogicDataTypes.TraceabilityDataInfo;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.EntityReputationManager;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPerformAction;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions.EntityDoesNotHaveEnoughReputationToPlaceVote;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions.IncosistentInfoFoundOnDB;
-import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions.ReferenceToNonexistentEntity;
+import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Exceptions.*;
 import iReceptorPlus.Blockchain.iReceptorChain.VotingRoundStateMachine.Returns.VotingStateMachineReturn;
 
 /**
@@ -24,8 +21,11 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public VotingStateMachineReturn voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
+    public VotingStateMachineReturn voteYesForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote, EntityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry
     {
+        if (!entityIsNotVotingTwice(voterID))
+            throw new EntityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry(voterID, traceabilityDataInfo.getUUID());
+
         Double value = traceabilityDataInfo.getTraceabilityData().getValue();
         double stakeNecessary = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForUpVotingTraceabilityData(value);
         EntityReputationManager entityReputationManager = new EntityReputationManager(api);
@@ -65,8 +65,11 @@ public class AwaitingValidation extends State
     }
 
     @Override
-    public VotingStateMachineReturn voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
+    public VotingStateMachineReturn voteNoForTheVeracityOfTraceabilityInfo(EntityID voterID) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote, EntityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry
     {
+        if (!entityIsNotVotingTwice(voterID))
+            throw new EntityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry(voterID, traceabilityDataInfo.getUUID());
+
         Double value = traceabilityDataInfo.getTraceabilityData().getValue();
         Double stakeNecessary = ChaincodeConfigs.reputationChangeCalculator.calculateStakeRatioForDownVotingTraceabilityData(value);
         EntityReputationManager entityReputationManager = new EntityReputationManager(api);
@@ -101,5 +104,11 @@ public class AwaitingValidation extends State
     private boolean conditionToRejectTraceabilityInfo(Long numberOfApprovers, Long numberOfRejecters)
     {
         return ChaincodeConfigs.conditionToRejectTraceabilityInfo(numberOfApprovers, numberOfRejecters);
+    }
+
+    private boolean entityIsNotVotingTwice(EntityID entityID)
+    {
+        return traceabilityDataInfo.getTraceabilityData().getApprovers().indexOf(entityID) == -1 &&
+                traceabilityDataInfo.getTraceabilityData().getRejecters().indexOf(entityID) == -1;
     }
 }

@@ -72,12 +72,12 @@ public class TraceabilityDataStateMachine
         api.create(traceabilityDataInfo.getUUID(), traceabilityDataInfo.getTraceabilityData());
     }
 
-    public VotingStateMachineReturn voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
+    public VotingStateMachineReturn voteYesForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote, EntityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry
     {
         return state.voteYesForTheVeracityOfTraceabilityInfo(voter);
     }
 
-    public VotingStateMachineReturn voteNoForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote
+    public VotingStateMachineReturn voteNoForTheVeracityOfTraceabilityInfo(EntityID voter) throws IncosistentInfoFoundOnDB, ReferenceToNonexistentEntity, EntityDoesNotHaveEnoughReputationToPlaceVote, EntityIsTryingToVoteTwiceForTheSameTraceabilityDataEntry
     {
         return state.voteNoForTheVeracityOfTraceabilityInfo(voter);
     }
