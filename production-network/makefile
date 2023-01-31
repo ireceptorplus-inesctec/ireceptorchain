@@ -46,6 +46,8 @@ clean:
 	rm -rf ${NETWORK_PATH}/channel-artifacts
 	docker-compose -p ${DOCKER_PROJECT_NAME} -f blockchain/mainNetwork/compose/org1_ca.yaml down -v || true
 	docker-compose -f blockchain/mainNetwork/compose/org1.yaml down -v || true
+	docker-compose -p ${DOCKER_PROJECT_NAME} -f blockchain/mainNetwork/compose/org2_ca.yaml down -v || true
+	docker-compose -f blockchain/mainNetwork/compose/org2.yaml down -v || true
 	rm -rf server/${CHAINCODE_NAME}/${LANGUAGE}/wallet
  
 	@echo -n "Delete certs folder? [y/N] " && read ans && if [ $${ans:-'N'} = 'y' ]; then rm -rf ${NETWORK_PATH}/organizations/certs/; fi
