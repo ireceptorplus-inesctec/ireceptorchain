@@ -8,8 +8,8 @@ CHAINCODE_SEQUENCE=1
 # go || java
 LANGUAGE=java
 
-export CHAINCODE_DIR=../../chaincode
-export CHAINCODE_PATH=../chaincode/${CHAINCODE_NAME}/${LANGUAGE}
+export CHAINCODE_DIR=../../../chaincode
+export CHAINCODE_PATH=../../../chaincode
 export SWARM_NETWORK=ireceptorchain
 export CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${SWARM_NETWORK}
 export PEER0_USER=peer0_user
