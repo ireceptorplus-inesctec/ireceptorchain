@@ -1,14 +1,9 @@
 #!/bin/bash
 
-. $PWD/networkConfig.sh
-
-
 function createOrg1() {
-  sed -i "s/\${IP1}/${IP1}/" \
-      configtx/configtx.yaml
-
-  # update host var
-  hosts
+  sed -e "s/\${IP}/${IP1}/" \
+      organizations/configtx-template.yaml \
+      > configtx/configtx.yaml
 
   infoln "Generating certificates using Fabric CA"
 
@@ -26,7 +21,7 @@ function createOrg1() {
   export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/organizations/certs/org1.example.com/client/tls-ca-cert.pem
 
   set -x
-  fabric-ca-client enroll -u https://$TLS_CA_ADMIN:$TLS_CA_ADMIN_PASSWORD@0.0.0.0:7052 -M tls-ca/admin/msp --csr.hosts "${HOSTS}" --enrollment.profile tls
+  fabric-ca-client enroll -u https://$TLS_CA_ADMIN:$TLS_CA_ADMIN_PASSWORD@0.0.0.0:7052 -M tls-ca/admin/msp --csr.hosts "${ALLOWED_HOSTS}" --enrollment.profile tls
   { set +x; } 2>/dev/null
 
 
@@ -48,20 +43,20 @@ function createOrg1() {
   { set +x; } 2>/dev/null
 
   set -x
-  fabric-ca-client enroll -u https://$ORG_CA_ADMIN:$ORG_CA_ADMIN_PASSWORD@0.0.0.0:7052 -M tls-ca/orgadmin/msp --csr.hosts "${HOSTS}" --enrollment.profile tls
+  fabric-ca-client enroll -u https://$ORG_CA_ADMIN:$ORG_CA_ADMIN_PASSWORD@0.0.0.0:7052 -M tls-ca/orgadmin/msp --csr.hosts "${ALLOWED_HOSTS}" --enrollment.profile tls
   { set +x; } 2>/dev/null
   
   set -x
-  fabric-ca-client enroll -u https://$ORDERER_USER:$ORDERER_USER_PASSWORD@0.0.0.0:7052 -M tls-ca/orderer/msp --csr.hosts "${HOSTS}" --enrollment.profile tls
+  fabric-ca-client enroll -u https://$ORDERER_USER:$ORDERER_USER_PASSWORD@0.0.0.0:7052 -M tls-ca/orderer/msp --csr.hosts "${ALLOWED_HOSTS}" --enrollment.profile tls
   { set +x; } 2>/dev/null
 
   set -x
-  fabric-ca-client enroll -u https://$OSN_ADMIN:$OSN_ADMIN_PASSWORD@0.0.0.0:7052 -M tls-ca/osnadmin/msp --csr.hosts "${HOSTS}" --enrollment.profile tls
+  fabric-ca-client enroll -u https://$OSN_ADMIN:$OSN_ADMIN_PASSWORD@0.0.0.0:7052 -M tls-ca/osnadmin/msp --csr.hosts "${ALLOWED_HOSTS}" --enrollment.profile tls
   { set +x; } 2>/dev/null
 
   # ADDED
   set -x
-  fabric-ca-client enroll -u https://$PEER0_USER:$PEER0_USER_PASSWORD@0.0.0.0:7052 -M tls-ca/peer0/msp --csr.hosts "${HOSTS}" --enrollment.profile tls
+  fabric-ca-client enroll -u https://$PEER0_USER:$PEER0_USER_PASSWORD@0.0.0.0:7052 -M tls-ca/peer0/msp --csr.hosts "${ALLOWED_HOSTS}" --enrollment.profile tls
   { set +x; } 2>/dev/null
 
 
@@ -80,7 +75,7 @@ function createOrg1() {
   infoln "before enrolling admin"
 
   set -x
-  fabric-ca-client enroll -u https://$ORG_CA_ADMIN:$ORG_CA_ADMIN_PASSWORD@0.0.0.0:7053 -M org-ca/admin/msp --csr.hosts "${HOSTS}"
+  fabric-ca-client enroll -u https://$ORG_CA_ADMIN:$ORG_CA_ADMIN_PASSWORD@0.0.0.0:7053 -M org-ca/admin/msp --csr.hosts "${ALLOWED_HOSTS}"
   { set +x; } 2>/dev/null
 
   infoln "after enrolling admin"
@@ -104,18 +99,18 @@ function createOrg1() {
   infoln "before enrolling ORG_ADMIN"
 
   set -x
-  fabric-ca-client enroll -u https://$ORG_ADMIN:$ORG_ADMIN_PASSWORD@0.0.0.0:7053 -M org-ca/orgadmin/msp --csr.hosts "${HOSTS}"
+  fabric-ca-client enroll -u https://$ORG_ADMIN:$ORG_ADMIN_PASSWORD@0.0.0.0:7053 -M org-ca/orgadmin/msp --csr.hosts "${ALLOWED_HOSTS}"
   { set +x; } 2>/dev/null
 
   infoln "after enrolling ORG_ADMIN"
 
   set -x
-  fabric-ca-client enroll -u https://$ORDERER_USER:$ORDERER_USER_PASSWORD@0.0.0.0:7053 -M org-ca/orderer/msp --csr.hosts "${HOSTS}"
+  fabric-ca-client enroll -u https://$ORDERER_USER:$ORDERER_USER_PASSWORD@0.0.0.0:7053 -M org-ca/orderer/msp --csr.hosts "${ALLOWED_HOSTS}"
   { set +x; } 2>/dev/null
 
   # ADDED
   set -x
-  fabric-ca-client enroll -u https://$PEER0_USER:$PEER0_USER_PASSWORD@0.0.0.0:7053 -M org-ca/peer0/msp --csr.hosts "${HOSTS}"
+  fabric-ca-client enroll -u https://$PEER0_USER:$PEER0_USER_PASSWORD@0.0.0.0:7053 -M org-ca/peer0/msp --csr.hosts "${ALLOWED_HOSTS}"
   { set +x; } 2>/dev/null
 
 
@@ -160,6 +155,3 @@ function createOrg1() {
   cp $PWD/organizations/certs/org1.example.com/client/tls-ca/peer0/msp/keystore/key.pem $PWD/organizations/certs/org1.example.com/peers/peer0.org1.example.com/tls/
 
 }
-
-
-

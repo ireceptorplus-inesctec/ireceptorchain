@@ -8,7 +8,8 @@ CHAINCODE_SEQUENCE=1
 # go || java
 LANGUAGE=java
 
-export CHAINCODE_DIR=../../../chaincode/
+export CHAINCODE_DIR=../../../chaincode
+export CHAINCODE_PATH=../../../chaincode
 export SWARM_NETWORK=ireceptorchain
 export CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${SWARM_NETWORK}
 export PEER0_USER=peer0_user
@@ -88,7 +89,7 @@ createNetwork:
 
 # deploy chaincode aka SmartContracts
 deployCC:
-	cd ${NETWORK_PATH} && ./network.sh deployCC -ccn ${CHAINCODE_NAME} -ccv ${CHAINCODE_VERSION} -ccs ${CHAINCODE_SEQUENCE} -cci initLedger -ccl ${LANGUAGE} -ccp ${CHAINCODE_DIR} -c ${CHANNEL_NAME}
+	cd ${NETWORK_PATH} && ./network.sh deployCC -ccn ${CHAINCODE_NAME} -ccv ${CHAINCODE_VERSION} -ccs ${CHAINCODE_SEQUENCE} -cci initLedger -ccl ${LANGUAGE} -ccp ${CHAINCODE_PATH} -c ${CHANNEL_NAME}
 
 checkCC:
 	cd ${NETWORK_PATH} && ./network.sh checkCC -c ${CHANNEL_NAME}
