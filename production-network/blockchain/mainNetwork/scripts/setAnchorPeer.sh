@@ -9,8 +9,6 @@
 . scripts/envVar.sh
 . scripts/configUpdate.sh
 
-IP2=192.168.1.56
-
 # NOTE: this must be run in a CLI container since it requires jq and configtxlator 
 createAnchorPeerUpdate() {
   infoln "Fetching channel config for channel $CHANNEL_NAME"

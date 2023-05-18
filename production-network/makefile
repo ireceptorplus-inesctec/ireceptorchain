@@ -8,7 +8,8 @@ CHAINCODE_SEQUENCE=1
 # go || java
 LANGUAGE=java
 
-export CHAINCODE_DIR=../../../chaincode/
+export CHAINCODE_DIR=../../../chaincode
+export CHAINCODE_PATH=../../../chaincode
 export SWARM_NETWORK=ireceptorchain
 export CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${SWARM_NETWORK}
 export PEER0_USER=peer0_user
@@ -43,9 +44,11 @@ fullAccess:
 
 # delete certs, artifacts, docker containers and volumes
 clean: 
-	rm -rf ${NETWORK_PATH}/channel-artifacts 
-	docker rm -f $$(docker ps -a -q) || true
-	docker volume rm $$(docker volume ls -q) || true
+	rm -rf ${NETWORK_PATH}/channel-artifacts
+	docker-compose -p ${DOCKER_PROJECT_NAME} -f blockchain/mainNetwork/compose/org1_ca.yaml down -v || true
+	docker-compose -f blockchain/mainNetwork/compose/org1.yaml down -v || true
+	docker-compose -p ${DOCKER_PROJECT_NAME} -f blockchain/mainNetwork/compose/org2_ca.yaml down -v || true
+	docker-compose -f blockchain/mainNetwork/compose/org2.yaml down -v || true
 	rm -rf server/${CHAINCODE_NAME}/${LANGUAGE}/wallet
  
 	@echo -n "Delete certs folder? [y/N] " && read ans && if [ $${ans:-'N'} = 'y' ]; then rm -rf ${NETWORK_PATH}/organizations/certs/; fi
@@ -86,7 +89,7 @@ createNetwork:
 
 # deploy chaincode aka SmartContracts
 deployCC:
-	cd ${NETWORK_PATH} && ./network.sh deployCC -ccn ${CHAINCODE_NAME} -ccv ${CHAINCODE_VERSION} -ccs ${CHAINCODE_SEQUENCE} -cci initLedger -ccl ${LANGUAGE} -ccp ${CHAINCODE_DIR} -c ${CHANNEL_NAME}
+	cd ${NETWORK_PATH} && ./network.sh deployCC -ccn ${CHAINCODE_NAME} -ccv ${CHAINCODE_VERSION} -ccs ${CHAINCODE_SEQUENCE} -cci initLedger -ccl ${LANGUAGE} -ccp ${CHAINCODE_PATH} -c ${CHANNEL_NAME}
 
 checkCC:
 	cd ${NETWORK_PATH} && ./network.sh checkCC -c ${CHANNEL_NAME}

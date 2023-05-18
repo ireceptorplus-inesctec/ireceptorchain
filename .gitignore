@@ -59,3 +59,12 @@ local.properties
 .recommenders
 .externalToolBuilders/
 *.launch
+
+production-network/blockchain/bin/*
+production-network/blockchain/mainNetwork/configtx/configtx.yaml
+production-network/blockchain/mainNetwork/*tar.gz
+production-network/blockchain/mainNetwork/log.txt
+production-network/blockchain/mainNetwork/organizations/certs/*
+production-network/blockchain/mainNetwork/channel-artifacts
+production-network/server/node_modules
+production-network/server/col4indlog/wallet

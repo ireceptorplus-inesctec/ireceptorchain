@@ -1,10 +1,6 @@
 #!/bin/bash
 
-. $PWD/networkConfig.sh
-
 function createOrg2() {
-# update host var
-  hosts
 
   infoln "Generating certificates using Fabric CA"
 
@@ -21,10 +17,8 @@ function createOrg2() {
   export FABRIC_CA_CLIENT_HOME=$PWD/organizations/certs/org2.example.com/client
   export FABRIC_CA_CLIENT_TLS_CERTFILES=$PWD/organizations/certs/org2.example.com/client/tls-ca-cert.pem
 
-  hosts
-
   set -x
-  fabric-ca-client enroll -u https://$TLS_CA_ADMIN:$TLS_CA_ADMIN_PASSWORD@0.0.0.0:9052 -M tls-ca/admin/msp  --csr.hosts "${HOSTS}" --enrollment.profile tls
+  fabric-ca-client enroll -u https://$TLS_CA_ADMIN:$TLS_CA_ADMIN_PASSWORD@0.0.0.0:9052 -M tls-ca/admin/msp  --csr.hosts "${ALLOWED_HOSTS}" --enrollment.profile tls
   { set +x; } 2>/dev/null
 
   set -x
@@ -36,11 +30,11 @@ function createOrg2() {
   { set +x; } 2>/dev/null
 
   set -x
-  fabric-ca-client enroll -u https://$ORG_CA_ADMIN:$ORG_CA_ADMIN_PASSWORD@0.0.0.0:9052 -M tls-ca/orgadmin/msp --csr.hosts "${HOSTS}" --enrollment.profile tls
+  fabric-ca-client enroll -u https://$ORG_CA_ADMIN:$ORG_CA_ADMIN_PASSWORD@0.0.0.0:9052 -M tls-ca/orgadmin/msp --csr.hosts "${ALLOWED_HOSTS}" --enrollment.profile tls
   { set +x; } 2>/dev/null
 
   set -x
-  fabric-ca-client enroll -u https://$PEER0_USER:$PEER0_USER_PASSWORD@0.0.0.0:9052 -M tls-ca/peer0/msp --csr.hosts "${HOSTS}" --enrollment.profile tls
+  fabric-ca-client enroll -u https://$PEER0_USER:$PEER0_USER_PASSWORD@0.0.0.0:9052 -M tls-ca/peer0/msp --csr.hosts "${ALLOWED_HOSTS}" --enrollment.profile tls
   { set +x; } 2>/dev/null
 
 
@@ -56,7 +50,7 @@ function createOrg2() {
   sleep 1
 
   set -x
-  fabric-ca-client enroll -u https://$ORG_CA_ADMIN:$ORG_CA_ADMIN_PASSWORD@0.0.0.0:9053 -M org-ca/admin/msp  --csr.hosts "${HOSTS}"
+  fabric-ca-client enroll -u https://$ORG_CA_ADMIN:$ORG_CA_ADMIN_PASSWORD@0.0.0.0:9053 -M org-ca/admin/msp  --csr.hosts "${ALLOWED_HOSTS}"
   { set +x; } 2>/dev/null
 
   set -x
@@ -68,11 +62,11 @@ function createOrg2() {
   { set +x; } 2>/dev/null
 
   set -x
-  fabric-ca-client enroll -u https://$ORG_ADMIN:$ORG_ADMIN_PASSWORD@0.0.0.0:9053 -M org-ca/orgadmin/msp  --csr.hosts "${HOSTS}"
+  fabric-ca-client enroll -u https://$ORG_ADMIN:$ORG_ADMIN_PASSWORD@0.0.0.0:9053 -M org-ca/orgadmin/msp  --csr.hosts "${ALLOWED_HOSTS}"
   { set +x; } 2>/dev/null
 
   set -x
-  fabric-ca-client enroll -u https://$PEER0_USER:$PEER0_USER_PASSWORD@0.0.0.0:9053 -M org-ca/peer0/msp  --csr.hosts "${HOSTS}"
+  fabric-ca-client enroll -u https://$PEER0_USER:$PEER0_USER_PASSWORD@0.0.0.0:9053 -M org-ca/peer0/msp  --csr.hosts "${ALLOWED_HOSTS}"
   { set +x; } 2>/dev/null
 
 
