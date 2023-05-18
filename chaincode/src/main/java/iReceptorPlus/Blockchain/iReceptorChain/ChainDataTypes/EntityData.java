@@ -17,7 +17,7 @@ public class EntityData implements iReceptorChainDataType
 {
     /**
      * An instance of class ClientIdentity that hyperledger fabric uses to represent the identity of a client (peer).
-     * This contains the its certificate, an id, an msp id (id of the organization it belongs to) and may contain additional attributes created upon creation of the peers' certificate.
+     * This contains its certificate, an id, a msp id (id of the organization it belongs to) and may contain additional attributes created upon creation of the peers' certificate.
      */
     @Property()
     private String id;
